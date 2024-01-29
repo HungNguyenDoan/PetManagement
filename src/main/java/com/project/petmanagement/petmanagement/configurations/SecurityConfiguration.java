@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.configurations;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,13 +19,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.project.petmanagement.petmanagement.JWT.JWTAuthenticationFilter;
 import com.project.petmanagement.petmanagement.services.UserService;
 
-import lombok.RequiredArgsConstructor;
-
 @EnableWebSecurity
 @Configuration
-@RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @Bean
     public PasswordEncoder encoder() {

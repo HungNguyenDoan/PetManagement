@@ -18,7 +18,7 @@ public class JWTUserDetail implements UserDetails {
     User user;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
+        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getRoleName()));
     }
 
     public Long getId() {
@@ -31,7 +31,7 @@ public class JWTUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getPhonenumber();
     }
 
     @Override
