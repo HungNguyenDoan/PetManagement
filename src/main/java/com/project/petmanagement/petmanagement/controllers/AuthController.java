@@ -41,7 +41,7 @@ public class AuthController {
                     .status(HttpStatus.OK.value())
                     .message("Login successfully")
                     .token(jwt)
-                    .data((JWTUserDetail) authentication.getPrincipal())
+                    .data(((JWTUserDetail) authentication.getPrincipal()).getUser())
                     .build();
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         } catch (Exception e) {
