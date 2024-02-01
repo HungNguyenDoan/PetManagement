@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PetManagement</string>
+    <string name="login">Đăng nhập</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="password">Mật khẩu</string>
+    <string name="welcome">Xin chào</string>
+    <string name="signup">Đăng ký</string>
+</resources>
