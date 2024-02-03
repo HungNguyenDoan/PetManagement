@@ -1,4 +1,4 @@
-package com.project.petmanagement;
+package com.project.petmanagement.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.project.petmanagement.activity.LoginActivity;
+import com.project.petmanagement.R;
 
 public class MainActivity extends AppCompatActivity {
     Button btnLogin;

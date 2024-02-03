@@ -78,6 +78,7 @@
                             android:alpha="0.7"
                             />
                         <EditText
+                            android:id="@+id/full_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
@@ -94,6 +95,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="date"
+                            android:id="@+id/dob"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -107,6 +109,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:id="@+id/phone_number"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -120,6 +123,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"
+                            android:id="@+id/password"
+                            android:drawableRight="@drawable/password_eye"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -133,6 +138,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"
+                            android:drawableRight="@drawable/password_eye"
+                            android:id="@+id/confirm_password"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -146,6 +153,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:id="@+id/email"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -159,6 +167,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
+                            android:id="@+id/address"
                             />
                     </LinearLayout>
                 </ScrollView>
