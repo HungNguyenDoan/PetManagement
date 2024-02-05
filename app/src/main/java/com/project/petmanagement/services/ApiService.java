@@ -14,12 +14,13 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface ApiService {
+    String apiURL = "";
 
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd")
             .setLenient().create();
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.151.62.103:8080/")
+            .baseUrl(apiURL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);

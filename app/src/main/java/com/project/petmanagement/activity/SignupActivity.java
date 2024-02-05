@@ -68,61 +68,80 @@ public class SignupActivity extends AppCompatActivity {
         address = findViewById(R.id.address);
     }
     private void signUp(){
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if(dob.getText().toString().isEmpty()){
-            setUpDialog("ngay sinh không được để trống");
-        }else if(!password.getText().toString().equals(rePassword.getText().toString())){
-            setUpDialog("Xác nhận mật khẩu không đúng");
-        }
-        else{
-            try {
-                Date dob1 = sdf.parse(dob.getText().toString());
-                UserSignup userSignup = new UserSignup(fullName.getText().toString(),password.getText().toString(),phoneNumber.getText().toString(),email.getText().toString(),address.getText().toString(),dob1);
-                ApiService.apiService.signup(userSignup).enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        if(response.code() == 200){
-                            UserResponse userResponse = response.body();
-                            storageService.setString("token", userResponse.getToken());
-                            User user = userResponse.getData();
-                            storageService.setUser("user",user);
-                            Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        } else if (response.code() == 400) {
-                            Gson gson = new Gson();
-                            ErrorResponse errorResponse = null;
-                            try {
-                                errorResponse = gson.fromJson(response.errorBody().string(), ErrorResponse.class);
-                                String message = "";
-                                if(errorResponse.getMessage().getEmailError()!=null){
-                                    message+= errorResponse.getMessage().getEmailError()+"\n";
+        if(!validation()){
+            setUpDialog("Bạn chưa điền đẩy đủ thông tin");
+        }else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            if(!password.getText().toString().equals(rePassword.getText().toString())){
+                setUpDialog("Xác nhận mật khẩu không đúng");
+            }
+            else{
+                try {
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    Date dob2 = sdf1.parse(dob.getText().toString());
+                    String dob3 = sdf.format(dob2);
+                    Date dob1 = sdf.parse(dob3);
+                    UserSignup userSignup = new UserSignup(fullName.getText().toString(),password.getText().toString(),phoneNumber.getText().toString(),email.getText().toString(),address.getText().toString(),dob1);
+                    ApiService.apiService.signup(userSignup).enqueue(new Callback<UserResponse>() {
+                        @Override
+                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                            if(response.code() == 200){
+                                UserResponse userResponse = response.body();
+                                storageService.setString("token", userResponse.getToken());
+                                User user = userResponse.getData();
+                                storageService.setUser("user",user);
+                                Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            } else if (response.code() == 400) {
+                                Gson gson = new Gson();
+                                ErrorResponse errorResponse = null;
+                                try {
+                                    errorResponse = gson.fromJson(response.errorBody().string(), ErrorResponse.class);
+                                    String message = "";
+                                    if(errorResponse.getMessage().getEmailError()!=null){
+                                        message+= errorResponse.getMessage().getEmailError()+"\n";
+                                    }
+                                    if(errorResponse.getMessage().getPasswordError()!=null){
+                                        message+= errorResponse.getMessage().getPasswordError()+"\n";
+                                    }
+                                    if(errorResponse.getMessage().getFullNameError()!=null){
+                                        message+= errorResponse.getMessage().getFullNameError()+"\n";
+                                    }
+                                    if (errorResponse.getMessage().getPhoneNumberError() !=null){
+                                        message+= errorResponse.getMessage().getPhoneNumberError() + "\n";
+                                    }
+                                    setUpDialog(message);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
                                 }
-                                if(errorResponse.getMessage().getPasswordError()!=null){
-                                    message+= errorResponse.getMessage().getPasswordError()+"\n";
-                                }
-                                if(errorResponse.getMessage().getFullNameError()!=null){
-                                    message+= errorResponse.getMessage().getFullNameError()+"\n";
-                                }
-                                if (errorResponse.getMessage().getPhoneNumberError() !=null){
-                                    message+= errorResponse.getMessage().getPhoneNumberError() + "\n";
-                                }
-                                setUpDialog(message);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
                             }
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        Toast.makeText(SignupActivity.this, "api error", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+                        @Override
+                        public void onFailure(Call<UserResponse> call, Throwable t) {
+                            Toast.makeText(SignupActivity.this, "api error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
 
+        }
+    }
+    private boolean validation(){
+        if(fullName.getText().toString().isEmpty())
+            return false;
+        if(dob.getText().toString().isEmpty())
+            return false;
+        if(phoneNumber.getText().toString().isEmpty())
+            return false;
+        if(password.getText().toString().isEmpty())
+            return false;
+        if(rePassword.getText().toString().isEmpty())
+            return false;
+        if(email.getText().toString().isEmpty())
+            return false;
+        return true;
     }
     private void customDob(){
         Calendar calendar = Calendar.getInstance();
@@ -135,7 +154,17 @@ public class SignupActivity extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(SignupActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        dob.setText(year+"-"+(month+1)+"-"+dayOfMonth);
+                        String date = dayOfMonth+"/"+ month +"/"+year;
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            Date date1 = sdf.parse(date);
+                            String date2 = sdf.format(date1);
+                            dob.setText(date2);
+
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+
                     }
                 }, year, month, day);
                 datePickerDialog.show();
