@@ -9,10 +9,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Seeder implements CommandLineRunner {
     private final RoleSeeder roleSeeder;
-
+    private final FoodTypeSeeder foodTypeSeeder;
+    private final NutritionInfoSeeder nutritionInfoSeeder;
     @Override
     public void run(String... args) throws Exception {
         roleSeeder.seed();
+        foodTypeSeeder.seed();
+        nutritionInfoSeeder.seed();
     }
 
 }
