@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home_24"
+        android:title="@string/home"
+        />
+    <item android:id="@+id/menu_pet"
+        android:icon="@drawable/ic_pets_24"
+        android:title="@string/pet"
+        />
+    <item android:id="@+id/menu_get_care"
+        android:title=""
+        android:enabled="false"
+        />
+    <item android:id="@+id/menu_community"
+        android:icon="@drawable/ic_groups_24"
+        android:title="@string/community"
+        />
+    <item android:title="@string/my_page"
+        android:icon="@drawable/ic_account_circle_24"
+        android:id="@+id/menu_my_page"
+        />
+</menu>

@@ -5,4 +5,9 @@
     <string name="password">Mật khẩu</string>
     <string name="welcome">Xin chào</string>
     <string name="signup">Đăng ký</string>
+    <string name="home">Trang chủ</string>
+    <string name="pet">Thú cưng</string>
+    <string name="community">Cộng đồng</string>
+    <string name="my_page">Cá nhân</string>
+
 </resources>
