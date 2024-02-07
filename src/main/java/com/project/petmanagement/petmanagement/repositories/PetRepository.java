@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.repositories;
 
+import com.project.petmanagement.petmanagement.DTO.PetDTO;
 import com.project.petmanagement.petmanagement.models.Pet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +14,6 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
             "FROM pet p " +
             "WHERE p.user_id = :userId AND p.is_active = 1 " +
             "ORDER BY p.id DESC", nativeQuery = true)
-    List<Pet> getPetsByUserId(@Param("userId") Long userId);
+    List<PetDTO> getPetsByUserId(@Param("userId") Long userId);
 
 }

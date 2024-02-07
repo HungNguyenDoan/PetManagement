@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.controllers;
 
+import com.project.petmanagement.petmanagement.DTO.PetDTO;
 import com.project.petmanagement.petmanagement.models.Pet;
 import com.project.petmanagement.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.petmanagement.services.PetService;
@@ -18,7 +19,7 @@ public class PetController {
     @RequestMapping(value = "/getPet")
     public ResponseEntity<Object> getPet(@RequestParam Long userId) {
         try {
-            List<Pet> pets = petService.getPetsByUserId(userId);
+            List<PetDTO> pets = petService.getPetsByUserId(userId);
             return ResponseEntity.ok().body(pets);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -36,5 +37,27 @@ public class PetController {
                     .body(new Response(HttpStatus.UNAUTHORIZED.value(), "Please check your username or password"));
         }
     }
+
+    @RequestMapping(value = "/updatePet")
+    public ResponseEntity<Object> updatePet(@RequestBody Pet pet) {
+        try {
+            Pet pets = petService.updatePet(pet);
+            return ResponseEntity.ok().body(pets);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new Response(HttpStatus.UNAUTHORIZED.value(), "Please check your username or password"));
+        }
+    }
+    @RequestMapping(value = "/deletePet")
+    public ResponseEntity<Object> deletePet(@RequestBody Pet pet) {
+        try {
+            Pet pets = petService.deletePet(pet);
+            return ResponseEntity.ok().body(pets);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new Response(HttpStatus.UNAUTHORIZED.value(), "Please check your username or password"));
+        }
+    }
+
 
 }
