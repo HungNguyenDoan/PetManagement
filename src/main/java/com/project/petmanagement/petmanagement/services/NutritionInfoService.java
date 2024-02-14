@@ -27,7 +27,7 @@ public class NutritionInfoService {
     }
 
     public List<NutritionInfo> getAllNutritionInfoByFoodType(Long foodTypeId) {
-        FoodType foodType = foodTypeRepository.getReferenceById(foodTypeId);
-        return nutritionInfoRepository.findByFoodType(foodType);
+        // FoodType foodType = foodTypeRepository.getReferenceById(foodTypeId);
+        return nutritionInfoRepository.findByListFoodTypesId(foodTypeId);
     }
 }

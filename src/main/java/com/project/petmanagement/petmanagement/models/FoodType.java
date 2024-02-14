@@ -26,6 +26,6 @@ public class FoodType {
     private Long id;
     @Column(name = "type_name")
     private String typeName;
-    @ManyToMany(mappedBy = "food_type")
+    @ManyToMany(mappedBy = "listFoodTypes")
     private List<NutritionInfo> listNutritionInfos;
 }
