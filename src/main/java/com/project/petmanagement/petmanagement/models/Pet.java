@@ -26,7 +26,7 @@ public class Pet {
     @Column(name = "fullname", nullable = false)
     private String fullname;
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
     @DateTimeFormat
     private Date dateOfBirth;
     @Column(name = "species_id",nullable = false)
