@@ -39,4 +39,12 @@ public class NutritionInfo {
                     joinColumns = @JoinColumn(name = "nutrition_id"), 
                     inverseJoinColumns = @JoinColumn(name = "foodtype_id"))
     private List<FoodType> listFoodTypes;
+    public void addFoodType(FoodType foodType) {
+        listFoodTypes.add(foodType);
+        foodType.getListNutritionInfos().add(this);
+    }
+    public void removeFoodType(FoodType foodType) {
+        listFoodTypes.remove(foodType);
+        foodType.getListNutritionInfos().remove(this);
+    }
 }
