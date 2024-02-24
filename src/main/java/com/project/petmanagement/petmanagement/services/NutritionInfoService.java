@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.petmanagement.petmanagement.models.FoodType;
 import com.project.petmanagement.petmanagement.models.NutritionInfo;
 import com.project.petmanagement.petmanagement.repositories.FoodTypeRepository;
 import com.project.petmanagement.petmanagement.repositories.NutritionInfoRepository;
@@ -26,8 +25,8 @@ public class NutritionInfoService {
         return nutritionInfoRepository.getReferenceById(id);
     }
 
-    public List<NutritionInfo> getAllNutritionInfoByFoodType(Long foodTypeId) {
-        // FoodType foodType = foodTypeRepository.getReferenceById(foodTypeId);
-        return nutritionInfoRepository.findByListFoodTypesId(foodTypeId);
-    }
+    // public List<NutritionInfo> getAllNutritionInfoByFoodType(Long foodTypeId) {
+    //     // FoodType foodType = foodTypeRepository.getReferenceById(foodTypeId);
+    //     return nutritionInfoRepository.findByListFoodTypesId(foodTypeId);
+    // }
 }

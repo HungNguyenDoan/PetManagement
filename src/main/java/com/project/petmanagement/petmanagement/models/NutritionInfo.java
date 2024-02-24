@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,17 +39,7 @@ public class NutritionInfo {
     private String description;
     @Column(name = "source_url")
     private String source_url;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "nutrition_type", joinColumns = @JoinColumn(name = "nutrition_id"), inverseJoinColumns = @JoinColumn(name = "foodtype_id"))
-    private final List<FoodType> listFoodTypes = new ArrayList<>();
-
-    public void addFoodType(FoodType foodType) {
-        this.listFoodTypes.add(foodType);
-        foodType.getListNutritionInfos().add(this);
-    }
-
-    public void removeFoodType(FoodType foodType) {
-        this.listFoodTypes.remove(foodType);
-        foodType.getListNutritionInfos().remove(this);
-    }
+    @ManyToOne
+    @JoinColumn(name = "foodtype_id", referencedColumnName = "id", nullable = false)
+    private FoodType foodType;
 }
