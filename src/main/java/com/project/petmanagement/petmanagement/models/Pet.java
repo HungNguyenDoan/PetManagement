@@ -23,22 +23,42 @@ public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "fullname", nullable = false)
     private String fullname;
+
     @Column(name = "user_id")
     private Long userId;
+
     @DateTimeFormat
     private Date dateOfBirth;
+
     @Column(name = "species_id",nullable = false)
     private Long speciesId;
+
     @Column(name = "breed")
     private String breed;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "created_at")
     private Date createdAt;
+
     @Column(name = "updated_at")
     private Date updatedAt;
+
     @Column(name = "is_active")
     private Long isActive;
+
+    @Column(name = "gender")
+    private Long gender; // 1 : đực, 2 : cái
+
+    @Column(name = "neutered")
+    private Boolean neutered;
+    //true là đã thiến
+
+    @Lob
+    @Column(name = "avatar", columnDefinition="BLOB")
+    private byte[] avatar;
 }
