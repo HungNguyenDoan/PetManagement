@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.fragment.ProfileFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:src="@drawable/pet_app_logo"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/title_profile"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:id="@+id/update_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/baseline_create_24"
+                tools:ignore="ContentDescription" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:id="@+id/tool_bar_underline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignBottom="@id/tool_bar"
+            android:background="@android:color/darker_gray"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/avatar_background"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/tool_bar_underline"
+            android:src="@drawable/pet_icon"
+            tools:ignore="ContentDescription" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/avatar_background"
+            android:background="@color/black"
+            android:scrollbars="vertical"
+            app:cardCornerRadius="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="KienDo"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/phone_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0963448172"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/redirect_to_shop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:scaleX="1.75"
+                        android:scaleY="1.75"
+                        android:src="@drawable/outline_circle_notifications_24"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_horizontal_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="15dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_vertical_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp" />
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@color/green"
+                    android:gravity="center"
+                    android:text="Đăng xuất"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</ScrollView>
