@@ -21,14 +21,15 @@ import lombok.RequiredArgsConstructor;
 public class NutritionInfoController {
     private final NutritionInfoService nutritionInfoService;
 
-    @GetMapping
-    public ResponseEntity<Object> getListNutritionInfo(@RequestParam String key, @RequestParam Long foodTypeId) {
-        List<NutritionInfo> nutritionList = nutritionInfoService.getAllNutritionInfo();
+    @GetMapping("all")
+    public ResponseEntity<Object> getListNutritionInfo(@RequestParam(required = false) String key,
+            @RequestParam(required = false) Long foodTypeId) {
+        List<NutritionInfo> nutritionList = nutritionInfoService.searchNutritionInfo(key, foodTypeId);
         NutritionInfoResponse response = NutritionInfoResponse.builder()
-                                            .status(HttpStatus.OK.value())
-                                            .message("Get list successfully")
-                                            .data(nutritionList)
-                                            .build();
+                .status(HttpStatus.OK.value())
+                .message("Get list successfully")
+                .data(nutritionList)
+                .build();
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 }

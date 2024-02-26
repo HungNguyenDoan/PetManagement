@@ -1,22 +1,15 @@
 package com.project.petmanagement.petmanagement.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +33,11 @@ public class NutritionInfo {
     @Column(name = "source_url")
     private String source_url;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "foodtype_id", referencedColumnName = "id", nullable = false)
     private FoodType foodType;
+    @JsonProperty("foodtype_name")
+    private String getFoodType() {
+        return foodType.getTypeName();
+    }
 }
