@@ -14,7 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface ApiService {
-    String apiURLDeploy = "";
+    String apiURLDeploy = "http://13.239.47.248/";
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd")
             .setLenient().create();
