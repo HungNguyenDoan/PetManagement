@@ -30,7 +30,7 @@ public class Pet {
     @Column(name = "user_id")
     private Long userId;
 
-    @DateTimeFormat
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
     @Column(name = "species_id",nullable = false)
@@ -58,7 +58,7 @@ public class Pet {
     private Boolean neutered;
     //true là đã thiến
 
-    @Lob
-    @Column(name = "avatar", columnDefinition="BLOB")
-    private byte[] avatar;
+    @Column(name = "avatar", columnDefinition="TEXT")
+    private String avatar;
+
 }
