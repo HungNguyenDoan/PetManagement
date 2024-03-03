@@ -20,7 +20,7 @@ public class PetService {
     @Autowired
     private PetRepository petsRepository;
 
-    public List<PetDTO> getPetsByUserId(Long userId) {
+    public List<Pet> getPetsByUserId(Long userId) {
         try {
             return petsRepository.getPetsByUserId(userId);
         } catch (Exception e) {
