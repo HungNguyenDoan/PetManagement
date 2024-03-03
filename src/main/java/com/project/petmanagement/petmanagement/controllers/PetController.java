@@ -33,7 +33,7 @@ public class PetController {
         }
     }
 
-    @RequestMapping(value = "/addPet")
+    @PostMapping(value = "/addPet") //done
     public ResponseEntity<Object> addPet(@RequestBody Pet pet) {
         try {
             Pet pets = petService.addPet(pet);
@@ -44,7 +44,7 @@ public class PetController {
         }
     }
 
-    @RequestMapping(value = "/updatePet")
+    @PostMapping(value = "/updatePet") //done
     public ResponseEntity<Object> updatePet(@RequestBody Pet pet) {
         try {
             Pet pets = petService.updatePet(pet);
@@ -54,7 +54,7 @@ public class PetController {
                     .body(new Response(HttpStatus.UNAUTHORIZED.value(), "Không thể cập nhật thông tin pet"));
         }
     }
-    @RequestMapping(value = "/deletePet")
+    @PostMapping(value = "/deletePet")
     public ResponseEntity<Object> deletePet(@RequestBody Pet pet) {
         try {
             Pet pets = petService.deletePet(pet);

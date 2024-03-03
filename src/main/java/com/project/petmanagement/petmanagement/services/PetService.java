@@ -32,9 +32,10 @@ public class PetService {
     public Pet addPet(Pet pet) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User user = (User)authentication.getPrincipal();
-            pet.setUserId(user.getId());
+            JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
+            pet.setUserId(userDetail.getId());
             pet.setCreatedAt(new Date());
+            pet.setUpdatedAt(new Date());
             pet.setIsActive(1L);
             return petsRepository.saveAndFlush(pet);
         } catch (Exception e) {
