@@ -1,9 +1,7 @@
 package com.project.petmanagement.petmanagement.services;
 
-import com.project.petmanagement.petmanagement.DTO.PetDTO;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.models.Pet;
-import com.project.petmanagement.petmanagement.models.User;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
