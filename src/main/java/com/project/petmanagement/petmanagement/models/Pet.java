@@ -1,15 +1,11 @@
 package com.project.petmanagement.petmanagement.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -24,40 +20,48 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fullname", nullable = false)
+    @Column(name = "fullname")
+    @NotNull
     private String fullname;
 
+    @NotNull
     @Column(name = "user_id")
     private Long userId;
 
+    @NotNull
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
-
-    @Column(name = "species_id",nullable = false)
+    @NotNull
+    @Column(name = "species_id")
     private Long speciesId;
-
+    @NotNull
     @Column(name = "breed")
     private String breed;
 
+    @NotNull
     @Column(name = "description")
     private String description;
 
+    @NotNull
     @Column(name = "created_at")
     private Date createdAt;
 
+    @NotNull
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @NotNull
     @Column(name = "is_active")
-    private Long isActive;
+    private int isActive;
 
+    @NotNull
     @Column(name = "gender")
-    private Long gender; // 1 : đực, 2 : cái
+    private int gender; // 1 : đực, 2 : cái
 
+    @NotNull
     @Column(name = "neutered")
-    private Boolean neutered;
+    private int neutered;
     //true là đã thiến
-
     @Column(name = "avatar", columnDefinition="TEXT")
     private String avatar;
 

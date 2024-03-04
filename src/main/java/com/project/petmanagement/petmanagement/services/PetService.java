@@ -34,7 +34,7 @@ public class PetService {
             pet.setUserId(userDetail.getId());
             pet.setCreatedAt(new Date());
             pet.setUpdatedAt(new Date());
-            pet.setIsActive(1L);
+            pet.setIsActive(1);
             return petsRepository.saveAndFlush(pet);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class PetService {
 
     public Pet deletePet(Pet pet) {
         try {
-            pet.setIsActive(0L);
+            pet.setIsActive(0);
             return petsRepository.saveAndFlush(pet);
         } catch (Exception e) {
             e.printStackTrace();

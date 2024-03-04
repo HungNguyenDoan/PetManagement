@@ -2,15 +2,16 @@ package com.project.petmanagement.petmanagement.controllers;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.models.Pet;
 import com.project.petmanagement.petmanagement.payloads.responses.PetResponse;
-import com.project.petmanagement.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.petmanagement.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -35,7 +36,10 @@ public class PetController {
     }
 
     @PostMapping(value = "/addPet") //done
-    public ResponseEntity<Object> addPet(@RequestBody Pet pet) {
+    public Object addPet(@RequestBody Pet pet) {
+        if(validatePet(pet) != "") {
+            return validatePet(pet);
+        }
         Pet pets = petService.addPet(pet);
         PetResponse response = PetResponse.builder()
                 .status(HttpStatus.OK.value())
@@ -66,5 +70,23 @@ public class PetController {
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
-
+    String validatePet(Pet pet) {
+        String rs = "";
+        if(pet.getFullname() == null) {
+            rs += "Chưa có fullname";
+        }
+        if(pet.getUserId() == null) {
+            rs += "Chưa có userId";
+        }
+        if(pet.getDateOfBirth() == null) {
+            rs += "Chưa có ngày sinh";
+        }
+        if(pet.getSpeciesId() == null) {
+            rs += "Chưa có Id giống loài";
+        }
+        if (pet.getDateOfBirth().after(new Date())) {
+            rs += "Ngày sinh không hợp lệ";
+        }
+        return rs;
+    }
 }
