@@ -21,47 +21,37 @@ public class Pet {
     private Long id;
 
     @Column(name = "fullname")
-    @NotNull
     private String fullname;
 
-    @NotNull
     @Column(name = "user_id")
     private Long userId;
 
-    @NotNull
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
-    @NotNull
+
     @Column(name = "species_id")
     private Long speciesId;
-    @NotNull
+
     @Column(name = "breed")
     private String breed;
 
-    @NotNull
     @Column(name = "description")
     private String description;
 
-    @NotNull
     @Column(name = "created_at")
     private Date createdAt;
 
-    @NotNull
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @NotNull
     @Column(name = "is_active")
     private int isActive;
 
-    @NotNull
     @Column(name = "gender")
     private int gender; // 1 : đực, 2 : cái
 
-    @NotNull
     @Column(name = "neutered")
-    private int neutered;
-    //true là đã thiến
+    private boolean neutered;
     @Column(name = "avatar", columnDefinition="TEXT")
     private String avatar;
 

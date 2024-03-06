@@ -37,9 +37,6 @@ public class PetController {
 
     @PostMapping(value = "/addPet") //done
     public Object addPet(@RequestBody Pet pet) {
-        if(validatePet(pet) != "") {
-            return validatePet(pet);
-        }
         Pet pets = petService.addPet(pet);
         PetResponse response = PetResponse.builder()
                 .status(HttpStatus.OK.value())
@@ -68,25 +65,5 @@ public class PetController {
                 .data(pets)
                 .build();
         return new ResponseEntity<Object>(response, HttpStatus.OK);
-    }
-
-    String validatePet(Pet pet) {
-        String rs = "";
-        if(pet.getFullname() == null) {
-            rs += "Chưa có fullname";
-        }
-        if(pet.getUserId() == null) {
-            rs += "Chưa có userId";
-        }
-        if(pet.getDateOfBirth() == null) {
-            rs += "Chưa có ngày sinh";
-        }
-        if(pet.getSpeciesId() == null) {
-            rs += "Chưa có Id giống loài";
-        }
-        if (pet.getDateOfBirth().after(new Date())) {
-            rs += "Ngày sinh không hợp lệ";
-        }
-        return rs;
     }
 }
