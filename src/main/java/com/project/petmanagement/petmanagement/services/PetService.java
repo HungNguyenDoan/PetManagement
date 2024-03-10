@@ -18,9 +18,11 @@ public class PetService {
     @Autowired
     private PetRepository petsRepository;
 
-    public List<Pet> getPetsByUserId(Long userId) {
+    public List<Pet> getPetsByUserId() {
         try {
-            return petsRepository.getPetsByUserId(userId);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
+            return petsRepository.getPetsByUserId(userDetail.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -42,6 +44,14 @@ public class PetService {
         }
     }
 
+    public Pet getDetailPet(Long id) {
+        try {
+            return petsRepository.getReferenceById(id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public Pet updatePet(Pet pet) {
         try {
             return petsRepository.saveAndFlush(pet);
@@ -51,8 +61,9 @@ public class PetService {
         }
     }
 
-    public Pet deletePet(Pet pet) {
+    public Pet deletePet(Long petId) {
         try {
+            Pet pet = petsRepository.getReferenceById(petId);
             pet.setIsActive(0);
             return petsRepository.saveAndFlush(pet);
         } catch (Exception e) {
