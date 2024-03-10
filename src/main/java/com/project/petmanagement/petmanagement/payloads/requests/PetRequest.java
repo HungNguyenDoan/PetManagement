@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PetRequest {
-    Long id;
     @NotNull(message = "pet's name is required")
     String name;
     Date dob;
@@ -22,4 +21,5 @@ public class PetRequest {
     Integer gender;
     String avatar;
     String breed;
+    Integer neutered;
 }

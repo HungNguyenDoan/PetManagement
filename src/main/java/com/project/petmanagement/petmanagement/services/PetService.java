@@ -3,6 +3,8 @@ package com.project.petmanagement.petmanagement.services;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.models.Pet;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -51,7 +53,7 @@ public class PetService {
             return null;
         }
     }
-
+    @Transactional
     public Pet updatePet(Pet pet) {
         try {
             return petsRepository.saveAndFlush(pet);

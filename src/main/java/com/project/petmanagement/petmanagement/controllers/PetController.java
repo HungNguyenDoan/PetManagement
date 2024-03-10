@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,10 @@ public class PetController {
                 .dateOfBirth(petRequest.getDob())
                 .speciesId(petRequest.getSpeciesId())
                 .description(petRequest.getDescription())
+                .avatar(petRequest.getAvatar())
+                .breed(petRequest.getBreed())
+                .gender(petRequest.getGender())
+                .neutered(petRequest.getNeutered())
                 .build();
         Pet pets = petService.addPet(pet);
         PetResponse response = PetResponse.builder()
@@ -52,37 +57,39 @@ public class PetController {
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/getDetailPet")
-    public ResponseEntity<Object> getDetailPet(@RequestBody PetRequest petRequest ){
-        Pet pets = petService.getDetailPet(petRequest.getId());
-        return new ResponseEntity<Object>(pets, HttpStatus.OK);
-    }
-
     @PostMapping(value = "/updatePet/{id}") // done
-    public ResponseEntity<Object> updatePet(@RequestBody PetRequest petRequest, @PathVariable Long id) {
-        Pet pets = petService.getDetailPet(id);
-        // if (pets == null) {
-        //     Response response = Response.builder().status(404).message("Pet is not found").build();
-        //     return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
-        // }
-        // pets = petService.updatePet(pets);
-        // if(pets == null) {
-        //     Response response = Response.builder()
-        //                             .status(500)
-        //                             .message("Cannot update please try again")
-        //                             .build();
-        //     return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        // }
-        log.info(pets.toString());
+    public ResponseEntity<Object> updatePet(@RequestBody @Valid PetRequest petRequest, @PathVariable Long id) {
+        Pet pet = petService.getDetailPet(id);
+        if (pet == null) {
+            Response response = Response.builder().status(404).message("Pet is not found").build();
+            return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
+        }
+        pet.setAvatar(petRequest.getAvatar());
+        pet.setBreed(petRequest.getBreed());
+        pet.setDateOfBirth(petRequest.getDob());
+        pet.setDescription(petRequest.getDescription());
+        pet.setFullname(petRequest.getName());
+        pet.setGender(petRequest.getGender());
+        pet.setNeutered(petRequest.getNeutered());
+        pet.setSpeciesId(petRequest.getSpeciesId());
+        pet.setUpdatedAt(new Date());
+        pet = petService.updatePet(pet);
+        if(pet == null) {
+            Response response = Response.builder()
+                                    .status(500)
+                                    .message("Cannot update please try again")
+                                    .build();
+            return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         PetResponse response = PetResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Update pet successfully")
-                .data(pets)
+                .data(pet)
                 .build();
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/deletePet/petId")
+    @PostMapping(value = "/deletePet/{petId}")
     public ResponseEntity<Object> deletePet(@PathVariable Long petId) {
         Pet pets = petService.deletePet(petId);
         PetResponse response = PetResponse.builder()
