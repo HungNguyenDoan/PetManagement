@@ -52,6 +52,12 @@ public class PetController {
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/getDetailPet")
+    public ResponseEntity<Object> getDetailPet(@RequestBody PetRequest petRequest ){
+        Pet pets = petService.getDetailPet(petRequest.getId());
+        return new ResponseEntity<Object>(pets, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/updatePet/{id}") // done
     public ResponseEntity<Object> updatePet(@RequestBody PetRequest petRequest, @PathVariable Long id) {
         Pet pets = petService.getDetailPet(id);

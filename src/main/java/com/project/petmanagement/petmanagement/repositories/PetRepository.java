@@ -15,4 +15,6 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
             "ORDER BY p.id DESC", nativeQuery = true)
     List<Pet> getPetsByUserId(@Param("userId") Long userId);
 
+    @Query(value = "Select * from pets p where p.id = :id and p.is_active = 1", nativeQuery = true )
+    Pet getDetailPet(@Param("id") Long id);
 }

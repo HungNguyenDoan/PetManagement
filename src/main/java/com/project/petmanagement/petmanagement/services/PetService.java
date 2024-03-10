@@ -46,7 +46,7 @@ public class PetService {
 
     public Pet getDetailPet(Long id) {
         try {
-            return petsRepository.getReferenceById(id);
+            return petsRepository.getDetailPet(id);
         } catch (Exception e) {
             return null;
         }
