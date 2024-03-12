@@ -1,13 +1,14 @@
 package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.models.Pet;
+import com.project.petmanagement.petmanagement.models.Species;
 import com.project.petmanagement.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.PetResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.petmanagement.services.PetService;
+import com.project.petmanagement.petmanagement.services.SpeciesService;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pet")
-@Slf4j
 public class PetController {
     @Autowired
     private PetService petService;
+
+    @Autowired
+    private SpeciesService speciesService;
 
     @GetMapping(value = "/getPet") // done
     public ResponseEntity<Object> getPet() {
@@ -38,10 +41,15 @@ public class PetController {
 
     @PostMapping(value = "/addPet") // done
     public Object addPet(@RequestBody @Valid PetRequest petRequest) {
+        Species species = speciesService.getDetailSpecies(petRequest.getSpeciesId());
+        if(species == null) {
+            Response response = Response.builder().status(404).message("Species is not found").build();
+            return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
+        }
         Pet pet = Pet.builder()
                 .fullname(petRequest.getName())
                 .dateOfBirth(petRequest.getDob())
-                .speciesId(petRequest.getSpeciesId())
+                .species(species)
                 .description(petRequest.getDescription())
                 .avatar(petRequest.getAvatar())
                 .breed(petRequest.getBreed())
@@ -64,6 +72,11 @@ public class PetController {
             Response response = Response.builder().status(404).message("Pet is not found").build();
             return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
         }
+        Species species = speciesService.getDetailSpecies(petRequest.getSpeciesId());
+        if(species == null) {
+            Response response = Response.builder().status(404).message("Species is not found").build();
+            return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
+        }
         pet.setAvatar(petRequest.getAvatar());
         pet.setBreed(petRequest.getBreed());
         pet.setDateOfBirth(petRequest.getDob());
@@ -71,7 +84,7 @@ public class PetController {
         pet.setFullname(petRequest.getName());
         pet.setGender(petRequest.getGender());
         pet.setNeutered(petRequest.getNeutered());
-        pet.setSpeciesId(petRequest.getSpeciesId());
+        pet.setSpecies(species);
         pet.setUpdatedAt(new Date());
         pet = petService.updatePet(pet);
         if(pet == null) {
