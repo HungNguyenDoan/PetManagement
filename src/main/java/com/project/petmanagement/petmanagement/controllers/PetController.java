@@ -39,6 +39,17 @@ public class PetController {
 
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getDetailPet(@PathVariable Long id) {
+        Pet pet = petService.getDetailPet(id);
+        PetResponse response = PetResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("Get list successfully")
+                .data(pet)
+                .build();
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+
+    }
     @PostMapping(value = "/addPet") // done
     public Object addPet(@RequestBody @Valid PetRequest petRequest) {
         Species species = speciesService.getDetailSpecies(petRequest.getSpeciesId());
