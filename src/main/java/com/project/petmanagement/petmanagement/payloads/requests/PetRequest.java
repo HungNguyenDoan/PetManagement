@@ -18,8 +18,9 @@ public class PetRequest {
     Date dob;
     Long speciesId;
     String description;
+    @NotNull(message = "You should define your pet's gender")
     Integer gender;
     String avatar;
-    String breed;
+    @NotNull(message = "Please show that your pet is neutered or not")
     Integer neutered;
 }

@@ -15,10 +15,15 @@ public class SpeciesService {
     private final SpeciesRepository speciesRepository;
 
     public List<Species> getAllSpecies() {
-        return speciesRepository.findAll();
+        List<Species> rootSpecies = speciesRepository.getAllSpecies(null);
+        for(Species s : rootSpecies) {
+            List<Species> children = speciesRepository.getAllSpecies(s.getId());
+            s.setBreeds(children);
+        }
+        return rootSpecies;
     }
 
     public Species getDetailSpecies(Long id) {
-        return speciesRepository.getReferenceById(id);
+        return speciesRepository.findById(id).get();
     }
 }
