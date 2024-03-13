@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroud_community"
+    tools:context=".fragment.CommunityFragment">
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="50dp"
+            android:background="@color/bg_community"
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+            <ImageView
+                android:id="@+id/image"
+                android:layout_marginTop="20dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/bs2"
+                android:scaleType="fitXY"
+                android:layout_centerHorizontal="true"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/name_group"
+                android:layout_below="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cộng đồng yêu thú cưng"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                />
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/name_group"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/custom_circle_online"
+                    tools:ignore="ContentDescription" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100 thành viên"
+                    android:textColor="#949BA4"
+                    />
+            </LinearLayout>
+            <Button
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/linear"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="Tham gia"
+                android:layout_marginHorizontal="40dp"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_btn_join_group"
+                />
+        </RelativeLayout>
+
+</FrameLayout>
