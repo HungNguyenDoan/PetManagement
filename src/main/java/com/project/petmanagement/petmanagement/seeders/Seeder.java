@@ -9,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Seeder implements CommandLineRunner {
     private final RoleSeeder roleSeeder;
+    private final SpeciesSeeder speciesSeeder;
 
     @Override
     public void run(String... args) throws Exception {
+        speciesSeeder.seed();
         roleSeeder.seed();
     }
 

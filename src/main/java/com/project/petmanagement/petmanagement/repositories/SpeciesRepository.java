@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import com.project.petmanagement.petmanagement.models.Species;
 
 public interface SpeciesRepository extends JpaRepository<Species, Long> {
-    @Query(value = "select * from species s where species_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM species WHERE (parent_id IS NULL AND :id IS NULL) or (parent_id = :id)", nativeQuery = true)
     List<Species> getAllSpecies(@Param("id") Long id);
 }
