@@ -57,4 +57,9 @@ public class ShopActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void getHomePage() {
+        viewPager2.setCurrentItem(0);
+        bottomNavigationView.getMenu().findItem(R.id.shop_home).setChecked(true);
+    }
 }

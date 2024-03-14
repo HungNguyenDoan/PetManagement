@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.petmanagement.R;
 import com.project.petmanagement.model.Image;
 import com.project.petmanagement.model.Product;
+import com.project.petmanagement.utils.FormatNumberUtils;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -37,8 +38,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         Product product = productList.get(position);
         holder.imageProduct.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.thucan1));
         holder.nameProduct.setText(product.getName());
-        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-        String priceFormat = decimalFormat.format(product.getPrice());
+        String priceFormat = FormatNumberUtils.formatFloat(product.getPrice());
         holder.priceProduct.setText(priceFormat.replace(",", "."));
     }
 

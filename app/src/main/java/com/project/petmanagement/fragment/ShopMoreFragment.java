@@ -1,19 +1,24 @@
 package com.project.petmanagement.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.OrderActivity;
 
 
 public class ShopMoreFragment extends Fragment {
 
-
+    private LinearLayout order;
     public ShopMoreFragment() {
         // Required empty public constructor
     }
@@ -23,11 +28,17 @@ public class ShopMoreFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_shop_more, container, false);
     }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        order = view.findViewById(R.id.order);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OrderActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-
-
 }
