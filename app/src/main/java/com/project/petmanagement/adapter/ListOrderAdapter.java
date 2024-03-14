@@ -1,6 +1,7 @@
 package com.project.petmanagement.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.OrderDetailActivity;
 import com.project.petmanagement.model.Order;
 import com.project.petmanagement.model.OrderDetail;
 import com.project.petmanagement.utils.FormatNumberUtils;
@@ -44,6 +46,13 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.Orde
         holder.imageRecyclerView.setAdapter(imageOrderDetailAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         holder.imageRecyclerView.setLayoutManager(layoutManager);
+        holder.btnOrderDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OrderDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
