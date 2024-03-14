@@ -4,11 +4,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.ShopCartFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_marginStart="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                tools:ignore="ContentDescription"
+                android:src="@drawable/baseline_arrow_back_ios_24"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/cart"
+                />
+        </androidx.appcompat.widget.Toolbar>
+        <View
+            android:id="@+id/line"
+            android:layout_below="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cart_item_recyclerview"
+            android:layout_marginHorizontal="20dp"
+            android:layout_below="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical"
+                android:layout_weight="0.7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:text="Tổng tiền:"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="@color/red"
+                    android:textSize="18sp"
+                    android:text="215.000đ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:gravity="center"
+                android:background="@color/green"
+                android:layout_width="0dp"
+                android:layout_weight = "0.3"
+                android:layout_height="match_parent"
+                android:text="Thanh toán"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
