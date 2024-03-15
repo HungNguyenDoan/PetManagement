@@ -16,11 +16,12 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.activity.ListVeterinarianActivity;
 import com.project.petmanagement.activity.LoginActivity;
 //import com.project.petmanagement.activity.NutritionDetailsActivity;
+import com.project.petmanagement.activity.ManagePetActivity;
 import com.project.petmanagement.activity.NutritionActivity;
 import com.project.petmanagement.activity.ShopActivity;
 
 public class ProfileFragment extends Fragment {
-    private CardView device, veterinatian, shop;
+    private CardView pet, device, veterinatian, shop;
     private Button btnLogin;
     @Nullable
     @Override
@@ -32,6 +33,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnLogin = view.findViewById(R.id.logout_btn);
+        pet = view.findViewById(R.id.pet_card_view);
         device = view.findViewById(R.id.device_card_view);
         veterinatian = view.findViewById(R.id.veterinarian);
         shop = view.findViewById(R.id.shop);
@@ -60,6 +62,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ShopActivity.class);
+                startActivity(intent);
+            }
+        });
+        pet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ManagePetActivity.class);
                 startActivity(intent);
             }
         });

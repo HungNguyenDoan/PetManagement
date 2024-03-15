@@ -1,5 +1,6 @@
 package com.project.petmanagement.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -21,6 +23,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.StaticHealthActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,9 +34,7 @@ import java.util.Objects;
 
 public class InforPetFragment extends Fragment {
     private LineChart lineChart;
-    String[] axisData = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept",
-            "Oct", "Nov", "Dec"};
-    int[] yAxisData = {50, 20, 15, 30, 20, 60, 15, 40, 45, 10, 90, 18};
+    private TextView seeMoreStatic;
     public InforPetFragment() {
     }
 
@@ -47,12 +48,26 @@ public class InforPetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findViewById(view);
+        customChart();
+        seeMoreStatic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), StaticHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void findViewById(View view){
+        lineChart = view.findViewById(R.id.line_chart);
+        seeMoreStatic = view.findViewById(R.id.see_more_static);
+    }
+    private void customChart(){
         List<Float> weightList = new ArrayList<>();
-        weightList.add(70.5f);
-        weightList.add(71.2f);
-        weightList.add(69.8f);
-        weightList.add(72.0f);
-        weightList.add(70.2f);
+        weightList.add(20f);
+        weightList.add(21f);
+        weightList.add(22f);
+        weightList.add(23f);
 
         // Chuyển đổi danh sách cân nặng thành danh sách Entry
         List<Entry> entries = new ArrayList<>();
@@ -65,7 +80,7 @@ public class InforPetFragment extends Fragment {
         dataSet.setColor(ContextCompat.getColor(requireContext(), R.color.green));
         dataSet.setValueTextColor(ContextCompat.getColor(requireContext(), R.color.green));
         dataSet.setLineWidth(2f);
-
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         // Tạo LineData và thêm DataSet vào đó
         LineData lineData = new LineData(dataSet);
 
@@ -74,21 +89,21 @@ public class InforPetFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f); // Đơn vị giữa các giá trị trên trục X
         xAxis.setValueFormatter(new IndexAxisValueFormatter()); // Định dạng giá trị trục X
-
+        xAxis.setDrawGridLines(false);
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setGranularity(1f); // Đơn vị giữa các giá trị trên trục Y
-
+        YAxis yAxisRight = lineChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+        yAxis.setDrawGridLines(false);
+        YAxis yAxisLeft = lineChart.getAxisLeft();
+        yAxisLeft.setEnabled(false);
         // Đặt dữ liệu vào biểu đồ
         lineChart.setData(lineData);
 
         // Cập nhật biểu đồ
         lineChart.invalidate();
     }
-
-    private void findViewById(View view){
-        lineChart = view.findViewById(R.id.line_chart);
-    }
-    private class IndexAxisValueFormatter extends ValueFormatter {
+    private static class IndexAxisValueFormatter extends ValueFormatter {
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
             int monthIndex = (int) value;

@@ -1,0 +1,63 @@
+package com.project.petmanagement.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.project.petmanagement.R;
+import com.project.petmanagement.model.HealthRecord;
+import com.project.petmanagement.model.Image;
+import com.project.petmanagement.utils.FormatDateUtils;
+
+import java.util.List;
+
+public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapter.StaticHealViewHolder>{
+    private Context context;
+    private List<HealthRecord> healthRecords;
+
+    public StaticHealthAdapter(Context context, List<HealthRecord> healthRecords) {
+        this.context = context;
+        this.healthRecords = healthRecords;
+    }
+
+    @NonNull
+    @Override
+    public StaticHealViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new StaticHealViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.static_item, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull StaticHealViewHolder holder, int position) {
+        HealthRecord healthRecord = healthRecords.get(position);
+        holder.imageStatic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.up));
+        holder.weight.setText(String.valueOf(healthRecord.getWeight())+" kg");
+        holder.checkupDate.setText(FormatDateUtils.DateToString(healthRecord.getCheckupDate()));
+    }
+
+    @Override
+    public int getItemCount() {
+        if (healthRecords!=null){
+            return healthRecords.size();
+        }
+        return 0;
+    }
+
+    public static class StaticHealViewHolder extends RecyclerView.ViewHolder{
+        private final ImageView imageStatic;
+        private final TextView weight;
+        private final TextView checkupDate;
+        public StaticHealViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageStatic = itemView.findViewById(R.id.image_static);
+            weight = itemView.findViewById(R.id.static_weight);
+            checkupDate = itemView.findViewById(R.id.static_checkup_date);
+        }
+    }
+}
