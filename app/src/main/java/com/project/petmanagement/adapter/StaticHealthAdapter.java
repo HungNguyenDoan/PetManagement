@@ -1,10 +1,12 @@
 package com.project.petmanagement.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.StaticHealthDetailActivity;
 import com.project.petmanagement.model.HealthRecord;
 import com.project.petmanagement.model.Image;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -39,6 +42,13 @@ public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapte
         holder.imageStatic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.up));
         holder.weight.setText(String.valueOf(healthRecord.getWeight())+" kg");
         holder.checkupDate.setText(FormatDateUtils.DateToString(healthRecord.getCheckupDate()));
+        holder.itemStaticHealth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, StaticHealthDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -53,11 +63,13 @@ public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapte
         private final ImageView imageStatic;
         private final TextView weight;
         private final TextView checkupDate;
+        private final RelativeLayout itemStaticHealth;
         public StaticHealViewHolder(@NonNull View itemView) {
             super(itemView);
             imageStatic = itemView.findViewById(R.id.image_static);
             weight = itemView.findViewById(R.id.static_weight);
             checkupDate = itemView.findViewById(R.id.static_checkup_date);
+            itemStaticHealth = itemView.findViewById(R.id.item_static);
         }
     }
 }

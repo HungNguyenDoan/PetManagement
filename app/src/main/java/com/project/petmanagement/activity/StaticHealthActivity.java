@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapter.StaticHealthAdapter;
 import com.project.petmanagement.fragment.InforPetFragment;
@@ -34,6 +36,7 @@ import java.util.Locale;
 public class StaticHealthActivity extends AppCompatActivity {
     private LineChart lineChart;
     private RecyclerView staticRecyclerView;
+    private FloatingActionButton btnAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +55,19 @@ public class StaticHealthActivity extends AppCompatActivity {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StaticHealthActivity.this, AddStaticHealthActity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void findViewById(){
         lineChart = findViewById(R.id.line_chart);
         staticRecyclerView = findViewById(R.id.static_recycler_view);
+        btnAdd = findViewById(R.id.btn_add);
     }
     private List<HealthRecord> getList() throws ParseException {
         List<HealthRecord> healthRecords = new ArrayList<>();
