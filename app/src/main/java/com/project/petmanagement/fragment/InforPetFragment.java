@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.MedicalRecordActivity;
 import com.project.petmanagement.activity.StaticHealthActivity;
 
 import java.text.SimpleDateFormat;
@@ -34,7 +35,7 @@ import java.util.Objects;
 
 public class InforPetFragment extends Fragment {
     private LineChart lineChart;
-    private TextView seeMoreStatic;
+    private TextView seeMoreStatic, seeMoreMedical;
     public InforPetFragment() {
     }
 
@@ -56,11 +57,19 @@ public class InforPetFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        seeMoreMedical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), MedicalRecordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void findViewById(View view){
         lineChart = view.findViewById(R.id.line_chart);
         seeMoreStatic = view.findViewById(R.id.see_more_static);
+        seeMoreMedical = view.findViewById(R.id.see_more_medical);
     }
     private void customChart(){
         List<Float> weightList = new ArrayList<>();
