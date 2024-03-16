@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="33" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -16,6 +21,30 @@
         android:theme="@style/Theme.PetManagement"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.InjectionInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SetInjectionScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SetInjectNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SelectPetToInjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PetInjectionSheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PetInjecttionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MedicalRecordActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.PaymentActivity"
             android:exported="false" />
