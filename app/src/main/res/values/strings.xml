@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PetApp</string>
+    <string name="title_home">Thú cưng</string>
+    <string name="title_library">Thư viện</string>
+    <string name="title_moment">Khoảnh khắc</string>
+    <string name="title_profile">Trang cá nhân</string>
+</resources>
