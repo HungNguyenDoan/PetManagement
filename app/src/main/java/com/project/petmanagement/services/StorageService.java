@@ -48,4 +48,9 @@ public class StorageService {
         Gson gson = new Gson();
         return gson.fromJson(strUser, User.class);
     }
+    public void remove(String key){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key);
+        editor.apply();
+    }
 }

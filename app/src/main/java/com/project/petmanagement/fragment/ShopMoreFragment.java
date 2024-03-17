@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.OrderActivity;
@@ -18,7 +19,7 @@ import com.project.petmanagement.activity.OrderActivity;
 
 public class ShopMoreFragment extends Fragment {
 
-    private LinearLayout order;
+    private RelativeLayout order, backApp;
     public ShopMoreFragment() {
         // Required empty public constructor
     }
@@ -33,11 +34,18 @@ public class ShopMoreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         order = view.findViewById(R.id.order);
+        backApp = view.findViewById(R.id.back_app);
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), OrderActivity.class);
                 startActivity(intent);
+            }
+        });
+        backApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().finish();
             }
         });
     }

@@ -37,12 +37,19 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MedicalRecordActivity extends AppCompatActivity {
-    private ImageView btnAdd;
+    private ImageView btnAdd, btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_record);
         btnAdd = findViewById(R.id.add);
+        btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

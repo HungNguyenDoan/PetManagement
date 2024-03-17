@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapter.ListOrderAdapter;
@@ -18,11 +21,30 @@ import java.util.List;
 public class OrderActivity extends AppCompatActivity {
     private RecyclerView orderRecyclerView;
     private ListOrderAdapter orderAdapter;
+    private ImageView btnBack, btnCart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         orderRecyclerView = findViewById(R.id.order_recyclerview);
+        btnBack = findViewById(R.id.btn_back);
+        btnCart = findViewById(R.id.btn_cart);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderActivity.this, ShopActivity.class);
+                intent.putExtra("key", "cart");
+                startActivity(intent);
+
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         orderRecyclerView.setLayoutManager(layoutManager);
         orderAdapter = new ListOrderAdapter(this, getList());

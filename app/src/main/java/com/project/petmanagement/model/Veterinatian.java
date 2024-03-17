@@ -1,8 +1,9 @@
 package com.project.petmanagement.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Veterinatian {
+public class Veterinatian implements Serializable {
     private Long id;
     private String fullName;
     private String phoneNumber;

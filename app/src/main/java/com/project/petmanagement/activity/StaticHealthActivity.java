@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -37,11 +38,18 @@ public class StaticHealthActivity extends AppCompatActivity {
     private LineChart lineChart;
     private RecyclerView staticRecyclerView;
     private FloatingActionButton btnAdd;
+    private ImageView btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_static_health);
         findViewById();
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         try {
             customChart();
         } catch (ParseException e) {
@@ -68,6 +76,8 @@ public class StaticHealthActivity extends AppCompatActivity {
         lineChart = findViewById(R.id.line_chart);
         staticRecyclerView = findViewById(R.id.static_recycler_view);
         btnAdd = findViewById(R.id.btn_add);
+        btnBack = findViewById(R.id.btn_back);
+
     }
     private List<HealthRecord> getList() throws ParseException {
         List<HealthRecord> healthRecords = new ArrayList<>();

@@ -25,6 +25,8 @@
             android:text="@string/your_pet"
             />
         <ImageView
+            android:id="@+id/btn_search"
+            tools:ignore="ContentDescription"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/baseline_search_24"
@@ -39,12 +41,31 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
         />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pet_manage_recyclerview"
-        android:layout_marginHorizontal="20dp"
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/line"
+        android:layout_marginHorizontal="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/search"
+            android:background="@drawable/custom_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:padding="10dp"
+            android:hint="Tìm kiếm"
+            android:drawablePadding="10dp"
+            android:textColorHint="#A5AFC2"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pet_manage_recyclerview"
+            android:layout_below="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
     <Button
         android:id="@+id/btn_add_pet"
         android:layout_margin="20dp"

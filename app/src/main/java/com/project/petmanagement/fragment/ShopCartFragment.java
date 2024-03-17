@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.PaymentActivity;
 import com.project.petmanagement.activity.ShopActivity;
 import com.project.petmanagement.adapter.ListCartItemAdapter;
 import com.project.petmanagement.model.CartItem;
@@ -59,6 +60,8 @@ public class ShopCartFragment extends Fragment {
         btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), PaymentActivity.class);
+                startActivity(intent);
             }
         });
     }

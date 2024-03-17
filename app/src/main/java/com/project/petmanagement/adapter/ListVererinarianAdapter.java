@@ -1,10 +1,13 @@
 package com.project.petmanagement.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.VeterinarianDetailActivity;
 import com.project.petmanagement.model.Veterinatian;
 
 import java.util.List;
@@ -43,6 +47,15 @@ public class ListVererinarianAdapter extends RecyclerView.Adapter<ListVererinari
         holder.rate.setText(rate1);
         String experience1 = veterinatian.getExperience()+" năm";
         holder.experience.setText(experience1);
+        holder.itemVeterinarian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, VeterinarianDetailActivity.class);
+                Log.d("ddddddddd", veterinatian.getEmail());
+                intent.putExtra("veterinatian", veterinatian);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -55,12 +68,14 @@ public class ListVererinarianAdapter extends RecyclerView.Adapter<ListVererinari
     public static class VererinarianViewHolder extends RecyclerView.ViewHolder {
         private final ImageView avatar;
         private final TextView name,rate, experience;
+        private final LinearLayout itemVeterinarian;
         public VererinarianViewHolder(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.image_doctor);
             name = itemView.findViewById(R.id.name_doctor);
             rate = itemView.findViewById(R.id.rate);
             experience = itemView.findViewById(R.id.experience);
+            itemVeterinarian = itemView.findViewById(R.id.item_veterinarian);
         }
     }
 }

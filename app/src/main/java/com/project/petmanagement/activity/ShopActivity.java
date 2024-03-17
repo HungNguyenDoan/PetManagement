@@ -56,6 +56,14 @@ public class ShopActivity extends AppCompatActivity {
                 return true;
             }
         });
+        Bundle extras = getIntent().getExtras();
+        if (extras!=null){
+            String key = extras.getString("key");
+            if(key!=null){
+                viewPager2.setCurrentItem(1);
+                bottomNavigationView.getMenu().findItem(R.id.cart).setChecked(true);
+            }
+        }
     }
 
     public void getHomePage() {

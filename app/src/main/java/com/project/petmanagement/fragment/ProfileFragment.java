@@ -12,17 +12,22 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.ListVeterinarianActivity;
 import com.project.petmanagement.activity.LoginActivity;
 //import com.project.petmanagement.activity.NutritionDetailsActivity;
+import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.activity.ManagePetActivity;
 import com.project.petmanagement.activity.NutritionActivity;
 import com.project.petmanagement.activity.ShopActivity;
+import com.project.petmanagement.model.User;
+import com.project.petmanagement.services.StorageService;
 
 public class ProfileFragment extends Fragment {
-    private CardView pet, device, veterinatian, shop;
-    private Button btnLogin;
+    private CardView pet, nutrition, veterinatian, shop;
+    private Button btnLogin, btnLogout;
+    private StorageService storageService = MyApplication.getStorageService();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,9 +39,18 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnLogin = view.findViewById(R.id.logout_btn);
         pet = view.findViewById(R.id.pet_card_view);
-        device = view.findViewById(R.id.device_card_view);
+        nutrition = view.findViewById(R.id.nutrition_card_view);
         veterinatian = view.findViewById(R.id.veterinarian);
         shop = view.findViewById(R.id.shop);
+        btnLogout = view.findViewById(R.id.btn_logout);
+        User user = storageService.getUser("user");
+        if(user != null){
+            btnLogin.setVisibility(View.GONE);
+            btnLogout.setVisibility(View.VISIBLE);
+        }else{
+            btnLogin.setVisibility(View.VISIBLE);
+            btnLogout.setVisibility(View.GONE);
+        }
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +58,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        device.setOnClickListener(new View.OnClickListener() {
+        nutrition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), NutritionActivity.class);
@@ -69,6 +83,15 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ManagePetActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storageService.remove("user");
+                storageService.remove("token");
+                Intent intent = new Intent(requireContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

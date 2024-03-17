@@ -11,8 +11,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.project.petmanagement.R;
@@ -29,6 +32,8 @@ public class ManagePetActivity extends AppCompatActivity {
     private RecyclerView petRecyclerView;
     private Button btnAddPet;
     private ImageView btnBack;
+    private ImageView btnSearch;
+    private EditText search;
     private ManagePetRecyclerViewAdapter managePetRecyclerViewAdapter;
     private List<Pet> pets = new ArrayList<>();
     @Override
@@ -36,6 +41,8 @@ public class ManagePetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_pet);
         findViewById();
+        search = findViewById(R.id.search);
+        search.setVisibility(View.GONE);
         pets = getPetList();
         managePetRecyclerViewAdapter = new ManagePetRecyclerViewAdapter(this, pets);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -56,11 +63,39 @@ public class ManagePetActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(search.getVisibility() == View.GONE){
+                    search.setVisibility(View.VISIBLE);
+                }else{
+                    search.setVisibility(View.GONE);
+                }
+            }
+        });
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
     private void findViewById(){
         petRecyclerView = findViewById(R.id.pet_manage_recyclerview);
         btnAddPet = findViewById(R.id.btn_add_pet);
         btnBack = findViewById(R.id.btn_back);
+        btnSearch = findViewById(R.id.btn_search);
+
     }
     private List<Pet> getPetList(){
         List<Pet> pets = new ArrayList<>();
