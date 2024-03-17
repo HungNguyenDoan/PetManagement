@@ -12,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.FeedScheduleInfoActivity;
 import com.project.petmanagement.activity.NotificationActivity;
 import com.project.petmanagement.activity.PetInjectionActivity;
 import com.project.petmanagement.activity.ScheduleActivity;
+import com.project.petmanagement.activity.WalkScheduleInfoActivity;
 //import com.project.petmanagement.activity.PetInjection;
 //import com.project.petmanagement.activity.Schedule;
 
@@ -41,6 +43,24 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), PetInjectionActivity.class);
+                startActivity(intent);
+            }
+        });
+        LinearLayout feedActivity = view.findViewById(R.id.feed_activity);
+        feedActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FeedScheduleInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        LinearLayout walkActivity = view.findViewById(R.id.walk_activity);
+        walkActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), WalkScheduleInfoActivity.class);
                 startActivity(intent);
             }
         });

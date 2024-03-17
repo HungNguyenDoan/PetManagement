@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.MedicalRecordActivity">
     <androidx.appcompat.widget.Toolbar
+        android:background="@color/white"
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
@@ -42,13 +43,13 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
         />
-    <ScrollView
+    <RelativeLayout
         android:layout_below="@id/line"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:id="@+id/linear_empty"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -68,5 +69,24 @@
                 android:text="Thú cưng chưa có hồ sơ ý tế. Hãy thêm hồ sơ y tế"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-    </ScrollView>
+        <RelativeLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/occupied"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_medical"
+                android:layout_width="100dp"
+                android:layout_height="130dp"
+                android:src="@drawable/backgroud_login"
+                android:scaleType="fitXY"
+                />
+            <TextView
+                android:background="@color/white"
+                android:layout_below="@+id/image_medical"
+                android:id="@+id/name_medical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".fragment.PetActivityFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:layout_marginTop="-40dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/name_pet" />
+        android:layout_height="wrap_content"
+        android:src="@drawable/activity1"
+        />
 
 </FrameLayout>
