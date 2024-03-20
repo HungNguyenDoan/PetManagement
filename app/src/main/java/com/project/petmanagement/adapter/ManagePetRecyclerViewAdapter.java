@@ -1,6 +1,5 @@
 package com.project.petmanagement.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,13 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.PetDetailsActivity;
+import com.project.petmanagement.activity.pet.PetDetailsActivity;
 import com.project.petmanagement.model.Pet;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 public class ManagePetRecyclerViewAdapter extends RecyclerView.Adapter<ManagePetRecyclerViewAdapter.PetViewHolder>{

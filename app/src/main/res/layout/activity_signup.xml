@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/backgroud_login"
-    tools:context=".activity.SignupActivity">
+    tools:context=".activity.login.SignupActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,13 +24,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:padding="28dp"
             android:layout_weight="1"
-            android:gravity="center"
             >
+
+
             <TextView
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="Pet Health"
                 android:textSize="40sp"

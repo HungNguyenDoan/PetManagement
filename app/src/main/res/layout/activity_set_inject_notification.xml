@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity.SetInjectNotificationActivity">
+    tools:context=".activity.schedule.inject.SetInjectNotificationActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -107,30 +107,23 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:backgroundTint="@color/default_button"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="15dp"
         app:cardElevation="0dp">
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:orientation="vertical">
-
-            <TextView
+            android:background="@drawable/bg_input_static_health"
+            android:hint="Ngày"
+            android:padding="12dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ngày"
-                android:textColor="@color/black"
+                android:background="@drawable/bg_input_static_health"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
-
-            <EditText
-                android:id="@+id/set_local_date_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:text="03/03/2024" />
-        </LinearLayout>
+                android:drawableEnd="@drawable/baseline_date_range_24"
+                android:text="28/02/2024"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -145,28 +138,23 @@
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp">
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:orientation="vertical">
-
-            <TextView
+            android:background="@drawable/bg_input_static_health"
+            android:hint="Giờ"
+            android:padding="12dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Giờ"
-                android:textColor="@color/black"
+                android:background="@drawable/bg_input_static_health"
                 android:textSize="18sp"
-                tools:ignore="HardcodedText" />
-
-            <EditText
-                android:id="@+id/set_local_time_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:text="09:00" />
-        </LinearLayout>
+                android:drawableEnd="@drawable/baseline_more_time_24"
+                android:text="9:00"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.cardview.widget.CardView>
+
 
     <LinearLayout
         android:id="@+id/alarm_section"

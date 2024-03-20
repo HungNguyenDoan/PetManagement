@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.VeterinarianDetailActivity;
+import com.project.petmanagement.activity.veterinarian.VeterinarianDetailActivity;
 import com.project.petmanagement.model.Veterinatian;
 
 import java.util.List;

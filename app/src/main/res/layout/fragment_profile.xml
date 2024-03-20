@@ -103,14 +103,14 @@
                             android:id="@+id/user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="KienDo"
+                            android:text="Manh Nguyen"
                             android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/phone_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="+84 963 xxx xxx"
+                            android:text="+84 347 xxx xxx"
                             android:textSize="20sp" />
 
                     </LinearLayout>

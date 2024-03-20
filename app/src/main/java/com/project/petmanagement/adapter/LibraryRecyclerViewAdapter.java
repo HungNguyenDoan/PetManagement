@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.DiseasesDetailActivity;
+import com.project.petmanagement.activity.diseases.DiseasesDetailActivity;
 import com.project.petmanagement.model.Diseases;
 
 import java.util.List;

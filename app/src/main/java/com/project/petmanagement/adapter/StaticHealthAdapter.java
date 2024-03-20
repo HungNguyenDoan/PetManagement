@@ -14,9 +14,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.StaticHealthDetailActivity;
+import com.project.petmanagement.activity.statichealth.StaticHealthDetailActivity;
 import com.project.petmanagement.model.HealthRecord;
-import com.project.petmanagement.model.Image;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.util.List;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_button"
     android:scrollbars="none"
-    tools:context=".activity.SetFeedScheduleActivity2">
+    tools:context=".activity.schedule.feed.SetFeedScheduleActivity2">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Thiết lập lịch tiêm thuốc"
+            android:text="Thiết lập lịch ăn"
             android:textColor="@color/black"
             android:textSize="25sp"
             tools:ignore="HardcodedText" />
@@ -94,6 +94,7 @@
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btn_select_pet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

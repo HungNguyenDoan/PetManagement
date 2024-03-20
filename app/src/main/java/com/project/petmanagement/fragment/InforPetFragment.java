@@ -20,17 +20,15 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.MedicalRecordActivity;
-import com.project.petmanagement.activity.StaticHealthActivity;
+import com.project.petmanagement.activity.medical.MedicalRecordActivity;
+import com.project.petmanagement.activity.statichealth.StaticHealthActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 
 public class InforPetFragment extends Fragment {

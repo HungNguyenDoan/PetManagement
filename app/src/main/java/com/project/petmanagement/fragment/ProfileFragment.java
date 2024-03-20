@@ -14,13 +14,13 @@ import androidx.fragment.app.Fragment;
 
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.ListVeterinarianActivity;
-import com.project.petmanagement.activity.LoginActivity;
+import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
+import com.project.petmanagement.activity.login.LoginActivity;
 //import com.project.petmanagement.activity.NutritionDetailsActivity;
 import com.project.petmanagement.activity.MainActivity;
-import com.project.petmanagement.activity.ManagePetActivity;
-import com.project.petmanagement.activity.NutritionActivity;
-import com.project.petmanagement.activity.ShopActivity;
+import com.project.petmanagement.activity.pet.ManagePetActivity;
+import com.project.petmanagement.activity.nutrition.NutritionActivity;
+import com.project.petmanagement.activity.shop.ShopActivity;
 import com.project.petmanagement.model.User;
 import com.project.petmanagement.services.StorageService;
 

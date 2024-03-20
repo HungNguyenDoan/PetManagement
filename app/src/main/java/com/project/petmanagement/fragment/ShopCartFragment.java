@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.PaymentActivity;
-import com.project.petmanagement.activity.ShopActivity;
+import com.project.petmanagement.activity.shop.PaymentActivity;
+import com.project.petmanagement.activity.shop.ShopActivity;
 import com.project.petmanagement.adapter.ListCartItemAdapter;
 import com.project.petmanagement.model.CartItem;
 import com.project.petmanagement.model.Product;

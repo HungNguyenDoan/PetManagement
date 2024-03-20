@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_button"
-    tools:context=".activity.SetWalkScheduleActivity"
+    tools:context=".activity.schedule.walk.SetWalkScheduleActivity"
     android:scrollbars="none">
 
     <androidx.appcompat.widget.Toolbar
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Thiết lập lịch tiêm thuốc"
+            android:text="Thiết lập lịch đi dạo"
             android:textColor="@color/black"
             android:textSize="25sp"
             tools:ignore="HardcodedText" />
@@ -177,45 +177,22 @@
                         android:backgroundTint="@color/default_button"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
-
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="290dp"
+                            android:background="@drawable/bg_input_static_health"
+                            android:hint="Nhập tên hành động"
+                            android:padding="12dp"
+                            app:endIconMode="clear_text"
+                            android:layout_height="wrap_content">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:padding="8dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="15dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Nhập tên hành động"
-                                    android:textColor="@color/black"
-                                    android:textSize="20sp"
-                                    tools:ignore="HardcodedText" />
-
-                                <EditText
-                                    android:id="@+id/action_name_input"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40sp"
-                                    android:autofillHints="name"
-                                    android:inputType="text"
-                                    android:text="Đi dạo"
-                                    android:textColor="@color/black"
-                                    tools:ignore="LabelFor" />
-                            </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/action_name_close"
-                                android:layout_width="27dp"
-                                android:layout_height="27dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/baseline_close_24"
-                                tools:ignore="ContentDescription" />
-                        </LinearLayout>
+                                android:background="@drawable/bg_input_static_health"
+                                android:textSize="18sp"
+                                android:text="Đi dạo"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -229,44 +206,22 @@
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="290dp"
+                            android:background="@drawable/bg_input_static_health"
+                            android:hint="Nhập địa điểm"
+                            android:padding="12dp"
+                            app:endIconMode="clear_text"
+                            android:layout_height="wrap_content">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:padding="8dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="15dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Nhập địa điểm"
-                                    android:textColor="@color/black"
-                                    android:textSize="20sp"
-                                    tools:ignore="HardcodedText" />
-
-                                <EditText
-                                    android:id="@+id/location_input"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40sp"
-                                    android:autofillHints="name"
-                                    android:inputType="textShortMessage"
-                                    android:text="Công viên Nghĩa Đô"
-                                    android:textColor="@color/black"
-                                    tools:ignore="LabelFor" />
-                            </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/location_close"
-                                android:layout_width="27dp"
-                                android:layout_height="27dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/baseline_close_24"
-                                tools:ignore="ContentDescription" />
-                        </LinearLayout>
+                                android:background="@drawable/bg_input_static_health"
+                                android:textSize="18sp"
+                                android:text="Công viên"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -281,44 +236,22 @@
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="290dp"
+                            android:background="@drawable/bg_input_static_health"
+                            android:hint="Ghi chú"
+                            android:padding="12dp"
+                            app:endIconMode="clear_text"
+                            android:layout_height="wrap_content">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:padding="8dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="15dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Ghi chú"
-                                    android:textColor="@color/black"
-                                    android:textSize="20sp"
-                                    tools:ignore="HardcodedText" />
-
-                                <EditText
-                                    android:id="@+id/note_input"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40sp"
-                                    android:autofillHints="name"
-                                    android:inputType="textMultiLine"
-                                    android:text="Đi dạo 30 phút"
-                                    android:textColor="@color/black"
-                                    tools:ignore="LabelFor" />
-                            </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/note_close"
-                                android:layout_width="27dp"
-                                android:layout_height="27dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/baseline_close_24"
-                                tools:ignore="ContentDescription" />
-                        </LinearLayout>
+                                android:background="@drawable/bg_input_static_health"
+                                android:textSize="18sp"
+                                android:text="Đi dạo 30 phút"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -16,12 +16,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.ProductDetailActivity;
-import com.project.petmanagement.model.Image;
+import com.project.petmanagement.activity.shop.ProductDetailActivity;
 import com.project.petmanagement.model.Product;
 import com.project.petmanagement.utils.FormatNumberUtils;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ProductViewHoler>{

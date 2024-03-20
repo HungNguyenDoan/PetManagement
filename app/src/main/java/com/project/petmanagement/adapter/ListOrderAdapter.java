@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.OrderDetailActivity;
+import com.project.petmanagement.activity.shop.OrderDetailActivity;
 import com.project.petmanagement.model.Order;
-import com.project.petmanagement.model.OrderDetail;
 import com.project.petmanagement.utils.FormatNumberUtils;
 
 import java.util.List;
