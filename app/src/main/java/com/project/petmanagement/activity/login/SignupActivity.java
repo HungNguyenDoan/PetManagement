@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,13 +80,13 @@ public class SignupActivity extends AppCompatActivity {
         if(!validation()){
             setUpDialog("Bạn chưa điền đẩy đủ thông tin");
         }else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             if(!password.getText().toString().equals(rePassword.getText().toString())){
                 setUpDialog("Xác nhận mật khẩu không đúng");
             }
             else{
                 try {
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     Date dob2 = sdf1.parse(dob.getText().toString());
                     String dob3 = sdf.format(dob2);
                     Date dob1 = sdf.parse(dob3);

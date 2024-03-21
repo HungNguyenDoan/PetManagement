@@ -21,12 +21,16 @@ import android.widget.ImageView;
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapter.ManagePetRecyclerViewAdapter;
 import com.project.petmanagement.model.Pet;
+import com.project.petmanagement.response.ListPetResponse;
+import com.project.petmanagement.services.ApiService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ManagePetActivity extends AppCompatActivity {
     private RecyclerView petRecyclerView;
@@ -35,21 +39,48 @@ public class ManagePetActivity extends AppCompatActivity {
     private ImageView btnSearch;
     private EditText search;
     private ManagePetRecyclerViewAdapter managePetRecyclerViewAdapter;
-    private List<Pet> pets = new ArrayList<>();
+    private List<Pet> pets;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_pet);
         findViewById();
-        search = findViewById(R.id.search);
+        processBtn();
+        getPetList();
         search.setVisibility(View.GONE);
-        pets = getPetList();
-        managePetRecyclerViewAdapter = new ManagePetRecyclerViewAdapter(this, pets);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        petRecyclerView.setLayoutManager(linearLayoutManager);
-        petRecyclerView.setAdapter(managePetRecyclerViewAdapter);
+        //Adapter
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(petRecyclerView);
+        // Tìm pet
+        search();
+
+    }
+    private void findViewById(){
+        petRecyclerView = findViewById(R.id.pet_manage_recyclerview);
+        btnAddPet = findViewById(R.id.btn_add_pet);
+        btnBack = findViewById(R.id.btn_back);
+        btnSearch = findViewById(R.id.btn_search);
+        search = findViewById(R.id.search);
+    }
+    private void search(){
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+    private void processBtn(){
         btnAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,54 +104,30 @@ public class ManagePetActivity extends AppCompatActivity {
                 }
             }
         });
-        search.addTextChangedListener(new TextWatcher() {
+    }
+    private void getPetList(){
+        ApiService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public void onResponse(Call<ListPetResponse> call, Response<ListPetResponse> response) {
+                if(response.isSuccessful()){
+                    ListPetResponse petResponse = response.body();
+                    if (petResponse != null) {
+                        pets = petResponse.getData();
+                        managePetRecyclerViewAdapter = new ManagePetRecyclerViewAdapter(ManagePetActivity.this, pets);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ManagePetActivity.this, RecyclerView.VERTICAL, false);
+                        petRecyclerView.setLayoutManager(linearLayoutManager);
+                        petRecyclerView.setAdapter(managePetRecyclerViewAdapter);
+                    }
+                }
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onFailure(Call<ListPetResponse> call, Throwable t) {
 
             }
         });
     }
-    private void findViewById(){
-        petRecyclerView = findViewById(R.id.pet_manage_recyclerview);
-        btnAddPet = findViewById(R.id.btn_add_pet);
-        btnBack = findViewById(R.id.btn_back);
-        btnSearch = findViewById(R.id.btn_search);
-
-    }
-    private List<Pet> getPetList(){
-        List<Pet> pets = new ArrayList<>();
-        pets.add(new Pet("Pet 2", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 3", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 4", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 5", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 6", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 7", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 8", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 9", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 10", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 11", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 12", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 13", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 14", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 15", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 16", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 17", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 18", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 19", "mèo ai cập", "Male", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 10", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        pets.add(new Pet("Pet 11", "mèo ai cập", "Female", "1 năm 6 tháng", 50.0));
-        return pets;
-    }
+    // Xử lý xóa pet
     ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {

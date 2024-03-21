@@ -2,10 +2,12 @@ package com.project.petmanagement.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +29,7 @@ import com.project.petmanagement.services.StorageService;
 public class ProfileFragment extends Fragment {
     private CardView pet, nutrition, veterinatian, shop;
     private Button btnLogin, btnLogout;
+    private TextView fullName, phoneNumber;
     private StorageService storageService = MyApplication.getStorageService();
     @Nullable
     @Override
@@ -43,8 +46,12 @@ public class ProfileFragment extends Fragment {
         veterinatian = view.findViewById(R.id.veterinarian);
         shop = view.findViewById(R.id.shop);
         btnLogout = view.findViewById(R.id.btn_logout);
+        fullName = view.findViewById(R.id.full_name);
+        phoneNumber = view.findViewById(R.id.phone_number);
         User user = storageService.getUser("user");
         if(user != null){
+            fullName.setText(user.getFullName());
+            phoneNumber.setText(user.getPhonenumber());
             btnLogin.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
         }else{

@@ -19,24 +19,31 @@
         android:orientation="vertical"
         android:weightSum="5"
         android:layout_height="match_parent">
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             android:layout_weight="1"
             >
-
-
             <TextView
-                android:layout_gravity="center_horizontal"
+                android:id="@+id/text_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Quay lại"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:text="Pet Health"
                 android:textSize="40sp"
                 />
-        </LinearLayout>
+        </RelativeLayout>
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"

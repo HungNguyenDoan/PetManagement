@@ -3,12 +3,14 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
-import com.project.petmanagement.model.User;
+import com.project.petmanagement.model.Pet;
 import com.project.petmanagement.model.UserLogin;
 import com.project.petmanagement.model.UserSignup;
 import com.project.petmanagement.response.FoodTypeResponse;
 import com.project.petmanagement.response.NutritionInfoResponse;
-import com.project.petmanagement.response.SpeciesResponse;
+import com.project.petmanagement.response.ListPetResponse;
+import com.project.petmanagement.response.PetResponse;
+import com.project.petmanagement.response.ListSpeciesResponse;
 import com.project.petmanagement.response.UserResponse;
 
 import java.io.IOException;
@@ -58,5 +60,10 @@ public interface ApiService {
     @GET("nutritioninfo/all")
     Call<NutritionInfoResponse> getListNutritionInfo(@Query("key") String key, @Query("foodTypeId") Long foodTypeId);
     @GET("species/all")
-    Call<SpeciesResponse.SpeciesResponse1> getSpecies();
+    Call<ListSpeciesResponse> getSpecies();
+
+    @GET("pet/getPet")
+    Call<ListPetResponse> getAllPetUser();
+    @POST("pet/addPet")
+    Call<PetResponse> addPet(@Body Pet pet);
 }

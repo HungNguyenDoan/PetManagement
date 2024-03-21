@@ -37,13 +37,13 @@ public class ManagePetRecyclerViewAdapter extends RecyclerView.Adapter<ManagePet
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         Pet pet = petList.get(position);
         holder.imagePet.setImageResource(R.drawable.backgroud_login);
-        holder.namePet.setText(pet.getFullName());
-        if(pet.getGender().equals("Male")){
-            holder.imageGenderPet.setImageResource(R.drawable.baseline_male_24);
-        }else{
-            holder.imageGenderPet.setImageResource(R.drawable.baseline_female_24);
-        }
-        holder.ageAndWeight.setText(pet.getAge());
+        holder.namePet.setText(pet.getFullname());
+//        if(pet.getGender().equals("Male")){
+//            holder.imageGenderPet.setImageResource(R.drawable.baseline_male_24);
+//        }else{
+//            holder.imageGenderPet.setImageResource(R.drawable.baseline_female_24);
+//        }
+//        holder.ageAndWeight.setText(pet.ge());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

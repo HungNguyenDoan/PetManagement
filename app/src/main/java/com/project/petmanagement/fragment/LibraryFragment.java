@@ -18,11 +18,10 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapter.LibraryRecyclerViewAdapter;
 import com.project.petmanagement.model.Diseases;
 import com.project.petmanagement.model.Species;
-import com.project.petmanagement.response.SpeciesResponse;
+import com.project.petmanagement.response.ListSpeciesResponse;
 import com.project.petmanagement.services.ApiService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,9 +55,9 @@ public class LibraryFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(decoration);
         speciesMap = new LinkedHashMap<>();
-        ApiService.apiService.getSpecies().enqueue(new Callback<SpeciesResponse.SpeciesResponse1>() {
+        ApiService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
             @Override
-            public void onResponse(Call<SpeciesResponse.SpeciesResponse1> call, Response<SpeciesResponse.SpeciesResponse1> response) {
+            public void onResponse(Call<ListSpeciesResponse> call, Response<ListSpeciesResponse> response) {
                 if (response.isSuccessful()){
                     List<Species> speciesList = response.body().getData();
                     for(Species species: speciesList){
@@ -70,7 +69,7 @@ public class LibraryFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<SpeciesResponse.SpeciesResponse1> call, Throwable t) {
+            public void onFailure(Call<ListSpeciesResponse> call, Throwable t) {
 
             }
         });

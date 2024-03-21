@@ -1,51 +1,30 @@
 package com.project.petmanagement.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
+
 public class Pet {
     private Long id;
-    private String fullName;
-    private String gender;
-    private String breed;
-    private Double weight;
-    private String age;
-    private boolean isActive;
-    public Pet(String fullName, String breed,String gender , String age,Double weight ) {
-        this.fullName = fullName;
-        this.breed = breed;
-        this.age = age;
-        this.weight = weight;
-        this.gender = gender;
+    private String fullname;
+    private Long userId;
+    private Date dateOfBirth;
+    private String description;
+    private Date createAt;
+    private Date updateAt;
+    private Integer isActive;
+    private Integer gender;
+    private Integer neutered;
+    private String avatar;
+    @SerializedName("species_name")
+    private String speciesName;
+
+    public String getSpeciesName() {
+        return speciesName;
     }
 
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getBreed() {
-        return breed;
-    }
-
-    public void setBreed(String breed) {
-        this.breed = breed;
+    public void setSpeciesName(String speciesName) {
+        this.speciesName = speciesName;
     }
 
     public Long getId() {
@@ -56,19 +35,83 @@ public class Pet {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public boolean isActive() {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public Integer getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getNeutered() {
+        return neutered;
+    }
+
+    public void setNeutered(Integer neutered) {
+        this.neutered = neutered;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
