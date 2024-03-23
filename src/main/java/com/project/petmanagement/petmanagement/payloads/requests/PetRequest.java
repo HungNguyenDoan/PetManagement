@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PetRequest {
     @NotNull(message = "pet's name is required")
-    String name;
+    String fullname;
     Date dob;
     Long speciesId;
     String description;
