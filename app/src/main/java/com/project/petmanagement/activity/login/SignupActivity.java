@@ -167,7 +167,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         String date = dayOfMonth+"/"+ month +"/"+year;
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                         try {
                             Date date1 = sdf.parse(date);
                             String date2 = sdf.format(date1);

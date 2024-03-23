@@ -61,7 +61,6 @@ public interface ApiService {
     Call<NutritionInfoResponse> getListNutritionInfo(@Query("key") String key, @Query("foodTypeId") Long foodTypeId);
     @GET("species/all")
     Call<ListSpeciesResponse> getSpecies();
-
     @GET("pet/getPet")
     Call<ListPetResponse> getAllPetUser();
     @POST("pet/addPet")

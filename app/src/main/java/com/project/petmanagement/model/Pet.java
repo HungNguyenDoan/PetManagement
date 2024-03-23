@@ -10,6 +10,7 @@ public class Pet {
     private Long userId;
     private Date dateOfBirth;
     private String description;
+    private Long specesId;
     private Date createAt;
     private Date updateAt;
     private Integer isActive;
@@ -18,6 +19,23 @@ public class Pet {
     private String avatar;
     @SerializedName("species_name")
     private String speciesName;
+
+    public Pet(String fullname, Date dateOfBirth,  Integer gender, Integer neutered, String avatar, Long speciesId) {
+        this.fullname = fullname;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.neutered = neutered;
+        this.avatar = avatar;
+        this.specesId = speciesId;
+    }
+
+    public Long getSpecesId() {
+        return specesId;
+    }
+
+    public void setSpecesId(Long specesId) {
+        this.specesId = specesId;
+    }
 
     public String getSpeciesName() {
         return speciesName;

@@ -34,8 +34,10 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
+import com.project.petmanagement.model.Pet;
 import com.project.petmanagement.model.Species;
 import com.project.petmanagement.response.ListSpeciesResponse;
+import com.project.petmanagement.response.PetResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -131,7 +133,11 @@ public class AddNewPetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validation()){
-                    addPet();
+                    try {
+                        addPet();
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
@@ -142,10 +148,14 @@ public class AddNewPetActivity extends AppCompatActivity {
             }
         });
     }
-    private void addPet(){
+    private void addPet() throws ParseException {
         String namePetString = namePet.getText().toString().trim();
         long speciesId = breeds.get(breedView.getText().toString()).getId();
-        Date dateOfBirth = FormatDateUtils.StringToDate(dob.getText().toString().trim());
+        // Đang lỗi
+        Date dateOfBirth = FormatDateUtils.StringToDate1(dob.getText().toString().trim());
+        String dateOfBirth1 = FormatDateUtils.DateToString1(dateOfBirth);
+        Date dateOfBirth2 = FormatDateUtils.StringToDate(dateOfBirth1);
+        Toast.makeText(this, dateOfBirth2.getTime()+"", Toast.LENGTH_SHORT).show();
         String weightString = weight.getText().toString();
         int selectGenderId = gender.getCheckedRadioButtonId();
         int selectNeuteredId = neutered.getCheckedRadioButtonId();
@@ -159,8 +169,20 @@ public class AddNewPetActivity extends AppCompatActivity {
         if(neuteredButton.getText().toString().equals("Rồi")){
             neuteredId = 1;
         }
-        String avatar1 = avatarBase64;
-
+        Pet pet = new Pet(namePetString, dateOfBirth2, genderInt, neuteredId, avatarBase64, speciesId);
+        ApiService.apiService.addPet(pet).enqueue(new Callback<PetResponse>() {
+            @Override
+            public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
+                if(response.isSuccessful()){
+                    PetResponse petResponse = response.body();
+                    Toast.makeText(AddNewPetActivity.this, "Thêm thú cưng thành công", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<PetResponse> call, Throwable t) {
+                Toast.makeText(AddNewPetActivity.this, "false", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void getSpecies(){
         ApiService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
