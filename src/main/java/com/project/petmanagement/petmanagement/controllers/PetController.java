@@ -58,7 +58,7 @@ public class PetController {
             return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
         }
         Pet pet = Pet.builder()
-                .fullname(petRequest.getName())
+                .fullname(petRequest.getFullname())
                 .dateOfBirth(petRequest.getDob())
                 .species(species)
                 .description(petRequest.getDescription())
@@ -90,7 +90,7 @@ public class PetController {
         pet.setAvatar(petRequest.getAvatar());
         pet.setDateOfBirth(petRequest.getDob());
         pet.setDescription(petRequest.getDescription());
-        pet.setFullname(petRequest.getName());
+        pet.setFullname(petRequest.getFullname());
         pet.setGender(petRequest.getGender());
         pet.setNeutered(petRequest.getNeutered());
         pet.setSpecies(species);
