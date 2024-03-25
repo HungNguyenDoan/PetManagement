@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PetManagement"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".activity.schedule.inject.SetVaccineNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.SetVaccineScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.SelectPetToVaccineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.VaccineInjectionScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.WalkScheduleInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.walk.SetWalkScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.walk.SetWalkNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.walk.SelectPetToWalkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.feed.SetFeedNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.feed.SetFoodInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.feed.SetFeedScheduleActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.feed.SelectPetToFeedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.feed.FeedScheduleInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.InjectionInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.SetInjectionScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.SetInjectNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.SelectPetToInjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.PetInjectionScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.PetInjectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.ScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.medical.MedicalRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.shop.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.shop.ProductDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.statichealth.StaticHealthDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.statichealth.AddStaticHealthActity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.statichealth.StaticHealthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.shop.OrderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.shop.OrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.shop.ShopActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.nutrition.NutritionDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.veterinarian.VeterinarianDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.veterinarian.ListVeterinarianActivity"
+            android:exported="false"
+            android:theme="@style/Theme.PetManagement" />
+        <activity
+            android:name=".activity.notification.NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.diseases.DiseasesDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.nutrition.NutritionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.pet.UpdatePetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.pet.PetDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.pet.AddNewPetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.login.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.pet.ManagePetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
