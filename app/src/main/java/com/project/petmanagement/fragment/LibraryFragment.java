@@ -18,7 +18,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapter.LibraryRecyclerViewAdapter;
 import com.project.petmanagement.model.Diseases;
 import com.project.petmanagement.model.Species;
-import com.project.petmanagement.response.ListSpeciesResponse;
+import com.project.petmanagement.payload.response.ListSpeciesResponse;
 import com.project.petmanagement.services.ApiService;
 
 import java.util.ArrayList;

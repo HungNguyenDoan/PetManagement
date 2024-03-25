@@ -9,8 +9,7 @@ public class Pet {
     private String fullname;
     private Long userId;
     private Date dateOfBirth;
-    private String description;
-    private Long specesId;
+    private Long speciesId;
     private Date createAt;
     private Date updateAt;
     private Integer isActive;
@@ -26,15 +25,15 @@ public class Pet {
         this.gender = gender;
         this.neutered = neutered;
         this.avatar = avatar;
-        this.specesId = speciesId;
+        this.speciesId = speciesId;
     }
 
-    public Long getSpecesId() {
-        return specesId;
+    public Long getSpeciesId() {
+        return speciesId;
     }
 
-    public void setSpecesId(Long specesId) {
-        this.specesId = specesId;
+    public void setSpeciesId(Long specesId) {
+        this.speciesId = specesId;
     }
 
     public String getSpeciesName() {
@@ -77,13 +76,6 @@ public class Pet {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Date getCreateAt() {
         return createAt;

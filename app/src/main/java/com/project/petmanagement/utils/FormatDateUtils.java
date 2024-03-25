@@ -25,4 +25,8 @@ public class FormatDateUtils {
         String date1 = sdf.format(date);
         return date1;
     }
+
+//    public static calulatorAge(Date date){
+//
+//    }
 }

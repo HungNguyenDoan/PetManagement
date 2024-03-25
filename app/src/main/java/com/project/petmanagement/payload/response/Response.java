@@ -1,4 +1,4 @@
-package com.project.petmanagement.response;
+package com.project.petmanagement.payload.response;
 
 public class Response {
     private String message;

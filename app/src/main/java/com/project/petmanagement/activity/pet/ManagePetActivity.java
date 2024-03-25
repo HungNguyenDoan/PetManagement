@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapter.ManagePetRecyclerViewAdapter;
 import com.project.petmanagement.model.Pet;
-import com.project.petmanagement.response.ListPetResponse;
+import com.project.petmanagement.payload.response.ListPetResponse;
 import com.project.petmanagement.services.ApiService;
 
 import java.util.List;
@@ -156,4 +156,10 @@ public class ManagePetActivity extends AppCompatActivity {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPetList();
+    }
 }

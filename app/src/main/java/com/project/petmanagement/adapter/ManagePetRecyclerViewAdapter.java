@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.pet.PetDetailsActivity;
 import com.project.petmanagement.model.Pet;
+import com.project.petmanagement.utils.ImageUtils;
 
 import java.util.List;
 
@@ -36,13 +37,15 @@ public class ManagePetRecyclerViewAdapter extends RecyclerView.Adapter<ManagePet
     @Override
     public void onBindViewHolder(@NonNull PetViewHolder holder, int position) {
         Pet pet = petList.get(position);
-        holder.imagePet.setImageResource(R.drawable.backgroud_login);
+        if(pet.getAvatar()!=null){
+            holder.imagePet.setImageBitmap(ImageUtils.decodeBase64(pet.getAvatar()));
+        }
         holder.namePet.setText(pet.getFullname());
-//        if(pet.getGender().equals("Male")){
-//            holder.imageGenderPet.setImageResource(R.drawable.baseline_male_24);
-//        }else{
-//            holder.imageGenderPet.setImageResource(R.drawable.baseline_female_24);
-//        }
+        if(pet.getGender()==1){
+            holder.imageGenderPet.setImageResource(R.drawable.baseline_male_24);
+        }else{
+            holder.imageGenderPet.setImageResource(R.drawable.baseline_female_24);
+        }
 //        holder.ageAndWeight.setText(pet.ge());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

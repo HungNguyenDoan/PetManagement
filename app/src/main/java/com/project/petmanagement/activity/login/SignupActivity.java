@@ -20,9 +20,9 @@ import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.model.User;
-import com.project.petmanagement.model.UserSignup;
-import com.project.petmanagement.response.ErrorResponse;
-import com.project.petmanagement.response.UserResponse;
+import com.project.petmanagement.payload.request.UserSignup;
+import com.project.petmanagement.payload.response.ErrorResponse;
+import com.project.petmanagement.payload.response.UserResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
 

@@ -4,14 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.model.Pet;
-import com.project.petmanagement.model.UserLogin;
-import com.project.petmanagement.model.UserSignup;
-import com.project.petmanagement.response.FoodTypeResponse;
-import com.project.petmanagement.response.NutritionInfoResponse;
-import com.project.petmanagement.response.ListPetResponse;
-import com.project.petmanagement.response.PetResponse;
-import com.project.petmanagement.response.ListSpeciesResponse;
-import com.project.petmanagement.response.UserResponse;
+import com.project.petmanagement.payload.request.PetRequest;
+import com.project.petmanagement.payload.request.UserLogin;
+import com.project.petmanagement.payload.request.UserSignup;
+import com.project.petmanagement.payload.response.FoodTypeResponse;
+import com.project.petmanagement.payload.response.NutritionInfoResponse;
+import com.project.petmanagement.payload.response.ListPetResponse;
+import com.project.petmanagement.payload.response.PetResponse;
+import com.project.petmanagement.payload.response.ListSpeciesResponse;
+import com.project.petmanagement.payload.response.UserResponse;
 
 import java.io.IOException;
 
@@ -28,7 +29,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    String apiURLDeploy = "http://103.163.215.125/api/";
+//    String apiURLDeploy = "http://103.163.215.125/api/";
+    String apiURLDeploy = "http://192.151.62.100:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd")
@@ -64,5 +66,5 @@ public interface ApiService {
     @GET("pet/getPet")
     Call<ListPetResponse> getAllPetUser();
     @POST("pet/addPet")
-    Call<PetResponse> addPet(@Body Pet pet);
+    Call<PetResponse> addPet(@Body PetRequest petRequest);
 }

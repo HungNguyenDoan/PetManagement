@@ -1,4 +1,4 @@
-package com.project.petmanagement.model;
+package com.project.petmanagement.payload.request;
 
 public class UserLogin {
     private  String username;

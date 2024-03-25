@@ -13,14 +13,12 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,8 +34,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.model.Pet;
 import com.project.petmanagement.model.Species;
-import com.project.petmanagement.response.ListSpeciesResponse;
-import com.project.petmanagement.response.PetResponse;
+import com.project.petmanagement.payload.request.PetRequest;
+import com.project.petmanagement.payload.response.ListSpeciesResponse;
+import com.project.petmanagement.payload.response.PetResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -46,11 +45,9 @@ import com.project.petmanagement.utils.ImageUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -133,11 +130,7 @@ public class AddNewPetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validation()){
-                    try {
-                        addPet();
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                    addPet();
                 }
             }
         });
@@ -148,14 +141,22 @@ public class AddNewPetActivity extends AppCompatActivity {
             }
         });
     }
-    private void addPet() throws ParseException {
+    private void addPet() {
         String namePetString = namePet.getText().toString().trim();
         long speciesId = breeds.get(breedView.getText().toString()).getId();
-        // Đang lỗi
-        Date dateOfBirth = FormatDateUtils.StringToDate1(dob.getText().toString().trim());
+        Date dateOfBirth = null;
+        try {
+            dateOfBirth = FormatDateUtils.StringToDate1(dob.getText().toString().trim());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         String dateOfBirth1 = FormatDateUtils.DateToString1(dateOfBirth);
-        Date dateOfBirth2 = FormatDateUtils.StringToDate(dateOfBirth1);
-        Toast.makeText(this, dateOfBirth2.getTime()+"", Toast.LENGTH_SHORT).show();
+        Date dateOfBirth2 = null;
+        try {
+            dateOfBirth2 = FormatDateUtils.StringToDate(dateOfBirth1);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         String weightString = weight.getText().toString();
         int selectGenderId = gender.getCheckedRadioButtonId();
         int selectNeuteredId = neutered.getCheckedRadioButtonId();
@@ -169,13 +170,14 @@ public class AddNewPetActivity extends AppCompatActivity {
         if(neuteredButton.getText().toString().equals("Rồi")){
             neuteredId = 1;
         }
-        Pet pet = new Pet(namePetString, dateOfBirth2, genderInt, neuteredId, avatarBase64, speciesId);
-        ApiService.apiService.addPet(pet).enqueue(new Callback<PetResponse>() {
+        PetRequest petRequest = new PetRequest(namePetString, dateOfBirth2, genderInt, neuteredId, avatarBase64, speciesId);
+        ApiService.apiService.addPet(petRequest).enqueue(new Callback<PetResponse>() {
             @Override
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
                 if(response.isSuccessful()){
-                    PetResponse petResponse = response.body();
                     Toast.makeText(AddNewPetActivity.this, "Thêm thú cưng thành công", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(AddNewPetActivity.this, response.code()+" "+response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
             @Override

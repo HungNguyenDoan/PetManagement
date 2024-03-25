@@ -22,8 +22,8 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapter.NutritionsRecyclerViewAdapter;
 import com.project.petmanagement.model.FoodType;
 import com.project.petmanagement.model.NutritionInfo;
-import com.project.petmanagement.response.FoodTypeResponse;
-import com.project.petmanagement.response.NutritionInfoResponse;
+import com.project.petmanagement.payload.response.FoodTypeResponse;
+import com.project.petmanagement.payload.response.NutritionInfoResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
 
