@@ -1,6 +1,6 @@
 package com.project.petmanagement.payload.response;
 
-import com.project.petmanagement.model.User;
+import com.project.petmanagement.models.User;
 
 public class UserResponse extends Response{
 

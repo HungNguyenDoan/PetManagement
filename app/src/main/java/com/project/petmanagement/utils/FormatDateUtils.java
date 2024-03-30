@@ -1,7 +1,14 @@
 package com.project.petmanagement.utils;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 
@@ -26,7 +33,19 @@ public class FormatDateUtils {
         return date1;
     }
 
-//    public static calulatorAge(Date date){
-//
-//    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String calculate(Date dateOfBirth){
+        LocalDate dob = dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nowDate = LocalDate.now();
+        Period period = Period.between(dob, nowDate);
+        String age = "";
+        if(period.getYears()!=0){
+            age+= period.getYears()+" Năm tuổi";
+        }else if(period.getMonths()!=0){
+            age+=period.getMonths()+" Tháng tuổi";
+        } else {
+            age+=period.getDays() +" Ngày tuổi";
+        }
+        return age;
+    }
 }

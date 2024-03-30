@@ -21,8 +21,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapter.StaticHealthAdapter;
-import com.project.petmanagement.model.HealthRecord;
+import com.project.petmanagement.adapters.StaticHealthAdapter;
+import com.project.petmanagement.models.HealthRecord;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

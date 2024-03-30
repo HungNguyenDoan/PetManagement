@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.project.petmanagement.model.User;
+import com.project.petmanagement.models.User;
 
 public class StorageService {
     private static  final String MY_SHARED_PREFERENCE = "petmanagement";

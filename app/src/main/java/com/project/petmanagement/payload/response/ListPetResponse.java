@@ -1,6 +1,6 @@
 package com.project.petmanagement.payload.response;
 
-import com.project.petmanagement.model.Pet;
+import com.project.petmanagement.models.Pet;
 
 import java.util.List;
 

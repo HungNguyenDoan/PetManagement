@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
-import com.project.petmanagement.model.User;
+import com.project.petmanagement.models.User;
 import com.project.petmanagement.payload.request.UserLogin;
 import com.project.petmanagement.payload.response.UserResponse;
 import com.project.petmanagement.services.ApiService;

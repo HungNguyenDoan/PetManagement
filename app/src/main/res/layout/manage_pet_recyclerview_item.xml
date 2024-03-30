@@ -53,10 +53,10 @@
                 android:layout_marginEnd="2dp"
                 />
             <TextView
-                android:id="@+id/age_and_weight"
+                android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6 ngày tuổi - 60kg"
+                android:text="6 ngày tuổi"
                 android:textSize="13sp"
                 android:textColor="@color/black"
                 />

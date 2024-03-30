@@ -3,7 +3,6 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
-import com.project.petmanagement.model.Pet;
 import com.project.petmanagement.payload.request.PetRequest;
 import com.project.petmanagement.payload.request.UserLogin;
 import com.project.petmanagement.payload.request.UserSignup;
@@ -26,11 +25,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
 //    String apiURLDeploy = "http://103.163.215.125/api/";
-    String apiURLDeploy = "http://192.151.62.100:8080/";
+    String apiURLDeploy = "http://192.151.62.102:8080/";
+//    String apiURLDeploy = "http://10.20.83.92:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd")
@@ -67,4 +68,10 @@ public interface ApiService {
     Call<ListPetResponse> getAllPetUser();
     @POST("pet/addPet")
     Call<PetResponse> addPet(@Body PetRequest petRequest);
+    @GET("pet/{id}")
+    Call<PetResponse> getPetDetail(@Path("id") Long id);
+    @POST("pet/updatePet/{id}")
+    Call<PetResponse> updatePet(@Body PetRequest petRequest, @Path("id") Long id);
+    @POST("pet/deletePet/{petId}")
+    Call<PetResponse> deletePet(@Path("petId") Long petId);
 }

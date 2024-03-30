@@ -6,14 +6,11 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapter.ViewPagerAdapter;
+import com.project.petmanagement.adapters.ViewPagerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,6 +1,6 @@
 package com.project.petmanagement.payload.response;
 
-import com.project.petmanagement.model.NutritionInfo;
+import com.project.petmanagement.models.NutritionInfo;
 
 import java.util.List;
 

@@ -6,13 +6,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapter.ShopViewpagerAdapter;
-import com.project.petmanagement.fragment.ShopHomeFragment;
+import com.project.petmanagement.adapters.ShopViewpagerAdapter;
 
 public class ShopActivity extends AppCompatActivity {
 

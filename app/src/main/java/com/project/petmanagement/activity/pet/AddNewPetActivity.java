@@ -32,8 +32,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
-import com.project.petmanagement.model.Pet;
-import com.project.petmanagement.model.Species;
+import com.project.petmanagement.models.Species;
 import com.project.petmanagement.payload.request.PetRequest;
 import com.project.petmanagement.payload.response.ListSpeciesResponse;
 import com.project.petmanagement.payload.response.PetResponse;
@@ -96,7 +95,6 @@ public class AddNewPetActivity extends AppCompatActivity {
         species = new LinkedHashMap<>();
         breeds = new LinkedHashMap<>();
         namePet = findViewById(R.id.name_pet);
-        weight = findViewById(R.id.weight);
         avatar = findViewById(R.id.image_pet);
         btnAdd = findViewById(R.id.btn_add);
         neutered = findViewById(R.id.neutered);
@@ -157,7 +155,6 @@ public class AddNewPetActivity extends AppCompatActivity {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        String weightString = weight.getText().toString();
         int selectGenderId = gender.getCheckedRadioButtonId();
         int selectNeuteredId = neutered.getCheckedRadioButtonId();
         int genderInt = 0;

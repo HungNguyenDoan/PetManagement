@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapter.PaymentItemAdapter;
-import com.project.petmanagement.model.CartItem;
-import com.project.petmanagement.model.Product;
+import com.project.petmanagement.adapters.PaymentItemAdapter;
+import com.project.petmanagement.models.CartItem;
+import com.project.petmanagement.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;

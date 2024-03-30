@@ -54,6 +54,7 @@
                     tools:ignore="ContentDescription"
                     />
                 <ImageView
+                    android:id="@+id/camera"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/baseline_camera_alt_24"
@@ -76,14 +77,15 @@
                     android:layout_width="match_parent"
                     android:hint="@string/name_pet"
                     android:layout_marginTop="20dp"
+                    app:endIconMode="clear_text"
                     app:hintTextColor="@color/green"
                     app:boxStrokeColor="@color/green"
                     android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name_pet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:text="Pet 1"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,8 +103,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="none"
+                        android:focusableInTouchMode="false"
                         android:focusable="false"
-                        android:text="Chó"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -120,7 +122,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:focusable="false"
-                        android:text="Chó 1"
+                        android:focusableInTouchMode="false"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
@@ -136,22 +138,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:drawableEnd="@drawable/baseline_date_range_24"
-                        android:text="01/01/2024"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:hint="@string/weight"
-                    android:layout_marginTop="20dp"
-                    app:hintTextColor="@color/green"
-                    app:boxStrokeColor="@color/green"
-                    android:layout_height="wrap_content">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:text="20"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
@@ -170,6 +158,7 @@
                         android:layout_gravity="center_vertical"
                         />
                     <RadioGroup
+                        android:id="@+id/gender"
                         android:theme="@style/Base.Theme.PetManagement"
                         android:weightSum="2"
                         android:orientation="horizontal"
@@ -177,7 +166,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
                         <RadioButton
-                            android:checked="true"
+                            android:id="@+id/male"
                             android:buttonTint="@color/radiobuton_selector"
                             android:layout_weight="1"
                             android:layout_width="0dp"
@@ -186,6 +175,7 @@
                             android:textSize="16sp"
                             />
                         <RadioButton
+                            android:id="@+id/female"
                             android:buttonTint="@color/radiobuton_selector"
                             android:layout_weight="1"
                             android:layout_width="0dp"
@@ -211,6 +201,7 @@
                         android:layout_gravity="center_vertical"
                         tools:ignore="HardcodedText" />
                     <RadioGroup
+                        android:id="@+id/neutered"
                         android:theme="@style/Base.Theme.PetManagement"
                         android:weightSum="2"
                         android:orientation="horizontal"
@@ -218,7 +209,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
                         <RadioButton
-                            android:checked="true"
+                            android:id="@+id/neuter"
                             android:buttonTint="@color/radiobuton_selector"
                             android:layout_weight="1"
                             android:layout_width="0dp"
@@ -227,6 +218,7 @@
                             android:textSize="16sp"
                             tools:ignore="HardcodedText" />
                         <RadioButton
+                            android:id="@+id/entire"
                             android:buttonTint="@color/radiobuton_selector"
                             android:layout_weight="1"
                             android:layout_width="0dp"
@@ -239,6 +231,7 @@
 
                 </LinearLayout>
                 <Button
+                    android:id="@+id/btn_update"
                     android:textColor="@color/white"
                     android:background="@drawable/btn_login_custom"
                     android:layout_marginVertical="20dp"
@@ -247,7 +240,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

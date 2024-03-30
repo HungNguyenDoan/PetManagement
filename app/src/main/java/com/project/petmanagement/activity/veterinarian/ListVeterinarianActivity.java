@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapter.ListVererinarianAdapter;
-import com.project.petmanagement.model.Veterinatian;
+import com.project.petmanagement.adapters.ListVererinarianAdapter;
+import com.project.petmanagement.models.Veterinatian;
 
 import java.util.ArrayList;
 import java.util.List;

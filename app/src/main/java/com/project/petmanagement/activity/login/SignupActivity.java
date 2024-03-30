@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
-import com.project.petmanagement.model.User;
+import com.project.petmanagement.models.User;
 import com.project.petmanagement.payload.request.UserSignup;
 import com.project.petmanagement.payload.response.ErrorResponse;
 import com.project.petmanagement.payload.response.UserResponse;

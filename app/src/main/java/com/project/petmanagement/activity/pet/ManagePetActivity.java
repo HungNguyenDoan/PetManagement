@@ -17,13 +17,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapter.ManagePetRecyclerViewAdapter;
-import com.project.petmanagement.model.Pet;
+import com.project.petmanagement.adapters.ManagePetRecyclerViewAdapter;
+import com.project.petmanagement.models.Pet;
 import com.project.petmanagement.payload.response.ListPetResponse;
+import com.project.petmanagement.payload.response.PetResponse;
 import com.project.petmanagement.services.ApiService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,12 +71,24 @@ public class ManagePetActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
+            // text change
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if(s.toString().isEmpty()){
+                    managePetRecyclerViewAdapter.setData(pets);
+                    Objects.requireNonNull(petRecyclerView.getAdapter()).notifyDataSetChanged();
+                }else{
+                    List<Pet> listPetSearch = new ArrayList<>();
+                    for(Pet pet: pets){
+                        if(pet.getFullname().contains(s)){
+                            listPetSearch.add(pet);
+                            managePetRecyclerViewAdapter.setData(listPetSearch);
+                            Objects.requireNonNull(petRecyclerView.getAdapter()).notifyDataSetChanged();
+                        }
+                    }
+                }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -104,6 +119,7 @@ public class ManagePetActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
     private void getPetList(){
         ApiService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
@@ -139,8 +155,21 @@ public class ManagePetActivity extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getBindingAdapterPosition();
             if(direction == ItemTouchHelper.LEFT){
-                pets.remove(position);
-                Objects.requireNonNull(petRecyclerView.getAdapter()).notifyDataSetChanged();
+                ApiService.apiService.deletePet(pets.get(position).getId()).enqueue(new Callback<PetResponse>() {
+                    @Override
+                    public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(ManagePetActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                            pets.remove(position);
+                            Objects.requireNonNull(petRecyclerView.getAdapter()).notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PetResponse> call, Throwable t) {
+
+                    }
+                });
             }
         }
 

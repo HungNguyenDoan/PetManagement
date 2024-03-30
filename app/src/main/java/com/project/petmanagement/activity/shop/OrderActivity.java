@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapter.ListOrderAdapter;
-import com.project.petmanagement.model.Order;
-import com.project.petmanagement.model.OrderDetail;
-import com.project.petmanagement.model.Product;
+import com.project.petmanagement.adapters.ListOrderAdapter;
+import com.project.petmanagement.models.Order;
+import com.project.petmanagement.models.OrderDetail;
+import com.project.petmanagement.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;

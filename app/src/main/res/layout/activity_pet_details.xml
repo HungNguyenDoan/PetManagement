@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".activity.pet.PetDetailsActivity">
     <androidx.appcompat.widget.Toolbar
@@ -51,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/image_pet"
                 android:scaleType="fitXY"
                 android:src="@drawable/backgroud_login"
                 android:layout_width="match_parent"
@@ -71,6 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:id="@+id/name_pet"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -78,6 +81,7 @@
                         android:textSize="25sp"
                         />
                     <TextView
+                        android:id="@+id/species"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/breed"
