@@ -21,7 +21,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,9 +44,12 @@ import com.project.petmanagement.payload.response.PetResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
-import com.project.petmanagement.utils.ImageUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,8 +79,11 @@ public class AddNewPetActivity extends AppCompatActivity {
     private Button btnAdd;
     private RadioGroup gender, neutered;
     private ImageView openCamera;
+    private Bitmap imagePet;
+    private String urlImage;
     private final static int CAMERA_PERMISSION_REQUEST_CODE = 100;
-    private final static int GALLERY_PERMISSION_REQUEST_CODE = 101;
+    private final static int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 101;
+    private final static int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 102;
 
     private ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -83,9 +91,8 @@ public class AddNewPetActivity extends AppCompatActivity {
             if(o.getResultCode() == Activity.RESULT_OK){
                 Bundle bundle = o.getData().getExtras();
                 if (bundle!=null){
-                    Bitmap image = (Bitmap) bundle.get("data");
-                    avatar.setImageBitmap(image);
-                    avatarBase64 = ImageUtils.endcodeBase64(image);
+                    imagePet = (Bitmap) bundle.get("data");
+                    avatar.setImageBitmap(imagePet);
                 }
             }
         }
@@ -96,9 +103,8 @@ public class AddNewPetActivity extends AppCompatActivity {
             if(o.getResultCode() == Activity.RESULT_OK){
                 Uri uri = o.getData().getData();
                 try {
-                    Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                    avatar.setImageBitmap(image);
-                    avatarBase64 = ImageUtils.endcodeBase64(image);
+                    imagePet = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                    avatar.setImageBitmap(imagePet);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -176,6 +182,16 @@ public class AddNewPetActivity extends AppCompatActivity {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R){
+            if(ContextCompat.checkSelfPermission(AddNewPetActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                saveImage();
+            }else{
+                ActivityCompat.requestPermissions(AddNewPetActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
+            }
+        }else{
+            saveImage();
+        }
+
         int selectGenderId = gender.getCheckedRadioButtonId();
         int selectNeuteredId = neutered.getCheckedRadioButtonId();
         int genderInt = 0;
@@ -290,7 +306,7 @@ public class AddNewPetActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
                             if(ContextCompat.checkSelfPermission(AddNewPetActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                                ActivityCompat.requestPermissions(AddNewPetActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSION_REQUEST_CODE);
+                                ActivityCompat.requestPermissions(AddNewPetActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
                             }else{
                                 startGallery();
                             }
@@ -336,11 +352,45 @@ public class AddNewPetActivity extends AppCompatActivity {
             }else{
                 Toast.makeText(this, "Camera permission denied.", Toast.LENGTH_SHORT).show();
             }
-        } else if (requestCode == GALLERY_PERMISSION_REQUEST_CODE) {
+        } else if (requestCode == READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE) {
             if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 startGallery();
             }else{
                 Toast.makeText(this, "Gallery permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE) {
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                startGallery();
+            }else{
+                Toast.makeText(this, "Gallery permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void saveImage(){
+        File dir = new File(getFilesDir(), "pet_image");
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+        if(imagePet != null){
+            File file = new File(dir, "pet_"+ System.currentTimeMillis()+".jpg");
+            OutputStream outputStream;
+            try {
+                outputStream = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            imagePet.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+            urlImage = file.getAbsolutePath();
+            Log.d("ddddddddddd", urlImage);
+            try {
+                outputStream.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }

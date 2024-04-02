@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
@@ -47,6 +48,8 @@ public class ManagePetRecyclerViewAdapter extends RecyclerView.Adapter<ManagePet
         final Pet pet = petList.get(position);
         if(pet.getAvatar()!=null){
             holder.imagePet.setImageBitmap(ImageUtils.decodeBase64(pet.getAvatar()));
+        }else{
+            holder.imagePet.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.no_image));
         }
         holder.namePet.setText(pet.getFullname());
         if(pet.getGender()==1){
