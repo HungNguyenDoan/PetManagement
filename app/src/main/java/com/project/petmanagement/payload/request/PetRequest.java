@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PetRequest {
     private String fullname;
-    private Date dateOfBirth;
+    private Date dob;
     private Long speciesId;
     private String description;
     private Integer gender;
@@ -13,7 +13,7 @@ public class PetRequest {
 
     public PetRequest(String fullname, Date dateOfBirth,  Integer gender, Integer neutered, String avatar, Long speciesId) {
         this.fullname = fullname;
-        this.dateOfBirth = dateOfBirth;
+        this.dob = dateOfBirth;
         this.gender = gender;
         this.neutered = neutered;
         this.avatar = avatar;
@@ -28,12 +28,12 @@ public class PetRequest {
         this.fullname = fullname;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Date getDob() {
+        return dob;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public Long getSpeciesId() {

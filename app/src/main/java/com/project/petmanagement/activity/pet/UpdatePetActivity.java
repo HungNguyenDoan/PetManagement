@@ -17,6 +17,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -44,6 +47,7 @@ import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 import com.project.petmanagement.utils.ImageUtils;
 
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +79,8 @@ public class UpdatePetActivity extends AppCompatActivity {
     private Pet pet;
     private long idPet;
     private final static int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private final static int GALLERY_PERMISSION_REQUEST_CODE = 101;
+
     private ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
@@ -84,6 +90,21 @@ public class UpdatePetActivity extends AppCompatActivity {
                     Bitmap image = (Bitmap) bundle.get("data");
                     avatar.setImageBitmap(image);
                     avatarBase64 = ImageUtils.endcodeBase64(image);
+                }
+            }
+        }
+    });
+    private ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult o) {
+            if(o.getResultCode() == Activity.RESULT_OK){
+                Uri uri = o.getData().getData();
+                try {
+                    Bitmap image = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                    avatar.setImageBitmap(image);
+                    avatarBase64 = ImageUtils.endcodeBase64(image);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -328,7 +349,15 @@ public class UpdatePetActivity extends AppCompatActivity {
                 .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                            if(ContextCompat.checkSelfPermission(UpdatePetActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                                ActivityCompat.requestPermissions(UpdatePetActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSION_REQUEST_CODE);
+                            }else{
+                                startGallery();
+                            }
+                        }else {
+                            startGallery();
+                        }
                     }
                 })
                 .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
@@ -354,7 +383,10 @@ public class UpdatePetActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraLauncher.launch(intent);
     }
-
+    public void startGallery(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryLauncher.launch(intent);
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

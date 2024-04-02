@@ -50,7 +50,8 @@ public class ProfileFragment extends Fragment {
         User user = storageService.getUser("user");
         if(user != null){
             fullName.setText(user.getFullName());
-            phoneNumber.setText(user.getPhonenumber());
+            String phone = "+84 " + user.getPhonenumber().substring(1,4)+" xxx xxx";
+            phoneNumber.setText(phone);
             btnLogin.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
         }else{

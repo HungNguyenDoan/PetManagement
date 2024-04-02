@@ -30,7 +30,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 //    String apiURLDeploy = "http://103.163.215.125/api/";
-    String apiURLDeploy = "http://192.151.62.102:8080/";
+    String apiURLDeploy = "http://192.151.62.101:8080/";
 //    String apiURLDeploy = "http://10.20.83.92:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
