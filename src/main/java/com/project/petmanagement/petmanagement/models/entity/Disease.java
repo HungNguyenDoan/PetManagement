@@ -1,0 +1,39 @@
+package com.project.petmanagement.petmanagement.models.entity;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Entity
+@Table(name = "diseases")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Disease {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "sypmtoms", nullable = false)
+    private String symptoms;
+
+    @OneToMany(mappedBy = "disease", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Treatment> treatments;
+
+    @ManyToOne
+    @JoinColumn(name = "species_id", referencedColumnName = "id")
+    private Species species;
+}
