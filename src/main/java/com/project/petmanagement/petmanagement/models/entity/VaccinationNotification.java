@@ -1,7 +1,6 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.project.petmanagement.petmanagement.models.enums.VaccinationStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +21,4 @@ public class VaccinationNotification extends Notification{
     @OneToMany(mappedBy = "vaccinationNotification", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<OneTimeSchedule> schedules;
-
-    @Column(name = "status", nullable = false)
-    private VaccinationStatusEnum status;
 }

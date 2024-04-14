@@ -25,4 +25,7 @@ public class Notification {
 
     @Column(name = "note")
     private String note;
+
+    @Column(name = "status", nullable = false)
+    private Boolean status;
 }

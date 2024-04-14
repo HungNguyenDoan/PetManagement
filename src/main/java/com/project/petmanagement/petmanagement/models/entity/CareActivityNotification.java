@@ -20,7 +20,4 @@ public class CareActivityNotification extends Notification{
 
     @OneToOne(mappedBy = "careActivityNotification")
     private RecurringSchedule schedule;
-
-    @Column(name = "status", nullable = false)
-    private Boolean status;
 }
