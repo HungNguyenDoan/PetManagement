@@ -8,9 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-@Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product extends BaseEntity {

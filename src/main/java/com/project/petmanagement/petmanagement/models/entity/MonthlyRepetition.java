@@ -9,7 +9,6 @@ import java.sql.Time;
 
 @Entity
 @Table(name = "monthly_repetition")
-@Builder
 @Getter
 @Setter
 @AllArgsConstructor

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.petmanagement.petmanagement.models.FoodType;
+import com.project.petmanagement.petmanagement.models.entity.FoodType;
 import com.project.petmanagement.petmanagement.repositories.FoodTypeRepository;
 
 import lombok.RequiredArgsConstructor;

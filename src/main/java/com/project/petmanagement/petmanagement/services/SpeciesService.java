@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.petmanagement.petmanagement.models.Species;
+import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.repositories.SpeciesRepository;
 
 import lombok.RequiredArgsConstructor;

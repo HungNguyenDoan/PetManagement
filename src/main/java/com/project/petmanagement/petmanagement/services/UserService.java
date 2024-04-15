@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.models.entity.User;
@@ -39,6 +40,7 @@ public class UserService implements UserDetailsService {
         return new JWTUserDetail(user);
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public void register(RegisterRequest request) throws Exception{
         Role userRole = roleRepository.findById(1L).orElseThrow(() -> new DataNotFoundException("Can not find role with ID: " + 1L));
         User user = User.builder()

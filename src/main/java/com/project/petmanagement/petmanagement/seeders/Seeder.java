@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class Seeder implements CommandLineRunner {
     private final RoleSeeder roleSeeder;
     private final FoodTypeSeeder foodTypeSeeder;
-    private final NutritionInfoSeeder nutritionInfoSeeder;
+    private final NutritiousFoodSeeder nutritionInfoSeeder;
     private final SpeciesSeeder speciesSeeder;
 
     @Override

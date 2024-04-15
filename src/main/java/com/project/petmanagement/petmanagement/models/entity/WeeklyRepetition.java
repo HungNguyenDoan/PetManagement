@@ -10,9 +10,6 @@ import java.time.DayOfWeek;
 
 @Entity
 @Table(name = "weekly_repetition")
-@Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeeklyRepetition extends Repetition {

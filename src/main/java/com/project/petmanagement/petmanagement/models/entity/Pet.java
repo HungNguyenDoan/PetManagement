@@ -2,16 +2,17 @@ package com.project.petmanagement.petmanagement.models.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "pets")
-@Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class Pet extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

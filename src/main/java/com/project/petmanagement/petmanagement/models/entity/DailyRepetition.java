@@ -9,9 +9,6 @@ import java.sql.Time;
 
 @Entity
 @Table(name = "daily_repetition")
-@Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DailyRepetition extends Repetition{

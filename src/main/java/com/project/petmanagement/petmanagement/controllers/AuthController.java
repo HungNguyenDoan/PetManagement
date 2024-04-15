@@ -52,8 +52,8 @@ public class AuthController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) throws Exception {
         userService.register(request);
-        return login(new LoginRequest(request.getPhonenumber(), request.getPassword()));
+        return login(new LoginRequest(request.getPhoneNumber(), request.getPassword()));
     }
 }

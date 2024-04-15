@@ -8,9 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "care_activity_notifications")
-@Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CareActivityNotification extends Notification{

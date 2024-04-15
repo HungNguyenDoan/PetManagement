@@ -8,9 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "vaccination_notifications")
-@Builder
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class VaccinationNotification extends Notification{

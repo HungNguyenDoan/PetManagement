@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.petmanagement.petmanagement.models.Species;
+import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.payloads.responses.SpeciesResponse;
 import com.project.petmanagement.petmanagement.services.SpeciesService;
 
