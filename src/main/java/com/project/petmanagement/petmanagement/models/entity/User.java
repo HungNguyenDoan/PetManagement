@@ -3,14 +3,14 @@ package com.project.petmanagement.petmanagement.models.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.petmanagement.petmanagement.constraints.Unique;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
