@@ -1,16 +1,15 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "pets")
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pet extends BaseEntity {
@@ -25,7 +24,6 @@ public class Pet extends BaseEntity {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "breed_id", referencedColumnName = "id")
     private Breed breed;

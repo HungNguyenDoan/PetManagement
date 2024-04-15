@@ -1,76 +1,75 @@
 package com.project.petmanagement.petmanagement.services;
 
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
-import com.project.petmanagement.petmanagement.models.Pet;
+import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
+import com.project.petmanagement.petmanagement.models.entity.Breed;
+import com.project.petmanagement.petmanagement.models.entity.Pet;
+import com.project.petmanagement.petmanagement.payloads.requests.PetRequest;
+import com.project.petmanagement.petmanagement.repositories.BreedRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
-
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class PetService {
-    @Autowired
-    private PetRepository petsRepository;
+    private final PetRepository petsRepository;
+    private final BreedRepository breedRepository;
 
-    public List<Pet> getPetsByUserId() {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
-            return petsRepository.getPetsByUserId(userDetail.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public List<Pet> getPetsByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
+        return petsRepository.findByUserOrderByIdDesc(userDetail.getUser());
     }
 
-    public Pet addPet(Pet pet) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
-            pet.setUserId(userDetail.getId());
-            pet.setCreatedAt(new Date());
-            pet.setUpdatedAt(new Date());
-            pet.setIsActive(1);
-            return petsRepository.saveAndFlush(pet);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Pet getPet(Long petId) throws Exception {
+        return petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
     }
 
-    public Pet getDetailPet(Long id) {
-        try {
-            return petsRepository.getDetailPet(id);
-        } catch (Exception e) {
-            return null;
-        }
-    }
     @Transactional
-    public Pet updatePet(Pet pet) {
-        try {
-            return petsRepository.saveAndFlush(pet);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Pet addPet(PetRequest petRequest) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
+        Breed breed = breedRepository.findById(petRequest.getBreedId()).orElseThrow(() -> new DataNotFoundException("Can not find breed with ID: " + petRequest.getBreedId()));
+        Pet pet = Pet.builder()
+                .user(userDetail.getUser())
+                .fullName(petRequest.getFullName())
+                .breed(breed)
+                .gender(petRequest.getGender())
+                .dateOfBirth(petRequest.getDateOfBirth())
+                .description(petRequest.getDescription())
+                .image(petRequest.getImage())
+                .neutered(petRequest.getIsNeutered())
+                .build();
+        return petsRepository.save(pet);
     }
 
-    public Pet deletePet(Long petId) {
-        try {
-            Pet pet = petsRepository.getReferenceById(petId);
-            pet.setIsActive(0);
-            return petsRepository.saveAndFlush(pet);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    @Transactional
+    public Pet updatePet(Long petId, PetRequest petRequest) throws Exception {
+        Pet existingPet = petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
+        if (existingPet != null) {
+            Breed breed = breedRepository.findById(petRequest.getBreedId()).orElseThrow(() -> new DataNotFoundException("Can not find breed with ID: " + petRequest.getBreedId()));
+            existingPet.setFullName(petRequest.getFullName());
+            existingPet.setBreed(breed);
+            existingPet.setGender(petRequest.getGender());
+            existingPet.setDateOfBirth(petRequest.getDateOfBirth());
+            existingPet.setDescription(petRequest.getDescription());
+            existingPet.setImage(petRequest.getImage());
+            existingPet.setNeutered(petRequest.getIsNeutered());
+            return petsRepository.save(existingPet);
         }
+        return null;
+    }
+
+    @Transactional
+    public Pet deletePet(Long petId) throws Exception {
+        Pet existingPet = petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
+        existingPet.setIsActive(false);
+        return petsRepository.save(existingPet);
     }
 }

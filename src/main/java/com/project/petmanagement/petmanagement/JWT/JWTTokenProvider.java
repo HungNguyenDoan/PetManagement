@@ -19,7 +19,7 @@ public class JWTTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
-        claims.put("role", userDetails.getUser().getRoleName());
+        claims.put("role", userDetails.getUser().getRole().getName());
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)

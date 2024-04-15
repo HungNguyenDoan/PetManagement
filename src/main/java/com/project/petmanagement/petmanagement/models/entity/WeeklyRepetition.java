@@ -3,9 +3,7 @@ package com.project.petmanagement.petmanagement.models.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
@@ -13,6 +11,8 @@ import java.time.DayOfWeek;
 @Entity
 @Table(name = "weekly_repetition")
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeeklyRepetition extends Repetition {

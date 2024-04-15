@@ -1,8 +1,15 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
+import lombok.*;
+
 import java.sql.Date;
 
-public class HealthStatistics extends HealthRecord{
+@Builder
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class HealthStatistics extends HealthRecord {
     private Date fromDate;
 
     private Date toDate;
