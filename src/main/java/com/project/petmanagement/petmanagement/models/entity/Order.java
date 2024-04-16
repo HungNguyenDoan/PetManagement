@@ -43,8 +43,10 @@ public class Order {
     private String phone;
 
     @Column(name = "payment_method", nullable = false)
+    @Enumerated(EnumType.STRING)
     private PaymentMethodEnum paymentMethod;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatusEnum status;
 }

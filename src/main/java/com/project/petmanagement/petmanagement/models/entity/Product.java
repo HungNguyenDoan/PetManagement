@@ -25,10 +25,11 @@ public class Product extends BaseEntity {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "image", length = 30000, nullable = false)
+    @Column(name = "image", length = 30000)
     private String image;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProductStatusEnum status;
 
     @Column(name = "description")

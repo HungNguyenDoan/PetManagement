@@ -21,7 +21,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         String queryString = "SELECT COUNT(*) FROM " + table + " WHERE " + fieldName + " = :value";
-        Long count = entityManager.createQuery(queryString, Long.class)
+        Long count = this.entityManager.createQuery(queryString, Long.class)
                 .setParameter("value", value)
                 .getSingleResult();
 

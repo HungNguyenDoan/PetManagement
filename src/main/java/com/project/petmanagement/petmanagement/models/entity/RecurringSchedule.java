@@ -22,6 +22,7 @@ public class RecurringSchedule {
     private String name;
 
     @Column(name = "frequency", nullable = false)
+    @Enumerated(EnumType.STRING)
     private FrequencyEnum frequency;
 
     @Column(name = "value", nullable = false)

@@ -21,24 +21,27 @@ import java.util.List;
 @RequestMapping("/food_types")
 @RequiredArgsConstructor
 public class FoodTypeController {
-    private final FoodTypeService foodTypeService;
-    private final NutritiousFoodService nutritiousFoodService;
-
-    @GetMapping("/")
-    public ResponseEntity<Object> getAllFoodTypes() {
-        List<FoodType> foodTypes = foodTypeService.getAllFoodTypes();
-        if (foodTypes.isEmpty()) {
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(500)
-                    .message("There is no food types in database.")
-                    .build();
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        DataResponse dataResponse = DataResponse.builder()
-                .status(HttpStatus.OK.value())
-                .message("Get all food types successfully")
-                .data(foodTypes)
-                .build();
-        return new ResponseEntity<>(dataResponse, HttpStatus.OK);
-    }
+//    private final FoodTypeService foodTypeService;
+//    private final NutritiousFoodService nutritiousFoodService;
+//
+//    @GetMapping("/")
+//    public ResponseEntity<Object> getAllFoodTypes() {
+//        List<FoodType> foodTypes = foodTypeService.getAllFoodTypes();
+//        if (foodTypes.isEmpty()) {
+//            ErrorResponse errorResponse = ErrorResponse.builder()
+//                    .status(500)
+//                    .message("There is no food types in database.")
+//                    .build();
+//            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        for(FoodType foodType: foodTypes){
+//            foodType.setNutritiousFoodList(nutritiousFoodService.);
+//        }
+//        DataResponse dataResponse = DataResponse.builder()
+//                .status(HttpStatus.OK.value())
+//                .message("Get all food types successfully")
+//                .data(foodTypes)
+//                .build();
+//        return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+//    }
 }

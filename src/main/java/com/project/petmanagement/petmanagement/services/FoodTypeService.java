@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class FoodTypeService {
-    private final FoodTypeRepository foodTypeRepository;
-
-    public List<FoodType> getAllFoodTypes() {
-        return new ArrayList<>(foodTypeRepository.findAll());
-    }
-
-    public FoodType getFoodTypeDetails(Long foodTypeId) throws DataNotFoundException {
-        return foodTypeRepository.findById(foodTypeId).orElseThrow(() -> new DataNotFoundException("Can not find food type details with ID: " + foodTypeId));
-    }
+//    private final FoodTypeRepository foodTypeRepository;
+//
+//    public List<FoodType> getAllFoodTypes() {
+//        return new ArrayList<>(foodTypeRepository.findAll());
+//    }
+//
+//    public FoodType getFoodTypeDetails(Long foodTypeId) throws DataNotFoundException {
+//        return foodTypeRepository.findById(foodTypeId).orElseThrow(() -> new DataNotFoundException("Can not find food type details with ID: " + foodTypeId));
+//    }
 }

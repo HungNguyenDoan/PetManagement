@@ -13,25 +13,26 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class NutritiousFoodService {
-    private final NutritiousFoodRepository nutritiousFoodRepository;
-
-    public List<NutritiousFood> getAllNutritiousFood() {
-        return nutritiousFoodRepository.findAll();
-    }
-
-    public NutritiousFood getNutritiousFoodDetails(Long nutritiousFoodId) throws DataNotFoundException {
-        return nutritiousFoodRepository.findById(nutritiousFoodId).orElseThrow(() -> new DataNotFoundException("Can not find nutritious food with ID: " + nutritiousFoodId));
-    }
-
-//    public List<NutritiousFood> searchNutritiousFood(String key, Long food_id) {
-//        if (food_id != null && key != null) {
-//            FoodType foodType = foodTypeRepository.getReferenceById(food_id);
-//            return nutritiousFoodRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrNutritionContainingIgnoreCaseOrIngredientContainingIgnoreCase(key, foodType);
-//        } else if (food_id != null) {
-//            FoodType foodType = foodTypeRepository.getReferenceById(food_id);
-//            return nutritiousFoodRepository.findByFoodType(foodType);
-//        } else {
-//            return nutritiousFoodRepository.findByNutritionNameContaining(key);
-//        }
+//    private final NutritiousFoodRepository nutritiousFoodRepository;
+//    private final FoodTypeRepository foodTypeRepository;
+//
+//    public List<NutritiousFood> getAllNutritiousFood() {
+//        return nutritiousFoodRepository.findAll();
 //    }
+//
+//    public NutritiousFood getNutritiousFoodDetails(Long nutritiousFoodId) throws DataNotFoundException {
+//        return nutritiousFoodRepository.findById(nutritiousFoodId).orElseThrow(() -> new DataNotFoundException("Can not find nutritious food with ID: " + nutritiousFoodId));
+//    }
+//
+////    public List<NutritiousFood> searchNutritiousFood(String key, Long food_id) {
+////        if (food_id != null && key != null) {
+////            FoodType foodType = foodTypeRepository.getReferenceById(food_id);
+////            return nutritiousFoodRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrNutritionContainingIgnoreCaseOrIngredientContainingIgnoreCase(key, foodType);
+////        } else if (food_id != null) {
+////            FoodType foodType = foodTypeRepository.getReferenceById(food_id);
+////            return nutritiousFoodRepository.findByFoodType(foodType);
+////        } else {
+////            return nutritiousFoodRepository.findByNutritionNameContaining(key);
+////        }
+////    }
 }

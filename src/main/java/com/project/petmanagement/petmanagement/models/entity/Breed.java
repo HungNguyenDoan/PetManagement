@@ -21,7 +21,7 @@ public class Breed {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "image", length = 30000, nullable = false)
+    @Column(name = "image", length = 30000, nullable = true)
     private String image;
 
     @ManyToOne
