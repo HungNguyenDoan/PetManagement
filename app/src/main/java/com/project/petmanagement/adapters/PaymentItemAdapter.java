@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.models.CartItem;
+import com.project.petmanagement.models.entity.CartItem;
 
 import java.util.List;
 

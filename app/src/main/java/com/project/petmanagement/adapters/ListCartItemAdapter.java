@@ -1,6 +1,7 @@
 package com.project.petmanagement.adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.models.CartItem;
+import com.project.petmanagement.models.entity.CartItem;
 import com.project.petmanagement.utils.FormatNumberUtils;
+import com.project.petmanagement.utils.ImageUtils;
 
 import java.util.List;
 
@@ -35,10 +36,11 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
         CartItem cartItem = cartItemList.get(position);
-        holder.imageProduct.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.thucan1));
+        holder.imageProduct.setImageBitmap(ImageUtils.decodeBase64(cartItem.getProduct().getImage()));
         holder.nameProduct.setText(cartItem.getProduct().getName());
         holder.quantity.setText(String.valueOf(cartItem.getQuantity()));
-        holder.price.setText(FormatNumberUtils.formatFloat(cartItem.getProduct().getPrice())+"đ");
+        String price1 = FormatNumberUtils.formatFloat(cartItem.getProduct().getPrice())+"đ";
+        holder.price.setText(price1);
         holder.btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +58,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cartItemList.remove(position);
+                cartItemList.remove(holder.getBindingAdapterPosition());
                 notifyDataSetChanged();
             }
         });

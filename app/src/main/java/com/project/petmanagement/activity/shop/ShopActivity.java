@@ -13,7 +13,6 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.ShopViewpagerAdapter;
 
 public class ShopActivity extends AppCompatActivity {
-
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
     @Override

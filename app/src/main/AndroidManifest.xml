@@ -144,7 +144,7 @@
             android:name=".activity.pet.AddNewPetActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.login.SignupActivity"
+            android:name=".activity.login.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".activity.login.LoginActivity"

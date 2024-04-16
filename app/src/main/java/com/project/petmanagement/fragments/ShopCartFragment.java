@@ -19,11 +19,17 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.activity.shop.PaymentActivity;
 import com.project.petmanagement.activity.shop.ShopActivity;
 import com.project.petmanagement.adapters.ListCartItemAdapter;
-import com.project.petmanagement.models.CartItem;
-import com.project.petmanagement.models.Product;
+import com.project.petmanagement.models.entity.Cart;
+import com.project.petmanagement.models.entity.CartItem;
+import com.project.petmanagement.payloads.responses.CartResponse;
+import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.utils.FormatNumberUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShopCartFragment extends Fragment {
 
@@ -31,6 +37,8 @@ public class ShopCartFragment extends Fragment {
     private ListCartItemAdapter cartItemAdapter;
     private ImageView btnBack;
     private TextView btnPayment;
+    private TextView totalPrices;
+    private Cart cart;
     public ShopCartFragment() {
     }
 
@@ -46,10 +54,8 @@ public class ShopCartFragment extends Fragment {
         carItemRecyclerView = view.findViewById(R.id.cart_item_recyclerview);
         btnBack = view.findViewById(R.id.btn_back);
         btnPayment = view.findViewById(R.id.btn_payment);
-        cartItemAdapter = new ListCartItemAdapter(getContext(), getList());
-        carItemRecyclerView.setAdapter(cartItemAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        carItemRecyclerView.setLayoutManager(layoutManager);
+        totalPrices = view.findViewById(R.id.total_price);
+        getCart();
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,18 +67,35 @@ public class ShopCartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireContext(), PaymentActivity.class);
+                intent.putExtra("cart", cart);
                 startActivity(intent);
             }
         });
     }
-    private List<CartItem> getList(){
-        List<CartItem> cartItems = new ArrayList<>();
-        Product product1 = new Product(1L, "Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy",210000d,3,"aaa","a");
-        cartItems.add(new CartItem(2L,product1,3,645000d));
-        Product product2 = new Product(2L, "Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy 2",210000d,1,"aaa","a");
-        cartItems.add(new CartItem(2L,product2,3,645000d));
-        Product product3 = new Product(2L, "Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy 2",210000d,1,"aaa","a");
-        cartItems.add(new CartItem(2L,product3,3,645000d));
-        return cartItems;
+    private void getCart(){
+        ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
+            @Override
+            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                if(response.isSuccessful()){
+                    CartResponse cartResponse = response.body();
+                    if(cartResponse!=null){
+                        cart = cartResponse.getData();
+                        List<CartItem> cartItems = cart.getCartItems();
+                        cartItemAdapter = new ListCartItemAdapter(getContext(), cartItems);
+                        carItemRecyclerView.setAdapter(cartItemAdapter);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        carItemRecyclerView.setLayoutManager(layoutManager);
+                        String totalPrice = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VND";
+                        totalPrices.setText(totalPrice);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 }

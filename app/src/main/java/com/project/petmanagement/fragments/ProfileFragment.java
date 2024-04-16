@@ -15,14 +15,14 @@ import androidx.fragment.app.Fragment;
 
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
+//import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
 import com.project.petmanagement.activity.login.LoginActivity;
 //import com.project.petmanagement.activity.NutritionDetailsActivity;
 import com.project.petmanagement.activity.MainActivity;
-import com.project.petmanagement.activity.pet.ManagePetActivity;
-import com.project.petmanagement.activity.nutrition.NutritionActivity;
+//import com.project.petmanagement.activity.pet.ManagePetActivity;
+//import com.project.petmanagement.activity.nutrition.NutritionActivity;
 import com.project.petmanagement.activity.shop.ShopActivity;
-import com.project.petmanagement.models.User;
+import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.services.StorageService;
 
 public class ProfileFragment extends Fragment {
@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
         User user = storageService.getUser("user");
         if(user != null){
             fullName.setText(user.getFullName());
-            String phone = "+84 " + user.getPhonenumber().substring(1,4)+" xxx xxx";
+            String phone = "+84 " + user.getPhoneNumber().substring(1,4)+" xxx xxx";
             phoneNumber.setText(phone);
             btnLogin.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
@@ -68,15 +68,15 @@ public class ProfileFragment extends Fragment {
         nutrition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), NutritionActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), NutritionActivity.class);
+//                startActivity(intent);
             }
         });
         veterinatian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ListVeterinarianActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), ListVeterinarianActivity.class);
+//                startActivity(intent);
             }
         });
         shop.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +89,8 @@ public class ProfileFragment extends Fragment {
         pet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ManagePetActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), ManagePetActivity.class);
+//                startActivity(intent);
             }
         });
         btnLogout.setOnClickListener(new View.OnClickListener() {

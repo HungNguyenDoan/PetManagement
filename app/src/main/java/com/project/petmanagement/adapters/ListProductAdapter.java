@@ -17,10 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.shop.ProductDetailActivity;
-import com.project.petmanagement.models.Product;
+import com.project.petmanagement.models.entity.Product;
+import com.project.petmanagement.payloads.responses.CartResponse;
+import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatNumberUtils;
+import com.project.petmanagement.utils.ImageUtils;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ProductViewHoler>{
     private List<Product> productList;
@@ -28,6 +35,10 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
     public ListProductAdapter(Context context, List<Product> productList){
         this.context = context;
         this.productList = productList;
+    }
+    public void setProductList(List<Product> productList){
+        this.productList = productList;
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -38,22 +49,35 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHoler holder, int position) {
-        Product product = productList.get(position);
-        holder.imageProduct.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.thucan1));
+        final Product product = productList.get(position);
+        holder.imageProduct.setImageBitmap(ImageUtils.decodeBase64(product.getImage()));
         holder.nameProduct.setText(product.getName());
-        String priceFormat = FormatNumberUtils.formatFloat(product.getPrice());
-        holder.priceProduct.setText(priceFormat.replace(",", "."));
+        String priceFormat = FormatNumberUtils.formatFloat(product.getPrice())+"đ";
+        holder.priceProduct.setText(priceFormat);
         holder.productItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
+                intent.putExtra("product", product);
                 context.startActivity(intent);
             }
         });
         holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                ApiService.apiService.addToCart(product.getId(), 1).enqueue(new Callback<CartResponse>() {
+                    @Override
+                    public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CartResponse> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }

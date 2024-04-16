@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.models.Pet;
 
 public class PetActivityFragment extends Fragment {
 

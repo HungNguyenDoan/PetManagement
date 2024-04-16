@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.models.Category;
+import com.project.petmanagement.models.entity.Category;
 
 import java.util.List;
 
@@ -18,10 +20,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private Context context;
     private List<Category> categories;
-    public CategoryAdapter(Context context, List<Category> categories){
+    private RecyclerView productRecyclerView;
+    private TextView all;
+    private int indexRow = -1;
+    public CategoryAdapter(Context context, List<Category> categories, RecyclerView productRecyclerView, TextView all){
         this.context = context;
         this.categories =categories;
+        this.productRecyclerView = productRecyclerView;
+        this.all = all;
     }
+
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,10 +38,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        Category category = categories.get(position);
+        final Category category = categories.get(position);
         holder.name.setText(category.getName());
-    }
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                indexRow = holder.getBindingAdapterPosition();
+                ListProductAdapter listProductAdapter = new ListProductAdapter(context, category.getProducts());
+                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context, 2);
+                productRecyclerView.setLayoutManager(layoutManager);
+                productRecyclerView.setAdapter(listProductAdapter);
+                notifyDataSetChanged();
+            }
+        });
+        if(indexRow == position){
+            holder.name.setTextColor(ContextCompat.getColor(context, R.color.green));
+            all.setTextColor(ContextCompat.getColor(context, R.color.text_default));
+        }else{
+            holder.name.setTextColor(ContextCompat.getColor(context, R.color.text_default));
 
+        }
+    }
     @Override
     public int getItemCount() {
         if(categories!=null){
@@ -48,5 +73,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             super(itemView);
             name = itemView.findViewById(R.id.name_category);
         }
+    }
+    public void resetSelection() {
+        indexRow = -1;
+        notifyDataSetChanged();
     }
 }

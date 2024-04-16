@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".fragments.ShopCartFragment">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,10 +47,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_above="@+id/linear"
+            />
         <LinearLayout
             android:id="@+id/linear"
-            android:layout_marginTop="10dp"
             android:layout_alignParentBottom="true"
             android:weightSum="1"
             android:orientation="horizontal"
@@ -58,20 +64,22 @@
             <LinearLayout
                 android:background="@color/white"
                 android:layout_marginStart="20dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_weight="0.7"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content">
+                android:gravity="center_vertical"
+                android:layout_height="40dp">
                 <TextView
                     android:textSize="18sp"
-                    android:text="Tổng tiền:"
+                    android:text="Tổng tiền: "
                     android:layout_width="wrap_content"
                     android:textColor="@color/black"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
                 <TextView
+                    android:id="@+id/total_price"
                     android:textColor="@color/red"
                     android:textSize="18sp"
-                    android:text="215.000đ"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

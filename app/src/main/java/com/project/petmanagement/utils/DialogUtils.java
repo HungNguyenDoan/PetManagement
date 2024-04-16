@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.project.petmanagement.activity.pet.AddNewPetActivity;
-
 public class DialogUtils {
     public static void setUpDialog(Context context, String message){
         AlertDialog.Builder arlertDialog = new AlertDialog.Builder(context);

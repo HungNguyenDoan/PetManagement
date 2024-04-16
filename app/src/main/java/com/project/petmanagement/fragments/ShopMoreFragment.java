@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.shop.OrderActivity;
+//import com.project.petmanagement.activity.shop.OrderActivity;
 
 
 public class ShopMoreFragment extends Fragment {
@@ -37,8 +37,8 @@ public class ShopMoreFragment extends Fragment {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OrderActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), OrderActivity.class);
+//                startActivity(intent);
             }
         });
         backApp.setOnClickListener(new View.OnClickListener() {
