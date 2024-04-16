@@ -24,14 +24,14 @@ public class PetService {
     public List<Pet> getPetsByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
-        return petsRepository.findByUserOrderByIdDesc(userDetail.getUser());
+        return petsRepository.findByUserAndIsActiveIsTrueOrderByIdDesc(userDetail.getUser());
     }
 
     public Pet getPet(Long petId) throws Exception {
-        return petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
+        return petsRepository.findByIdAndIsActiveIsTrue(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId + ", or pet was deleted"));
     }
 
-    @Transactional
+    @Transactional(rollbackOn = {Exception.class})
     public Pet addPet(PetRequest petRequest) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
@@ -44,12 +44,13 @@ public class PetService {
                 .dateOfBirth(petRequest.getDateOfBirth())
                 .description(petRequest.getDescription())
                 .image(petRequest.getImage())
-                .neutered(petRequest.getIsNeutered())
+                .isNeutered(petRequest.getIsNeutered())
+                .isActive(true)
                 .build();
         return petsRepository.save(pet);
     }
 
-    @Transactional
+    @Transactional(rollbackOn = {Exception.class})
     public Pet updatePet(Long petId, PetRequest petRequest) throws Exception {
         Pet existingPet = petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
         if (existingPet != null) {
@@ -60,13 +61,13 @@ public class PetService {
             existingPet.setDateOfBirth(petRequest.getDateOfBirth());
             existingPet.setDescription(petRequest.getDescription());
             existingPet.setImage(petRequest.getImage());
-            existingPet.setNeutered(petRequest.getIsNeutered());
+            existingPet.setIsNeutered(petRequest.getIsNeutered());
             return petsRepository.save(existingPet);
         }
         return null;
     }
 
-    @Transactional
+    @Transactional(rollbackOn = {Exception.class})
     public Pet deletePet(Long petId) throws Exception {
         Pet existingPet = petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
         existingPet.setIsActive(false);

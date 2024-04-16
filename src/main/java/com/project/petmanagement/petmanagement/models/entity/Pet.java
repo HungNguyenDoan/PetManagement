@@ -41,8 +41,8 @@ public class Pet extends BaseEntity {
     @Column(name = "image", length = 30000)
     private String image;
 
-    @Column(name = "neutered", nullable = false)
-    private Boolean neutered;
+    @Column(name = "is_neutered", nullable = false)
+    private Boolean isNeutered;
     
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;

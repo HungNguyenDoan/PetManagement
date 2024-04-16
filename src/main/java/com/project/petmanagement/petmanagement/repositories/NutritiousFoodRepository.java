@@ -11,9 +11,11 @@ import java.util.List;
 
 @Repository
 public interface NutritiousFoodRepository extends JpaRepository<NutritiousFood, Long> {
+    List<NutritiousFood> findBySpecies(Species species);
+
     List<NutritiousFood> findByFoodType(FoodType foodType);
 
-    List<NutritiousFood> findBySpecies(Species species);
+    List<NutritiousFood> findBySpeciesAndFoodType(Species species, FoodType foodType);
 
     List<NutritiousFood> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrNutritionContainingIgnoreCaseOrIngredientContainingIgnoreCase(String name, String description, String nutrition, String ingredient);
 

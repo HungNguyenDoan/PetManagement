@@ -47,8 +47,6 @@ public class PetController {
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-
-
     }
 
     @PostMapping("/") // done
@@ -84,7 +82,7 @@ public class PetController {
             if (pet == null) {
                 ErrorResponse errorResponse = ErrorResponse.builder()
                         .status(HttpStatus.BAD_REQUEST.value())
-                        .message("Cannot update. Please try again")
+                        .message("Cannot update pet. Please try again")
                         .build();
                 return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
             }
@@ -107,6 +105,13 @@ public class PetController {
     public ResponseEntity<Object> deletePet(@PathVariable("id") Long petId) {
         try {
             Pet pet = petService.deletePet(petId);
+            if (pet == null) {
+                ErrorResponse errorResponse = ErrorResponse.builder()
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .message("Cannot delete pet. Please try again")
+                        .build();
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            }
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Delete pet successfully")
@@ -120,6 +125,5 @@ public class PetController {
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-
     }
 }

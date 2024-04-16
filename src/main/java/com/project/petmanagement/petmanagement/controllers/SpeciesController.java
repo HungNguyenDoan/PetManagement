@@ -1,10 +1,11 @@
 package com.project.petmanagement.petmanagement.controllers;
 
-import java.util.List;
-
+import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.BreedService;
+import com.project.petmanagement.petmanagement.services.SpeciesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.petmanagement.petmanagement.models.entity.Species;
-import com.project.petmanagement.petmanagement.services.SpeciesService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/species")
@@ -28,9 +26,6 @@ public class SpeciesController {
     public ResponseEntity<Object> getAllSpecies() {
         List<Species> speciesList = speciesService.getAllSpecies();
         if (!speciesList.isEmpty()) {
-            for (Species s : speciesList) {
-                s.setBreeds(breedService.getBreedsBySpecies(s));
-            }
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Get all species successfully")
@@ -49,7 +44,6 @@ public class SpeciesController {
     public ResponseEntity<Object> getSpeciesDetails(@PathVariable("id") Long speciesId) {
         try {
             Species species = speciesService.getSpeciesDetails(speciesId);
-            species.setBreeds(breedService.getBreedsBySpecies(species));
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Get species details successfully")
