@@ -14,14 +14,16 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("category")
+@RequestMapping("categories")
 public class CategoryController {
     private final CategoryService categoryService;
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ResponseEntity<Object> getAllCategories(){
         List<Category> categories = categoryService.getAllCategories();
-        DataResponse categoryResponse = DataResponse.builder().message("Get list categories successfully")
-                .status(HttpStatus.OK.value()).data(categories).build();
+        DataResponse categoryResponse = DataResponse.builder()
+                .message("Get list categories successfully")
+                .status(HttpStatus.OK.value())
+                .data(categories).build();
         return new ResponseEntity<Object>(categoryResponse,HttpStatus.OK);
     }
 }

@@ -15,19 +15,27 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("product")
+@RequestMapping("products")
 public class ProductController {
     private final ProductService productService;
-    @GetMapping("/getAll")
+    @GetMapping("/")
     private ResponseEntity<Object> getAllProduct(){
         List<Product> productList = productService.getAllProduct();
-        DataResponse productResponse = DataResponse.builder().status(200).message("Get Products successfully").data(productList).build();
+        DataResponse productResponse = DataResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("Get Products successfully")
+                .data(productList)
+                .build();
         return new ResponseEntity<Object> (productResponse, HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Object> getProductDetail(@PathVariable("id") Long idProduct) throws Exception {
         Product product = productService.getProductDetail(idProduct);
-        DataResponse productResponse = DataResponse.builder().status(200).message("Get product successfully").data(product).build();
+        DataResponse productResponse = DataResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("Get product successfully")
+                .data(product)
+                .build();
         return  new ResponseEntity<Object>(productResponse, HttpStatus.OK);
     }
 }

@@ -1,6 +1,7 @@
 package com.project.petmanagement.petmanagement.services;
 
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
+import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.Cart;
 import com.project.petmanagement.petmanagement.models.entity.CartItem;
 import com.project.petmanagement.petmanagement.models.entity.Product;
@@ -8,6 +9,7 @@ import com.project.petmanagement.petmanagement.repositories.CartItemRepository;
 import com.project.petmanagement.petmanagement.repositories.CartRepository;
 import com.project.petmanagement.petmanagement.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.DataException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,8 +31,8 @@ public class CartService {
         return cartRepository.findByUser(jwtUserDetail.getUser());
     }
     @Transactional
-    public Cart addToCart(long idProduct, int quantity){
-        Product product = productRepository.findById(idProduct).orElse(null);
+    public Cart addToCart(long idProduct, int quantity) throws Exception{
+        Product product = productRepository.findById(idProduct).orElseThrow(() -> new DataNotFoundException("Product not found with id="+idProduct));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
@@ -80,10 +82,11 @@ public class CartService {
     }
 
     @Transactional
-    public Cart updateCart(long idItem, int quantity){
+    public Cart updateCart(long idItem, int quantity) throws  Exception{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
+        CartItem checkItem = cartItemRepository.findByIdAndCart(idItem, cart).orElseThrow(() -> new DataNotFoundException("CartItem not found with id = "+ idItem));
         List<CartItem> cartItems = cart.getCartItems();
         if(quantity > 0){
             for(CartItem cartItem: cartItems){
@@ -94,7 +97,7 @@ public class CartService {
                 }
             }
         }else {
-            CartItem cartItem = cartItemRepository.findById(idItem).orElse(null);
+            CartItem cartItem = cartItemRepository.findById(idItem).orElseThrow(() -> new DataNotFoundException("CartItem not found with id = "+ idItem));
             if (cartItem != null) {
                 cartItems.remove(cartItem);
                 cartItemRepository.delete(cartItem);
@@ -108,12 +111,13 @@ public class CartService {
         cart.setTotalPrice(totalPrice);
         return cartRepository.save(cart);
     }
-    public Cart deleteItem(long idItem){
+    @Transactional
+    public Cart deleteItem(long idItem) throws Exception{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
         List<CartItem> cartItems = cart.getCartItems();
-        CartItem cartItem = cartItemRepository.findById(idItem).orElse(null);
+        CartItem cartItem = cartItemRepository.findById(idItem).orElseThrow(() -> new DataNotFoundException("CartItem not found with id = "+ idItem));
         if (cartItem != null) {
             cartItems.remove(cartItem);
             cartItemRepository.delete(cartItem);

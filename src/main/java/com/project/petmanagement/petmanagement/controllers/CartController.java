@@ -2,6 +2,7 @@ package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.models.entity.Cart;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
+import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.CartService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,27 +20,72 @@ public class CartController {
     @GetMapping("/get")
     public ResponseEntity<?> getCart() {
         Cart cart = cartService.getCart();
-        DataResponse cartResponse = DataResponse.builder().data(cart).status(200).message("Get cart successfully.").build();
+        DataResponse cartResponse = DataResponse
+                .builder()
+                .data(cart)
+                .status(200)
+                .message("Get cart successfully.")
+                .build();
         return new ResponseEntity<>(cartResponse, HttpStatus.OK);
     }
     @PostMapping("/add")
-    public ResponseEntity<Object> addToCart(@RequestParam("idProduct") Long idProduct, @RequestParam(name = "quantity", defaultValue = "1") int quantity){
-        Cart cart = cartService.addToCart(idProduct, quantity);
-        DataResponse cartResponse = DataResponse.builder().status(201).message("Add product to cart success").data(cart).build();
-        return new ResponseEntity<>(cartResponse, HttpStatus.CREATED);
+    public ResponseEntity<Object> addToCart(@RequestParam("idProduct") Long idProduct, @RequestParam(name = "quantity", defaultValue = "1") int quantity)  {
+        try {
+            Cart cart = cartService.addToCart(idProduct, quantity);
+            DataResponse cartResponse = DataResponse
+                    .builder()
+                    .status(201)
+                    .message("Add product to cart success")
+                    .data(cart)
+                    .build();
+            return new ResponseEntity<>(cartResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Object> updateCart(@RequestParam("idItem") Long idItem, @RequestParam(name = "quantity") int quantity){
-        Cart cart = cartService.updateCart(idItem, quantity);
-        DataResponse cartResponse = DataResponse.builder().status(200).message("Update cart success").data(cart).build();
-        return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+    public ResponseEntity<Object> updateCart(@RequestParam("idItem") Long idItem, @RequestParam(name = "quantity") int quantity) {
+        try {
+            Cart cart = cartService.updateCart(idItem, quantity);
+            DataResponse cartResponse = DataResponse.builder()
+                    .status(200)
+                    .message("Update cart success.")
+                    .data(cart)
+                    .build();
+            return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/cart-item/{id}")
     public ResponseEntity<Object> deleteItem(@PathVariable("id") Long idItem){
-        Cart cart = cartService.deleteItem(idItem);
-        DataResponse cartResponse = DataResponse.builder().status(200).message("Delete item success").data(cart).build();
-        return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+        try {
+            Cart cart = cartService.deleteItem(idItem);
+            DataResponse cartResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Delete item success")
+                    .data(cart)
+                    .build();
+            return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
     }
 }
