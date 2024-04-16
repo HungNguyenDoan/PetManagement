@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,11 +23,7 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    // Category có quan hệ n - n với Product
-    @ManyToMany
-    @JoinTable(
-            name = "categories_products",
-            joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Product> products;
 }

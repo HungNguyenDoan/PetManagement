@@ -1,13 +1,18 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.petmanagement.petmanagement.models.enums.ProductStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Entity
 @Table(name = "products")
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product extends BaseEntity {
@@ -33,7 +38,8 @@ public class Product extends BaseEntity {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    // Products quan hệ n - n với Category
-    @ManyToMany(mappedBy = "products")
-    private List<Category> categories;
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonBackReference
+    private Category category;
 }

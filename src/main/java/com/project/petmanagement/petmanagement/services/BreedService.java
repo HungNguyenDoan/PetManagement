@@ -16,12 +16,11 @@ public class BreedService {
     private final SpeciesRepository speciesRepository;
     private final BreedRepository breedRepository;
 
-    public List<Breed> getBreedsBySpecies(Long speciesId) throws Exception{
-        Species species = speciesRepository.findById(speciesId).orElseThrow(() -> new DataNotFoundException("Can not find species with ID: " + speciesId));
+    public List<Breed> getBreedsBySpecies(Species species) {
         return breedRepository.findBySpecies(species);
     }
 
-    public Breed getBreed(Long breedId) throws Exception{
+    public Breed getBreedDetails(Long breedId) throws Exception {
         return breedRepository.findById(breedId).orElseThrow(() -> new DataNotFoundException("Can not find breed with ID: " + breedId));
     }
 }

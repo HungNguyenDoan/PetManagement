@@ -3,6 +3,7 @@ package com.project.petmanagement.petmanagement.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.project.petmanagement.petmanagement.models.entity.FoodType;
@@ -15,9 +16,11 @@ import lombok.RequiredArgsConstructor;
 public class FoodTypeService {
     private final FoodTypeRepository foodTypeRepository;
 
-    public List<FoodType> getAllFoodType() {
-        List<FoodType> foodTypes = new ArrayList<>();
-        foodTypeRepository.findAll().forEach(foodTypes::add);
-        return foodTypes;
+    public List<FoodType> getAllFoodTypes() {
+        return new ArrayList<>(foodTypeRepository.findAll());
+    }
+
+    public FoodType getFoodTypeDetails(Long foodTypeId) throws DataNotFoundException {
+        return foodTypeRepository.findById(foodTypeId).orElseThrow(() -> new DataNotFoundException("Can not find food type details with ID: " + foodTypeId));
     }
 }

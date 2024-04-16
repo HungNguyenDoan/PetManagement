@@ -1,14 +1,16 @@
 package com.project.petmanagement.petmanagement.payloads.responses;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class NutritionInfoResponse extends Response {
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+public class DataResponse {
+    Integer status;
+    String message;
     Object data;
 }

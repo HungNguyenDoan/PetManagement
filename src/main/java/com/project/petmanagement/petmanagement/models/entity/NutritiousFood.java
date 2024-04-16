@@ -1,13 +1,12 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.petmanagement.petmanagement.models.enums.QualityEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Table(name = "nutritious_food")
@@ -42,7 +41,8 @@ public class NutritiousFood {
     @Column(name = "ingredient", nullable = false)
     private String ingredient;
 
-    // NutritiousFood có quan hệ n - n với FoodType
-    @ManyToMany(mappedBy = "nutritiousFood")
-    private List<FoodType> foodTypes;
+    @ManyToOne
+    @JoinColumn(name = "food_type_id", referencedColumnName = "id")
+    @JsonBackReference
+    private FoodType foodType;
 }

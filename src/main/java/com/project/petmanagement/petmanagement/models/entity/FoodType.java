@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,11 +23,7 @@ public class FoodType {
     @Column(name = "name", nullable = false)
     private String name;
 
-    // FoodType có quan hệ n - n với NutritiousFood
-    @ManyToMany
-    @JoinTable(
-            name = "food_types_nutritious_food",
-            joinColumns = @JoinColumn(name = "food_type_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "nutritious_food_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "foodType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<NutritiousFood> nutritiousFoodList;
 }

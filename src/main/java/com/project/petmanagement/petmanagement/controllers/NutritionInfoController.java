@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.petmanagement.petmanagement.models.entity.NutritiousFood;
-import com.project.petmanagement.petmanagement.payloads.responses.NutritionInfoResponse;
 import com.project.petmanagement.petmanagement.services.NutritiousFoodService;
 
 import lombok.RequiredArgsConstructor;
