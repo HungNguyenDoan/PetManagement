@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.project.petmanagement.petmanagement.models.User;
+import com.project.petmanagement.petmanagement.models.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class JWTUserDetail implements UserDetails {
     User user;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getRoleName()));
+        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getName()));
     }
 
     public Long getId() {
@@ -31,7 +31,7 @@ public class JWTUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getPhonenumber();
+        return user.getPhoneNumber();
     }
 
     @Override

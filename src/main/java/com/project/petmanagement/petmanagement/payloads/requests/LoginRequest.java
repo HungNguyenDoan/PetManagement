@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class LoginRequest {
     @NotEmpty(message = "Please enter username")
     String username;
+
     @NotEmpty(message = "Please enter password")
     String password;
 }

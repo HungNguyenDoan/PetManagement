@@ -1,18 +1,14 @@
 package com.project.petmanagement.petmanagement.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.project.petmanagement.petmanagement.JWT.JWTTokenProvider;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
+import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.LoginResponse;
-import com.project.petmanagement.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.petmanagement.services.UserService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
@@ -37,23 +34,25 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
             String jwt = tokenProvider.generateToken((JWTUserDetail) authentication.getPrincipal());
-            LoginResponse response = LoginResponse.builder()
+            LoginResponse loginResponse = LoginResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Login successfully")
                     .token(jwt)
                     .data(((JWTUserDetail) authentication.getPrincipal()).getUser())
                     .build();
-            return new ResponseEntity<Object>(response, HttpStatus.OK);
+            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<Object>(
-                    new Response(HttpStatus.UNAUTHORIZED.value(), "Please check your username or password"),
-                    HttpStatus.UNAUTHORIZED);
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.UNAUTHORIZED.value())
+                    .message("Please check your username or password")
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
         }
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) throws Exception {
         userService.register(request);
-        return login(new LoginRequest(request.getPhonenumber(), request.getPassword()));
+        return login(new LoginRequest(request.getPhoneNumber(), request.getPassword()));
     }
 }

@@ -1,33 +1,61 @@
 package com.project.petmanagement.petmanagement.controllers;
 
-import java.util.List;
-
+import com.project.petmanagement.petmanagement.models.entity.Species;
+import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
+import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
+import com.project.petmanagement.petmanagement.services.BreedService;
+import com.project.petmanagement.petmanagement.services.SpeciesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.petmanagement.petmanagement.models.Species;
-import com.project.petmanagement.petmanagement.payloads.responses.SpeciesResponse;
-import com.project.petmanagement.petmanagement.services.SpeciesService;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/species")
 @RequiredArgsConstructor
 public class SpeciesController {
     private final SpeciesService speciesService;
+    private final BreedService breedService;
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<Object> getAllSpecies() {
-        List<Species> listSpecies = speciesService.getAllSpecies();
-        SpeciesResponse response = SpeciesResponse.builder()
-                .status(HttpStatus.OK.value())
-                .message("Get all species successfully")
-                .data(listSpecies)
+        List<Species> speciesList = speciesService.getAllSpecies();
+        if (!speciesList.isEmpty()) {
+            DataResponse dataResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Get all species successfully")
+                    .data(speciesList)
+                    .build();
+            return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+        }
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .status(500)
+                .message("There is no species in Database")
                 .build();
-        return new ResponseEntity<Object>(response, HttpStatus.OK);
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getSpeciesDetails(@PathVariable("id") Long speciesId) {
+        try {
+            Species species = speciesService.getSpeciesDetails(speciesId);
+            DataResponse dataResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Get species details successfully")
+                    .data(species)
+                    .build();
+            return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(400)
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
