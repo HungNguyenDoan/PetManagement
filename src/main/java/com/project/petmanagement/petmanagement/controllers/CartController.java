@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @Data
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("cart")
+@RequestMapping("carts")
 public class CartController {
     private final CartService cartService;
 
-    @GetMapping("/get")
+    @GetMapping("/users/")
     public ResponseEntity<?> getCart() {
         Cart cart = cartService.getCart();
         DataResponse cartResponse = DataResponse

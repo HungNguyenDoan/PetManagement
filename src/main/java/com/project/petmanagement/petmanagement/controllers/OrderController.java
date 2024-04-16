@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("orders")
 public class OrderController {
     private final OrderService orderService;
-    @GetMapping("/")
+    @GetMapping("/users/")
     public ResponseEntity<?> getOrderUser(){
         List<Order> orders = orderService.getOrderByUser();
         DataResponse orderResponse = DataResponse.builder().status(HttpStatus.OK.value()).message("Get order successfully").data(orders).build();
