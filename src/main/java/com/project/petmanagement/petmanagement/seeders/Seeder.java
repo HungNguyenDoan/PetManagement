@@ -13,7 +13,8 @@ public class Seeder implements CommandLineRunner {
     private final NutritiousFoodSeeder nutritionInfoSeeder;
     private final SpeciesSeeder speciesSeeder;
     private final BreedSeeder breedSeeder;
-
+    private final CategorySeeder categorySeeder;
+    private final ProductSeeder productSeeder;
     @Override
     public void run(String... args) throws Exception {
         speciesSeeder.seed();
@@ -21,6 +22,8 @@ public class Seeder implements CommandLineRunner {
         foodTypeSeeder.seed();
         nutritionInfoSeeder.seed();
         breedSeeder.seed();
+        categorySeeder.seed();
+        productSeeder.seed();
     }
 
 }
