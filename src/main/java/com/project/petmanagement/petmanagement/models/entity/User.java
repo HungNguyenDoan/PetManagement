@@ -9,10 +9,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
-@Builder
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends BaseEntity {
