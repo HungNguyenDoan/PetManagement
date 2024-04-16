@@ -1,7 +1,6 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.petmanagement.petmanagement.constraints.Unique;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -13,6 +12,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends BaseEntity {
@@ -26,7 +26,6 @@ public class User extends BaseEntity {
     @Column(name = "date_of_birth", nullable = false)
     private Date dateOfBirth;
 
-    @Unique
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
