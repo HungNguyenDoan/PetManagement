@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.project.petmanagement.petmanagement.models.Species;
+import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.repositories.SpeciesRepository;
 
 @Component

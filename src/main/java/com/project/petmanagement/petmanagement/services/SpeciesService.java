@@ -1,9 +1,7 @@
 package com.project.petmanagement.petmanagement.services;
 
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
-import com.project.petmanagement.petmanagement.models.entity.Breed;
 import com.project.petmanagement.petmanagement.models.entity.Species;
-import com.project.petmanagement.petmanagement.repositories.BreedRepository;
 import com.project.petmanagement.petmanagement.repositories.SpeciesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpeciesService {
     private final SpeciesRepository speciesRepository;
-    private final BreedRepository breedRepository;
 
     public List<Species> getAllSpecies() {
         return speciesRepository.findAll();

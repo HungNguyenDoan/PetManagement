@@ -3,7 +3,6 @@ package com.project.petmanagement.petmanagement.payloads.requests;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.petmanagement.petmanagement.models.entity.Pet;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

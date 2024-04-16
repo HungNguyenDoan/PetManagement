@@ -5,9 +5,7 @@ import java.util.List;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.project.petmanagement.petmanagement.models.entity.FoodType;
 import com.project.petmanagement.petmanagement.models.entity.NutritiousFood;
-import com.project.petmanagement.petmanagement.repositories.FoodTypeRepository;
 import com.project.petmanagement.petmanagement.repositories.NutritiousFoodRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NutritiousFoodService {
     private final NutritiousFoodRepository nutritiousFoodRepository;
-    private final FoodTypeRepository foodTypeRepository;
 
     public List<NutritiousFood> getAllNutritiousFood() {
         return nutritiousFoodRepository.findAll();
