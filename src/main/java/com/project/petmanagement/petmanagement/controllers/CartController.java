@@ -23,7 +23,7 @@ public class CartController {
         DataResponse cartResponse = DataResponse
                 .builder()
                 .data(cart)
-                .status(200)
+                .status(HttpStatus.OK.value())
                 .message("Get cart successfully.")
                 .build();
         return new ResponseEntity<>(cartResponse, HttpStatus.OK);
@@ -34,7 +34,7 @@ public class CartController {
             Cart cart = cartService.addToCart(idProduct, quantity);
             DataResponse cartResponse = DataResponse
                     .builder()
-                    .status(201)
+                    .status(HttpStatus.CREATED.value())
                     .message("Add product to cart success")
                     .data(cart)
                     .build();
@@ -54,7 +54,7 @@ public class CartController {
         try {
             Cart cart = cartService.updateCart(idItem, quantity);
             DataResponse cartResponse = DataResponse.builder()
-                    .status(200)
+                    .status(HttpStatus.OK.value())
                     .message("Update cart success.")
                     .data(cart)
                     .build();
