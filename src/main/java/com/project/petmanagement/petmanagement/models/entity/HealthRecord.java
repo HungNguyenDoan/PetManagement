@@ -19,10 +19,10 @@ public class HealthRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "checkup_date", nullable = false)
+    @Column(name = "checkup_date")
     private Date checkUpDate;
 
-    @Column(name = "weight", nullable = false)
+    @Column(name = "weight")
     private Double weight;
 
     @Column(name = "exercise_level")

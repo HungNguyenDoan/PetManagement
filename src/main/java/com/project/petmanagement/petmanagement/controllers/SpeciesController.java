@@ -3,7 +3,6 @@ package com.project.petmanagement.petmanagement.controllers;
 import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
-import com.project.petmanagement.petmanagement.services.BreedService;
 import com.project.petmanagement.petmanagement.services.SpeciesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,9 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpeciesController {
     private final SpeciesService speciesService;
-    private final BreedService breedService;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<Object> getAllSpecies() {
         List<Species> speciesList = speciesService.getAllSpecies();
         if (!speciesList.isEmpty()) {

@@ -16,6 +16,6 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DailyRepetition extends Repetition{
-    @Column(name = "time", nullable = false)
+    @Column(name = "time")
     private Time time;
 }

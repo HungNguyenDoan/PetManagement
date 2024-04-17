@@ -18,7 +18,7 @@ import java.util.List;
 public class NutritiousFoodController {
     private final NutritiousFoodService nutritiousFoodService;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<Object> getAllNutritiousFood() {
         List<NutritiousFood> nutritiousFoodList = nutritiousFoodService.getAllNutritiousFood();
         if (nutritiousFoodList.isEmpty()) {
