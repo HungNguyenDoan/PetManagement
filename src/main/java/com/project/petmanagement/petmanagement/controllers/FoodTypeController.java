@@ -19,7 +19,7 @@ import java.util.List;
 public class FoodTypeController {
     private final FoodTypeService foodTypeService;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<Object> getAllFoodTypes() {
         List<FoodType> foodTypes = foodTypeService.getAllFoodTypes();
         if (foodTypes.isEmpty()) {

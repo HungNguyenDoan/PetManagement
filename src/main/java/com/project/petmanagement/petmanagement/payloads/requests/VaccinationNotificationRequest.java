@@ -6,17 +6,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+import java.sql.Time;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class VaccinationNotificationRequest {
-    @JsonProperty("species_id")
-    Long speciesId;
+    @JsonProperty("pet_id")
+    private Long petId;
 
-    @JsonProperty("food_type_id")
-    Long foodTypeId;
+    private String title;
 
-    @JsonProperty("keywords")
-    String keywords;
+    @JsonProperty("vaccine_id")
+    private Long vaccineId;
+
+    private String note;
+
+    private Date date;
+
+    private Time time;
+
+    @JsonProperty("alarm_before")
+    private Time alarmBefore;
 }

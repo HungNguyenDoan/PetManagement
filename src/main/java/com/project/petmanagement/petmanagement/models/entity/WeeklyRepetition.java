@@ -17,9 +17,9 @@ import java.time.DayOfWeek;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeeklyRepetition extends Repetition {
-    @Column(name = "day", nullable = false)
+    @Column(name = "day")
     private DayOfWeek day;
 
-    @Column(name = "time", nullable = false)
+    @Column(name = "time")
     private Time time;
 }

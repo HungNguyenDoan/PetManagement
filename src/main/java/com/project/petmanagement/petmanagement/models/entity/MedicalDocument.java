@@ -17,13 +17,13 @@ public class MedicalDocument {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private Pet pet;
 
-    @Column(name = "url", nullable = false)
+    @Column(name = "url")
     private String url;
 }

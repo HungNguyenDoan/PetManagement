@@ -19,7 +19,7 @@ import java.util.List;
 public class PetController {
     private final PetService petService;
 
-    @GetMapping("/users/") // done
+    @GetMapping("/users")
     public ResponseEntity<Object> getPetsByUser() {
         List<Pet> pets = petService.getPetsByUser();
         DataResponse dataResponse = DataResponse.builder()
@@ -49,7 +49,7 @@ public class PetController {
         }
     }
 
-    @PostMapping("/") // done
+    @PostMapping("/")
     public ResponseEntity<Object> addPet(@RequestBody @Valid PetRequest petRequest) {
         try {
             Pet pet = petService.addPet(petRequest);
@@ -75,7 +75,7 @@ public class PetController {
         }
     }
 
-    @PutMapping("/{id}") // done
+    @PutMapping("/{id}")
     public ResponseEntity<Object> updatePet(@RequestBody @Valid PetRequest petRequest, @PathVariable Long id) {
         try {
             Pet pet = petService.updatePet(id, petRequest);

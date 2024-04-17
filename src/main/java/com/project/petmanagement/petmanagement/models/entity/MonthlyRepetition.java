@@ -16,9 +16,9 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MonthlyRepetition extends Repetition {
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private Integer date;
 
-    @Column(name = "time", nullable = false)
+    @Column(name = "time")
     private Time time;
 }

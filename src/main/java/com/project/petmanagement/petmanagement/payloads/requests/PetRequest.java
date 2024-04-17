@@ -3,6 +3,8 @@ package com.project.petmanagement.petmanagement.payloads.requests;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PetRequest {
     @JsonProperty("full_name")
-    @NotNull(message = "Pet's name is required.")
+    @NotBlank(message = "Pet's name is required.")
     String fullName;
 
     @JsonProperty("breed_id")

@@ -18,14 +18,14 @@ public class RecurringSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "frequency", nullable = false)
+    @Column(name = "frequency")
     @Enumerated(EnumType.STRING)
     private FrequencyEnum frequency;
 
-    @Column(name = "value", nullable = false)
+    @Column(name = "value")
     private Integer value;
 
     @OneToOne
