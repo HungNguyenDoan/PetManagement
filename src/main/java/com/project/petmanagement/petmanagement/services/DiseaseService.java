@@ -20,6 +20,6 @@ public class DiseaseService {
     }
 
     public Disease getDetail(Long id) throws DataNotFoundException {
-        return repository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not find nutritious food with ID: " + id));
+        return repository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not find disease with ID: " + id));
     }
 }
