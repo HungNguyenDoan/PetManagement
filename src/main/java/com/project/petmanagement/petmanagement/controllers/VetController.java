@@ -17,7 +17,7 @@ import java.util.List;
 public class VetController {
     private final VetService vetService;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<Object> getAllVets() {
         List<Vet> vets = vetService.getAllVets();
         if (!vets.isEmpty()) {
