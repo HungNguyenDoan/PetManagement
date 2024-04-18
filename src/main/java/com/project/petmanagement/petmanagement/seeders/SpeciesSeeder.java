@@ -17,7 +17,6 @@ public class SpeciesSeeder {
         Species dog = Species.builder().id(1L).name("dog").build();
         Species cat = Species.builder().id(2L).name("cat").build();
 
-        speciesRepository
-                .saveAll(Arrays.asList(dog, cat));
+        speciesRepository.saveAll(Arrays.asList(dog, cat));
     }
 }
