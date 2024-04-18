@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 public class DiseaseService {
     private final DiseaseRepository repository;
 
-    public List<Disease> getAll() {
+    public List<Disease> getAllDiseases() {
         return repository.findAll();
     }
 
-    public Disease getDetail(Long id) throws DataNotFoundException {
+    public Disease getDiseaseDetails(Long id) throws DataNotFoundException {
         return repository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not find disease with ID: " + id));
     }
 }
