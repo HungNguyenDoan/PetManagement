@@ -26,7 +26,7 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final CartRepository cartRepository;
 
-    public List<Order> getOrderByUser() {
+    public List<Order> getOrdersByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         User user = jwtUserDetail.getUser();
@@ -63,8 +63,10 @@ public class OrderService {
         cartRepository.delete(cart);
         return order;
     }
-    public Order cancelOrder(Long id) throws Exception{
-        Order order = orderRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not found Order with id="+id));
+
+    @Transactional(rollbackFor = {Exception.class})
+    public Order cancelOrder(Long id) throws Exception {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not found order with ID: " + id));
         order.setStatus(OrderStatusEnum.CANCELLED);
         return orderRepository.save(order);
     }

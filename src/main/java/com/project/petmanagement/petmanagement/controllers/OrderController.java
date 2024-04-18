@@ -21,7 +21,7 @@ public class OrderController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getOrdersByUser() {
-        List<Order> orders = orderService.getOrderByUser();
+        List<Order> orders = orderService.getOrdersByUser();
         DataResponse orderResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Get order successfully")
@@ -48,16 +48,17 @@ public class OrderController {
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
+
     @PutMapping("/cancel/{id}")
-    public ResponseEntity<?> cancelOrder(@PathVariable("id") Long idOrder){
+    public ResponseEntity<?> cancelOrder(@PathVariable("id") Long orderId) {
         try {
-            Order order = orderService.cancelOrder(idOrder);
+            Order order = orderService.cancelOrder(orderId);
             DataResponse orderResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Cancel order successfully")
                     .data(order)
                     .build();
-            return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
+            return new ResponseEntity<>(orderResponse, HttpStatus.OK);
         } catch (Exception e) {
             ErrorResponse errorResponse = ErrorResponse.builder()
                     .status(HttpStatus.BAD_REQUEST.value())
