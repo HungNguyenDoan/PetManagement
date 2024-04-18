@@ -1,11 +1,9 @@
 package com.project.petmanagement.petmanagement.controllers;
 
-import com.project.petmanagement.petmanagement.models.entity.Cart;
 import com.project.petmanagement.petmanagement.models.entity.Order;
 import com.project.petmanagement.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
-import com.project.petmanagement.petmanagement.services.CartService;
 import com.project.petmanagement.petmanagement.services.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,25 +15,31 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("orders")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    @GetMapping("/users/")
-    public ResponseEntity<?> getOrderUser(){
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getOrdersByUser() {
         List<Order> orders = orderService.getOrderByUser();
-        DataResponse orderResponse = DataResponse.builder().status(HttpStatus.OK.value()).message("Get order successfully").data(orders).build();
+        DataResponse orderResponse = DataResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("Get order successfully")
+                .data(orders)
+                .build();
         return new ResponseEntity<>(orderResponse, HttpStatus.OK);
     }
+
     @PostMapping("/create")
-    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderRequest orderRequest){
+    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
         try {
             Order order = orderService.createOrder(orderRequest);
             DataResponse orderResponse = DataResponse.builder()
                     .status(HttpStatus.CREATED.value())
-                    .message("create order successfully")
+                    .message("Create order successfully")
                     .data(order)
                     .build();
-            return  new ResponseEntity<>(orderResponse,HttpStatus.CREATED);
+            return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
         } catch (Exception e) {
             ErrorResponse errorResponse = ErrorResponse.builder()
                     .status(HttpStatus.BAD_REQUEST.value())
@@ -43,6 +47,5 @@ public class OrderController {
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-
     }
 }

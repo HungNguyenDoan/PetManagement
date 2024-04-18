@@ -19,7 +19,7 @@ public class Repetition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "from_date", nullable = false)
+    @Column(name = "from_date")
     private Date fromDate;
 
     @Column(name = "to_date")

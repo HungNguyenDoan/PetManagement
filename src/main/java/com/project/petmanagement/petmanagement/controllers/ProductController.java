@@ -2,6 +2,7 @@ package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.models.entity.Product;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
+import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,27 +16,38 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("products")
+@RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-    @GetMapping("/")
-    private ResponseEntity<Object> getAllProduct(){
-        List<Product> productList = productService.getAllProduct();
+
+    @GetMapping("/all")
+    private ResponseEntity<Object> getAllProducts() {
+        List<Product> productList = productService.getAllProducts();
         DataResponse productResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
-                .message("Get Products successfully")
+                .message("Get all products successfully")
                 .data(productList)
                 .build();
-        return new ResponseEntity<Object> (productResponse, HttpStatus.OK);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getProductDetail(@PathVariable("id") Long idProduct) throws Exception {
-        Product product = productService.getProductDetail(idProduct);
-        DataResponse productResponse = DataResponse.builder()
-                .status(HttpStatus.OK.value())
-                .message("Get product successfully")
-                .data(product)
-                .build();
-        return  new ResponseEntity<Object>(productResponse, HttpStatus.OK);
+    public ResponseEntity<Object> getProductDetails(@PathVariable("id") Long productId) {
+        try {
+            Product product = productService.getProductDetails(productId);
+            DataResponse productResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Get product details successfully")
+                    .data(product)
+                    .build();
+            return new ResponseEntity<>(productResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

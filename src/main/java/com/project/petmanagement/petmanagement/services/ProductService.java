@@ -14,11 +14,12 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public List<Product> getAllProduct(){
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-    public Product getProductDetail(Long id) throws Exception {
-        Optional<Product> product = productRepository.findById(id);
-        return product.orElseThrow(() -> new DataNotFoundException("Can not product ID"+ id));
+
+    public Product getProductDetails(Long productId) throws Exception {
+        Optional<Product> product = productRepository.findById(productId);
+        return product.orElseThrow(() -> new DataNotFoundException("Can not find product with ID: " + productId));
     }
 }

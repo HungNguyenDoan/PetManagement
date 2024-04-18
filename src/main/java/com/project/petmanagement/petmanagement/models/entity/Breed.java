@@ -18,14 +18,14 @@ public class Breed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "image", length = 30000, nullable = true)
+    @Column(name = "image", length = 30000)
     private String image;
 
     @ManyToOne
-    @JoinColumn(name = "species_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "species_id", referencedColumnName = "id")
     @JsonBackReference
     private Species species;
 }

@@ -20,10 +20,10 @@ public class NoRepetition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "time", nullable = false)
+    @Column(name = "time")
     private Time time;
 
     @Column(name = "alarm_before")

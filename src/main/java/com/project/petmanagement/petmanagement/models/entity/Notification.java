@@ -17,15 +17,15 @@ public class Notification {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "pet_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private Pet pet;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
 
     @Column(name = "note")
     private String note;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private Boolean status;
 }
