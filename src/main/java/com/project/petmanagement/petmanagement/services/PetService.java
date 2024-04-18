@@ -7,11 +7,11 @@ import com.project.petmanagement.petmanagement.models.entity.Pet;
 import com.project.petmanagement.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.petmanagement.repositories.BreedRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class PetService {
         return petsRepository.findByIdAndIsActiveIsTrue(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId + ", or pet was deleted"));
     }
 
-    @Transactional(rollbackOn = {Exception.class})
+    @Transactional(rollbackFor = {Exception.class})
     public Pet addPet(PetRequest petRequest) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
@@ -50,7 +50,7 @@ public class PetService {
         return petsRepository.save(pet);
     }
 
-    @Transactional(rollbackOn = {Exception.class})
+    @Transactional(rollbackFor = {Exception.class})
     public Pet updatePet(Long petId, PetRequest petRequest) throws Exception {
         Pet existingPet = petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
         if (existingPet != null) {
@@ -67,7 +67,7 @@ public class PetService {
         return null;
     }
 
-    @Transactional(rollbackOn = {Exception.class})
+    @Transactional(rollbackFor = {Exception.class})
     public Pet deletePet(Long petId) throws Exception {
         Pet existingPet = petsRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
         existingPet.setIsActive(false);
