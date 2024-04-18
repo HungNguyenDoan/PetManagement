@@ -20,6 +20,9 @@ public class DailyActivityLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "date")
     private Date date;
 
