@@ -27,9 +27,9 @@ public class OrderDetail {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private Double price;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private Integer quantity;
 }

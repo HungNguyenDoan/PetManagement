@@ -23,7 +23,7 @@ public class Treatment {
     @JsonBackReference
     private Disease disease;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description")

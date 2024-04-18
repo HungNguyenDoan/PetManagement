@@ -17,10 +17,10 @@ public class Vaccine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "vaccine_dose", nullable = false)
+    @Column(name = "vaccine_dose")
     private Integer vaccineDose;
 
     @ManyToOne

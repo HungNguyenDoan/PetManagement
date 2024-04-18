@@ -22,17 +22,17 @@ public class Pet extends BaseEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Column(name = "full_name", nullable = false)
+    @Column(name = "full_name")
     private String fullName;
 
     @ManyToOne
     @JoinColumn(name = "breed_id", referencedColumnName = "id")
     private Breed breed;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private Integer gender;
 
-    @Column(name = "date_of_birth", nullable = false)
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
     @Column(name = "description")
@@ -41,9 +41,9 @@ public class Pet extends BaseEntity {
     @Column(name = "image", length = 30000)
     private String image;
 
-    @Column(name = "is_neutered", nullable = false)
+    @Column(name = "is_neutered")
     private Boolean isNeutered;
     
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private Boolean isActive;
 }

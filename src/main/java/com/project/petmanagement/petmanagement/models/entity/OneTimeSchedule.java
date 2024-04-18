@@ -26,9 +26,9 @@ public class OneTimeSchedule {
     @JsonBackReference
     private VaccinationNotification vaccinationNotification;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "time", nullable = false)
+    @Column(name = "time")
     private Time time;
 }
