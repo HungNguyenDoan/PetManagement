@@ -14,6 +14,8 @@ public class Seeder implements CommandLineRunner {
     private final SpeciesSeeder speciesSeeder;
     private final BreedSeeder breedSeeder;
     private final VetSeeder vetSeeder;
+    private final DiseaseSeeder diseaseSeeder;
+    private final TreatmentSeeder treatmentSeeder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -23,6 +25,8 @@ public class Seeder implements CommandLineRunner {
         nutritionInfoSeeder.seed();
         breedSeeder.seed();
         vetSeeder.seed();
+        diseaseSeeder.seed();
+        treatmentSeeder.seed();
     }
 
 }
