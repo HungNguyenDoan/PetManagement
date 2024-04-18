@@ -26,20 +26,20 @@ public class NutritiousFood {
     @JoinColumn(name = "species_id", referencedColumnName = "id")
     private Species species;
 
-    @Column(name = "image", length = 30000, nullable = true)
+    @Column(name = "image", length = 30000)
     private String image;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "nutrition", nullable = true)
+    @Column(name = "nutrition")
     private String nutrition;
 
-    @Column(name = "quality", nullable = true)
+    @Column(name = "quality")
     @Enumerated(EnumType.STRING)
     private QualityEnum quality;
 
-    @Column(name = "ingredient", nullable = true)
+    @Column(name = "ingredient")
     private String ingredient;
 
     @ManyToOne

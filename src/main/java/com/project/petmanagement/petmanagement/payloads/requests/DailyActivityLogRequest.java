@@ -13,21 +13,20 @@ import java.sql.Time;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VaccinationNotificationRequest {
-    @JsonProperty("pet_id")
-    private Long petId;
-
+public class DailyActivityLogRequest {
     private String title;
-
-    @JsonProperty("vaccine_id")
-    private Long vaccineId;
-
-    private String note;
 
     private Date date;
 
     private Time time;
 
-    @JsonProperty("alarm_before")
-    private Time alarmBefore;
+    private String image;
+
+    private String note;
+
+    @JsonProperty("pet_id")
+    private Long petId;
+
+    @JsonProperty("daily_activity_id")
+    private Long dailyActivityId;
 }
