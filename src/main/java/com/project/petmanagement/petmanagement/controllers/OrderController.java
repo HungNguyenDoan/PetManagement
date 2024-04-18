@@ -48,4 +48,22 @@ public class OrderController {
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelOrder(@PathVariable("id") Long idOrder){
+        try {
+            Order order = orderService.cancelOrder(idOrder);
+            DataResponse orderResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Cancel order successfully")
+                    .data(order)
+                    .build();
+            return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
