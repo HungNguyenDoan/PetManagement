@@ -20,6 +20,9 @@ public class MedicalDocument {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "note", length = 5000)
+    private String note;
+
     @ManyToOne
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private Pet pet;

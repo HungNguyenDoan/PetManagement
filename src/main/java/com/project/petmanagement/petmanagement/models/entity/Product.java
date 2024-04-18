@@ -32,7 +32,7 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProductStatusEnum status;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 5000)
     private String description;
 
     @Column(name = "is_active")

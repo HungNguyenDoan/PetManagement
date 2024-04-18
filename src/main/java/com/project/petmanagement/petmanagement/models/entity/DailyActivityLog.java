@@ -32,7 +32,7 @@ public class DailyActivityLog {
     @Column(name = "image", length = 30000)
     private String image;
 
-    @Column(name = "note")
+    @Column(name = "note", length = 5000)
     private String note;
 
     @ManyToOne

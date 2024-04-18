@@ -23,7 +23,7 @@ public class Notification {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "note")
+    @Column(name = "note", length = 5000)
     private String note;
 
     @Column(name = "status")
