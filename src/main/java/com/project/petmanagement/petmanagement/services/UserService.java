@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.models.entity.User;
 import com.project.petmanagement.petmanagement.models.entity.Role;
-import com.project.petmanagement.petmanagement.payloads.requests.FcmToken;
 import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.petmanagement.repositories.RoleRepository;
 import com.project.petmanagement.petmanagement.repositories.UserRepository;
@@ -57,8 +56,9 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public boolean setFcm(String token) {
+    public Boolean setFcm(String token) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        user.setFcmToken()
+        user.setFcmToken(token);
+        return userRepository.save(user).getFcmToken().equals(token); 
     }
 }

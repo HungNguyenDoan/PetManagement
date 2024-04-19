@@ -37,6 +37,9 @@ public class User extends BaseEntity {
     @Column(name = "avatar")
     private String avatar;
 
+    @Column(name = "fcm_token")
+    private String fcmToken;
+
     @JsonIgnore
     @Column(name = "password")
     private String password;
