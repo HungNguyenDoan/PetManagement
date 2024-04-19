@@ -18,7 +18,9 @@ public class Seeder implements CommandLineRunner {
     private final VetSeeder vetSeeder;
     private final DiseaseSeeder diseaseSeeder;
     private final TreatmentSeeder treatmentSeeder;
-  
+    private final DailyActivitySeeder dailyActivitySeeder;
+    private final VaccineSeeder vaccineSeeder;
+
     @Override
     public void run(String... args) throws Exception {
         roleSeeder.seed();
@@ -31,5 +33,8 @@ public class Seeder implements CommandLineRunner {
         vetSeeder.seed();
         diseaseSeeder.seed();
         treatmentSeeder.seed();
+        dailyActivitySeeder.seed();
+        vaccineSeeder.seed();
     }
+
 }
