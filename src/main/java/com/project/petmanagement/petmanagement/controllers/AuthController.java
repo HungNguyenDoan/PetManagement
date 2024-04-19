@@ -2,6 +2,7 @@ package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.JWT.JWTTokenProvider;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
+import com.project.petmanagement.petmanagement.payloads.requests.FcmToken;
 import com.project.petmanagement.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
@@ -54,5 +55,11 @@ public class AuthController {
     public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest request) throws Exception {
         userService.register(request);
         return login(new LoginRequest(request.getPhoneNumber(), request.getPassword()));
+    }
+
+    @PostMapping(value = "/fcm") 
+    public ResponseEntity<Object> setFcm(@RequestBody FcmToken fcmToken) {
+        
+        return 
     }
 }

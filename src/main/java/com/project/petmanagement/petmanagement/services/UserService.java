@@ -3,6 +3,7 @@ package com.project.petmanagement.petmanagement.services;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.models.entity.User;
 import com.project.petmanagement.petmanagement.models.entity.Role;
+import com.project.petmanagement.petmanagement.payloads.requests.FcmToken;
 import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.petmanagement.repositories.RoleRepository;
 import com.project.petmanagement.petmanagement.repositories.UserRepository;
@@ -53,5 +55,10 @@ public class UserService implements UserDetailsService {
                 .role(userRole)
                 .build();
         userRepository.save(user);
+    }
+
+    public boolean setFcm(String token) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setFcmToken()
     }
 }
