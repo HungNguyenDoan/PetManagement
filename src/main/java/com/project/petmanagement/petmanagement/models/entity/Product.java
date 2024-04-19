@@ -4,17 +4,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.petmanagement.petmanagement.models.enums.ProductStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 
 @Entity
 @Table(name = "products")
-@SuperBuilder
-@EqualsAndHashCode(callSuper = true)
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product extends BaseEntity {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

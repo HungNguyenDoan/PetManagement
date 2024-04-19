@@ -1,10 +1,13 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "diseases")
@@ -26,11 +29,13 @@ public class Disease {
     @Column(name = "symptoms", length = 5000)
     private String symptoms;
 
-    @Column(name = "prevention", length = 5000)
-    private String prevention;
+    @OneToMany(mappedBy = "diseasePreventions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Prevention> preventions;
 
-    @Column(name = "treatments", length = 5000)
-    private String treatments;
+    @OneToMany(mappedBy = "diseaseTreatments", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Treatment> treatments;
 
     @ManyToOne
     @JoinColumn(name = "species_id", referencedColumnName = "id")
