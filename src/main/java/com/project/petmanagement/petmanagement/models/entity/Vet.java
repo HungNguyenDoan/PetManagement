@@ -30,7 +30,7 @@ public class Vet {
     @Column(name = "avatar", length = 30000)
     private String avatar;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 5000)
     private String description;
 
     @Column(name = "experience")

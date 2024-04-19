@@ -29,17 +29,17 @@ public class NutritiousFood {
     @Column(name = "image", length = 30000)
     private String image;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 5000)
     private String description;
 
-    @Column(name = "nutrition")
+    @Column(name = "nutrition", length = 5000)
     private String nutrition;
 
     @Column(name = "quality")
     @Enumerated(EnumType.STRING)
     private QualityEnum quality;
 
-    @Column(name = "ingredient")
+    @Column(name = "ingredient", length = 5000)
     private String ingredient;
 
     @ManyToOne

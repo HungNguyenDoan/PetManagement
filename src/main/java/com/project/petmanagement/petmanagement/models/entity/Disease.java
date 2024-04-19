@@ -23,13 +23,17 @@ public class Disease {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 5000)
     private String description;
 
-    @Column(name = "sypmtoms")
+    @Column(name = "symptoms", length = 5000)
     private String symptoms;
 
-    @OneToMany(mappedBy = "disease", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "diseasePreventions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Prevention> preventions;
+
+    @OneToMany(mappedBy = "diseaseTreatments", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Treatment> treatments;
 

@@ -8,26 +8,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "care_activity_info")
+@Table(name = "preventions")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CareActivityInfo {
+public class Prevention {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "care_activity_id", referencedColumnName = "id")
-    private CareActivity careActivity;
-
-    @Column(name = "note", length = 5000)
-    private String note;
-
-    @ManyToOne
-    @JoinColumn(name = "care_activity_notification_id", referencedColumnName = "id")
+    @JoinColumn(name = "disease_id", referencedColumnName = "id")
     @JsonBackReference
-    private CareActivityNotification careActivityNotification;
-}
+    private Disease disease;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description", length = 5000)
+    private String description;
+}
