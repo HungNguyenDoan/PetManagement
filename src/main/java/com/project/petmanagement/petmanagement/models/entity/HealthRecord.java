@@ -31,16 +31,13 @@ public class HealthRecord {
     @Column(name = "last_visit")
     private Date lastVisit;
 
-    @Column(name = "symptoms", length = 5000)
+    @Column(name = "symptoms", columnDefinition = "TEXT")
     private String symptoms;
 
-    @Column(name = "diagnosis", length = 5000)
+    @Column(name = "diagnosis", columnDefinition = "TEXT")
     private String diagnosis;
 
-    @Column(name = "treatments", length = 5000)
-    private String treatments;
-
-    @Column(name = "note", length = 5000)
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
     @ManyToOne

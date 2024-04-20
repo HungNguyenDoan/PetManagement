@@ -21,7 +21,7 @@ public class Breed {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "image", length = 30000)
+    @Column(name = "image", columnDefinition = "TEXT")
     private String image;
 
     @ManyToOne

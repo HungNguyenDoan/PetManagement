@@ -20,7 +20,7 @@ public class MedicalDocument {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "note", length = 5000)
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
     @ManyToOne

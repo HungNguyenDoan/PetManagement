@@ -29,10 +29,10 @@ public class DailyActivityLog {
     @Column(name = "time")
     private Time time;
 
-    @Column(name = "image", length = 30000)
+    @Column(name = "image", columnDefinition = "TEXT")
     private String image;
 
-    @Column(name = "note", length = 5000)
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
     @ManyToOne
