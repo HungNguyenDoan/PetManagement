@@ -18,8 +18,9 @@ import java.util.List;
 @RequestMapping("/health_records")
 public class HealthRecordController {
     private final HealthRecordService healthRecordService;
+
     @GetMapping("pet/{pet_id}")
-    public ResponseEntity<?> getHealthRecordByPet(@PathVariable(name = "pet_id") Long petId){
+    public ResponseEntity<?> getHealthRecordByPet(@PathVariable(name = "pet_id") Long petId) {
         try {
             List<HealthRecord> healthRecords = healthRecordService.getHealthRecordByPet(petId);
             DataResponse healthRecordResponse = DataResponse.builder()
