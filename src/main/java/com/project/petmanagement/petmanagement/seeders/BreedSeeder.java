@@ -21,6 +21,7 @@ public class BreedSeeder {
 
     public void seed() {
         List<Species> listSpecies = speciesRepository.findAll();
+
         Breed b1 = Breed.builder().id(1L).name("Labrador Retriever").species(listSpecies.get(0)).build();
         Breed b2 = Breed.builder().id(2L).name("German Shepherd").species(listSpecies.get(0)).build();
         Breed b3 = Breed.builder().id(3L).name("Golden Retriever").species(listSpecies.get(0)).build();
@@ -41,7 +42,8 @@ public class BreedSeeder {
         Breed b18 = Breed.builder().id(18L).name("Scottish Fold").species(listSpecies.get(1)).build();
         Breed b19 = Breed.builder().id(19L).name("Norwegian Forest Cat").species(listSpecies.get(1)).build();
         Breed b20 = Breed.builder().id(20L).name("Burmese").species(listSpecies.get(1)).build();
-        breedRepository.saveAll(Arrays.asList(b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14,
-                b15, b16, b17, b18, b19, b20));
+
+        breedRepository.saveAll(
+                Arrays.asList(b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20));
     }
 }

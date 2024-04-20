@@ -16,6 +16,7 @@ public class CategorySeeder {
         Category category1 = Category.builder().id(1L).name("Thức ăn").build();
         Category category2 = Category.builder().id(2L).name("Thiết bị").build();
         Category category3 = Category.builder().id(3L).name("Đồ chơi").build();
+
         categoryRepository.saveAll(Arrays.asList(category1,category2, category3));
     }
 }
