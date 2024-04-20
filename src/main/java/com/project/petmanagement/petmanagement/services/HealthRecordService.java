@@ -10,12 +10,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class HealthRecordService {
     private final HealthRecordRepository healthRecordRepository;
     private final PetRepository petRepository;
-
+    public List<HealthRecord> getHealthRecordByPet(Long petId) throws Exception{
+        Pet pet = petRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not found Pet with id="+petId));
+        return healthRecordRepository.findByPet(pet);
+    }
     @Transactional(rollbackFor = Exception.class)
     public HealthRecord addHealRecord(HealthRecordRequest healthRecordRequest) throws Exception {
         HealthRecord lastHealthRecord = healthRecordRepository.findTopByOrderByIdDesc();

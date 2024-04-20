@@ -11,11 +11,32 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/health_records")
 public class HealthRecordController {
     private final HealthRecordService healthRecordService;
+    @GetMapping("pet/{pet_id}")
+    public ResponseEntity<?> getHealthRecordByPet(@PathVariable(name = "pet_id") Long petId){
+        try {
+            List<HealthRecord> healthRecords = healthRecordService.getHealthRecordByPet(petId);
+            DataResponse healthRecordResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Get health records success.")
+                    .data(healthRecords)
+                    .build();
+            return new ResponseEntity<>(healthRecordResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
     @PostMapping("/add")
     public ResponseEntity<?> addHeathRecord(@Valid @RequestBody HealthRecordRequest healthRecordRequest) {
