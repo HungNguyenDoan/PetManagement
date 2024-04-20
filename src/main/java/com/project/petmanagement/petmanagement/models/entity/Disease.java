@@ -23,10 +23,10 @@ public class Disease {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description", length = 5000)
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "symptoms", length = 5000)
+    @Column(name = "symptoms", columnDefinition = "TEXT")
     private String symptoms;
 
     @OneToMany(mappedBy = "disease", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

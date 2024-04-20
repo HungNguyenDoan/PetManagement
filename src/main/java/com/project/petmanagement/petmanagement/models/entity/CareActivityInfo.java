@@ -22,7 +22,7 @@ public class CareActivityInfo {
     @JoinColumn(name = "care_activity_id", referencedColumnName = "id")
     private CareActivity careActivity;
 
-    @Column(name = "note", length = 5000)
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
     @ManyToOne

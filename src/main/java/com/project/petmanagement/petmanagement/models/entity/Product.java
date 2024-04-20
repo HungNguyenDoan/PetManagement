@@ -23,14 +23,14 @@ public class Product {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "image", length = 30000)
+    @Column(name = "image", columnDefinition = "TEXT")
     private String image;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ProductStatusEnum status;
 
-    @Column(name = "description", length = 5000)
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "is_active")

@@ -27,10 +27,10 @@ public class Vet {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "avatar", length = 30000)
+    @Column(name = "avatar", columnDefinition = "TEXT")
     private String avatar;
 
-    @Column(name = "description", length = 5000)
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "experience")

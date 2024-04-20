@@ -26,6 +26,6 @@ public class Treatment {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description", length = 5000)
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 }
