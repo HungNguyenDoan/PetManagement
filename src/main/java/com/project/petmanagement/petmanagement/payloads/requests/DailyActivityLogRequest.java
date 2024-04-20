@@ -14,6 +14,8 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DailyActivityLogRequest {
+    private Long id;
+
     private String title;
 
     private Date date;
