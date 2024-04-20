@@ -29,11 +29,11 @@ public class Disease {
     @Column(name = "symptoms", length = 5000)
     private String symptoms;
 
-    @OneToMany(mappedBy = "diseasePreventions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "disease", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Prevention> preventions;
 
-    @OneToMany(mappedBy = "diseaseTreatments", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "disease", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Treatment> treatments;
 
