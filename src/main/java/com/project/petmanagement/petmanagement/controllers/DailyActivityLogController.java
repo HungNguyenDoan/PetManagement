@@ -17,17 +17,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/daily_activity_log")
+@RequestMapping("/daily_activity_logs")
 public class DailyActivityLogController {
     private final DailyActivityLogService dailyActivityLogService;
 
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllDailyActivityLog() {
+    public ResponseEntity<Object> getAllDailyActivityLogs() {
         try {
-            List<DailyActivityLog> dailyActivityLogList = dailyActivityLogService.getAllDailyActivityLog();
+            List<DailyActivityLog> dailyActivityLogList = dailyActivityLogService.getDailyActivityLogs();
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Get all daily activity log successfully")
+                    .message("Get all daily activity logs successfully")
                     .data(dailyActivityLogList)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
@@ -43,7 +43,25 @@ public class DailyActivityLogController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getDailyActivityLogById(@PathVariable("id") Long dailyActivityLogId) {
         try {
-            DailyActivityLog dailyActivityLog = dailyActivityLogService.getDailyById(dailyActivityLogId);
+            DailyActivityLog dailyActivityLog = dailyActivityLogService.getDailyActivityLogById(dailyActivityLogId);
+            DataResponse dataResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Get daily activity log successfully")
+                    .data(dailyActivityLog)
+                    .build();
+            return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/findByPetId")
+    public ResponseEntity<Object> getDailyActivityLogsByPet(@RequestBody DailyActivityLogRequest dailyActivityLogRequest) {
+        try {
+            List<DailyActivityLog> dailyActivityLog = dailyActivityLogService.getDailyActivityLogsByPet(dailyActivityLogRequest.getPetId());
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Get daily activity log successfully")
@@ -86,7 +104,7 @@ public class DailyActivityLogController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Object> updatePet(@RequestBody @Valid DailyActivityLogRequest dailyActivityLogRequest) {
+    public ResponseEntity<Object> updateDailyActivityLog(@RequestBody @Valid DailyActivityLogRequest dailyActivityLogRequest) {
         try {
             DailyActivityLog dailyActivityLog = dailyActivityLogService.updateDailyActivityLog(dailyActivityLogRequest);
             if (dailyActivityLog == null) {
@@ -112,20 +130,12 @@ public class DailyActivityLogController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Object> deletePet(@RequestBody DailyActivityLogRequest request) {
+    public ResponseEntity<Object> deleteDailyActivityLog(@RequestBody DailyActivityLogRequest request) {
         try {
-            ResponseEntity<String> mess = dailyActivityLogService.deleteDailyActivityLog(request.getId());
-            if (mess == null) {
-                ErrorResponse errorResponse = ErrorResponse.builder()
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .message("Daily activity cannot be deleted. Please try again")
-                        .build();
-                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-            }
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Deleted daily activity successfully")
-                    .data(mess)
+                    .data(dailyActivityLogService.deleteDailyActivityLog(request.getId()))
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         } catch (Exception e) {

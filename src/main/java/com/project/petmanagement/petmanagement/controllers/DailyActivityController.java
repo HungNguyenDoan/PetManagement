@@ -19,17 +19,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/daily_activity")
+@RequestMapping("/daily_activities")
 public class DailyActivityController {
     private final DailyActivityService dailyActivityService;
 
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllSpecies() {
-        List<DailyActivity> dailyActivityList = dailyActivityService.getAllDailyActivity();
+    public ResponseEntity<Object> getAllDailyActivities() {
+        List<DailyActivity> dailyActivityList = dailyActivityService.getAllDailyActivities ();
         if (!dailyActivityList.isEmpty()) {
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Get all daily activity successfully")
+                    .message("Get all daily activities successfully")
                     .data(dailyActivityList)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
@@ -42,12 +42,12 @@ public class DailyActivityController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getPetDetails(@PathVariable("id") Long dailyActivityId) {
+    public ResponseEntity<Object> getDailyActivityById(@PathVariable("id") Long dailyActivityId) {
         try {
-            DailyActivity dailyActivity = dailyActivityService.getDailyById(dailyActivityId);
+            DailyActivity dailyActivity = dailyActivityService.getDailyActivityById(dailyActivityId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Get pet details successfully")
+                    .message("Get daily activity by ID successfully")
                     .data(dailyActivity)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);

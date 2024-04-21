@@ -17,11 +17,11 @@ import java.util.List;
 public class DailyActivityService {
     private final DailyActivityRepository dailyActivityRepository;
 
-    public List<DailyActivity> getAllDailyActivity () {
+    public List<DailyActivity> getAllDailyActivities  () {
         return dailyActivityRepository.findAll();
     }
 
-    public DailyActivity getDailyById(Long dailyActivityId) throws Exception {
+    public DailyActivity getDailyActivityById(Long dailyActivityId) throws Exception {
         return dailyActivityRepository.findById(dailyActivityId).orElseThrow(() -> new DataNotFoundException("Can not find Daily Activity  with ID: " + dailyActivityId + ", or pet was deleted"));
     }
 }
