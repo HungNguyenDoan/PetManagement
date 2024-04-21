@@ -38,7 +38,7 @@ public class FirebaseController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .message(e.getMessage())
                     .build();
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
