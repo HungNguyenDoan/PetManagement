@@ -32,6 +32,7 @@ public class VaccineSeeder {
         Vaccine v8 = Vaccine.builder().name("Vaccine Herpesvirus").vaccineDose(1).species(listSpecies.get(1)).build();
         Vaccine v9 = Vaccine.builder().name("Vaccine Chlamydia").vaccineDose(1).species(listSpecies.get(1)).build();
         Vaccine v10 = Vaccine.builder().name("Vaccine Rabies").vaccineDose(1).species(listSpecies.get(1)).build();
+
         vaccineRepository.saveAll(Arrays.asList(v1, v2, v3, v4, v5, v6, v7, v8, v9, v10));
     }
 }

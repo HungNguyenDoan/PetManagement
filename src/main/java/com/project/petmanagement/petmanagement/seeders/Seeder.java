@@ -1,9 +1,8 @@
 package com.project.petmanagement.petmanagement.seeders;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +16,7 @@ public class Seeder implements CommandLineRunner {
     private final ProductSeeder productSeeder;
     private final VetSeeder vetSeeder;
     private final DiseaseSeeder diseaseSeeder;
+    private final PreventionSeeder preventionSeeder;
     private final TreatmentSeeder treatmentSeeder;
     private final DailyActivitySeeder dailyActivitySeeder;
     private final VaccineSeeder vaccineSeeder;
@@ -32,9 +32,9 @@ public class Seeder implements CommandLineRunner {
         productSeeder.seed();
         vetSeeder.seed();
         diseaseSeeder.seed();
+        preventionSeeder.seed();
         treatmentSeeder.seed();
         dailyActivitySeeder.seed();
         vaccineSeeder.seed();
     }
-
 }
