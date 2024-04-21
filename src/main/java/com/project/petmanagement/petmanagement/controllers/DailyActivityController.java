@@ -1,9 +1,6 @@
 package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.models.entity.DailyActivity;
-import com.project.petmanagement.petmanagement.models.entity.DailyActivityLog;
-import com.project.petmanagement.petmanagement.models.entity.Pet;
-import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.DailyActivityService;
@@ -25,7 +22,7 @@ public class DailyActivityController {
 
     @GetMapping("/all")
     public ResponseEntity<Object> getAllDailyActivities() {
-        List<DailyActivity> dailyActivityList = dailyActivityService.getAllDailyActivities ();
+        List<DailyActivity> dailyActivityList = dailyActivityService.getAllDailyActivities();
         if (!dailyActivityList.isEmpty()) {
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())

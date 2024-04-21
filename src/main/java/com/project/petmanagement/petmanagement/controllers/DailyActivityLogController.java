@@ -1,9 +1,7 @@
 package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.models.entity.DailyActivityLog;
-import com.project.petmanagement.petmanagement.models.entity.Pet;
 import com.project.petmanagement.petmanagement.payloads.requests.DailyActivityLogRequest;
-import com.project.petmanagement.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.DailyActivityLogService;
@@ -46,7 +44,7 @@ public class DailyActivityLogController {
             DailyActivityLog dailyActivityLog = dailyActivityLogService.getDailyActivityLogById(dailyActivityLogId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Get daily activity log successfully")
+                    .message("Get daily activity log by ID successfully")
                     .data(dailyActivityLog)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
@@ -58,13 +56,14 @@ public class DailyActivityLogController {
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/findByPetId")
+
+    @PostMapping("/pets")
     public ResponseEntity<Object> getDailyActivityLogsByPet(@RequestBody DailyActivityLogRequest dailyActivityLogRequest) {
         try {
             List<DailyActivityLog> dailyActivityLog = dailyActivityLogService.getDailyActivityLogsByPet(dailyActivityLogRequest.getPetId());
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Get daily activity log successfully")
+                    .message("Get daily activity logs by pet successfully")
                     .data(dailyActivityLog)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
@@ -130,20 +129,7 @@ public class DailyActivityLogController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Object> deleteDailyActivityLog(@RequestBody DailyActivityLogRequest request) {
-        try {
-            DataResponse dataResponse = DataResponse.builder()
-                    .status(HttpStatus.OK.value())
-                    .message("Deleted daily activity successfully")
-                    .data(dailyActivityLogService.deleteDailyActivityLog(request.getId()))
-                    .build();
-            return new ResponseEntity<>(dataResponse, HttpStatus.OK);
-        } catch (Exception e) {
-            ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(HttpStatus.BAD_REQUEST.value())
-                    .message(e.getMessage())
-                    .build();
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<String> deleteDailyActivityLog(@RequestBody DailyActivityLogRequest request) {
+        return dailyActivityLogService.deleteDailyActivityLog(request.getDailyActivityId());
     }
 }

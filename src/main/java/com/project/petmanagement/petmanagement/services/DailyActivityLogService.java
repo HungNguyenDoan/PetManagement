@@ -1,12 +1,10 @@
 package com.project.petmanagement.petmanagement.services;
 
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
-import com.project.petmanagement.petmanagement.models.entity.Breed;
 import com.project.petmanagement.petmanagement.models.entity.DailyActivity;
 import com.project.petmanagement.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
 import com.project.petmanagement.petmanagement.payloads.requests.DailyActivityLogRequest;
-import com.project.petmanagement.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.petmanagement.repositories.DailyActivityLogRepository;
 import com.project.petmanagement.petmanagement.repositories.DailyActivityRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
@@ -16,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -34,12 +31,10 @@ public class DailyActivityLogService {
     public DailyActivityLog getDailyActivityLogById(Long dailyActivityLogId) throws Exception {
         return dailyActivityLogRepository.findById(dailyActivityLogId).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log  with ID: " + dailyActivityLogId + ", or daily activity log was deleted"));
     }
+
     public List<DailyActivityLog> getDailyActivityLogsByPet(Long petId) throws Exception {
-        try {
-            return dailyActivityLogRepository.findByPetId(petId);
-        } catch (Exception e) {
-            throw new Exception("Can not find daily activity log  with pet ID: " + petId + ", or daily activity log was deleted" );
-        }
+        Pet pet = petRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + petId));
+        return dailyActivityLogRepository.findByPet(pet);
     }
 
     @Transactional(rollbackFor = {Exception.class})
@@ -61,7 +56,7 @@ public class DailyActivityLogService {
     @Transactional(rollbackFor = {Exception.class})
     public DailyActivityLog updateDailyActivityLog(DailyActivityLogRequest request) throws Exception {
         DailyActivityLog dailyActivityLog = dailyActivityLogRepository.findById(request.getId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getId()));
-        if(dailyActivityLog != null) {
+        if (dailyActivityLog != null) {
             Pet pet = petRepository.findById(request.getPetId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getPetId()));
             DailyActivity dailyActivity = dailyActivityRepository.findById(request.getDailyActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getDailyActivityId()));
             dailyActivityLog.setDate(request.getDate());
@@ -77,7 +72,7 @@ public class DailyActivityLogService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public ResponseEntity<String> deleteDailyActivityLog( Long dailyActivityLogId) {
+    public ResponseEntity<String> deleteDailyActivityLog(Long dailyActivityLogId) {
         try {
             dailyActivityLogRepository.deleteById(dailyActivityLogId);
             return ResponseEntity.ok("Record deleted successfully");
