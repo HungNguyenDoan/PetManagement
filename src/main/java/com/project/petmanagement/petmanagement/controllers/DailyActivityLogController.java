@@ -57,7 +57,7 @@ public class DailyActivityLogController {
         }
     }
 
-    @PostMapping("/pets")
+    @GetMapping("/pets")
     public ResponseEntity<Object> getDailyActivityLogsByPet(@RequestBody DailyActivityLogRequest dailyActivityLogRequest) {
         try {
             List<DailyActivityLog> dailyActivityLog = dailyActivityLogService.getDailyActivityLogsByPet(dailyActivityLogRequest.getPetId());
@@ -102,7 +102,7 @@ public class DailyActivityLogController {
         }
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<Object> updateDailyActivityLog(@RequestBody @Valid DailyActivityLogRequest dailyActivityLogRequest) {
         try {
             DailyActivityLog dailyActivityLog = dailyActivityLogService.updateDailyActivityLog(dailyActivityLogRequest);
@@ -128,8 +128,21 @@ public class DailyActivityLogController {
         }
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteDailyActivityLog(@RequestBody DailyActivityLogRequest request) {
-        return dailyActivityLogService.deleteDailyActivityLog(request.getDailyActivityId());
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> deleteDailyActivityLog(@RequestBody DailyActivityLogRequest request) {
+        try {
+            dailyActivityLogService.deleteDailyActivityLog(request.getId());
+            DataResponse dataResponse = DataResponse.builder()
+                    .status(200)
+                    .message("Record deleted successfully")
+                    .build();
+            return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(400)
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
     }
 }

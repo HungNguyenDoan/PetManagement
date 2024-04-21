@@ -8,10 +8,7 @@ import com.project.petmanagement.petmanagement.payloads.requests.DailyActivityLo
 import com.project.petmanagement.petmanagement.repositories.DailyActivityLogRepository;
 import com.project.petmanagement.petmanagement.repositories.DailyActivityRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +36,8 @@ public class DailyActivityLogService {
 
     @Transactional(rollbackFor = {Exception.class})
     public DailyActivityLog addDailyActivityLog(DailyActivityLogRequest request) throws Exception {
-        Pet pet = petRepository.findById(request.getPetId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getPetId()));
-        DailyActivity dailyActivity = dailyActivityRepository.findById(request.getDailyActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getDailyActivityId()));
+        Pet pet = petRepository.findById(request.getPetId()).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + request.getPetId()));
+        DailyActivity dailyActivity = dailyActivityRepository.findById(request.getDailyActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity with ID: " + request.getDailyActivityId()));
         DailyActivityLog dailyActivityLog = DailyActivityLog.builder()
                 .date(request.getDate())
                 .time(request.getTime())
@@ -57,8 +54,8 @@ public class DailyActivityLogService {
     public DailyActivityLog updateDailyActivityLog(DailyActivityLogRequest request) throws Exception {
         DailyActivityLog dailyActivityLog = dailyActivityLogRepository.findById(request.getId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getId()));
         if (dailyActivityLog != null) {
-            Pet pet = petRepository.findById(request.getPetId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getPetId()));
-            DailyActivity dailyActivity = dailyActivityRepository.findById(request.getDailyActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + request.getDailyActivityId()));
+            Pet pet = petRepository.findById(request.getPetId()).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + request.getPetId()));
+            DailyActivity dailyActivity = dailyActivityRepository.findById(request.getDailyActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find daily activity with ID: " + request.getDailyActivityId()));
             dailyActivityLog.setDate(request.getDate());
             dailyActivityLog.setTime(request.getTime());
             dailyActivityLog.setTitle(request.getTitle());
@@ -72,15 +69,10 @@ public class DailyActivityLogService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public ResponseEntity<String> deleteDailyActivityLog(Long dailyActivityLogId) {
-        try {
+    public void deleteDailyActivityLog(Long dailyActivityLogId) throws Exception {
+        DailyActivityLog dailyActivityLog = dailyActivityLogRepository.findById(dailyActivityLogId).orElseThrow(() -> new DataNotFoundException("Can not find daily activity log with ID: " + dailyActivityLogId));
+        if (dailyActivityLog != null) {
             dailyActivityLogRepository.deleteById(dailyActivityLogId);
-            return ResponseEntity.ok("Record deleted successfully");
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.badRequest().body("Can not find daily activity log with ID: " + dailyActivityLogId);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while deleting the record");
         }
     }
-
 }
