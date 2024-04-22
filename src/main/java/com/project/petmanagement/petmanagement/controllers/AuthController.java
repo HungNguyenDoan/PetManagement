@@ -59,8 +59,8 @@ public class AuthController {
     }
 
     @PostMapping(value = "/fcm")
-    public ResponseEntity<Object> setFcmForUser(@RequestBody FCMToken FCMToken) {
-        Boolean state = userService.setFcm(FCMToken.getFCMToken());
+    public ResponseEntity<Object> setFcmForUser(@RequestBody FCMToken fcmToken) {
+        Boolean state = userService.setFcm(fcmToken.getFcmToken());
         if (state) {
             DataResponse response = DataResponse.builder()
                     .status(HttpStatus.OK.value())

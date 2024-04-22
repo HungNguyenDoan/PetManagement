@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FCMToken {
-    String FCMToken;
+    String fcmToken;
 }
