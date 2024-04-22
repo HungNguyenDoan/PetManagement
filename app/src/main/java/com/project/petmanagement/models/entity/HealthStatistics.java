@@ -7,6 +7,10 @@ public class HealthStatistics extends HealthRecord{
     private Date toDate;
     private Double totalChangedWeight;
 
+    public HealthStatistics(Date checkUpDate, Double weight) {
+        super(checkUpDate, weight);
+    }
+
     public Date getFromDate() {
         return fromDate;
     }

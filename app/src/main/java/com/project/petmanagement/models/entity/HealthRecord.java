@@ -14,6 +14,11 @@ public class HealthRecord {
     private String note;
     private Pet pet;
 
+    public HealthRecord(Date checkUpDate, Double weight) {
+        this.checkUpDate = checkUpDate;
+        this.weight = weight;
+    }
+
     public Long getId() {
         return id;
     }

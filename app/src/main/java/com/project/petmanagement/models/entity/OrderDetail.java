@@ -1,6 +1,8 @@
 package com.project.petmanagement.models.entity;
 
-public class OrderDetail {
+import java.io.Serializable;
+
+public class OrderDetail implements Serializable {
     private Long id;
     private Order order;
     private Product product;

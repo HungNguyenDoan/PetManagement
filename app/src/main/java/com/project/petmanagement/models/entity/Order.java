@@ -3,13 +3,14 @@ package com.project.petmanagement.models.entity;
 import com.project.petmanagement.models.enums.OrderStatusEnum;
 import com.project.petmanagement.models.enums.PaymentMethodEnum;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private Long id;
     private User user;
-    private LocalDateTime orderDate;
+    private Date orderDate;
     private List<OrderDetail> orderDetails;
     private Double totalPrice;
     private String shippingAddress;
@@ -32,11 +33,11 @@ public class Order {
         this.user = user;
     }
 
-    public LocalDateTime getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDateTime orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 

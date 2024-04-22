@@ -81,7 +81,7 @@
                         android:textSize="25sp"
                         />
                     <TextView
-                        android:id="@+id/species"
+                        android:id="@+id/breed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/breed"

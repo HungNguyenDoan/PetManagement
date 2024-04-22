@@ -88,8 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                     SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     Date dob2 = sdf1.parse(dob.getText().toString());
                     String dob3 = sdf.format(dob2);
-                    Date dob1 = sdf.parse(dob3);
-                    RegisterRequest registerRequest = new RegisterRequest(fullName.getText().toString(),dob1, phoneNumber.getText().toString(), email.getText().toString(), address.getText().toString(), password.getText().toString());
+                    RegisterRequest registerRequest = new RegisterRequest(fullName.getText().toString().trim(),dob3, phoneNumber.getText().toString().trim(), email.getText().toString().trim(), address.getText().toString(), password.getText().toString());
                     ApiService.apiService.signup(registerRequest).enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -177,7 +176,7 @@ public class RegisterActivity extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(RegisterActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = dayOfMonth+"/"+ month +"/"+year;
+                        String date = dayOfMonth+"/"+ (month+1) +"/"+year;
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                         try {
                             Date date1 = sdf.parse(date);

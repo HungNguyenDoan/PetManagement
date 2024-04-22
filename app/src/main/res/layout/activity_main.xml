@@ -16,10 +16,11 @@
         app:labelVisibilityMode="selected"
         app:menu="@menu/bottom_nav_menu" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_above="@id/bottomNavigationView"
+        android:id="@+id/view_pager_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
 </RelativeLayout>

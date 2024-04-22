@@ -1,6 +1,8 @@
 package com.project.petmanagement.models.entity;
 
-public class Vet {
+import java.io.Serializable;
+
+public class Vet implements Serializable {
     private Long id;
     private String fullName;
     private String phoneNumber;

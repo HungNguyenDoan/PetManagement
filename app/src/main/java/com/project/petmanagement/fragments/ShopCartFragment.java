@@ -80,13 +80,18 @@ public class ShopCartFragment extends Fragment {
                     CartResponse cartResponse = response.body();
                     if(cartResponse!=null){
                         cart = cartResponse.getData();
-                        List<CartItem> cartItems = cart.getCartItems();
-                        cartItemAdapter = new ListCartItemAdapter(getContext(), cartItems);
-                        carItemRecyclerView.setAdapter(cartItemAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                        carItemRecyclerView.setLayoutManager(layoutManager);
-                        String totalPrice = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VND";
-                        totalPrices.setText(totalPrice);
+                        if(cart!=null){
+                            List<CartItem> cartItems = cart.getCartItems();
+                            if(cartItems!=null){
+                                cartItemAdapter = new ListCartItemAdapter(getContext(), cartItems, totalPrices);
+                                carItemRecyclerView.setAdapter(cartItemAdapter);
+                                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                                carItemRecyclerView.setLayoutManager(layoutManager);
+                            }
+                            String totalPrice = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VNĐ";
+                            totalPrices.setText(totalPrice);
+                        }
+
                     }
                 }
             }
@@ -96,6 +101,11 @@ public class ShopCartFragment extends Fragment {
 
             }
         });
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getCart();
     }
 }

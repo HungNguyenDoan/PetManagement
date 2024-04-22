@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 public class ImageUtils {
     public static String endcodeBase64(Bitmap image){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        image.compress(Bitmap.CompressFormat.JPEG, 30, baos);
         return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
     }
     public static Bitmap decodeBase64(String base64){

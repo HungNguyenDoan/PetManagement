@@ -2,6 +2,13 @@ package com.project.petmanagement.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,14 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
@@ -30,7 +29,6 @@ import com.project.petmanagement.services.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,9 +40,9 @@ public class ShopHomeFragment extends Fragment {
     private RecyclerView recyclerViewCategory;
     private CategoryAdapter categoryAdapter;
     private TextView all;
-    private ListProductAdapter listProductAdapter;
     private List<Product> products;
     private TextInputEditText searchInput;
+
     public ShopHomeFragment() {
     }
     @Override
@@ -66,6 +64,7 @@ public class ShopHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 all.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+                searchInput.setText("");
                 getAllProduct();
                 categoryAdapter.resetSelection();
                 recyclerViewCategory.setAdapter(categoryAdapter);
@@ -81,9 +80,14 @@ public class ShopHomeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length()==0){
-                    listProductAdapter.setProductList(products);
-                    Objects.requireNonNull(recyclerViewProduct.getAdapter()).notifyDataSetChanged();
-                    all.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+                    int defaultColor = ContextCompat.getColor(requireContext(), R.color.text_default);
+                    if(all.getCurrentTextColor() != defaultColor) {
+                        ListProductAdapter listProductAdapter = new ListProductAdapter(getContext(), products);
+                        recyclerViewProduct.setAdapter(listProductAdapter);
+                        all.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
+                        categoryAdapter.resetSelection();
+                        recyclerViewCategory.setAdapter(categoryAdapter);
+                    }
                 }else{
                     List<Product> productList = new ArrayList<>();
                     for (Product product: products){
@@ -91,12 +95,12 @@ public class ShopHomeFragment extends Fragment {
                             productList.add(product);
                         }
                     }
-                    listProductAdapter.setProductList(productList);
-                    Objects.requireNonNull(recyclerViewProduct.getAdapter()).notifyDataSetChanged();
+                    ListProductAdapter listProductAdapter = new ListProductAdapter(getContext(), productList);
+                    recyclerViewProduct.setAdapter(listProductAdapter);
                     all.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_default));
+                    categoryAdapter.resetSelection();
+                    recyclerViewCategory.setAdapter(categoryAdapter);
                 }
-                categoryAdapter.resetSelection();
-                recyclerViewCategory.setAdapter(categoryAdapter);
             }
 
             @Override
@@ -115,7 +119,7 @@ public class ShopHomeFragment extends Fragment {
                     if(listCategoryResponse!=null){
                         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                         recyclerViewCategory.setLayoutManager(layoutManager1);
-                        categoryAdapter = new CategoryAdapter(requireContext(), listCategoryResponse.getData(), recyclerViewProduct, all);
+                        categoryAdapter = new CategoryAdapter(requireContext(), listCategoryResponse.getData(), recyclerViewProduct, all, searchInput);
                         recyclerViewCategory.setAdapter(categoryAdapter);
                     }
                 }
@@ -134,7 +138,7 @@ public class ShopHomeFragment extends Fragment {
                     ListProductResponse listProductResponse = response.body();
                     if (listProductResponse != null) {
                         products = listProductResponse.getData();
-                        listProductAdapter = new ListProductAdapter(getContext(), products);
+                        ListProductAdapter listProductAdapter = new ListProductAdapter(getContext(), products);
                         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
                         recyclerViewProduct.setLayoutManager(layoutManager);
                         recyclerViewProduct.setAdapter(listProductAdapter);

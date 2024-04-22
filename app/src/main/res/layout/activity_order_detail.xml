@@ -69,10 +69,10 @@
                     android:textColor="@color/black"
                     />
                 <TextView
+                    android:id="@+id/id_order"
                     android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     />
@@ -80,8 +80,8 @@
                     android:gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="28/02/2023 20:39"
                     android:textSize="18sp"
+                    android:id="@+id/date_order"
                     />
             </LinearLayout>
             <LinearLayout
@@ -99,10 +99,10 @@
                     android:textStyle="bold"
                     />
                 <TextView
+                    android:id="@+id/full_name"
                     android:layout_marginHorizontal="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nguyễn Công Mạnh"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     />
@@ -110,15 +110,15 @@
                     android:layout_marginHorizontal="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0347303670"
+                    android:id="@+id/phone_number"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     />
                 <TextView
+                    android:id="@+id/address"
                     android:layout_marginHorizontal="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Số 100, đường Bình Minh, Xã Nam Đàn, Huyện Hoài Đức, Hà Nội"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     />
@@ -133,7 +133,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Địa chỉ nhận hàng"
+                    android:text="Sản phẩm"
                     android:textSize="18sp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -160,37 +160,40 @@
                     android:textStyle="bold"
                     />
                 <TextView
+                    android:id="@+id/payment_method"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center_horizontal"
                     android:gravity="end"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Thanh toán khi nhận hàng"
                     android:textSize="18sp"
                     android:textColor="@color/black"
                     />
             </RelativeLayout>
-            <LinearLayout
+            <RelativeLayout
                 android:padding="8dp"
-                android:orientation="vertical"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Địa chỉ nhận hàng"
+                    android:text="Trạng thái đơn hàng"
                     android:textSize="18sp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:layout_marginBottom="5dp"
                     />
-                <ImageView
+                <TextView
+                    android:textSize="18sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/status"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_width="match_parent"
-                    android:src="@drawable/status_order"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </RelativeLayout>
             <LinearLayout
                 android:layout_marginVertical="15dp"
                 android:padding="10dp"
@@ -208,14 +211,26 @@
                     />
 
                 <TextView
+                    android:id="@+id/total_price"
                     android:gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="215.000đ"
                     android:textSize="18sp"
                     android:textColor="@color/red"
                     />
             </LinearLayout>
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hủy"
+                android:textAllCaps="false"
+                android:background="@drawable/btn_cancel"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                />
         </LinearLayout>
 
     </ScrollView>

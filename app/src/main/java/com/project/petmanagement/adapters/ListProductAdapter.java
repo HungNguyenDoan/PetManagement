@@ -1,5 +1,6 @@
 package com.project.petmanagement.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         this.context = context;
         this.productList = productList;
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void setProductList(List<Product> productList){
         this.productList = productList;
         notifyDataSetChanged();

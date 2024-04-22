@@ -5,7 +5,7 @@ import com.project.petmanagement.models.enums.ProductStatusEnum;
 import java.io.Serializable;
 import java.util.List;
 
-public class Product extends BaseEntity implements Serializable {
+public class Product implements Serializable {
     private Long id;
     private String name;
     private Double price;

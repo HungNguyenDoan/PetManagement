@@ -42,15 +42,15 @@
                     android:padding="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_star_rate_24"
+                    android:src="@drawable/outline_business_center_24"
+                    app:tint="#989D98"
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/rate"
+                    android:id="@+id/work_at"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4.3 (500 đánh giá)"
                     />
 
             </LinearLayout>
@@ -62,7 +62,7 @@
                 android:padding="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/outline_business_center_24"
+                android:src="@drawable/baseline_star_rate_24"
                 tools:ignore="ContentDescription"
                 app:tint="#989D98" />
 
@@ -71,7 +71,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4 năm"
                 />
 
         </LinearLayout>

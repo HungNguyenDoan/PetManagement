@@ -11,7 +11,7 @@ public class Pet {
     private Date dateOfBirth;
     private String description;
     private String image;
-    private Boolean neutered;
+    private Boolean isNeutered;
     private Boolean isActive;
 
     public Long getId() {
@@ -79,11 +79,11 @@ public class Pet {
     }
 
     public Boolean getNeutered() {
-        return neutered;
+        return isNeutered;
     }
 
     public void setNeutered(Boolean neutered) {
-        this.neutered = neutered;
+        isNeutered = neutered;
     }
 
     public Boolean getActive() {

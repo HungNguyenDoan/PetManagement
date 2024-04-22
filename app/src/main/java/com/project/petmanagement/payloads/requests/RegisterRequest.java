@@ -8,7 +8,7 @@ public class RegisterRequest {
     @SerializedName("full_name")
     private String fullName;
     @SerializedName("date_of_birth")
-    private Date dateOfBirth;
+    private String dateOfBirth;
     @SerializedName("phone_number")
     private String phoneNumber;
     private String email;
@@ -16,7 +16,7 @@ public class RegisterRequest {
     private String avatar;
     private String password;
 
-    public RegisterRequest(String fullName, Date dateOfBirth, String phoneNumber, String email, String address,  String password) {
+    public RegisterRequest(String fullName, String dateOfBirth, String phoneNumber, String email, String address,  String password) {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
@@ -33,11 +33,11 @@ public class RegisterRequest {
         this.fullName = fullName;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

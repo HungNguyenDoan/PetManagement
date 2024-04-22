@@ -4,11 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.payloads.requests.LoginRequest;
+import com.project.petmanagement.payloads.requests.OrderRequest;
+import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
+import com.project.petmanagement.payloads.responses.ListDiseaseResponse;
+import com.project.petmanagement.payloads.responses.ListOrderResponse;
+import com.project.petmanagement.payloads.responses.ListPetResponse;
 import com.project.petmanagement.payloads.responses.ListProductResponse;
+import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
 import com.project.petmanagement.payloads.responses.LoginResponse;
+import com.project.petmanagement.payloads.responses.OrderResponse;
+import com.project.petmanagement.payloads.responses.ListVetResponse;
+import com.project.petmanagement.payloads.responses.PetResponse;
 
 import java.io.IOException;
 
@@ -20,18 +29,20 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
     //server
 //    String BASE_URL = "http://103.163.215.125/api/";
     //local
-    String BASE_URL = "http://192.151.62.100:8080/";
+    String BASE_URL = "http://192.151.62.103:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd")
             .setLenient().create();
     Interceptor interceptor = new Interceptor() {
         @Override
@@ -59,24 +70,40 @@ public interface ApiService {
 //    Call<FoodTypeResponse> getAllFoodType();
 //    @GET("nutritioninfo/all")
 //    Call<NutritionInfoResponse> getListNutritionInfo(@Query("key") String key, @Query("foodTypeId") Long foodTypeId);
-//    @GET("species/all")
-//    Call<ListSpeciesResponse> getSpecies();
-//    @GET("pet/getPet")
-//    Call<ListPetResponse> getAllPetUser();
-//    @POST("pet/addPet")
-//    Call<PetResponse> addPet(@Body PetRequest petRequest);
-//    @GET("pet/{id}")
-//    Call<PetResponse> getPetDetail(@Path("id") Long id);
-//    @POST("pet/updatePet/{id}")
-//    Call<PetResponse> updatePet(@Body PetRequest petRequest, @Path("id") Long id);
-//    @POST("pet/deletePet/{petId}")
-//    Call<PetResponse> deletePet(@Path("petId") Long petId);
-    @GET("categories/")
+    @GET("species/all")
+    Call<ListSpeciesResponse> getSpecies();
+    @GET("diseases/all")
+    Call<ListDiseaseResponse> getDiseases();
+    @GET("pets/users")
+    Call<ListPetResponse> getAllPetUser();
+    @POST("pets/")
+    Call<PetResponse> addPet(@Body PetRequest petRequest);
+    @GET("pets/{id}")
+    Call<PetResponse> getPetDetail(@Path("id") Long id);
+    @POST("pets/{id}")
+    Call<PetResponse> updatePet(@Body PetRequest petRequest, @Path("id") Long id);
+    @DELETE("pets/{id}")
+    Call<PetResponse> deletePet(@Path("id") Long petId);
+    @GET("categories/all")
     Call<ListCategoryResponse> getAllCategory();
-    @GET("products/")
+    @GET("products/all")
     Call<ListProductResponse> getAllProduct();
     @POST("carts/add")
-    Call<CartResponse> addToCart(@Query("idProduct") Long idProduct, @Query("quantity") Integer quantity);
-    @GET("carts/users/")
+    Call<CartResponse> addToCart(@Query("product_id") Long idProduct, @Query("quantity") Integer quantity);
+    @GET("carts/users")
     Call<CartResponse> getCart();
+    @PUT("carts/update")
+    Call<CartResponse> updateCart(@Query("item_id") Long idItem, @Query("quantity") Integer quantity);
+    @DELETE("carts/delete/cart_items/{id}")
+    Call<CartResponse> deleteCartItem(@Path("id") Long idItem);
+    @POST("orders/create")
+    Call<OrderResponse> createOrder(@Body OrderRequest orderRequest);
+    @GET("orders/users")
+    Call<ListOrderResponse> getOrderUser();
+    @PUT("orders/cancel/{id}")
+    Call<OrderResponse> cancelOrder(@Path("id") Long idOrder);
+    @GET("vets/all")
+    Call<ListVetResponse> getAllVet();
+    @GET("vets/search")
+    Call<ListVetResponse> searchVet(@Query("keywords") String keywords);
 }

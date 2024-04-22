@@ -4,6 +4,7 @@
     android:padding="10dp"
     android:background="@drawable/bg_order_detail"
     android:layout_marginBottom="15dp"
+    android:id="@+id/relative_layout"
     android:layout_height="80dp">
     <ImageView
         android:id="@+id/image_product"
@@ -20,7 +21,6 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/name_product"
-            android:text="Thức ăn cho chó cỡ nhỏ ROYAL CANIN Mini Puppy"
             android:layout_width="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
@@ -31,7 +31,6 @@
             android:id="@+id/price_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="215.000đ"
             android:textSize="18sp"
             android:textColor="@color/red"
             />
@@ -41,7 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="x1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:textSize="20sp"

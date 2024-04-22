@@ -19,20 +19,24 @@ public class FormatDateUtils {
     }
     public static Date StringToDate1(String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        Date date1 = sdf.parse(date);
-        return date1;
+        return sdf.parse(date);
     }
     public static Date StringToDate(String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date1 = sdf.parse(date);
-        return date1;
+        return sdf.parse(date);
     }
     public static String DateToString1(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String date1 = sdf.format(date);
-        return date1;
+        return sdf.format(date);
     }
-
+    public static String DateToString2(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        return sdf.format(date);
+    }
+    public static Date StringToDate3(String date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy HH:mm:ss", Locale.getDefault());
+        return sdf.parse(date);
+    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String calculate(Date dateOfBirth){
         LocalDate dob = dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

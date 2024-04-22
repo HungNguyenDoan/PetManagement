@@ -2,23 +2,25 @@ package com.project.petmanagement.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.project.petmanagement.fragments.CommunityFragment;
 import com.project.petmanagement.fragments.HomeFragment;
 import com.project.petmanagement.fragments.LibraryFragment;
 import com.project.petmanagement.fragments.ProfileFragment;
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class ViewPagerAdapter extends FragmentStateAdapter {
 
-    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
+    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         switch (position){
             case 0:
                 return new HomeFragment();
@@ -32,7 +34,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return 4;
     }
 }

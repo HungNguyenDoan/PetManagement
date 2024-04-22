@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void login(){
         if(validation()){
-            String phoneNumber = inputPhoneNumber.getText().toString();
-            String password = inputPassword.getText().toString();
+            String phoneNumber = inputPhoneNumber.getText().toString().trim();
+            String password = inputPassword.getText().toString().trim();
             ApiService.apiService.login(new LoginRequest(phoneNumber, password)).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

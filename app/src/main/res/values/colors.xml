@@ -23,4 +23,6 @@
     <color name="backgroud_community">#0C172D</color>
     <color name="bg_community">#313338</color>
     <color name="text_default">#808080</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="orange1">#FF8C00</color>
 </resources>
