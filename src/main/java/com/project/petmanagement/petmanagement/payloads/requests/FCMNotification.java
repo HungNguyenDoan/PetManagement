@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FcmNotification {
-    String fcmToken;
+public class FCMNotification {
+    String FCMToken;
     String title;
     String body;
     Object data;

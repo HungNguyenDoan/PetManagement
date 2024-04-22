@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FcmToken {
-    String fcmToken;
+public class FCMToken {
+    String FCMToken;
 }
