@@ -42,7 +42,7 @@ public class FirebaseService {
                         .setTitle(pnsRequest.getTitle())
                         .setBody(pnsRequest.getBody())
                         .build())
-                .setToken(pnsRequest.getFCMToken())
+                .setToken(pnsRequest.getFcmToken())
                 .build();
 
         String response = null;
