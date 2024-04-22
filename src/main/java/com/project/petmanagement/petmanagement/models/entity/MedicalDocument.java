@@ -1,5 +1,7 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +19,8 @@ public class MedicalDocument {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
@@ -27,6 +29,11 @@ public class MedicalDocument {
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private Pet pet;
 
-    @Column(name = "url")
+    @JsonIgnore
+    @Column(name = "file_name")
+    private String fileName;
+
+    @JsonProperty("url")
+    @Transient
     private String url;
 }

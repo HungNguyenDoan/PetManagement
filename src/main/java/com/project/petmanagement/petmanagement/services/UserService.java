@@ -3,6 +3,7 @@ package com.project.petmanagement.petmanagement.services;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,5 +54,11 @@ public class UserService implements UserDetailsService {
                 .role(userRole)
                 .build();
         userRepository.save(user);
+    }
+
+    public Boolean setFcm(String token) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setFcmToken(token);
+        return userRepository.save(user).getFcmToken().equals(token); 
     }
 }
