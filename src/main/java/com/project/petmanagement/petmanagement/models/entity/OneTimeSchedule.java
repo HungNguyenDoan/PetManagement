@@ -31,4 +31,7 @@ public class OneTimeSchedule {
 
     @Column(name = "time")
     private Time time;
+
+    @Column(name = "vaccination_status")
+    private Boolean vaccinationStatus;
 }

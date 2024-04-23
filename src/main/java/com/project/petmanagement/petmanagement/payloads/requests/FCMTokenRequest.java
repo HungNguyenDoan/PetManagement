@@ -2,9 +2,11 @@ package com.project.petmanagement.petmanagement.payloads.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class FCMToken {
+@NoArgsConstructor
+public class FCMTokenRequest {
     String fcmToken;
 }

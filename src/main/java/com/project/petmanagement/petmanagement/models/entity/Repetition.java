@@ -25,9 +25,6 @@ public class Repetition {
     @Column(name = "to_date")
     private Date toDate;
 
-    @Column(name = "alarm_before")
-    private Time alarmBefore;
-
     @ManyToOne
     @JoinColumn(name = "recurring_schedule_id", referencedColumnName = "id")
     private RecurringSchedule recurringSchedule;

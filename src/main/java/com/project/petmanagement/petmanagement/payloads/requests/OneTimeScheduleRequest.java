@@ -13,7 +13,11 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OneTimeScheduleRequest {
+    private Long id;
+
     private Date date;
 
     private Time time;
+
+    private Boolean status;
 }

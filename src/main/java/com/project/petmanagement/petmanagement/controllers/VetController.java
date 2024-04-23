@@ -22,14 +22,14 @@ public class VetController {
         List<Vet> vets = vetService.getAllVets();
         if (!vets.isEmpty()) {
             DataResponse dataResponse = DataResponse.builder()
-                    .status(200)
+                    .status(HttpStatus.OK.value())
                     .message("Get all vets successfully")
                     .data(vets)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         }
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .status(500)
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("There is no vets in database")
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,14 +40,14 @@ public class VetController {
         try {
             Vet vet = vetService.getVetDetails(vetId);
             DataResponse dataResponse = DataResponse.builder()
-                    .status(200)
+                    .status(HttpStatus.OK.value())
                     .message("Get vet details successfully")
                     .data(vet)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         } catch (Exception e) {
             ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(400)
+                    .status(HttpStatus.BAD_REQUEST.value())
                     .message(e.getMessage())
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -57,7 +57,7 @@ public class VetController {
     @GetMapping("/search")
     public ResponseEntity<Object> findVets(@RequestParam(value = "keywords") String keywords) {
         DataResponse dataResponse = DataResponse.builder()
-                .status(200)
+                .status(HttpStatus.OK.value())
                 .message("Find vets with keywords " + keywords + " successfully")
                 .data(vetService.searchVet(keywords))
                 .build();

@@ -26,9 +26,6 @@ public class NoRepetition {
     @Column(name = "time")
     private Time time;
 
-    @Column(name = "alarm_before")
-    private Time alarmBefore;
-
     @OneToOne
     @JoinColumn(name = "recurring_schedule_id", referencedColumnName = "id")
     private RecurringSchedule recurringSchedule;

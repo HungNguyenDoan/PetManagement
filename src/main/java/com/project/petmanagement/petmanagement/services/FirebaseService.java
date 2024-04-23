@@ -36,7 +36,7 @@ public class FirebaseService {
         return StorageClient.getInstance().bucket(bucketName).get(fileName).getStorage().delete(blobId);
     }
 
-    public String pushNotification(FCMNotification pnsRequest) {
+    public String pushNotification(FCMNotification pnsRequest) throws FirebaseMessagingException {
         Message message = Message.builder()
                 .setNotification(Notification.builder()
                         .setTitle(pnsRequest.getTitle())
@@ -44,13 +44,6 @@ public class FirebaseService {
                         .build())
                 .setToken(pnsRequest.getFcmToken())
                 .build();
-
-        String response = null;
-        try {
-            response = FirebaseMessaging.getInstance().send(message);
-        } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
-        }
-        return response;
+        return FirebaseMessaging.getInstance().send(message);
     }
 }
