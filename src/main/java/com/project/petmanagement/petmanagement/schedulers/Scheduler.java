@@ -23,7 +23,8 @@ public class Scheduler {
     private final VaccinationNotificationService vaccinationNotificationService;
     private final FirebaseService firebaseService;
 
-    @Scheduled()
+    // @Scheduled(fixedRate = 120000L)
+    @Scheduled(cron = "0 0 6 ? * * *")
     public void sendVaccinationNotification() {
         List<User> userList = userService.getAllUsers();
         for (User user : userList) {
