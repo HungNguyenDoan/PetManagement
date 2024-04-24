@@ -3,11 +3,13 @@ package com.project.petmanagement.models.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class Disease implements Serializable {
+public class Disease implements Serializable{
+
     private Long id;
     private String name;
     private String description;
     private String symptoms;
+    private List<Prevention> preventions;
     private List<Treatment> treatments;
     private Species species;
 
@@ -41,6 +43,14 @@ public class Disease implements Serializable {
 
     public void setSymptoms(String symptoms) {
         this.symptoms = symptoms;
+    }
+
+    public List<Prevention> getPreventions() {
+        return preventions;
+    }
+
+    public void setPreventions(List<Prevention> preventions) {
+        this.preventions = preventions;
     }
 
     public List<Treatment> getTreatments() {

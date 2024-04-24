@@ -1,6 +1,8 @@
 package com.project.petmanagement.models.entity;
 
-public class Breed {
+import java.io.Serializable;
+
+public class Breed implements Serializable {
     private Long id;
     private String name;
     private String image;

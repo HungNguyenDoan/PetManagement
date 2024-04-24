@@ -24,7 +24,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.medical.MedicalRecordActivity;
+import com.project.petmanagement.activity.medical.MedicalDocumentActivity;
 import com.project.petmanagement.activity.statichealth.StaticHealthActivity;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.PetResponse;
@@ -73,7 +73,8 @@ public class InforPetFragment extends Fragment {
         seeMoreMedical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), MedicalRecordActivity.class);
+                Intent intent = new Intent(requireContext(), MedicalDocumentActivity.class);
+                intent.putExtra("petId", idPet);
                 startActivity(intent);
             }
         });

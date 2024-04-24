@@ -4,17 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.payloads.requests.LoginRequest;
+import com.project.petmanagement.payloads.requests.MedicalDocumentRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
 import com.project.petmanagement.payloads.responses.ListDiseaseResponse;
+import com.project.petmanagement.payloads.responses.ListMedicalResponse;
 import com.project.petmanagement.payloads.responses.ListOrderResponse;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
 import com.project.petmanagement.payloads.responses.ListProductResponse;
 import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
 import com.project.petmanagement.payloads.responses.LoginResponse;
+import com.project.petmanagement.payloads.responses.MedicalDocumentResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
 import com.project.petmanagement.payloads.responses.ListVetResponse;
 import com.project.petmanagement.payloads.responses.PetResponse;
@@ -22,8 +25,10 @@ import com.project.petmanagement.payloads.responses.PetResponse;
 import java.io.IOException;
 
 import okhttp3.Interceptor;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -31,8 +36,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -40,7 +47,7 @@ public interface ApiService {
     //server
 //    String BASE_URL = "http://103.163.215.125/api/";
     //local
-    String BASE_URL = "http://192.151.62.103:8080/";
+    String BASE_URL = "http://192.151.62.102:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setLenient().create();
@@ -80,7 +87,7 @@ public interface ApiService {
     Call<PetResponse> addPet(@Body PetRequest petRequest);
     @GET("pets/{id}")
     Call<PetResponse> getPetDetail(@Path("id") Long id);
-    @POST("pets/{id}")
+    @PUT("pets/{id}")
     Call<PetResponse> updatePet(@Body PetRequest petRequest, @Path("id") Long id);
     @DELETE("pets/{id}")
     Call<PetResponse> deletePet(@Path("id") Long petId);
@@ -106,4 +113,14 @@ public interface ApiService {
     Call<ListVetResponse> getAllVet();
     @GET("vets/search")
     Call<ListVetResponse> searchVet(@Query("keywords") String keywords);
+    @Multipart
+    @POST("medical_documents/")
+    Call<MedicalDocumentResponse> addMedicalDocument(
+            @Part("title") RequestBody title,
+            @Part("note") RequestBody note,
+            @Part("petId") RequestBody petId,
+            @Part MultipartBody.Part file
+    );
+    @GET("medical_documents/pets/{id}")
+    Call<ListMedicalResponse> getMedicalRecordByPet(@Path("id") Long petId);
 }

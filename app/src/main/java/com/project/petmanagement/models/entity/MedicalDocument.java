@@ -1,9 +1,12 @@
 package com.project.petmanagement.models.entity;
 
-public class MedicalDocument {
+import java.io.Serializable;
 
+public class MedicalDocument implements Serializable {
     private Long id;
-    private String name;
+    private String title;
+
+    private String note;
     private Pet pet;
     private String url;
 
@@ -15,12 +18,20 @@ public class MedicalDocument {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Pet getPet() {

@@ -1,8 +1,9 @@
 package com.project.petmanagement.models.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Species {
+public class Species implements Serializable {
     private Long id;
     private String name;
     private List<Breed> breeds;

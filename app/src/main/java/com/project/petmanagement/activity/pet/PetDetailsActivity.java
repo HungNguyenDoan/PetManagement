@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.project.petmanagement.R;
@@ -82,8 +83,7 @@ public class PetDetailsActivity extends AppCompatActivity {
                         namePet.setText(pet.getFullName());
                         breed.setText(pet.getBreed().getName());
                         if (pet.getImage() != null) {
-//                            imagePet.setImageURI(Uri.parse(pet.getImage()));
-                            imagePet.setImageBitmap(ImageUtils.decodeBase64(pet.getImage()));
+                            Glide.with(PetDetailsActivity.this).load(pet.getImage()).into(imagePet);
                         }else {
                             imagePet.setImageDrawable(ContextCompat.getDrawable(PetDetailsActivity.this, R.drawable.gray_pet_image));
                         }

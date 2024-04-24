@@ -150,7 +150,6 @@ public class LibraryFragment extends Fragment {
                 }
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 

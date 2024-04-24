@@ -139,6 +139,7 @@ public class AddNewPetActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 namePet.clearFocus();
+                breedsMap.clear();
                 String speciesSelect = parent.getItemAtPosition(position).toString();
                 for (Breed breed: speciesMap.get(speciesSelect).getBreeds()){
                     breedsMap.put(breed.getName(), breed);

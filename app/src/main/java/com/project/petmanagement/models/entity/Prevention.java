@@ -2,7 +2,7 @@ package com.project.petmanagement.models.entity;
 
 import java.io.Serializable;
 
-public class Treatment implements Serializable {
+public class Prevention implements Serializable {
     private Long id;
     private Disease disease;
     private String name;

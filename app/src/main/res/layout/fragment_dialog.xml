@@ -20,9 +20,29 @@
         android:layout_height="wrap_content"
         android:hint="Tên hồ sơ"
         />
+    <EditText
+        android:id="@+id/note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ghi chú"
+        />
+    <ImageView
+        android:id="@+id/choose_file"
+        android:tint="@color/green"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/baseline_file_open_24"
+        android:layout_gravity="center_horizontal"
+        />
+    <TextView
+        android:id="@+id/name_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        />
     <TextView
         android:id="@+id/btn_accept"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Xác nhận"

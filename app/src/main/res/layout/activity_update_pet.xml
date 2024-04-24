@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/backgroud_login"
+                    android:src="@drawable/gray_pet_image"
                     tools:ignore="ContentDescription"
                     />
                 <ImageView
@@ -209,7 +209,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
                         <RadioButton
-                            android:id="@+id/neuter"
+                            android:id="@+id/entire"
                             android:buttonTint="@color/radiobuton_selector"
                             android:layout_weight="1"
                             android:layout_width="0dp"
@@ -218,7 +218,7 @@
                             android:textSize="16sp"
                             tools:ignore="HardcodedText" />
                         <RadioButton
-                            android:id="@+id/entire"
+                            android:id="@+id/neuter"
                             android:buttonTint="@color/radiobuton_selector"
                             android:layout_weight="1"
                             android:layout_width="0dp"

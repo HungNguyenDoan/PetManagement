@@ -131,7 +131,7 @@ public class UpdatePetActivity extends AppCompatActivity {
         gender = findViewById(R.id.gender);
         openCamera = findViewById(R.id.camera);
         idPet = getIntent().getLongExtra("idPet", 0);
-        showInfoPet();
+        getSpecies();
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +143,8 @@ public class UpdatePetActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 namePet.clearFocus();
+                breedView.setText("");
+                breedsMap.clear();
                 String speciesSelect = parent.getItemAtPosition(position).toString();
                 for (Breed breed : speciesMap.get(speciesSelect).getBreeds()) {
                     breedsMap.put(breed.getName(), breed);
@@ -189,7 +191,25 @@ public class UpdatePetActivity extends AppCompatActivity {
                                     .load(pet.getImage())
                                     .into(avatar);
                         }
-                        breedView.setText(pet.getBreed().getName());
+                        String breed = pet.getBreed().getName();
+                        breedView.setText(breed);
+                        String strSpecies = "";
+                        for(String species : speciesMap.keySet()){
+                            for(Breed breed1: speciesMap.get(species).getBreeds()){
+                                if(breed1.getName().equals(breed)){
+                                    speciesView.setText(species);
+                                    strSpecies = species;
+                                    speciesAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(speciesMap.keySet()));
+                                    speciesView.setAdapter(speciesAdapter);
+                                    break;
+                                }
+                            }
+                        }
+                        for (Breed breed1 : speciesMap.get(strSpecies).getBreeds()) {
+                            breedsMap.put(breed1.getName(), breed1);
+                        }
+                        breedAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(breedsMap.keySet()));
+                        breedView.setAdapter(breedAdapter);
                         if (pet.getGender() == 1) {
                             RadioButton male = findViewById(R.id.male);
                             male.setChecked(true);
@@ -205,7 +225,6 @@ public class UpdatePetActivity extends AppCompatActivity {
                             entire.setChecked(true);
                         }
                         dob.setText(FormatDateUtils.DateToString(pet.getDateOfBirth()));
-                        getSpecies();
                     }
                 }
             }
@@ -242,12 +261,12 @@ public class UpdatePetActivity extends AppCompatActivity {
         if (genderButton.getText().equals("Đực")) {
             genderInt = 1;
         }
-        boolean neuteredId = false;
+        boolean neutered = false;
         RadioButton neuteredButton = findViewById(selectNeuteredId);
         if (neuteredButton.getText().toString().equals("Rồi")) {
-            neuteredId = true;
+            neutered = true;
         }
-        PetRequest petRequest = new PetRequest(namePetString, breedId, genderInt, dateOfBirth1, urlImage, neuteredId);
+        PetRequest petRequest = new PetRequest(namePetString, breedId, genderInt, dateOfBirth1, urlImage, neutered);
         ApiService.apiService.updatePet(petRequest, pet.getId()).enqueue(new Callback<PetResponse>() {
             @Override
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
@@ -277,8 +296,8 @@ public class UpdatePetActivity extends AppCompatActivity {
                             speciesAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(speciesMap.keySet()));
                             speciesView.setAdapter(speciesAdapter);
                         }
+                        showInfoPet();
                     }
-
                 }
             }
 
@@ -300,7 +319,7 @@ public class UpdatePetActivity extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(UpdatePetActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = dayOfMonth + "/" + month + "/" + year;
+                        String date = dayOfMonth + "/" + (month+1) + "/" + year;
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                         try {
                             Date date1 = sdf.parse(date);
