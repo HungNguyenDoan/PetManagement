@@ -204,7 +204,7 @@ public class MedicalDocumentActivity extends AppCompatActivity {
     }
     private void getListDocument(){
         if(idPet!=null){
-            ApiService.apiService.getMedicalRecordByPet(idPet).enqueue(new Callback<ListMedicalResponse>() {
+            ApiService.apiService.getMedicalDocumentByPet(idPet).enqueue(new Callback<ListMedicalResponse>() {
                 @Override
                 public void onResponse(Call<ListMedicalResponse> call, Response<ListMedicalResponse> response) {
                     if(response.isSuccessful()){

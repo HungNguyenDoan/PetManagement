@@ -2,17 +2,20 @@ package com.project.petmanagement.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.medical.MedicalDocumentDetailActivity;
 import com.project.petmanagement.models.entity.MedicalDocument;
 
 import java.util.List;
@@ -42,6 +45,14 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
     public void onBindViewHolder(@NonNull MedicalDocumentViewHolder holder, int position) {
         final MedicalDocument medicalDocument = medicalList.get(position);
         holder.nameMedical.setText(medicalDocument.getTitle());
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MedicalDocumentDetailActivity.class);
+                intent.putExtra("medicalId", medicalDocument.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -54,9 +65,11 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
 
     public static class MedicalDocumentViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameMedical;
+        private final RelativeLayout layout;
         public MedicalDocumentViewHolder(@NonNull View itemView) {
             super(itemView);
             nameMedical = itemView.findViewById(R.id.name_medical);
+            layout = itemView.findViewById(R.id.layout);
         }
     }
 }

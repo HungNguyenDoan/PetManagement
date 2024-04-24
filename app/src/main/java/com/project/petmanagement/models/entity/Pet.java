@@ -1,8 +1,9 @@
 package com.project.petmanagement.models.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Pet {
+public class Pet implements Serializable {
     private Long id;
     private User user;
     private String fullName;

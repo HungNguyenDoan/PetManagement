@@ -122,5 +122,7 @@ public interface ApiService {
             @Part MultipartBody.Part file
     );
     @GET("medical_documents/pets/{id}")
-    Call<ListMedicalResponse> getMedicalRecordByPet(@Path("id") Long petId);
+    Call<ListMedicalResponse> getMedicalDocumentByPet(@Path("id") Long petId);
+    @GET("medical_documents/{id}")
+    Call<MedicalDocumentResponse> getMedicalDocumentByid(@Path("id") Long medicalId);
 }
