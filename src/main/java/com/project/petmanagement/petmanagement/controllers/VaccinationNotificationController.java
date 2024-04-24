@@ -33,6 +33,25 @@ public class VaccinationNotificationController {
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getVaccinationNotificationDetails(@PathVariable("id") Long vaccinationNotificationId) {
+        try {
+            VaccinationNotification vaccinationNotification = vaccinationNotificationService.getVaccinationNotificationDetails(vaccinationNotificationId);
+            DataResponse dataResponse = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Get vaccination notification details successfully")
+                    .data(vaccinationNotification)
+                    .build();
+            return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+        } catch (DataNotFoundException e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Object> addVaccinationNotification(@RequestBody VaccinationNotificationRequest vaccinationNotificationRequest) {
         try {
