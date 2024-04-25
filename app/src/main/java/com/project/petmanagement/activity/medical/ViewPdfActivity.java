@@ -1,15 +1,14 @@
 package com.project.petmanagement.activity.medical;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.project.petmanagement.R;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

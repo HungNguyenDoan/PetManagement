@@ -1,7 +1,9 @@
 package com.project.petmanagement.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,13 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.medical.MedicalDocumentDetailActivity;
 import com.project.petmanagement.models.entity.MedicalDocument;
+import com.project.petmanagement.payloads.responses.Response;
+import com.project.petmanagement.services.ApiService;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalDocumentViewHolder> {
     private Context context;
     private List<MedicalDocument> medicalList;
-
+    private Long medicalId;
     public MedicalAdapter(Context context, List<MedicalDocument> medicalList) {
         this.context = context;
         this.medicalList = medicalList;
@@ -53,8 +61,47 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
                 context.startActivity(intent);
             }
         });
-    }
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Thông báo")
+                        .setMessage("Bạn chắc chán muốn xóa document")
+                        .setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ApiService.apiService.deleteMedicalDocument(medicalDocument.getId()).enqueue(new Callback<Response>() {
+                                    @SuppressLint("NotifyDataSetChanged")
+                                    @Override
+                                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                                        if(response.isSuccessful()){
+                                            if(response.code() == 200){
+                                                medicalList.remove(medicalDocument);
+                                                Toast.makeText(context, "Xóa document thành công.", Toast.LENGTH_SHORT).show();
+                                                notifyDataSetChanged();
+                                            }
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onFailure(Call<Response> call, Throwable t) {
+                                        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+                return true;
+            }
+        });
+    }
     @Override
     public int getItemCount() {
         if(medicalList!=null){
@@ -62,7 +109,9 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
         }
         return 0;
     }
+    private void openDialog(){
 
+    }
     public static class MedicalDocumentViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameMedical;
         private final RelativeLayout layout;

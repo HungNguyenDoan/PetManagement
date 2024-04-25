@@ -1,30 +1,12 @@
 package com.project.petmanagement.activity.medical;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -32,29 +14,29 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.MedicalAdapter;
 import com.project.petmanagement.models.entity.MedicalDocument;
-import com.project.petmanagement.models.entity.Pet;
-import com.project.petmanagement.payloads.requests.MedicalDocumentRequest;
-import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.responses.ListMedicalResponse;
 import com.project.petmanagement.payloads.responses.MedicalDocumentResponse;
 import com.project.petmanagement.services.ApiService;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -68,7 +50,7 @@ public class MedicalDocumentActivity extends AppCompatActivity {
     private Dialog dialog;
     private LinearLayout empty;
     private RecyclerView medicalRecyclerview;
-    TextView nameFile;
+    private TextView nameFile;
     private File document;
     private EditText editTitleMedical;
     private EditText editNoteMedical;
@@ -78,7 +60,7 @@ public class MedicalDocumentActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> chooseFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == Activity.RESULT_OK){
+            if (o.getResultCode() == Activity.RESULT_OK) {
                 Intent data = o.getData();
                 if (data != null) {
                     try {
@@ -130,29 +112,31 @@ public class MedicalDocumentActivity extends AppCompatActivity {
             }
         });
     }
-    private void checkEmpty(){
-        if(medicalDocuments == null || medicalDocuments.size()==0){
+
+    private void checkEmpty() {
+        if (medicalDocuments == null || medicalDocuments.size() == 0) {
             empty.setVisibility(View.VISIBLE);
             medicalRecyclerview.setVisibility(View.GONE);
-        }else{
+        } else {
             empty.setVisibility(View.GONE);
             medicalRecyclerview.setVisibility(View.VISIBLE);
         }
     }
-    private void openFeedBackDialog(int gravity){
+
+    private void openFeedBackDialog(int gravity) {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_dialog);
         Window window = dialog.getWindow();
-        if(window == null){
+        if (window == null) {
             return;
         }
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams windowAttribute = window.getAttributes();
         windowAttribute.gravity = Gravity.CENTER;
         window.setAttributes(windowAttribute);
-        if(Gravity.BOTTOM == gravity){
+        if (Gravity.BOTTOM == gravity) {
             dialog.setCancelable(false);
         } else {
             dialog.setCancelable(true);
@@ -177,14 +161,14 @@ public class MedicalDocumentActivity extends AppCompatActivity {
                 RequestBody title = RequestBody.create(MediaType.parse("text/plain"), editTitleMedical.getText().toString());
                 RequestBody note = RequestBody.create(MediaType.parse("text/plain"), editNoteMedical.getText().toString());
                 RequestBody petId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(idPet));
-                if(document!=null){
+                if (document != null) {
                     RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), document);
                     MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", document.getName(), requestFile);
-                    if(validate()){
+                    if (validate()) {
                         ApiService.apiService.addMedicalDocument(title, note, petId, filePart).enqueue(new Callback<MedicalDocumentResponse>() {
                             @Override
                             public void onResponse(Call<MedicalDocumentResponse> call, Response<MedicalDocumentResponse> response) {
-                                if(response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     dialog.cancel();
                                     Toast.makeText(MedicalDocumentActivity.this, "Thêm hồ sơ thành công", Toast.LENGTH_SHORT).show();
                                     getListDocument();
@@ -202,14 +186,15 @@ public class MedicalDocumentActivity extends AppCompatActivity {
         });
         dialog.show();
     }
-    private void getListDocument(){
-        if(idPet!=null){
+
+    private void getListDocument() {
+        if (idPet != null) {
             ApiService.apiService.getMedicalDocumentByPet(idPet).enqueue(new Callback<ListMedicalResponse>() {
                 @Override
                 public void onResponse(Call<ListMedicalResponse> call, Response<ListMedicalResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         ListMedicalResponse medicalResponse = response.body();
-                        if(medicalResponse!=null && medicalResponse.getData()!=null){
+                        if (medicalResponse != null && medicalResponse.getData() != null) {
                             medicalDocuments = medicalResponse.getData();
                             medicalAdapter = new MedicalAdapter(MedicalDocumentActivity.this, medicalDocuments);
                             medicalRecyclerview.setAdapter(medicalAdapter);
@@ -227,8 +212,9 @@ public class MedicalDocumentActivity extends AppCompatActivity {
             });
         }
     }
-    private boolean validate(){
-        if(editTitleMedical.length()==0){
+
+    private boolean validate() {
+        if (editTitleMedical.length() == 0) {
             editTitleMedical.setError("Title không được để trống");
             return false;
         }

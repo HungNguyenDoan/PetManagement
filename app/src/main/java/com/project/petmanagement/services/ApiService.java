@@ -125,4 +125,6 @@ public interface ApiService {
     Call<ListMedicalResponse> getMedicalDocumentByPet(@Path("id") Long petId);
     @GET("medical_documents/{id}")
     Call<MedicalDocumentResponse> getMedicalDocumentByid(@Path("id") Long medicalId);
+    @DELETE("medical_documents/{id}")
+    Call<com.project.petmanagement.payloads.responses.Response> deleteMedicalDocument(@Path("id") Long medicalId);
 }
