@@ -27,18 +27,6 @@ public class MyApplication extends Application {
         AndroidThreeTen.init(this);
         storageService = new StorageService(getApplicationContext());
         createChannelNotification();
-//        FirebaseMessaging.getInstance().getToken()
-//                .addOnCompleteListener(new OnCompleteListener<String>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<String> task) {
-//
-//
-//                        // Get new FCM registration token
-//                        String token = task.getResult();
-//                        Log.d("ddddd", token);
-//
-//                    }
-//                });
     }
     private void createChannelNotification(){
         if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){

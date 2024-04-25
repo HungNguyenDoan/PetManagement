@@ -1,5 +1,6 @@
 package com.project.petmanagement.activity.login;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,12 +11,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.models.entity.User;
+import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.payloads.responses.LoginResponse;
 import com.project.petmanagement.services.ApiService;
@@ -60,11 +66,31 @@ public class LoginActivity extends AppCompatActivity {
                     if(response.isSuccessful()){
                         LoginResponse userResponse = response.body();
                         storageService.setString("token", userResponse.getToken());
-                        Log.d("ddddd", userResponse.getToken());
                         User user = userResponse.getData();
                         storageService.setUser("user",user);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        FirebaseMessaging.getInstance().getToken()
+                                .addOnCompleteListener(new OnCompleteListener<String>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<String> task) {
+                                        String token = task.getResult();
+                                        FCMToken fcmToken = new FCMToken(token);
+                                        ApiService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                                            @Override
+                                            public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
+                                                if(response.isSuccessful()){
+                                                    Toast.makeText(LoginActivity.this, "set token is successful.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<com.project.petmanagement.payloads.responses.Response> call, Throwable t) {
+                                                Toast.makeText(LoginActivity.this, "set token is failed.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                     }else{
                         DialogUtils.setUpDialog(LoginActivity.this,"Tài khoản hoặc mật khẩu của bạn không đúng");
                     }

@@ -3,6 +3,7 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
+import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.payloads.requests.MedicalDocumentRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
@@ -127,4 +128,6 @@ public interface ApiService {
     Call<MedicalDocumentResponse> getMedicalDocumentByid(@Path("id") Long medicalId);
     @DELETE("medical_documents/{id}")
     Call<com.project.petmanagement.payloads.responses.Response> deleteMedicalDocument(@Path("id") Long medicalId);
+    @POST("auth/fcm")
+    Call<com.project.petmanagement.payloads.responses.Response> setFcmToken(@Body FCMToken fcmToken);
 }
