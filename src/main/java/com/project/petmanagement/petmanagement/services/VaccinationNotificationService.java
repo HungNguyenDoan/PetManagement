@@ -9,6 +9,7 @@ import com.project.petmanagement.petmanagement.repositories.VaccinationNotificat
 import com.project.petmanagement.petmanagement.repositories.VaccineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class VaccinationNotificationService {
         return vaccinationNotificationRepository.findById(vaccinationNotificationId).orElseThrow(() -> new DataNotFoundException("Can not find vaccination notification with ID: " + vaccinationNotificationId));
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public VaccinationNotification addVaccinationNotification(VaccinationNotificationRequest vaccinationNotificationRequest) throws DataNotFoundException {
         VaccinationNotification vaccinationNotification = VaccinationNotification.builder()
                 .pet(petRepository.findById(vaccinationNotificationRequest.getPetId()).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + vaccinationNotificationRequest.getPetId())))
@@ -41,6 +43,7 @@ public class VaccinationNotificationService {
         return vaccinationNotificationRepository.save(vaccinationNotification);
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public VaccinationNotification updateVaccinationNotification(Long vaccinationNotificationId, VaccinationNotificationRequest vaccinationNotificationRequest) throws DataNotFoundException {
         VaccinationNotification existingVaccinationNotification = vaccinationNotificationRepository.findById(vaccinationNotificationId).orElseThrow(() -> new DataNotFoundException("Can not find vaccination notification with ID: " + vaccinationNotificationId));
         existingVaccinationNotification.setTitle(vaccinationNotificationRequest.getTitle());
@@ -49,6 +52,7 @@ public class VaccinationNotificationService {
         return vaccinationNotificationRepository.save(existingVaccinationNotification);
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public void deleteVaccinationNotification(Long vaccinationNotificationId) throws DataNotFoundException {
         VaccinationNotification existingVaccinationNotification = vaccinationNotificationRepository.findById(vaccinationNotificationId).orElseThrow(() -> new DataNotFoundException("Can not find vaccination notification with ID: " + vaccinationNotificationId));
         if (existingVaccinationNotification != null) {

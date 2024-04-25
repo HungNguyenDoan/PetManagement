@@ -8,6 +8,7 @@ import com.project.petmanagement.petmanagement.repositories.OneTimeScheduleRepos
 import com.project.petmanagement.petmanagement.repositories.VaccinationNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class OneTimeScheduleService {
         return oneTimeScheduleRepository.findByVaccinationNotification(vaccinationNotification);
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public List<OneTimeSchedule> addOneTimeScheduleList(List<OneTimeScheduleRequest> oneTimeScheduleRequestList, Long vaccinationNotificationId) throws DataNotFoundException {
         VaccinationNotification vaccinationNotification = vaccinationNotificationRepository.findById(vaccinationNotificationId).orElseThrow(() -> new DataNotFoundException("Can not find vaccination notification with ID: " + vaccinationNotificationId));
         List<OneTimeSchedule> oneTimeScheduleList = new ArrayList<>();
@@ -37,6 +39,7 @@ public class OneTimeScheduleService {
         return oneTimeScheduleRepository.saveAll(oneTimeScheduleList);
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public List<OneTimeSchedule> updateOneTimeScheduleList(List<OneTimeScheduleRequest> oneTimeScheduleRequestList) throws DataNotFoundException {
         List<OneTimeSchedule> oneTimeScheduleList = new ArrayList<>();
         for (OneTimeScheduleRequest oneTimeScheduleRequest : oneTimeScheduleRequestList) {
@@ -49,6 +52,7 @@ public class OneTimeScheduleService {
         return oneTimeScheduleList;
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     public void deleteOneTimeSchedule(Long oneTimeScheduleId) throws DataNotFoundException {
         OneTimeSchedule existingOneTimeSchedule = oneTimeScheduleRepository.findById(oneTimeScheduleId).orElseThrow(() -> new DataNotFoundException("Can not find one time schedule with ID: " + oneTimeScheduleId));
         if (existingOneTimeSchedule != null) {
