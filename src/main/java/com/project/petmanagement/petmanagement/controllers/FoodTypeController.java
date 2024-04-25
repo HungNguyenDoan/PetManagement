@@ -24,7 +24,7 @@ public class FoodTypeController {
         List<FoodType> foodTypes = foodTypeService.getAllFoodTypes();
         if (foodTypes.isEmpty()) {
             ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(500)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .message("There is no food types in database.")
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);

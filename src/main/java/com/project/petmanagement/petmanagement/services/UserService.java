@@ -18,6 +18,8 @@ import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest
 import com.project.petmanagement.petmanagement.repositories.RoleRepository;
 import com.project.petmanagement.petmanagement.repositories.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
@@ -57,8 +59,12 @@ public class UserService implements UserDetailsService {
     }
 
     public Boolean setFcm(String token) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         user.setFcmToken(token);
         return userRepository.save(user).getFcmToken().equals(token); 
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
     }
 }

@@ -25,7 +25,7 @@ public class DiseaseController {
         List<Disease> diseases = service.getAllDiseases();
         if (diseases.isEmpty()) {
             ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(500)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .message("There is no disease food in database.")
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);

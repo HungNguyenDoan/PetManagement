@@ -4,6 +4,7 @@ import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.Breed;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
+import com.project.petmanagement.petmanagement.models.entity.User;
 import com.project.petmanagement.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.petmanagement.repositories.BreedRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
@@ -21,10 +22,8 @@ public class PetService {
     private final PetRepository petsRepository;
     private final BreedRepository breedRepository;
 
-    public List<Pet> getPetsByUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
-        return petsRepository.findByUserAndIsActiveIsTrueOrderByIdDesc(userDetail.getUser());
+    public List<Pet> getPetsByUser(User user) {
+        return petsRepository.findByUserAndIsActiveIsTrueOrderByIdDesc(user);
     }
 
     public Pet getPet(Long petId) throws Exception {

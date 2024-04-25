@@ -2,7 +2,7 @@ package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.JWT.JWTTokenProvider;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
-import com.project.petmanagement.petmanagement.payloads.requests.FCMToken;
+import com.project.petmanagement.petmanagement.payloads.requests.FCMTokenRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
@@ -59,8 +59,8 @@ public class AuthController {
     }
 
     @PostMapping(value = "/fcm")
-    public ResponseEntity<Object> setFcmForUser(@RequestBody FCMToken fcmToken) {
-        Boolean state = userService.setFcm(fcmToken.getFcmToken());
+    public ResponseEntity<Object> setFcmForUser(@RequestBody FCMTokenRequest fcmTokenRequest) {
+        Boolean state = userService.setFcm(fcmTokenRequest.getFcmToken());
         if (state) {
             DataResponse response = DataResponse.builder()
                     .status(HttpStatus.OK.value())

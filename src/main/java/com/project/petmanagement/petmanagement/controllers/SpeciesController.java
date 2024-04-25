@@ -32,7 +32,7 @@ public class SpeciesController {
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         }
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .status(500)
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("There is no species in Database")
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,10 +50,10 @@ public class SpeciesController {
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         } catch (Exception e) {
             ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(400)
+                    .status(HttpStatus.BAD_REQUEST.value())
                     .message(e.getMessage())
                     .build();
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
 }

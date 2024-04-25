@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.controllers;
 
+import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
 import com.project.petmanagement.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
@@ -9,6 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +24,9 @@ public class PetController {
 
     @GetMapping("/users")
     public ResponseEntity<Object> getPetsByUser() {
-        List<Pet> pets = petService.getPetsByUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        JWTUserDetail userDetail = (JWTUserDetail) authentication.getPrincipal();
+        List<Pet> pets = petService.getPetsByUser(userDetail.getUser());
         DataResponse dataResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Get pets by user successfully")
@@ -49,7 +54,7 @@ public class PetController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<Object> addPet(@RequestBody @Valid PetRequest petRequest) {
         try {
             Pet pet = petService.addPet(petRequest);

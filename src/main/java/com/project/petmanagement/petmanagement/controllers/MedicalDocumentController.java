@@ -66,7 +66,7 @@ public class MedicalDocumentController {
         }
     }
 
-    @PostMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> addMedicalDocument(@Valid @ModelAttribute MedicalDocumentRequest medicalDocumentRequest) {
         try {
             MultipartFile file = medicalDocumentRequest.getFile();

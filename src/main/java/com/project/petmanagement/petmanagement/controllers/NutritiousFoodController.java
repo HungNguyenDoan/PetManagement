@@ -23,7 +23,7 @@ public class NutritiousFoodController {
         List<NutritiousFood> nutritiousFoodList = nutritiousFoodService.getAllNutritiousFood();
         if (nutritiousFoodList.isEmpty()) {
             ErrorResponse errorResponse = ErrorResponse.builder()
-                    .status(500)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .message("There is no nutritious food in database.")
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);

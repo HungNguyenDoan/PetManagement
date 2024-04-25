@@ -32,7 +32,7 @@ public class DailyActivityController {
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         }
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .status(500)
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("There is no daily activity in Database")
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
