@@ -1,4 +1,4 @@
-package com.project.petmanagement.fmc;
+package com.project.petmanagement.fcm;
 
 import android.app.Notification;
 import android.app.NotificationManager;
