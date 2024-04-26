@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.payloads.requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.petmanagement.petmanagement.constraints.annotations.Changed;
 
 import jakarta.validation.constraints.NotNull;
@@ -12,13 +13,16 @@ public class ChangePasswordRequest {
     
     @NotNull(message = "Please enter old password")
     @Changed(message = "Old password is not match", condition = true)
-    String old_password;
+    @JsonProperty("old_password")
+    String oldPassword;
 
     @NotNull(message = "Please enter new password")
     @Changed(message = "New password must not be same with old password", condition = false)
-    String new_password;
+    @JsonProperty("new_password")
+    String newPassword;
 
     @NotNull(message = "Please re-enter new password")
-    String re_new_password;
+    @JsonProperty("re_new_pasword")
+    String renewPassword;
 
 }

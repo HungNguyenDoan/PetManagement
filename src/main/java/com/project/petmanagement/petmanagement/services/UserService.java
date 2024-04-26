@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public boolean changePassword(String password) throws Exception {
+    public Boolean changePassword(String password) throws Exception {
         User user = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser(); 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(password));

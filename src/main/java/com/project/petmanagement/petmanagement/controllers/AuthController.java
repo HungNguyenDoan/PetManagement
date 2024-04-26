@@ -80,14 +80,14 @@ public class AuthController {
 
     @PostMapping(value = "/change-password")
     public ResponseEntity<Object> changeUserPassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
-        if (!changePasswordRequest.getNew_password().equals(changePasswordRequest.getRe_new_password())) {
+        if (!changePasswordRequest.getNewPassword().equals(changePasswordRequest.getRenewPassword())) {
             ErrorResponse response = ErrorResponse.builder()
                     .status(HttpStatus.BAD_REQUEST.value())
                     .message("Retype password is not match with the new password").build();
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         try {
-            userService.changePassword(changePasswordRequest.getNew_password());
+            userService.changePassword(changePasswordRequest.getNewPassword());
             DataResponse response = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Password changed successfully")
