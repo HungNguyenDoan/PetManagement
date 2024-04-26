@@ -22,7 +22,7 @@ public class ChangePasswordRequest {
     String newPassword;
 
     @NotNull(message = "Please re-enter new password")
-    @JsonProperty("re_new_pasword")
+    @JsonProperty("re_new_password")
     String renewPassword;
 
 }
