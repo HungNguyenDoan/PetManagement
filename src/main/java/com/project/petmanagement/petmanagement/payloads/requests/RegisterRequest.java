@@ -1,7 +1,8 @@
 package com.project.petmanagement.petmanagement.payloads.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.petmanagement.petmanagement.constraints.Unique;
+import com.project.petmanagement.petmanagement.constraints.annotations.Unique;
+
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

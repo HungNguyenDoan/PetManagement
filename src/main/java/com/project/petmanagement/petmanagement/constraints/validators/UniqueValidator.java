@@ -1,4 +1,6 @@
-package com.project.petmanagement.petmanagement.constraints;
+package com.project.petmanagement.petmanagement.constraints.validators;
+
+import com.project.petmanagement.petmanagement.constraints.annotations.Unique;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
