@@ -22,7 +22,7 @@ public class FoodTypeSeeder {
         FoodType foodType6 = FoodType.builder().id(6L).name("Thức ăn chế biến sẵn").build();
         FoodType foodType7 = FoodType.builder().id(7L).name("Thức ăn đóng viên").build();
         FoodType foodType8 = FoodType.builder().id(8L).name("Thức ăn hạt").build();
-        FoodType foodType9 = FoodType.builder().id(9L).name("Thức ăn hủy cơ bản").build();
+        FoodType foodType9 = FoodType.builder().id(9L).name("Thức ăn hữu cơ").build();
         FoodType foodType10 = FoodType.builder().id(10L).name("Thức ăn thảo mộc").build();
         foodTypeRepository.saveAll(Arrays.asList(foodType1, foodType2, foodType3, foodType4, foodType5, foodType6,
                 foodType7, foodType8, foodType9, foodType10));
