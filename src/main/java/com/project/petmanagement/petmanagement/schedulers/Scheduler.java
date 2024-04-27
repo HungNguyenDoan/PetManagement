@@ -67,8 +67,7 @@ public class Scheduler {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void sendCareActivityNotification() {
-//        LocalDate currentDate = LocalDate.now();
-        LocalDate currentDate = LocalDate.of(2024, 4, 28);
+        LocalDate currentDate = LocalDate.now();
         String currentTime = LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
         List<User> userList = userService.getAllUsers();
         for (User user : userList) {
