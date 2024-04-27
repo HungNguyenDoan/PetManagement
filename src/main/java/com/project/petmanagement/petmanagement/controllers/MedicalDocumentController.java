@@ -109,7 +109,7 @@ public class MedicalDocumentController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Object> updateMedicalDocument(@PathVariable("id") Long medicalDocumentId, @Valid @ModelAttribute MedicalDocumentRequest medicalDocumentRequest) {
         try {
             MultipartFile file = medicalDocumentRequest.getFile();
@@ -160,7 +160,7 @@ public class MedicalDocumentController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteMedicalDocument(@PathVariable("id") Long medicalDocumentId) {
         try {
             Boolean deleted = firebaseService.deleteFile(medicalDocumentService.getMedicalDocumentDetails(medicalDocumentId).getFileName());

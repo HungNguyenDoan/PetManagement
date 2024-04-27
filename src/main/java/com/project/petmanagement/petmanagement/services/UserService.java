@@ -1,6 +1,12 @@
 package com.project.petmanagement.petmanagement.services;
 
+import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
+import com.project.petmanagement.petmanagement.models.entity.Role;
+import com.project.petmanagement.petmanagement.models.entity.User;
+import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
+import com.project.petmanagement.petmanagement.repositories.RoleRepository;
+import com.project.petmanagement.petmanagement.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,13 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
-import com.project.petmanagement.petmanagement.models.entity.User;
-import com.project.petmanagement.petmanagement.models.entity.Role;
-import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
-import com.project.petmanagement.petmanagement.repositories.RoleRepository;
-import com.project.petmanagement.petmanagement.repositories.UserRepository;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public void register(RegisterRequest request) throws Exception{
+    public void register(RegisterRequest request) throws Exception {
         Role userRole = roleRepository.findById(1L).orElseThrow(() -> new DataNotFoundException("Can not find role with ID: " + 1L));
         User user = User.builder()
                 .fullName(request.getFullName())
@@ -61,10 +60,17 @@ public class UserService implements UserDetailsService {
     public Boolean setFcm(String token) {
         User user = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         user.setFcmToken(token);
-        return userRepository.save(user).getFcmToken().equals(token); 
+        return userRepository.save(user).getFcmToken().equals(token);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public void deleteUser(Long userId) throws DataNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("Can not find user with ID: " + userId));
+        if (user != null) {
+            userRepository.deleteById(userId);
+        }
     }
 }

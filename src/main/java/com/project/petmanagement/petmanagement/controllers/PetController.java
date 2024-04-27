@@ -80,7 +80,7 @@ public class PetController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Object> updatePet(@RequestBody @Valid PetRequest petRequest, @PathVariable Long id) {
         try {
             Pet pet = petService.updatePet(id, petRequest);
@@ -106,7 +106,7 @@ public class PetController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deletePet(@PathVariable("id") Long petId) {
         try {
             Pet pet = petService.deletePet(petId);

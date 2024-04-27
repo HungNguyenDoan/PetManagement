@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.sql.Time;
 
 @Entity
 @Table(name = "one_time_schedules")
@@ -30,7 +29,7 @@ public class OneTimeSchedule {
     private Date date;
 
     @Column(name = "time")
-    private Time time;
+    private String time;
 
     @Column(name = "vaccination_status")
     private Boolean vaccinationStatus;

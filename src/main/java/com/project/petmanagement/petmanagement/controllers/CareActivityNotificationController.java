@@ -1,13 +1,13 @@
 package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
-import com.project.petmanagement.petmanagement.models.entity.OneTimeSchedule;
-import com.project.petmanagement.petmanagement.models.entity.VaccinationNotification;
-import com.project.petmanagement.petmanagement.payloads.requests.VaccinationNotificationRequest;
+import com.project.petmanagement.petmanagement.models.entity.CareActivityNotification;
+import com.project.petmanagement.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
-import com.project.petmanagement.petmanagement.services.OneTimeScheduleService;
-import com.project.petmanagement.petmanagement.services.VaccinationNotificationService;
+import com.project.petmanagement.petmanagement.services.CareActivityInfoService;
+import com.project.petmanagement.petmanagement.services.CareActivityNotificationService;
+import com.project.petmanagement.petmanagement.services.RecurringScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,31 +16,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vaccination_notification")
+@RequestMapping("/care_activity_notification")
 @RequiredArgsConstructor
-public class VaccinationNotificationController {
-    private final OneTimeScheduleService oneTimeScheduleService;
-    private final VaccinationNotificationService vaccinationNotificationService;
+public class CareActivityNotificationController {
+    private final RecurringScheduleService recurringScheduleService;
+    private final CareActivityInfoService careActivityInfoService;
+    private final CareActivityNotificationService careActivityNotificationService;
 
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllVaccinationNotification() {
-        List<VaccinationNotification> vaccinationNotificationList = vaccinationNotificationService.getAllVaccinationNotification();
+    public ResponseEntity<Object> getAllCareActivityNotification() {
+        List<CareActivityNotification> careActivityNotificationList = careActivityNotificationService.getAllCareActivityNotification();
         DataResponse dataResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
-                .message("Get all vaccination notification successfully")
-                .data(vaccinationNotificationList)
+                .message("Get all notification successfully")
+                .data(careActivityNotificationList)
                 .build();
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getVaccinationNotificationDetails(@PathVariable("id") Long vaccinationNotificationId) {
+    public ResponseEntity<Object> getCareActivityNotificationDetails(@PathVariable("id") Long careActivityNotificationId) {
         try {
-            VaccinationNotification vaccinationNotification = vaccinationNotificationService.getVaccinationNotificationDetails(vaccinationNotificationId);
+            CareActivityNotification careActivityNotification = careActivityNotificationService.getCareActivityNotificationDetails(careActivityNotificationId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Get vaccination notification details successfully")
-                    .data(vaccinationNotification)
+                    .message("Get care activity notification details successfully")
+                    .data(careActivityNotification)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         } catch (DataNotFoundException e) {
@@ -53,15 +54,15 @@ public class VaccinationNotificationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addVaccinationNotification(@RequestBody VaccinationNotificationRequest vaccinationNotificationRequest) {
+    public ResponseEntity<Object> addCareActivityNotification(@RequestBody CareActivityNotificationRequest careActivityNotificationRequest) {
         try {
-            VaccinationNotification vaccinationNotification = vaccinationNotificationService.addVaccinationNotification(vaccinationNotificationRequest);
-            List<OneTimeSchedule> oneTimeScheduleList = oneTimeScheduleService.addOneTimeScheduleList(vaccinationNotificationRequest.getOneTimeScheduleRequestList(), vaccinationNotification);
-            vaccinationNotification.setSchedules(oneTimeScheduleList);
+            CareActivityNotification careActivityNotification = careActivityNotificationService.addCareActivityNotification(careActivityNotificationRequest);
+            careActivityNotification.setCareActivityInfoList(careActivityInfoService.addCareActivityInfoList(careActivityNotificationRequest.getCareActivityInfoRequestList(), careActivityNotification));
+            careActivityNotification.setSchedule(recurringScheduleService.addRecurringSchedule(careActivityNotificationRequest.getRecurringScheduleRequest(), careActivityNotification));
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Add vaccination notification successfully")
-                    .data(vaccinationNotification)
+                    .message("Add care activity notification successfully")
+                    .data(careActivityNotification)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         } catch (DataNotFoundException e) {
@@ -74,13 +75,13 @@ public class VaccinationNotificationController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> updateVaccinationNotification(@PathVariable("id") Long vaccinationNotificationId, @RequestBody VaccinationNotificationRequest vaccinationNotificationRequest) {
+    public ResponseEntity<Object> updateCareActivityNotification(@PathVariable("id") Long careActivityNotificationId, @RequestBody CareActivityNotificationRequest careActivityNotificationRequest) {
         try {
-            VaccinationNotification vaccinationNotification = vaccinationNotificationService.updateVaccinationNotification(vaccinationNotificationId, vaccinationNotificationRequest);
+            CareActivityNotification careActivityNotification = careActivityNotificationService.updateCareActivityNotification(careActivityNotificationId, careActivityNotificationRequest);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Update vaccination notification successfully")
-                    .data(vaccinationNotification)
+                    .message("Update care activity notification successfully")
+                    .data(careActivityNotification)
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         } catch (DataNotFoundException e) {
@@ -93,12 +94,12 @@ public class VaccinationNotificationController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> deleteVaccinationNotification(@PathVariable("id") Long vaccinationNotificationId) {
+    public ResponseEntity<Object> deleteCareActivityNotification(@PathVariable("id") Long careActivityNotificationId) {
         try {
-            vaccinationNotificationService.deleteVaccinationNotification(vaccinationNotificationId);
+            careActivityNotificationService.deleteCareActivityNotification(careActivityNotificationId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Delete vaccination notification successfully")
+                    .message("Delete care activity notification successfully")
                     .build();
             return new ResponseEntity<>(dataResponse, HttpStatus.OK);
         } catch (DataNotFoundException e) {
