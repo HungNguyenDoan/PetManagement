@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,5 +73,14 @@ public class UserService implements UserDetailsService {
         if (user != null) {
             userRepository.deleteById(userId);
         }
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    public Boolean changePassword(String password) {
+        User user = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(password));
+        userRepository.save(user);
+        return true;
     }
 }
