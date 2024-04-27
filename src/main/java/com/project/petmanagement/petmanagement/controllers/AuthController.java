@@ -2,6 +2,7 @@ package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.JWT.JWTTokenProvider;
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
+import com.project.petmanagement.petmanagement.payloads.requests.ChangePasswordRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.FCMTokenRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
@@ -74,6 +75,30 @@ public class AuthController {
                     .message("Cannot set FCM token. Please try again")
                     .build();
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/change-password")
+    public ResponseEntity<Object> changeUserPassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
+        if (!changePasswordRequest.getNewPassword().equals(changePasswordRequest.getRenewPassword())) {
+            ErrorResponse response = ErrorResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .message("Retype password is not match with the new password").build();
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        try {
+            userService.changePassword(changePasswordRequest.getNewPassword());
+            DataResponse response = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Password changed successfully")
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse response = ErrorResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("An error occurs when changing your password")
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

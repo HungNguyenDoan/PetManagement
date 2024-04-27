@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface HealthRecordRepository extends JpaRepository<HealthRecord, Long> {
     List<HealthRecord> findByPet(Pet pet);
+    HealthRecord findTopByOrderByIdDesc();
 }
