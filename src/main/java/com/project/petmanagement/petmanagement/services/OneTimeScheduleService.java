@@ -5,7 +5,6 @@ import com.project.petmanagement.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.petmanagement.repositories.OneTimeScheduleRepository;
-import com.project.petmanagement.petmanagement.repositories.VaccinationNotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,17 +15,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OneTimeScheduleService {
-    private final VaccinationNotificationRepository vaccinationNotificationRepository;
     private final OneTimeScheduleRepository oneTimeScheduleRepository;
 
-    public List<OneTimeSchedule> getOneTimeScheduleListByVaccinationNotification(Long vaccinationNotificationId) throws DataNotFoundException {
-        VaccinationNotification vaccinationNotification = vaccinationNotificationRepository.findById(vaccinationNotificationId).orElseThrow(() -> new DataNotFoundException("Can not find vaccination notification with ID: " + vaccinationNotificationId));
-        return oneTimeScheduleRepository.findByVaccinationNotification(vaccinationNotification);
-    }
-
     @Transactional(rollbackFor = {Exception.class})
-    public List<OneTimeSchedule> addOneTimeScheduleList(List<OneTimeScheduleRequest> oneTimeScheduleRequestList, Long vaccinationNotificationId) throws DataNotFoundException {
-        VaccinationNotification vaccinationNotification = vaccinationNotificationRepository.findById(vaccinationNotificationId).orElseThrow(() -> new DataNotFoundException("Can not find vaccination notification with ID: " + vaccinationNotificationId));
+    public List<OneTimeSchedule> addOneTimeScheduleList(List<OneTimeScheduleRequest> oneTimeScheduleRequestList, VaccinationNotification vaccinationNotification) throws DataNotFoundException {
         List<OneTimeSchedule> oneTimeScheduleList = new ArrayList<>();
         for (OneTimeScheduleRequest oneTimeScheduleRequest : oneTimeScheduleRequestList) {
             oneTimeScheduleList.add(OneTimeSchedule.builder()

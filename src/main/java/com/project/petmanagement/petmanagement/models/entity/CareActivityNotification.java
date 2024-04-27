@@ -14,12 +14,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CareActivityNotification extends Notification{
+public class CareActivityNotification extends Notification {
     @OneToMany(mappedBy = "careActivityNotification", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<CareActivityInfo> careActivityInfoList;
 
-    @OneToOne(mappedBy = "careActivityNotification")
+    @OneToOne(mappedBy = "careActivityNotification", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private RecurringSchedule schedule;
 
     @Column(name = "notification_status")

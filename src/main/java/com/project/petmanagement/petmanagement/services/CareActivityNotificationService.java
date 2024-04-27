@@ -22,6 +22,14 @@ public class CareActivityNotificationService {
         return careActivityNotificationRepository.findAll();
     }
 
+    public List<CareActivityNotification> getCareActivityNotificationByPet(Pet pet){
+        return careActivityNotificationRepository.findByPet(pet);
+    }
+
+    public CareActivityNotification getCareActivityNotificationDetails(Long careActivityNotificationId) throws DataNotFoundException {
+        return careActivityNotificationRepository.findById(careActivityNotificationId).orElseThrow(() -> new DataNotFoundException("Can not find care activity notification with ID: " + careActivityNotificationId));
+    }
+
     @Transactional(rollbackFor = {Exception.class})
     public CareActivityNotification addCareActivityNotification(CareActivityNotificationRequest careActivityNotificationRequest) throws DataNotFoundException {
         Pet pet = petRepository.findById(careActivityNotificationRequest.getPetId()).orElseThrow(() -> new DataNotFoundException("Can not find pet with ID: " + careActivityNotificationRequest.getPetId()));
