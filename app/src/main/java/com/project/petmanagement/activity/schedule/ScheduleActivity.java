@@ -9,7 +9,8 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.inject.PetInjectionActivity;
+import com.project.petmanagement.activity.schedule.inject.SelectPetToVaccineActivity;
+import com.project.petmanagement.activity.schedule.inject.VaccineInjectionScheduleActivity;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -18,19 +19,11 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         ImageView returnArrow = findViewById(R.id.return_arrow);
-        returnArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        returnArrow.setOnClickListener(v -> finish());
         LinearLayout injectActivity = findViewById(R.id.inject_activity);
-        injectActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PetInjectionActivity.class);
-                startActivity(intent);
-            }
+        injectActivity.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), VaccineInjectionScheduleActivity.class);
+            startActivity(intent);
         });
     }
 }

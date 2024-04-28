@@ -2,7 +2,7 @@ package com.project.petmanagement.payloads.responses;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ErrorResponse {
+public class RegisterErrorResponse {
     private int status;
     private Message message;
 

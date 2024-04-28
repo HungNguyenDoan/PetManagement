@@ -15,16 +15,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ViewPdfActivity extends AppCompatActivity {
-    PDFView pdfView;
-    String urlPdf;
+    private PDFView pdfView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pdf);
         pdfView = findViewById(R.id.pdfView);
-        urlPdf = getIntent().getStringExtra("url");
+        String urlPdf = getIntent().getStringExtra("url");
         new RetrivePdfStream().execute(urlPdf);
     }
+
     class RetrivePdfStream extends AsyncTask<String, Void, InputStream> {
         @Override
         protected InputStream doInBackground(String... strings) {
@@ -34,20 +35,16 @@ public class ViewPdfActivity extends AppCompatActivity {
                 URL url = new URL(strings[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-                // if url connection response code is 200 means ok the execute
                 if (urlConnection.getResponseCode() == 200) {
                     inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 }
-            }
-            // if error return null
-            catch (IOException e) {
+            } catch (IOException e) {
                 return null;
             }
             return inputStream;
         }
 
         @Override
-        // Here load the pdf and dismiss the dialog box
         protected void onPostExecute(InputStream inputStream) {
             pdfView.fromStream(inputStream).load();
         }

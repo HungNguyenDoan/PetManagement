@@ -1,10 +1,12 @@
 package com.project.petmanagement.models.entity;
 
+import com.google.gson.annotations.SerializedName;
 import com.project.petmanagement.models.enums.QualityEnum;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class NutritiousFood{
+public class NutritiousFood implements Serializable {
     private Long id;
     private String name;
     private Species species;

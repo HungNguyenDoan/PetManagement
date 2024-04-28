@@ -34,7 +34,6 @@ public class PetDetailsActivity extends AppCompatActivity {
     private ImageView imagePet;
     private Pet pet;
     private long idPet;
-    private PetDetailsViewPager2Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pet_details);
         findViewById();
         idPet = getIntent().getLongExtra("idPet", 0);
-        adapter = new PetDetailsViewPager2Adapter(PetDetailsActivity.this);
+        PetDetailsViewPager2Adapter adapter = new PetDetailsViewPager2Adapter(PetDetailsActivity.this);
         adapter.setData(idPet);
         viewPager2.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {

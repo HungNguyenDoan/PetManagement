@@ -63,7 +63,7 @@
             android:name=".activity.schedule.inject.VaccineInjectionScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.WalkScheduleInfoActivity"
+            android:name=".activity.schedule.walk.WalkScheduleInfoActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.walk.SetWalkScheduleActivity"
@@ -87,10 +87,10 @@
             android:name=".activity.schedule.feed.SelectPetToFeedActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.FeedScheduleInfoActivity"
+            android:name=".activity.schedule.feed.ActivityScheduleInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.InjectionInfoActivity"
+            android:name=".activity.schedule.inject.VaccineInfoActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.inject.SetInjectionScheduleActivity"

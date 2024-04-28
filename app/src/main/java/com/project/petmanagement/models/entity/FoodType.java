@@ -2,9 +2,10 @@ package com.project.petmanagement.models.entity;
 
 import com.project.petmanagement.models.entity.NutritiousFood;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FoodType {
+public class FoodType implements Serializable {
     private Long id;
     private String name;
     private List<NutritiousFood> nutritiousFoodList;

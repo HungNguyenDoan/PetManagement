@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.inject.WalkScheduleInfoActivity;
 
 import android.content.Intent;
 import android.view.View;

@@ -26,18 +26,17 @@ import retrofit2.Response;
 
 public class ListVeterinarianActivity extends AppCompatActivity {
     private RecyclerView listVeterinarian;
-    private ImageView btnBack;
-    private ImageView btnSearch;
     private EditText search;
     private ListVetAdapter vetAdapter;
     private List<Vet> vetList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_veterinarian);
         listVeterinarian = findViewById(R.id.list_veterinarian);
-        btnBack = findViewById(R.id.btn_back);
-        btnSearch = findViewById(R.id.btn_search);
+        ImageView btnBack = findViewById(R.id.btn_back);
+        ImageView btnSearch = findViewById(R.id.btn_search);
         search = findViewById(R.id.search);
         search.setVisibility(View.GONE);
         getAllVet();
@@ -47,14 +46,11 @@ public class ListVeterinarianActivity extends AppCompatActivity {
                 finish();
             }
         });
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(search.getVisibility() == View.GONE){
-                    search.setVisibility(View.VISIBLE);
-                }else{
-                    search.setVisibility(View.GONE);
-                }
+        btnSearch.setOnClickListener(v -> {
+            if (search.getVisibility() == View.GONE) {
+                search.setVisibility(View.VISIBLE);
+            } else {
+                search.setVisibility(View.GONE);
             }
         });
         search.addTextChangedListener(new TextWatcher() {
@@ -66,14 +62,14 @@ public class ListVeterinarianActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String keyword = s.toString();
-                if(keyword.isEmpty()){
+                if (keyword.isEmpty()) {
                     vetAdapter.setVetList(vetList);
                     listVeterinarian.setAdapter(vetAdapter);
                 }
                 ApiService.apiService.searchVet(keyword).enqueue(new Callback<ListVetResponse>() {
                     @Override
                     public void onResponse(Call<ListVetResponse> call, Response<ListVetResponse> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             if (response.body() != null) {
                                 List<Vet> vets = response.body().getData();
                                 vetAdapter.setVetList(vets);
@@ -96,14 +92,14 @@ public class ListVeterinarianActivity extends AppCompatActivity {
         });
     }
 
-    private void getAllVet(){
+    private void getAllVet() {
         ApiService.apiService.getAllVet().enqueue(new Callback<ListVetResponse>() {
             @Override
             public void onResponse(Call<ListVetResponse> call, Response<ListVetResponse> response) {
-                if(response.isSuccessful()){
-                    if (response.body()!=null){
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         vetList = response.body().getData();
-                        vetAdapter = new ListVetAdapter(vetList,ListVeterinarianActivity.this);
+                        vetAdapter = new ListVetAdapter(vetList, ListVeterinarianActivity.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListVeterinarianActivity.this, LinearLayoutManager.VERTICAL, false);
                         listVeterinarian.setAdapter(vetAdapter);
                         listVeterinarian.setLayoutManager(layoutManager);

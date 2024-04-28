@@ -46,7 +46,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MedicalDocumentActivity extends AppCompatActivity {
-    private ImageView btnAdd, btnBack;
     private Dialog dialog;
     private LinearLayout empty;
     private RecyclerView medicalRecyclerview;
@@ -57,7 +56,7 @@ public class MedicalDocumentActivity extends AppCompatActivity {
     private List<MedicalDocument> medicalDocuments;
     private Long idPet;
     private MedicalAdapter medicalAdapter;
-    private ActivityResultLauncher<Intent> chooseFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+    private final ActivityResultLauncher<Intent> chooseFileLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
             if (o.getResultCode() == Activity.RESULT_OK) {
@@ -93,8 +92,8 @@ public class MedicalDocumentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_record);
-        btnAdd = findViewById(R.id.add);
-        btnBack = findViewById(R.id.btn_back);
+        ImageView btnAdd = findViewById(R.id.add);
+        ImageView btnBack = findViewById(R.id.btn_back);
         empty = findViewById(R.id.linear_empty);
         medicalRecyclerview = findViewById(R.id.document_recycler_view);
         idPet = getIntent().getLongExtra("petId", 0);
@@ -108,7 +107,7 @@ public class MedicalDocumentActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFeedBackDialog(Gravity.CENTER);
+                openAddDialog(Gravity.CENTER);
             }
         });
     }
@@ -123,7 +122,7 @@ public class MedicalDocumentActivity extends AppCompatActivity {
         }
     }
 
-    private void openFeedBackDialog(int gravity) {
+    private void openAddDialog(int gravity) {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_dialog);
@@ -155,32 +154,29 @@ public class MedicalDocumentActivity extends AppCompatActivity {
                 chooseFileLauncher.launch(intent);
             }
         });
-        btnAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RequestBody title = RequestBody.create(MediaType.parse("text/plain"), editTitleMedical.getText().toString());
-                RequestBody note = RequestBody.create(MediaType.parse("text/plain"), editNoteMedical.getText().toString());
-                RequestBody petId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(idPet));
-                if (document != null) {
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), document);
-                    MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", document.getName(), requestFile);
-                    if (validate()) {
-                        ApiService.apiService.addMedicalDocument(title, note, petId, filePart).enqueue(new Callback<MedicalDocumentResponse>() {
-                            @Override
-                            public void onResponse(Call<MedicalDocumentResponse> call, Response<MedicalDocumentResponse> response) {
-                                if (response.isSuccessful()) {
-                                    dialog.cancel();
-                                    Toast.makeText(MedicalDocumentActivity.this, "Thêm hồ sơ thành công", Toast.LENGTH_SHORT).show();
-                                    getListDocument();
-                                }
+        btnAccept.setOnClickListener(v -> {
+            RequestBody title = RequestBody.create(MediaType.parse("text/plain"), editTitleMedical.getText().toString());
+            RequestBody note = RequestBody.create(MediaType.parse("text/plain"), editNoteMedical.getText().toString());
+            RequestBody petId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(idPet));
+            if (document != null) {
+                RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), document);
+                MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", document.getName(), requestFile);
+                if (validate()) {
+                    ApiService.apiService.addMedicalDocument(title, note, petId, filePart).enqueue(new Callback<MedicalDocumentResponse>() {
+                        @Override
+                        public void onResponse(Call<MedicalDocumentResponse> call, Response<MedicalDocumentResponse> response) {
+                            if (response.isSuccessful()) {
+                                dialog.cancel();
+                                Toast.makeText(MedicalDocumentActivity.this, "Thêm hồ sơ thành công", Toast.LENGTH_SHORT).show();
+                                getListDocument();
                             }
+                        }
 
-                            @Override
-                            public void onFailure(Call<MedicalDocumentResponse> call, Throwable t) {
-                                Toast.makeText(MedicalDocumentActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                        @Override
+                        public void onFailure(Call<MedicalDocumentResponse> call, Throwable t) {
+                            Toast.makeText(MedicalDocumentActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

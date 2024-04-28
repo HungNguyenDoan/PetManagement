@@ -48,6 +48,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/name_nutritious"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -58,6 +59,8 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/image_nutritious"
+                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginTop="15dp"
@@ -72,7 +75,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/description"
+                    android:id="@+id/text_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mô tả"
@@ -81,9 +84,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/description"
+                    android:layout_below="@+id/text_description"
                     android:layout_marginStart="15dp"
                     android:text="Canned wet food with succulent chicken pieces in savory gravy."
                     android:textColor="@color/black"
@@ -107,6 +111,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/nutritions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tpdd"
@@ -131,15 +136,14 @@
                     android:textColor="@color/green"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
                     android:layout_below="@+id/cldd"
-                    android:layout_marginStart="15dp"
-                    android:src="@drawable/quality_nutrition"
-                    android:layout_centerHorizontal="true"
-                    />
+                    android:layout_marginStart="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    android:layout_height="wrap_content"/>
             </RelativeLayout>
             <RelativeLayout
                 android:background="@drawable/bg_nutritioninfodetail"

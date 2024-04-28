@@ -4,19 +4,24 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.payloads.requests.FCMToken;
+import com.project.petmanagement.payloads.requests.HealRecordRequest;
 import com.project.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.payloads.requests.MedicalDocumentRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.payloads.responses.CartResponse;
+import com.project.petmanagement.payloads.responses.HealRecordResponse;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
 import com.project.petmanagement.payloads.responses.ListDiseaseResponse;
+import com.project.petmanagement.payloads.responses.ListFoodTypeResponse;
 import com.project.petmanagement.payloads.responses.ListMedicalResponse;
+import com.project.petmanagement.payloads.responses.ListNutritiousFoodResponse;
 import com.project.petmanagement.payloads.responses.ListOrderResponse;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
 import com.project.petmanagement.payloads.responses.ListProductResponse;
 import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
+import com.project.petmanagement.payloads.responses.ListVaccineNotification;
 import com.project.petmanagement.payloads.responses.LoginResponse;
 import com.project.petmanagement.payloads.responses.MedicalDocumentResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
@@ -46,9 +51,9 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //server
-//    String BASE_URL = "http://103.163.215.125/api/";
+    String BASE_URL = "http://103.163.215.125/api/";
     //local
-    String BASE_URL = "http://192.151.62.102:8080/";
+//    String BASE_URL = "http://192.151.62.105:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setLenient().create();
@@ -74,17 +79,17 @@ public interface ApiService {
     @POST("auth/register")
     Call<LoginResponse> signup(@Body RegisterRequest registerRequest);
 
-//    @GET("foodtype/all")
-//    Call<FoodTypeResponse> getAllFoodType();
-//    @GET("nutritioninfo/all")
-//    Call<NutritionInfoResponse> getListNutritionInfo(@Query("key") String key, @Query("foodTypeId") Long foodTypeId);
+    @GET("food_types/all")
+    Call<ListFoodTypeResponse> getAllFoodType();
+    @GET("nutritious_food/all")
+    Call<ListNutritiousFoodResponse> getAllNutritious();
     @GET("species/all")
     Call<ListSpeciesResponse> getSpecies();
     @GET("diseases/all")
     Call<ListDiseaseResponse> getDiseases();
     @GET("pets/users")
     Call<ListPetResponse> getAllPetUser();
-    @POST("pets/")
+    @POST("pets/add")
     Call<PetResponse> addPet(@Body PetRequest petRequest);
     @GET("pets/{id}")
     Call<PetResponse> getPetDetail(@Path("id") Long id);
@@ -126,8 +131,21 @@ public interface ApiService {
     Call<ListMedicalResponse> getMedicalDocumentByPet(@Path("id") Long petId);
     @GET("medical_documents/{id}")
     Call<MedicalDocumentResponse> getMedicalDocumentByid(@Path("id") Long medicalId);
+    @Multipart
+    @PUT("medical_documents/{id}")
+    Call<MedicalDocumentResponse> updateMedicalDocument(
+            @Path("id") Long id,
+            @Part("title") RequestBody title,
+            @Part("note") RequestBody note,
+            @Part("petId") RequestBody petId,
+            @Part MultipartBody.Part file
+            );
     @DELETE("medical_documents/{id}")
     Call<com.project.petmanagement.payloads.responses.Response> deleteMedicalDocument(@Path("id") Long medicalId);
     @POST("auth/fcm")
     Call<com.project.petmanagement.payloads.responses.Response> setFcmToken(@Body FCMToken fcmToken);
+    @POST("health_records/add")
+    Call<HealRecordResponse> addHealthRecord(@Body HealRecordRequest healRecordRequest);
+    @GET("vaccination_notification/all")
+    Call<ListVaccineNotification> getVaccineNotificationByUser();
 }

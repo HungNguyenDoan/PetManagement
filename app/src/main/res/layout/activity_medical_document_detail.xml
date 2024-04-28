@@ -29,7 +29,7 @@
             />
         <ImageView
             android:layout_gravity="end"
-            android:id="@+id/add"
+            android:id="@+id/btn_update"
             android:layout_marginEnd="20dp"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -75,6 +75,14 @@
             android:text="Ghi chú"
             android:textColor="@color/black"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_below="@id/note"
+            android:text="Hồ sơ"
+            android:textColor="@color/green"
+            />
         <ImageView
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
@@ -87,5 +95,12 @@
             android:paddingEnd="10dp"
             android:scaleType="fitXY"
             />
+        <TextView
+            android:layout_below="@+id/file_open"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Nhấn vào đây để mở hồ sơ y tế"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 </RelativeLayout>

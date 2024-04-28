@@ -1,20 +1,19 @@
 package com.project.petmanagement.activity.veterinarian;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.Vet;
@@ -38,7 +37,7 @@ public class VeterinarianDetailActivity extends AppCompatActivity {
         TextView textExperience = findViewById(R.id.experience);
         TextView textDescription = findViewById(R.id.description);
         Vet vet = (Vet) getIntent().getSerializableExtra("vet");
-        if(vet!=null){
+        if (vet != null) {
             phoneNumber = vet.getPhoneNumber();
             avatar.setImageBitmap(ImageUtils.decodeBase64(vet.getAvatar()));
             textNameVet.setText(vet.getFullName());
@@ -47,25 +46,18 @@ public class VeterinarianDetailActivity extends AppCompatActivity {
             textExperience.setText(String.valueOf(vet.getExperience()));
             textDescription.setText(vet.getDescription());
         }
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        btnBack.setOnClickListener(v -> finish());
+        btnCallVeterinarian.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(VeterinarianDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(VeterinarianDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PHONE_PERMISSION);
+            } else {
+                call();
             }
-        });
-        btnCallVeterinarian.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(ContextCompat.checkSelfPermission(VeterinarianDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(VeterinarianDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PHONE_PERMISSION);
-                }else {
-                    call();
-                }
 
-            }
         });
     }
-    private void call(){
+
+    private void call() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + phoneNumber));
         startActivity(intent);
@@ -74,10 +66,10 @@ public class VeterinarianDetailActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQUEST_CALL_PHONE_PERMISSION){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_CALL_PHONE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 call();
-            }else {
+            } else {
                 Toast.makeText(this, "Quyền điện thoại bị từ chối", Toast.LENGTH_SHORT).show();
             }
         }

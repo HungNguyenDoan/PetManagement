@@ -36,11 +36,13 @@ public class StaticHealthActivity extends AppCompatActivity {
     private RecyclerView staticRecyclerView;
     private FloatingActionButton btnAdd;
     private ImageView btnBack;
+    private Long petId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_static_health);
         findViewById();
+        petId = getIntent().getLongExtra("petId", 0);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +66,7 @@ public class StaticHealthActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StaticHealthActivity.this, AddStaticHealthActity.class);
+                intent.putExtra("petId", petId);
                 startActivity(intent);
             }
         });

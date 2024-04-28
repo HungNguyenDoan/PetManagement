@@ -47,7 +47,7 @@ public class SetFeedScheduleActivity2 extends AppCompatActivity {
         saveFeedScheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), FeedScheduleInfoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ActivityScheduleInfoActivity.class);
                 startActivity(intent);
             }
         });

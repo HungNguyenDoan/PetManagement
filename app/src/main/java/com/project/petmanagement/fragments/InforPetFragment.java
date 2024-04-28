@@ -63,20 +63,15 @@ public class InforPetFragment extends Fragment {
         findViewById(view);
         customChart();
         getPet();
-        seeMoreStatic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), StaticHealthActivity.class);
-                startActivity(intent);
-            }
+        seeMoreStatic.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), StaticHealthActivity.class);
+            intent.putExtra("petId", idPet);
+            startActivity(intent);
         });
-        seeMoreMedical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), MedicalDocumentActivity.class);
-                intent.putExtra("petId", idPet);
-                startActivity(intent);
-            }
+        seeMoreMedical.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), MedicalDocumentActivity.class);
+            intent.putExtra("petId", idPet);
+            startActivity(intent);
         });
     }
     private void getPet(){
@@ -88,9 +83,9 @@ public class InforPetFragment extends Fragment {
                     if (petResponse!=null){
                         pet = petResponse.getData();
                         if(pet.getGender() == 0){
-                            gender.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.baseline_female_24));
+                            gender.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.baseline_female_24));
                         }else{
-                            gender.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.baseline_male_24));
+                            gender.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.baseline_male_24));
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             age.setText(FormatDateUtils.calculate(pet.getDateOfBirth()));

@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -65,7 +64,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdatePetActivity extends AppCompatActivity {
-    private ImageView btnBack;
     private TextInputEditText dob, namePet;
     private Map<String, Species> speciesMap;
     private Map<String, Breed> breedsMap;
@@ -78,20 +76,21 @@ public class UpdatePetActivity extends AppCompatActivity {
     private Bitmap imagePet;
     private String urlImage;
     private ImageView avatar;
-    private Button btnUpdate;
     private RadioGroup gender, neutered;
-    private ImageView openCamera;
     private Pet pet;
     private long idPet;
     private final static int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private final static int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 101;
     private final static int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 102;
 
-    private ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
             if (o.getResultCode() == Activity.RESULT_OK) {
-                Bundle bundle = o.getData().getExtras();
+                Bundle bundle = null;
+                if (o.getData() != null) {
+                    bundle = o.getData().getExtras();
+                }
                 if (bundle != null) {
                     imagePet = (Bitmap) bundle.get("data");
                     avatar.setImageBitmap(imagePet);
@@ -99,11 +98,14 @@ public class UpdatePetActivity extends AppCompatActivity {
             }
         }
     });
-    private ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
             if (o.getResultCode() == Activity.RESULT_OK) {
-                Uri uri = o.getData().getData();
+                Uri uri = null;
+                if (o.getData() != null) {
+                    uri = o.getData().getData();
+                }
                 try {
                     imagePet = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                     avatar.setImageBitmap(imagePet);
@@ -120,16 +122,16 @@ public class UpdatePetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_pet);
         speciesView = findViewById(R.id.species);
         breedView = findViewById(R.id.breed);
-        btnBack = findViewById(R.id.btn_back);
+        ImageView btnBack = findViewById(R.id.btn_back);
         dob = findViewById(R.id.dob);
         speciesMap = new LinkedHashMap<>();
         breedsMap = new LinkedHashMap<>();
         namePet = findViewById(R.id.name_pet);
         avatar = findViewById(R.id.image_pet);
-        btnUpdate = findViewById(R.id.btn_update);
+        Button btnUpdate = findViewById(R.id.btn_update);
         neutered = findViewById(R.id.neutered);
         gender = findViewById(R.id.gender);
-        openCamera = findViewById(R.id.camera);
+        ImageView openCamera = findViewById(R.id.camera);
         idPet = getIntent().getLongExtra("idPet", 0);
         getSpecies();
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -153,27 +155,16 @@ public class UpdatePetActivity extends AppCompatActivity {
                 breedView.setAdapter(breedAdapter);
             }
         });
-        dob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                namePet.clearFocus();
-                customDob();
+        dob.setOnClickListener(v -> {
+            namePet.clearFocus();
+            customDob();
+        });
+        btnUpdate.setOnClickListener(v -> {
+            if (validation()) {
+                updatePet();
             }
         });
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validation()) {
-                    updatePet();
-                }
-            }
-        });
-        openCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setOpenCameraDialog();
-            }
-        });
+        openCamera.setOnClickListener(v -> setOpenCameraDialog());
     }
 
     private void showInfoPet() {
@@ -194,9 +185,9 @@ public class UpdatePetActivity extends AppCompatActivity {
                         String breed = pet.getBreed().getName();
                         breedView.setText(breed);
                         String strSpecies = "";
-                        for(String species : speciesMap.keySet()){
-                            for(Breed breed1: speciesMap.get(species).getBreeds()){
-                                if(breed1.getName().equals(breed)){
+                        for (String species : speciesMap.keySet()) {
+                            for (Breed breed1 : speciesMap.get(species).getBreeds()) {
+                                if (breed1.getName().equals(breed)) {
                                     speciesView.setText(species);
                                     strSpecies = species;
                                     speciesAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(speciesMap.keySet()));
@@ -313,27 +304,21 @@ public class UpdatePetActivity extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        dob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog = new DatePickerDialog(UpdatePetActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = dayOfMonth + "/" + (month+1) + "/" + year;
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                        try {
-                            Date date1 = sdf.parse(date);
-                            String date2 = sdf.format(date1);
-                            dob.setText(date2);
-                            dob.setError(null);
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
+        dob.setOnClickListener(v -> {
+            datePickerDialog = new DatePickerDialog(UpdatePetActivity.this, (view, year1, month1, dayOfMonth) -> {
+                String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                try {
+                    Date date1 = sdf.parse(date);
+                    String date2 = sdf.format(date1);
+                    dob.setText(date2);
+                    dob.setError(null);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
 
-                    }
-                }, year, month, day);
-                datePickerDialog.show();
-            }
+            }, year, month, day);
+            datePickerDialog.show();
         });
     }
 

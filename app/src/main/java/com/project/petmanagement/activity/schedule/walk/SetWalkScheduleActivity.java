@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.inject.WalkScheduleInfoActivity;
 
 public class SetWalkScheduleActivity extends AppCompatActivity {
 

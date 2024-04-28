@@ -17,20 +17,12 @@ public class SelectPetToFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pet_to_feed);
         Button continueBtn = findViewById(R.id.continue_btn);
-        continueBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SetFeedScheduleActivity2.class);
-                startActivity(intent);
-            }
+        continueBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), SetFeedScheduleActivity2.class);
+            startActivity(intent);
         });
 
         ImageView returnArrow = findViewById(R.id.return_arrow);
-        returnArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        returnArrow.setOnClickListener(v -> finish());
     }
 }

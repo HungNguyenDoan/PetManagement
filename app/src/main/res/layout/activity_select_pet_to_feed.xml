@@ -71,12 +71,6 @@
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 tools:ignore="HardcodedText" />
-
-            <CheckBox
-                android:layout_width="35dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

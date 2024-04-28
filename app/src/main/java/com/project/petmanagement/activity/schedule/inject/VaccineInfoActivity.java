@@ -9,9 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.petmanagement.R;
 
-import java.util.Objects;
-
-public class InjectionInfoActivity extends AppCompatActivity {
+public class VaccineInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

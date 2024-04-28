@@ -1,10 +1,6 @@
 package com.project.petmanagement.activity.login;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,14 +10,18 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.models.entity.User;
+import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
-import com.project.petmanagement.payloads.responses.ErrorResponse;
+import com.project.petmanagement.payloads.responses.RegisterErrorResponse;
 import com.project.petmanagement.payloads.responses.LoginResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
@@ -52,20 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById();
         changeLogin();
         customDob();
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signUp();
-            }
-        });
-        textBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnSignup.setOnClickListener(v -> signUp());
+        textBack.setOnClickListener(v -> finish());
     }
-    private void findViewById(){
+
+    private void findViewById() {
         textLogin = findViewById(R.id.text_login);
         btnSignup = findViewById(R.id.btn_signup);
         fullName = findViewById(R.id.full_name);
@@ -77,46 +68,63 @@ public class RegisterActivity extends AppCompatActivity {
         address = findViewById(R.id.address);
         textBack = findViewById(R.id.text_back);
     }
-    private void signUp(){
-        if(validation()){
+
+    private void signUp() {
+        if (validation()) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            if(!password.getText().toString().equals(rePassword.getText().toString())){
+            if (!password.getText().toString().equals(rePassword.getText().toString())) {
                 DialogUtils.setUpDialog(RegisterActivity.this, "Mật khẩu xác nhận không đúng.");
-            }
-            else{
+            } else {
                 try {
                     SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     Date dob2 = sdf1.parse(dob.getText().toString());
                     String dob3 = sdf.format(dob2);
-                    RegisterRequest registerRequest = new RegisterRequest(fullName.getText().toString().trim(),dob3, phoneNumber.getText().toString().trim(), email.getText().toString().trim(), address.getText().toString(), password.getText().toString());
+                    RegisterRequest registerRequest = new RegisterRequest(fullName.getText().toString().trim(), dob3, phoneNumber.getText().toString().trim(), email.getText().toString().trim(), address.getText().toString(), password.getText().toString());
                     ApiService.apiService.signup(registerRequest).enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                            Log.d("ddddd", response.code()+"");
-                            if(response.code() == 200){
+                            if (response.code() == 200) {
                                 LoginResponse loginResponse = response.body();
                                 storageService.setString("token", loginResponse.getToken());
                                 User user = loginResponse.getData();
-                                storageService.setUser("user",user);
+                                storageService.setUser("user", user);
                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(intent);
+                                FirebaseMessaging.getInstance().getToken()
+                                        .addOnCompleteListener(task -> {
+                                            String token = task.getResult();
+                                            FCMToken fcmToken = new FCMToken(token);
+                                            ApiService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                                                @Override
+                                                public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call1, Response<com.project.petmanagement.payloads.responses.Response> response1) {
+                                                    if (response1.isSuccessful()) {
+                                                        Toast.makeText(RegisterActivity.this, "set token is successful.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<com.project.petmanagement.payloads.responses.Response> call1, Throwable t) {
+                                                    Toast.makeText(RegisterActivity.this, "set token is failed.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        });
                             } else if (response.code() == 400) {
                                 Gson gson = new Gson();
-                                ErrorResponse errorResponse = null;
+                                RegisterErrorResponse registerErrorResponse = null;
                                 try {
-                                    errorResponse = gson.fromJson(response.errorBody().string(), ErrorResponse.class);
+                                    registerErrorResponse = gson.fromJson(response.errorBody().string(), RegisterErrorResponse.class);
                                     String message = "";
-                                    if(errorResponse.getMessage().getEmailError()!=null){
-                                        message+= errorResponse.getMessage().getEmailError()+"\n";
+                                    if (registerErrorResponse.getMessage().getEmailError() != null) {
+                                        message += registerErrorResponse.getMessage().getEmailError() + "\n";
                                     }
-                                    if(errorResponse.getMessage().getPasswordError()!=null){
-                                        message+= errorResponse.getMessage().getPasswordError()+"\n";
+                                    if (registerErrorResponse.getMessage().getPasswordError() != null) {
+                                        message += registerErrorResponse.getMessage().getPasswordError() + "\n";
                                     }
-                                    if(errorResponse.getMessage().getFullNameError()!=null){
-                                        message+= errorResponse.getMessage().getFullNameError()+"\n";
+                                    if (registerErrorResponse.getMessage().getFullNameError() != null) {
+                                        message += registerErrorResponse.getMessage().getFullNameError() + "\n";
                                     }
-                                    if (errorResponse.getMessage().getPhoneNumberError() !=null){
-                                        message+= errorResponse.getMessage().getPhoneNumberError() + "\n";
+                                    if (registerErrorResponse.getMessage().getPhoneNumberError() != null) {
+                                        message += registerErrorResponse.getMessage().getPhoneNumberError() + "\n";
                                     }
                                     DialogUtils.setUpDialog(RegisterActivity.this, message);
                                 } catch (IOException e) {
@@ -124,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             }
                         }
+
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             Toast.makeText(RegisterActivity.this, "Kiểm tra lại kết nối mạng.", Toast.LENGTH_SHORT).show();
@@ -137,35 +146,37 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     }
-    private boolean validation(){
-        if(fullName.length()==0){
+
+    private boolean validation() {
+        if (fullName.length() == 0) {
             fullName.setError("Tên không được để trống");
             return false;
         }
-        if(dob.length() == 0){
+        if (dob.length() == 0) {
             dob.setError("Ngày sinh không được để trống.");
             return false;
         }
-        if(phoneNumber.length()==0){
+        if (phoneNumber.length() == 0) {
             phoneNumber.setError("Số điện thoại không được để trống.");
             return false;
         }
-        if(password.length()==0){
+        if (password.length() == 0) {
             password.setError("Mật khẩu không được để trống.");
             return false;
         }
 
-        if(rePassword.length()==0){
+        if (rePassword.length() == 0) {
             rePassword.setError("Xác nhận mật khẩu không dược để trống.");
             return false;
         }
-        if(email.length()==0){
+        if (email.length() == 0) {
             email.setError("Email không được để trống.");
             return false;
         }
         return true;
     }
-    private void customDob(){
+
+    private void customDob() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -176,7 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(RegisterActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = dayOfMonth+"/"+ (month+1) +"/"+year;
+                        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                         try {
                             Date date1 = sdf.parse(date);
@@ -194,13 +205,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void changeLogin(){
-        textLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
+    private void changeLogin() {
+        textLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
     }
 }

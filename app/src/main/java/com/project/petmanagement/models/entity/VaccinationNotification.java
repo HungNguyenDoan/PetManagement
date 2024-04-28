@@ -2,7 +2,7 @@ package com.project.petmanagement.models.entity;
 
 import java.util.List;
 
-public class VaccinationNotification {
+public class VaccinationNotification extends Notification {
     private Vaccine vaccine;
     private List<OneTimeSchedule> schedules;
 

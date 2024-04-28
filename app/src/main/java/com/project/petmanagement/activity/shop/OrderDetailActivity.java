@@ -99,27 +99,22 @@ public class OrderDetailActivity extends AppCompatActivity {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             productRecyclerView.setLayoutManager(layoutManager);
             productRecyclerView.setAdapter(orderDetailAdapter);
-            btnCancelOrder.setOnClickListener(new View.OnClickListener() {
+            btnCancelOrder.setOnClickListener(v -> ApiService.apiService.cancelOrder(order.getId()).enqueue(new Callback<OrderResponse>() {
                 @Override
-                public void onClick(View v) {
-                    ApiService.apiService.cancelOrder(order.getId()).enqueue(new Callback<OrderResponse>() {
-                        @Override
-                        public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                            if(response.isSuccessful()){
-                                Toast.makeText(OrderDetailActivity.this, "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
-                                status.setText("Đã hủy");
-                                status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.red));
-                                btnCancelOrder.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<OrderResponse> call, Throwable t) {
-
-                        }
-                    });
+                public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                    if(response.isSuccessful()){
+                        Toast.makeText(OrderDetailActivity.this, "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
+                        status.setText("Đã hủy");
+                        status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.red));
+                        btnCancelOrder.setVisibility(View.GONE);
+                    }
                 }
-            });
+
+                @Override
+                public void onFailure(Call<OrderResponse> call, Throwable t) {
+
+                }
+            }));
         }
 
     }

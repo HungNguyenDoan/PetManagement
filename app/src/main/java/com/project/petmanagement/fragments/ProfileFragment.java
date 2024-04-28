@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,20 +39,23 @@ import com.project.petmanagement.activity.login.LoginActivity;
 import com.project.petmanagement.activity.MainActivity;
 //import com.project.petmanagement.activity.pet.ManagePetActivity;
 //import com.project.petmanagement.activity.nutrition.NutritionActivity;
+import com.project.petmanagement.activity.nutrition.NutritionActivity;
 import com.project.petmanagement.activity.pet.ManagePetActivity;
 import com.project.petmanagement.activity.shop.ShopActivity;
 import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
 import com.project.petmanagement.models.entity.User;
+import com.project.petmanagement.payloads.requests.FCMToken;
+import com.project.petmanagement.payloads.responses.Response;
+import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
 
 import java.io.File;
 import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ProfileFragment extends Fragment {
     private final StorageService storageService = MyApplication.getStorageService();
@@ -74,8 +78,6 @@ public class ProfileFragment extends Fragment {
         TextView phoneNumber = view.findViewById(R.id.phone_number);
         ImageView avatar = view.findViewById(R.id.avatar);
         User user = storageService.getUser("user");
-        String imageUrl = "https://storage.googleapis.com/mobile-server-firebase.appspot.com/f0f9c3bb-96af-4dc4-acbc-fca8ce3a646b_product_5.jpg?GoogleAccessId=firebase-adminsdk-6vprl@mobile-server-firebase.iam.gserviceaccount.com&Expires=1713802711&Signature=XY2Y93Cx4YCx2NHM4UD4MOS1jRydjQkXs5Xu0XSS85WV9owHNGUYxFPpkzJexeYAU2WjhkBrE8wnj4eoebA5Ci3qhmPcjUKVB26Ik%2BzsZ4vWOM2UAzHXWfcy8J2ZR1HEwrrwvS13ZKcSeo08oz14Y8iALI1GxunpNAoGYVgodjGX9aipu09jXktHVr856mfgaoYgoRlVTg%2BA7M38jkNVm0WhJFkuopILLsWuQmvLGUqVNJ2w1a8q2GO6H18eiNV4CLLx2I1AXnjuBAntl%2FbKakte7tYoaOepxfKaeJTvVbc9KHrNjRd%2BIpBznW5XWFRv7pL%2FhfaF2dPH7InSeyGHfA%3D%3D";
-        Glide.with(this).load(imageUrl).into(avatar);
         if(user != null){
             fullName.setText(user.getFullName());
             String phone = "+84 " + user.getPhoneNumber().substring(1,4)+" xxx xxx";
@@ -86,49 +88,45 @@ public class ProfileFragment extends Fragment {
             btnLogin.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.GONE);
         }
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-            }
+        btnLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
         });
-        nutrition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), NutritionActivity.class);
-//                startActivity(intent);
-            }
+        nutrition.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), NutritionActivity.class);
+            startActivity(intent);
         });
-        vet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ListVeterinarianActivity.class);
-                startActivity(intent);
-            }
+        vet.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ListVeterinarianActivity.class);
+            startActivity(intent);
         });
-        shop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ShopActivity.class);
-                startActivity(intent);
-            }
+        shop.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ShopActivity.class);
+            startActivity(intent);
         });
-        pet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ManagePetActivity.class);
-                startActivity(intent);
-            }
+        pet.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ManagePetActivity.class);
+            startActivity(intent);
         });
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storageService.remove("user");
-                storageService.remove("token");
-                Intent intent = new Intent(requireContext(), MainActivity.class);
-                startActivity(intent);
-            }
+        btnLogout.setOnClickListener(v -> {
+            storageService.remove("user");
+            storageService.remove("token");
+            FCMToken fcmToken = new FCMToken("");
+            ApiService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                @Override
+                public void onResponse(retrofit2.Call<com.project.petmanagement.payloads.responses.Response> call1, retrofit2.Response<Response> response1) {
+                    if (response1.isSuccessful()) {
+                        Toast.makeText(requireActivity(), "set token is successful.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Response> call1, Throwable t) {
+                    Toast.makeText(requireActivity(), "set token is failed.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            Intent intent = new Intent(requireContext(), MainActivity.class);
+            startActivity(intent);
         });
     }
 
