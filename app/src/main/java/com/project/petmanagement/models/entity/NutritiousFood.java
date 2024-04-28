@@ -12,9 +12,18 @@ public class NutritiousFood implements Serializable {
     private Species species;
     private String image;
     private String description;
+    private String nutrition;
     private QualityEnum quality;
     private String ingredient;
     private List<FoodType> foodTypes;
+
+    public String getNutrition() {
+        return nutrition;
+    }
+
+    public void setNutrition(String nutrition) {
+        this.nutrition = nutrition;
+    }
 
     public Long getId() {
         return id;

@@ -53,7 +53,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:text="NutriPaws Chicken Delight"
                 android:textColor="@color/green"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -64,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/chickenfood" />
+                />
 
             <RelativeLayout
                 android:background="@drawable/bg_nutritioninfodetail"
@@ -89,7 +88,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_description"
                     android:layout_marginStart="15dp"
-                    android:text="Canned wet food with succulent chicken pieces in savory gravy."
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -116,7 +114,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tpdd"
                     android:layout_marginStart="15dp"
-                    android:text="Protein: 24gram\nNăng lượng: 99 calo\nChất béo: 0.3 gram"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -137,6 +134,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
                 <TextView
+                    android:id="@+id/quality"
                     android:layout_below="@+id/cldd"
                     android:layout_marginStart="20dp"
                     android:layout_centerVertical="true"
@@ -164,11 +162,11 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/ingredients"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tp"
                     android:layout_marginStart="15dp"
-                    android:text="500gr thịt ức gà không xương\1 củ tỏi\n3 cây sả\n100gr lá tranh\nớt tươi\n 1 củ gừng"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </RelativeLayout>
