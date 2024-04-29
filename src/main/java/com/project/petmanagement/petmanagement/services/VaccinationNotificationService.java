@@ -1,16 +1,20 @@
 package com.project.petmanagement.petmanagement.services;
 
+import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
+import com.project.petmanagement.petmanagement.models.entity.User;
 import com.project.petmanagement.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.petmanagement.payloads.requests.VaccinationNotificationRequest;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
 import com.project.petmanagement.petmanagement.repositories.VaccinationNotificationRepository;
 import com.project.petmanagement.petmanagement.repositories.VaccineRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,8 +24,14 @@ public class VaccinationNotificationService {
     private final VaccineRepository vaccineRepository;
     private final VaccinationNotificationRepository vaccinationNotificationRepository;
 
-    public List<VaccinationNotification> getAllVaccinationNotification() {
-        return vaccinationNotificationRepository.findAll();
+    public List<VaccinationNotification> getVaccinationNotificationByUser() {
+        User user = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        List<Pet> pets = petRepository.findByUserAndIsActiveIsTrueOrderByIdDesc(user);
+        List<VaccinationNotification> vaccinationNotificationList = new ArrayList<>();
+        for (Pet pet : pets) {
+            vaccinationNotificationList.addAll(vaccinationNotificationRepository.findByPet(pet));
+        }
+        return vaccinationNotificationList;
     }
 
     public List<VaccinationNotification> getVaccinationNotificationByPet(Pet pet) {

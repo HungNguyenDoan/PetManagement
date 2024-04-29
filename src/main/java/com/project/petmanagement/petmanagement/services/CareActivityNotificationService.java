@@ -1,15 +1,19 @@
 package com.project.petmanagement.petmanagement.services;
 
+import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
+import com.project.petmanagement.petmanagement.models.entity.User;
 import com.project.petmanagement.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.petmanagement.repositories.CareActivityNotificationRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,11 +22,17 @@ public class CareActivityNotificationService {
     private final PetRepository petRepository;
     private final CareActivityNotificationRepository careActivityNotificationRepository;
 
-    public List<CareActivityNotification> getAllCareActivityNotification(){
-        return careActivityNotificationRepository.findAll();
+    public List<CareActivityNotification> getCareActivityNotificationByUser() {
+        User user = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        List<Pet> pets = petRepository.findByUserAndIsActiveIsTrueOrderByIdDesc(user);
+        List<CareActivityNotification> careActivityNotificationList = new ArrayList<>();
+        for (Pet pet : pets) {
+            careActivityNotificationList.addAll(careActivityNotificationRepository.findByPet(pet));
+        }
+        return careActivityNotificationList;
     }
 
-    public List<CareActivityNotification> getCareActivityNotificationByPet(Pet pet){
+    public List<CareActivityNotification> getCareActivityNotificationByPet(Pet pet) {
         return careActivityNotificationRepository.findByPet(pet);
     }
 
