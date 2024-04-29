@@ -1,28 +1,25 @@
 package com.project.petmanagement.petmanagement.payloads.requests;
 
+import java.sql.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VaccinationNotificationRequest {
+public class HealthStaticRequest {
     @JsonProperty("pet_id")
-    private Long petId;
+    Long petId;
+    
+    @JsonProperty("start_date")
+    Date startDate;
 
-    private String title;
-
-    @JsonProperty("vaccine_id")
-    private Long vaccineId;
-
-    private String note;
-
-    @JsonProperty("schedules")
-    private List<OneTimeScheduleRequest> oneTimeScheduleRequestList;
+    @JsonProperty("end_date")
+    Date endDate;
 }
