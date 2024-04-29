@@ -31,35 +31,6 @@ public class NutritiousFoodService {
                 () -> new DataNotFoundException("Can not find nutritious food with ID: " + nutritiousFoodId));
     }
 
-    // public List<NutritiousFood> getNutritiousFoodBySpecies(Long speciesId) throws
-    // Exception {
-    // Species existingSpecies = speciesRepository.findById(speciesId)
-    // .orElseThrow(() -> new DataNotFoundException("Can not find species with ID: "
-    // + speciesId));
-    // return nutritiousFoodRepository.findBySpecies(existingSpecies);
-    // }
-
-    // public List<NutritiousFood> getNutritiousFoodByFoodType(Long foodTypeId)
-    // throws Exception {
-    // FoodType existingFoodType = foodTypeRepository.findById(foodTypeId)
-    // .orElseThrow(() -> new DataNotFoundException("Can not find food type with ID:
-    // " + foodTypeId));
-    // return nutritiousFoodRepository.findByFoodType(existingFoodType);
-    // }
-
-    // public List<NutritiousFood> getNutritiousFoodBySpeciesAndFoodType(Long
-    // speciesId, Long foodTypeId)
-    // throws Exception {
-    // Species existingSpecies = speciesRepository.findById(speciesId)
-    // .orElseThrow(() -> new DataNotFoundException("Can not find species with ID: "
-    // + speciesId));
-    // FoodType existingFoodType = foodTypeRepository.findById(foodTypeId)
-    // .orElseThrow(() -> new DataNotFoundException("Can not find food type with ID:
-    // " + foodTypeId));
-    // return nutritiousFoodRepository.findBySpeciesAndFoodType(existingSpecies,
-    // existingFoodType);
-    // }
-
     public List<NutritiousFood> searchNutritiousFoodByFilter(String keyword, Long speciesId, Long foodTypeId)
             throws Exception {
         if (speciesId != null && foodTypeId != null) {
