@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.schedule.feed.ActivityScheduleInfoActivity">
+    tools:context=".activity.schedule.careactivity.ActivityScheduleInfoActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"

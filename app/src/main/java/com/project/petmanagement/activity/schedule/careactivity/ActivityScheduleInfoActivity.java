@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule.feed;
+package com.project.petmanagement.activity.schedule.careactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

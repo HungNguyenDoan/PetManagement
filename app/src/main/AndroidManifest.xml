@@ -75,19 +75,19 @@
             android:name=".activity.schedule.walk.SelectPetToWalkActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SetActivityNotificationActivity"
+            android:name=".activity.schedule.careactivity.SetActivityNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SetActivityInfoActivity"
+            android:name=".activity.schedule.careactivity.SetActivityInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SetActivityScheduleActivity"
+            android:name=".activity.schedule.careactivity.SetActivityScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SelectPetToActivityActivity"
+            android:name=".activity.schedule.careactivity.SelectPetToActivityActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.ActivityScheduleInfoActivity"
+            android:name=".activity.schedule.careactivity.ActivityScheduleInfoActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.inject.VaccineInfoActivity"

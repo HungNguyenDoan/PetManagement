@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule.feed;
+package com.project.petmanagement.activity.schedule.careactivity;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -15,9 +15,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.inject.SelectPetToVaccineActivity;
-import com.project.petmanagement.activity.schedule.inject.SetVaccineScheduleActivity;
 import com.project.petmanagement.models.entity.Pet;
+import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
+import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
+
+import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -26,6 +29,7 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
     private Pet pet;
     private CircleImageView imagePet;
     private TextView namePet;
+    private List<CareActivityInfoRequest>  careActivityInfoRequests;
     private ActivityResultLauncher<Intent> launcherPet = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
@@ -35,6 +39,14 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
                     pet = (Pet) data.getSerializableExtra("pet");
                     setInfoPet();
                 }
+            }
+        }
+    });
+    private ActivityResultLauncher<Intent> launcherCareActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {
+        if(o.getResultCode() == RESULT_OK){
+            Intent data = o.getData();
+            if (data != null) {
+                careActivityInfoRequests = (List<CareActivityInfoRequest>) data.getSerializableExtra("listOneTime");
             }
         }
     });

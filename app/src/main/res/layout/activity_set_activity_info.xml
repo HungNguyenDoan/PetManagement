@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.schedule.feed.SetActivityInfoActivity">
+    tools:context=".activity.schedule.careactivity.SetActivityInfoActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -68,6 +68,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_input_static_health"
                         android:textSize="18sp"
+                        android:inputType="textMultiLine"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 

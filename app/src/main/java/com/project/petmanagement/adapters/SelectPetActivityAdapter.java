@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
 
-import com.project.petmanagement.activity.schedule.feed.SetActivityScheduleActivity;
+import com.project.petmanagement.activity.schedule.careactivity.SetActivityScheduleActivity;
 import com.project.petmanagement.models.entity.Pet;
 
 import java.util.List;

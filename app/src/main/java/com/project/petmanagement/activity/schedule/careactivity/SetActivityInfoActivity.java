@@ -1,8 +1,9 @@
-package com.project.petmanagement.activity.schedule.feed;
+package com.project.petmanagement.activity.schedule.careactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,7 +21,9 @@ import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
 import com.project.petmanagement.services.ApiService;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +35,9 @@ public class SetActivityInfoActivity extends AppCompatActivity {
     private LinearLayout parentLayout;
     private Button saveBtn;
     private ArrayAdapter<String> dailyActivityAdapter;
+    private Map<String, DailyActivity> dailyActivityMap;
+
+    private TextInputEditText title, totalNote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,9 @@ public class SetActivityInfoActivity extends AppCompatActivity {
         CardView btnAddView = findViewById(R.id.add_activity_btn);
         parentLayout = findViewById(R.id.parent_layout);
         saveBtn = findViewById(R.id.save_btn);
+        title = findViewById(R.id.title);
+        totalNote = findViewById(R.id.total_note);
+        dailyActivityMap = new LinkedHashMap<>();
         btnAddView.setOnClickListener(v -> {
             addView();
         });
@@ -47,10 +56,20 @@ public class SetActivityInfoActivity extends AppCompatActivity {
 
         Button saveBtn = findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SetActivityScheduleActivity.class);
-            startActivity(intent);
+
         });
         setUpButton();
+    }
+    private boolean validate(TextInputEditText editTypeActivity, TextInputEditText editNote){
+        if(title.length()==0){
+            title.setError("Title không được để trống");
+            return false;
+        }
+        if(editTypeActivity.length()==0){
+            editTypeActivity.setError("Loại hành động không được để trống");
+            return false;
+        }
+        return true;
     }
     private void addView() {
         final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv,null,false);
@@ -59,16 +78,18 @@ public class SetActivityInfoActivity extends AppCompatActivity {
         stt+=1;
         title.setText(strTile);
         AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
+        activityType.setOnItemClickListener((parent, view, position, id) -> {
+            activityType.setError(null);
+        });
         ApiService.apiService.getAllDaiLyActivity().enqueue(new Callback<ListDaiLyActivityResponse>() {
             @Override
             public void onResponse(Call<ListDaiLyActivityResponse> call, Response<ListDaiLyActivityResponse> response) {
                 if(response.isSuccessful()){
-                    List<String> listStr = new ArrayList<>();
                     if(response.body()!=null && response.body().getData()!=null){
                         for(DailyActivity dailyActivity: response.body().getData()){
-                            listStr.add(dailyActivity.getName());
+                            dailyActivityMap.put(dailyActivity.getName(), dailyActivity);
                         }
-                        dailyActivityAdapter = new ArrayAdapter<>(SetActivityInfoActivity.this, R.layout.list_item_dropdown, listStr);
+                        dailyActivityAdapter = new ArrayAdapter<>(SetActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(dailyActivityMap.keySet()));
                         activityType.setAdapter(dailyActivityAdapter);
                     }
                 }

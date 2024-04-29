@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule.feed;
+package com.project.petmanagement.activity.schedule.careactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapters.ListPetSelectAdapter;
 import com.project.petmanagement.adapters.SelectPetActivityAdapter;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
 import com.project.petmanagement.services.ApiService;

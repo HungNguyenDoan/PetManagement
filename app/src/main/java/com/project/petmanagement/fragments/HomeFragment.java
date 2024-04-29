@@ -11,10 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.feed.ActivityScheduleInfoActivity;
+import com.project.petmanagement.activity.schedule.careactivity.ActivityScheduleInfoActivity;
 import com.project.petmanagement.activity.schedule.ScheduleActivity;
 import com.project.petmanagement.activity.schedule.inject.VaccineInjectionScheduleActivity;
-import com.project.petmanagement.activity.schedule.walk.WalkScheduleInfoActivity;
 
 
 public class HomeFragment extends Fragment {
