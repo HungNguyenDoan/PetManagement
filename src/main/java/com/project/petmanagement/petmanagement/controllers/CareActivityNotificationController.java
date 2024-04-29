@@ -23,9 +23,9 @@ public class CareActivityNotificationController {
     private final CareActivityInfoService careActivityInfoService;
     private final CareActivityNotificationService careActivityNotificationService;
 
-    @GetMapping("/all")
-    public ResponseEntity<Object> getAllCareActivityNotification() {
-        List<CareActivityNotification> careActivityNotificationList = careActivityNotificationService.getAllCareActivityNotification();
+    @GetMapping("/users")
+    public ResponseEntity<Object> getCareActivityNotificationByUser() {
+        List<CareActivityNotification> careActivityNotificationList = careActivityNotificationService.getCareActivityNotificationByUser();
         DataResponse dataResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Get all notification successfully")

@@ -22,12 +22,12 @@ public class VaccinationNotificationController {
     private final OneTimeScheduleService oneTimeScheduleService;
     private final VaccinationNotificationService vaccinationNotificationService;
 
-    @GetMapping("/all")
-    public ResponseEntity<Object> getAllVaccinationNotification() {
-        List<VaccinationNotification> vaccinationNotificationList = vaccinationNotificationService.getAllVaccinationNotification();
+    @GetMapping("/users")
+    public ResponseEntity<Object> getVaccinationNotificationByUser() {
+        List<VaccinationNotification> vaccinationNotificationList = vaccinationNotificationService.getVaccinationNotificationByUser();
         DataResponse dataResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
-                .message("Get all vaccination notification successfully")
+                .message("Get vaccination notification by user successfully")
                 .data(vaccinationNotificationList)
                 .build();
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);

@@ -31,7 +31,9 @@ public class Scheduler {
     private final FirebaseService firebaseService;
 
     @Scheduled(cron = "0 0 6 * * *")
+    @Transactional
     public void sendVaccinationNotification() {
+        log.info("Start to send vaccination notification ...");
         LocalDate currentDate = LocalDate.now();
         List<User> userList = userService.getAllUsers();
         for (User user : userList) {
@@ -67,6 +69,7 @@ public class Scheduler {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void sendCareActivityNotification() {
+        log.info("Start to send care activity notification ...");
         LocalDate currentDate = LocalDate.now();
         String currentTime = LocalTime.now().getHour() + ":" + LocalTime.now().getMinute();
         List<User> userList = userService.getAllUsers();
@@ -84,7 +87,7 @@ public class Scheduler {
                         if (frequency.compareTo(FrequencyEnum.NO_REPEAT) == 0) {
                             LocalDate scheduledDate = recurringSchedule.getDate().toLocalDate();
                             if (scheduledDate.equals(currentDate) && scheduledTime.equals(currentTime)) {
-                                log.info("NO_REPEAT OK");
+                                log.info("NO_REPEAT: OK");
                                 onTime = true;
                             }
                         } else if (frequency.compareTo(FrequencyEnum.DAILY) == 0) {
@@ -178,6 +181,8 @@ public class Scheduler {
                             log.info("User's ID: " + user.getId());
                             log.info("FCM Token: " + user.getFcmToken());
                             log.info("Pet's ID: " + pet.getId());
+                            log.info("Frequency: " + frequency.name());
+                            log.info("Date: " + currentDate);
                             FCMNotification fcmNotification = FCMNotification.builder().fcmToken(user.getFcmToken()).title(careActivityNotification.getTitle()).body(careActivityNotification.getNote()).build();
                             try {
                                 String message = firebaseService.pushNotification(fcmNotification);
