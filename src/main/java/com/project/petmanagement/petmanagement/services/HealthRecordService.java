@@ -4,6 +4,7 @@ import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
 import com.project.petmanagement.petmanagement.payloads.requests.HealthRecordRequest;
+import com.project.petmanagement.petmanagement.payloads.requests.HealthStaticRequest;
 import com.project.petmanagement.petmanagement.repositories.HealthRecordRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,16 @@ public class HealthRecordService {
     private final PetRepository petRepository;
 
     public List<HealthRecord> getHealthRecordByPet(Long petId) throws Exception {
-        Pet pet = petRepository.findById(petId).orElseThrow(() -> new DataNotFoundException("Can not found Pet with id=" + petId));
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new DataNotFoundException("Can not found Pet with id=" + petId));
         return healthRecordRepository.findByPet(pet);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public HealthRecord addHealRecord(HealthRecordRequest healthRecordRequest) throws Exception {
         HealthRecord lastHealthRecord = healthRecordRepository.findTopByOrderByIdDesc();
-        Pet pet = petRepository.findById(healthRecordRequest.getPetId()).orElseThrow(() -> new DataNotFoundException("Pet not found with id=" + healthRecordRequest.getPetId()));
+        Pet pet = petRepository.findById(healthRecordRequest.getPetId()).orElseThrow(
+                () -> new DataNotFoundException("Pet not found with id=" + healthRecordRequest.getPetId()));
         HealthRecord healthRecord = HealthRecord.builder()
                 .checkUpDate(healthRecordRequest.getCheckUpDate())
                 .weight(healthRecordRequest.getWeight())
@@ -46,7 +49,8 @@ public class HealthRecordService {
 
     @Transactional(rollbackFor = Exception.class)
     public HealthRecord updateHealthRecord(HealthRecordRequest healthRecordRequest, Long id) throws Exception {
-        HealthRecord healthRecord = healthRecordRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not found health record with id=" + id));
+        HealthRecord healthRecord = healthRecordRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Can not found health record with id=" + id));
         healthRecord.setCheckUpDate(healthRecordRequest.getCheckUpDate());
         healthRecord.setWeight(healthRecordRequest.getWeight());
         healthRecord.setExerciseLevel(healthRecordRequest.getExerciseLevel());
@@ -58,12 +62,18 @@ public class HealthRecordService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteHealthRecord(Long id) throws Exception {
-        HealthRecord healthRecord = healthRecordRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not found HealthRecord with id=" + id));
+        HealthRecord healthRecord = healthRecordRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Can not found HealthRecord with id=" + id));
         try {
             healthRecordRepository.delete(healthRecord);
             return true;
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    public List<HealthRecord> getListHealthRecordByFilter(HealthStaticRequest request) {
+        return healthRecordRepository.findByCheckUpDateBetweenAndPet(request.getStartDate(), request.getEndDate(),
+                petRepository.findById(request.getPetId()).get());
     }
 }

@@ -1,6 +1,5 @@
 package com.project.petmanagement.petmanagement.services;
 
-import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.FoodType;
 import com.project.petmanagement.petmanagement.repositories.FoodTypeRepository;
 import lombok.RequiredArgsConstructor;

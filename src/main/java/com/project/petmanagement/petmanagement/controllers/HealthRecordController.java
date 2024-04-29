@@ -2,6 +2,7 @@ package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.petmanagement.payloads.requests.HealthRecordRequest;
+import com.project.petmanagement.petmanagement.payloads.requests.HealthStaticRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.HealthRecordService;
@@ -43,7 +44,8 @@ public class HealthRecordController {
     public ResponseEntity<?> addHeathRecord(@Valid @RequestBody HealthRecordRequest healthRecordRequest) {
         try {
             HealthRecord healthRecord = healthRecordService.addHealRecord(healthRecordRequest);
-            DataResponse healthRecordResponse = DataResponse.builder().status(HttpStatus.CREATED.value()).message("Add health record success.").data(healthRecord).build();
+            DataResponse healthRecordResponse = DataResponse.builder().status(HttpStatus.CREATED.value())
+                    .message("Add health record success.").data(healthRecord).build();
             return new ResponseEntity<>(healthRecordResponse, HttpStatus.CREATED);
         } catch (Exception e) {
             ErrorResponse errorResponse = ErrorResponse.builder()
@@ -55,10 +57,12 @@ public class HealthRecordController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateHealthRecord(@PathVariable("id") Long idHealRecord, @Valid @RequestBody HealthRecordRequest healthRecordRequest) {
+    public ResponseEntity<?> updateHealthRecord(@PathVariable("id") Long idHealRecord,
+            @Valid @RequestBody HealthRecordRequest healthRecordRequest) {
         try {
             HealthRecord healthRecord = healthRecordService.updateHealthRecord(healthRecordRequest, idHealRecord);
-            DataResponse healthRecordResponse = DataResponse.builder().status(HttpStatus.CREATED.value()).message("Update health record success.").data(healthRecord).build();
+            DataResponse healthRecordResponse = DataResponse.builder().status(HttpStatus.CREATED.value())
+                    .message("Update health record success.").data(healthRecord).build();
             return new ResponseEntity<>(healthRecordResponse, HttpStatus.OK);
         } catch (Exception e) {
             ErrorResponse errorResponse = ErrorResponse.builder()
@@ -94,4 +98,23 @@ public class HealthRecordController {
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/static")
+    public ResponseEntity<Object> getListHealthRecordsByFilter(@RequestBody HealthStaticRequest request) {
+        try {
+            DataResponse response = DataResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Get health records successfully")
+                    .data(healthRecordService.getListHealthRecordByFilter(request))
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = ErrorResponse.builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message(e.getMessage())
+                    .build();
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
