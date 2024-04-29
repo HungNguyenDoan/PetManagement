@@ -14,18 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.inject.SetVaccineScheduleActivity;
+
+import com.project.petmanagement.activity.schedule.feed.SetActivityScheduleActivity;
 import com.project.petmanagement.models.entity.Pet;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ListPetSelectAdapter extends RecyclerView.Adapter<ListPetSelectAdapter.PetViewHolder> {
+public class SelectPetActivityAdapter extends RecyclerView.Adapter<SelectPetActivityAdapter.PetViewHolder> {
     private List<Pet> petList;
     private Context context;
     private String action;
-    public ListPetSelectAdapter(List<Pet> petList, Context context, String action) {
+    public SelectPetActivityAdapter(List<Pet> petList, Context context, String action) {
         this.petList = petList;
         this.context = context;
         this.action = action;
@@ -48,12 +49,12 @@ public class ListPetSelectAdapter extends RecyclerView.Adapter<ListPetSelectAdap
         holder.namePet.setText(pet.getFullName());
         holder.cardView.setOnClickListener(v -> {
             if(action != null){
-                Intent intent = new Intent(context, SetVaccineScheduleActivity.class);
+                Intent intent = new Intent(context, SetActivityScheduleActivity.class);
                 intent.putExtra("pet", pet);
                 ((Activity) context).setResult(Activity.RESULT_OK, intent);
                 ((Activity) context).finish();
             }else{
-                Intent intent = new Intent(context, SetVaccineScheduleActivity.class);
+                Intent intent = new Intent(context, SetActivityScheduleActivity.class);
                 intent.putExtra("pet", pet);
                 context.startActivity(intent);
             }

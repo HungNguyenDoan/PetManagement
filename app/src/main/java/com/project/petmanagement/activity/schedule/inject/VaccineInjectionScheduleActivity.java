@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.activity.schedule.inject.SelectPetToVaccineActivity;
 import com.project.petmanagement.adapters.ListScheduleVaccineAdapter;
 import com.project.petmanagement.models.entity.VaccinationNotification;
@@ -35,7 +36,12 @@ public class VaccineInjectionScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vaccine_injection_schedule);
         ImageView returnArrow = findViewById(R.id.return_arrow);
         scheduleRecyclerView = findViewById(R.id.list_schedule_recyclerview);
-        returnArrow.setOnClickListener(v -> finish());
+        returnArrow.setOnClickListener(v -> {
+            Intent intent = new Intent(VaccineInjectionScheduleActivity.this, MainActivity.class);
+            intent.putExtra("fragmentIndex", String.valueOf(0));
+            startActivity(intent);
+            finish();
+        });
         Button addInjectionScheduleBtn = findViewById(R.id.add_injection_schedule_btn);
         addInjectionScheduleBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), SelectPetToVaccineActivity.class);
@@ -74,5 +80,11 @@ public class VaccineInjectionScheduleActivity extends AppCompatActivity {
                 Toast.makeText(VaccineInjectionScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getListVaccineNotification();
     }
 }

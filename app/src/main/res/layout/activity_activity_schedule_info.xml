@@ -109,7 +109,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/green_background_button"
-        android:text="Thêm thức hoạt động"
+        android:text="Thêm hoạt động"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="22sp"

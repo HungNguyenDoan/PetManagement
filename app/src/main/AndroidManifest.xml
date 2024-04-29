@@ -75,16 +75,16 @@
             android:name=".activity.schedule.walk.SelectPetToWalkActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SetFeedNotificationActivity"
+            android:name=".activity.schedule.feed.SetActivityNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SetFoodInfoActivity"
+            android:name=".activity.schedule.feed.SetActivityInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SetFeedScheduleActivity2"
+            android:name=".activity.schedule.feed.SetActivityScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.feed.SelectPetToFeedActivity"
+            android:name=".activity.schedule.feed.SelectPetToActivityActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.feed.ActivityScheduleInfoActivity"

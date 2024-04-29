@@ -24,7 +24,7 @@
             android:textColor="@color/black"
             android:textSize="24sp"
             android:layout_gravity="center_horizontal"
-            android:text="@string/nutritions_infor"
+            android:text="Thống kê sức khỏe"
             />
     </androidx.appcompat.widget.Toolbar>
     <View

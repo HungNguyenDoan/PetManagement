@@ -10,9 +10,11 @@ import com.project.petmanagement.payloads.requests.MedicalDocumentRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
+import com.project.petmanagement.payloads.requests.VaccinationNotificationRequest;
 import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
+import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
 import com.project.petmanagement.payloads.responses.ListDiseaseResponse;
 import com.project.petmanagement.payloads.responses.ListFoodTypeResponse;
 import com.project.petmanagement.payloads.responses.ListMedicalResponse;
@@ -22,11 +24,13 @@ import com.project.petmanagement.payloads.responses.ListPetResponse;
 import com.project.petmanagement.payloads.responses.ListProductResponse;
 import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
 import com.project.petmanagement.payloads.responses.ListVaccineNotification;
+import com.project.petmanagement.payloads.responses.ListVaccineResponse;
 import com.project.petmanagement.payloads.responses.LoginResponse;
 import com.project.petmanagement.payloads.responses.MedicalDocumentResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
 import com.project.petmanagement.payloads.responses.ListVetResponse;
 import com.project.petmanagement.payloads.responses.PetResponse;
+import com.project.petmanagement.payloads.responses.VaccineNotificationResponse;
 
 import java.io.IOException;
 
@@ -51,9 +55,9 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //server
-    String BASE_URL = "http://103.163.215.125/api/";
+//    String BASE_URL = "http://103.163.215.125/api/";
     //local
-//    String BASE_URL = "http://192.151.62.105:8080/";
+    String BASE_URL = "http://192.151.62.105:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setLenient().create();
@@ -148,4 +152,12 @@ public interface ApiService {
     Call<HealRecordResponse> addHealthRecord(@Body HealRecordRequest healRecordRequest);
     @GET("vaccination_notification/all")
     Call<ListVaccineNotification> getVaccineNotificationByUser();
+    @GET("vaccines/pets/{id}")
+    Call<ListVaccineResponse> getVaccineByPet(@Path("id") Long id);
+    @POST("vaccination_notification/add")
+    Call<VaccineNotificationResponse> addVaccinationNotification(@Body VaccinationNotificationRequest vaccinationNotificationRequest);
+    @DELETE("vaccination_notification/delete/{id}")
+    Call<com.project.petmanagement.payloads.responses.Response> deleteVaccineNotification(@Path("id") Long id);
+    @GET("daily_activities/all")
+    Call<ListDaiLyActivityResponse> getAllDaiLyActivity();
 }

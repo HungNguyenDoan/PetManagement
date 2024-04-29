@@ -64,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        String fragmentZero = getIntent().getStringExtra("fragmentIndex");
+        if(fragmentZero!=null){
+            viewPager2.setCurrentItem(0);
+            bottomNavigationView.getMenu().findItem(R.id.navigation_home).setChecked(true);
+        }
     }
 
 }

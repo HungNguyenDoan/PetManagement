@@ -15,12 +15,12 @@ public class ActivityScheduleInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed_schedule_info);
+        setContentView(R.layout.activity_activity_schedule_info);
         Button addFeedScheduleBtn = findViewById(R.id.add_feed_schedule_btn);
         addFeedScheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SelectPetToFeedActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SelectPetToActivityActivity.class);
                 startActivity(intent);
             }
         });
