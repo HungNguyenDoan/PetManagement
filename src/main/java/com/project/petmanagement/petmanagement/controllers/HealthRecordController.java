@@ -20,7 +20,7 @@ import java.util.List;
 public class HealthRecordController {
     private final HealthRecordService healthRecordService;
 
-    @GetMapping("pet/{pet_id}")
+    @GetMapping("pets/{pet_id}")
     public ResponseEntity<?> getHealthRecordByPet(@PathVariable(name = "pet_id") Long petId) {
         try {
             List<HealthRecord> healthRecords = healthRecordService.getHealthRecordByPet(petId);

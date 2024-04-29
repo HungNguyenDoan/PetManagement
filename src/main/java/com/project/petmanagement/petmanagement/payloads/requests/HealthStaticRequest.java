@@ -1,6 +1,6 @@
 package com.project.petmanagement.petmanagement.payloads.requests;
 
-import java.util.Date;
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
