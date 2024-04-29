@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,62 +30,53 @@ public class CartService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Cart addToCart(Long productId, Integer quantity) throws Exception {
+    public Cart addItemToCart(Long productId, Integer quantity) throws DataNotFoundException {
         Product product = productRepository.findById(productId).orElseThrow(() -> new DataNotFoundException("Can not find product with ID: " + productId));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
         if (cart == null) {
-            cart = new Cart();
-            cart.setUser(jwtUserDetail.getUser());
+            cart = Cart.builder()
+                    .user(jwtUserDetail.getUser())
+                    .build();
             cart = cartRepository.save(cart);
         }
-        List<CartItem> cartItems = new ArrayList<>();
-        if (cart.getCartItems() != null) {
-            cartItems.addAll(cart.getCartItems());
+        List<CartItem> cartItems = cart.getCartItems();
+        CartItem existingCartItem = null;
+        boolean existed = false;
+        for (CartItem cartItem : cartItems) {
+            if (cartItem.getProduct().equals(product)) {
+                existed = true;
+                existingCartItem = cartItem;
+                break;
+            }
         }
-        if (cartItems.isEmpty()) {
-            CartItem cartItem = new CartItem();
-            cartItem.setCart(cart);
-            cartItem.setProduct(product);
-            cartItem.setQuantity(quantity);
-            cartItems.add(cartItem);
-            cartItemRepository.save(cartItem);
+        if (existed) {
+            int newQuantity = existingCartItem.getQuantity() + quantity;
+            existingCartItem.setQuantity(newQuantity);
+            cartItemRepository.save(existingCartItem);
         } else {
-            CartItem cartItem = null;
-            for (CartItem cartItem1 : cartItems) {
-                if (cartItem1.getProduct().getId().equals(productId)) {
-                    cartItem = cartItem1;
-                    break;
-                }
-            }
-            if (cartItem == null) {
-                CartItem cartItem1 = new CartItem();
-                cartItem1.setCart(cart);
-                cartItem1.setProduct(product);
-                cartItem1.setQuantity(quantity);
-                cartItems.add(cartItem1);
-                cartItemRepository.save(cartItem1);
-            } else {
-                cartItem.setQuantity(cartItem.getQuantity() + quantity);
-                cartItemRepository.save(cartItem);
-            }
+            CartItem cartItem = CartItem.builder()
+                    .cart(cart)
+                    .product(product)
+                    .quantity(quantity)
+                    .build();
+            cartItemRepository.save(cartItem);
         }
+        cart = cartRepository.findByUser(jwtUserDetail.getUser());
         double totalPrice = 0;
-        for (CartItem item : cartItems) {
+        for (CartItem item : cart.getCartItems()) {
             totalPrice += item.getQuantity() * item.getProduct().getPrice();
         }
-        cart.setCartItems(cartItems);
         cart.setTotalPrice(totalPrice);
-        return cartRepository.save(cart);
+        return cart;
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Cart updateCart(Long itemId, Integer quantity) throws Exception {
+    public Cart updateItemInCart(Long itemId, Integer quantity) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        CartItem checkItem = cartItemRepository.findByIdAndCart(itemId, cart).orElseThrow(() -> new DataNotFoundException("Can not find item with ID: " + itemId));
         List<CartItem> cartItems = cart.getCartItems();
         if (quantity > 0) {
             for (CartItem cartItem : cartItems) {
@@ -96,39 +86,30 @@ public class CartService {
                     break;
                 }
             }
-        } else {
-            CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(() -> new DataNotFoundException("Can not find item with ID: " + itemId));
-            if (cartItem != null) {
-                cartItems.remove(cartItem);
-                cartItemRepository.delete(cartItem);
-            }
         }
+        cart = cartRepository.findByUser(jwtUserDetail.getUser());
         double totalPrice = 0;
-        for (CartItem item : cartItems) {
+        for (CartItem item : cart.getCartItems()) {
             totalPrice += item.getQuantity() * item.getProduct().getPrice();
         }
-        cart.setCartItems(cartItems);
         cart.setTotalPrice(totalPrice);
-        return cartRepository.save(cart);
+        return cart;
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Cart deleteItem(Long itemId) throws Exception {
+    public Cart deleteItemInCart(Long itemId) throws Exception {
+        CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(() -> new DataNotFoundException("Can not find item with ID: " + itemId));
+        if (cartItem != null) {
+            cartItemRepository.deleteById(itemId);
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        List<CartItem> cartItems = cart.getCartItems();
-        CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(() -> new DataNotFoundException("Can not find item with ID: " + itemId));
-        if (cartItem != null) {
-            cartItems.remove(cartItem);
-            cartItemRepository.delete(cartItem);
-        }
         double totalPrice = 0;
-        for (CartItem item : cartItems) {
+        for (CartItem item : cart.getCartItems()) {
             totalPrice += item.getQuantity() * item.getProduct().getPrice();
         }
-        cart.setCartItems(cartItems);
         cart.setTotalPrice(totalPrice);
-        return cartRepository.save(cart);
+        return cart;
     }
 }

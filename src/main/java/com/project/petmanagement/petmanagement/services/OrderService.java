@@ -38,35 +38,36 @@ public class OrderService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        if (cart == null || cart.getCartItems() == null) {
+        if (cart == null || cart.getCartItems().isEmpty()) {
             throw new DataNotFoundException("Cart is empty");
         }
-        List<CartItem> cartItems = cart.getCartItems();
-        Order order = new Order();
-        order.setStatus(OrderStatusEnum.PENDING);
-        order.setPaymentMethod(orderRequest.getPaymentMethod());
-        order.setShippingAddress(orderRequest.getShippingAddress());
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setPhone(orderRequest.getPhone());
-        order.setUser(cart.getUser());
-        order.setOrderDate(new Date());
+        Order order = Order.builder()
+                .user(cart.getUser())
+                .orderDate(new Date())
+                .totalPrice(cart.getTotalPrice())
+                .phone(orderRequest.getPhone())
+                .shippingAddress(orderRequest.getShippingAddress())
+                .paymentMethod(orderRequest.getPaymentMethod())
+                .status(OrderStatusEnum.PENDING)
+                .build();
         order = orderRepository.save(order);
+        List<CartItem> cartItems = cart.getCartItems();
         for (CartItem cartItem : cartItems) {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setQuantity(cartItem.getQuantity());
-            orderDetail.setProduct(cartItem.getProduct());
-            orderDetail.setPrice(cartItem.getProduct().getPrice());
-            orderDetail.setOrder(order);
+            OrderDetail orderDetail = OrderDetail.builder()
+                    .order(order)
+                    .product(cartItem.getProduct())
+                    .quantity(cartItem.getQuantity())
+                    .price(cartItem.getProduct().getPrice())
+                    .build();
             orderDetailRepository.save(orderDetail);
-            cartItemRepository.delete(cartItem);
+            cartItemRepository.deleteById(cartItem.getId());
         }
-        cartRepository.delete(cart);
         return order;
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Order cancelOrder(Long id) throws Exception {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not found order with ID: " + id));
+    public Order cancelOrder(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new DataNotFoundException("Can not found order with ID: " + orderId));
         order.setStatus(OrderStatusEnum.CANCELLED);
         return orderRepository.save(order);
     }

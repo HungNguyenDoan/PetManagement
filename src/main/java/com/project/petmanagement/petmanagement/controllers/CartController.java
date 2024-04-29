@@ -25,8 +25,7 @@ public class CartController {
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        DataResponse cartResponse = DataResponse
-                .builder()
+        DataResponse cartResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Get cart by user successfully")
                 .data(cart)
@@ -35,18 +34,17 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addToCart(@RequestParam("product_id") Long productId, @RequestParam(name = "quantity", defaultValue = "1") Integer quantity) {
+    public ResponseEntity<Object> addItemToCart(@RequestParam("product_id") Long productId, @RequestParam(name = "quantity", defaultValue = "1") Integer quantity) {
         try {
-            Cart cart = cartService.addToCart(productId, quantity);
+            Cart cart = cartService.addItemToCart(productId, quantity);
             if (cart == null) {
                 ErrorResponse errorResponse = ErrorResponse.builder()
                         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .message("Can not add item to cart")
+                        .message("Can not add product to cart")
                         .build();
                 return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            DataResponse cartResponse = DataResponse
-                    .builder()
+            DataResponse cartResponse = DataResponse.builder()
                     .status(HttpStatus.CREATED.value())
                     .message("Add product to cart successfully")
                     .data(cart)
@@ -62,19 +60,19 @@ public class CartController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Object> updateCart(@RequestParam("item_id") Long itemId, @RequestParam(name = "quantity") Integer quantity) {
+    public ResponseEntity<Object> updateItemInCart(@RequestParam("item_id") Long itemId, @RequestParam(name = "quantity") Integer quantity) {
         try {
-            Cart cart = cartService.updateCart(itemId, quantity);
+            Cart cart = cartService.updateItemInCart(itemId, quantity);
             if (cart == null) {
                 ErrorResponse errorResponse = ErrorResponse.builder()
                         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .message("Can not update cart")
+                        .message("Can not update item in cart")
                         .build();
                 return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             DataResponse cartResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
-                    .message("Update cart successfully")
+                    .message("Update item in cart successfully")
                     .data(cart)
                     .build();
             return new ResponseEntity<>(cartResponse, HttpStatus.OK);
@@ -85,17 +83,16 @@ public class CartController {
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-
     }
 
-    @DeleteMapping("/delete/cart_items/{id}")
-    public ResponseEntity<Object> deleteItem(@PathVariable("id") Long itemId) {
+    @DeleteMapping("/cart_items/delete/{id}")
+    public ResponseEntity<Object> deleteItemInCart(@PathVariable("id") Long itemId) {
         try {
-            Cart cart = cartService.deleteItem(itemId);
+            Cart cart = cartService.deleteItemInCart(itemId);
             if (cart == null) {
                 ErrorResponse errorResponse = ErrorResponse.builder()
                         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .message("Can not delete item to cart")
+                        .message("Can not delete item in cart")
                         .build();
                 return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -112,6 +109,5 @@ public class CartController {
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-
     }
 }
