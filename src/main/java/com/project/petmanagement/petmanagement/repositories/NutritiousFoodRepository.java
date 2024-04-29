@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public interface NutritiousFoodRepository extends JpaRepository<NutritiousFood, Long> {
     List<NutritiousFood> findBySpecies(Species species);
@@ -17,6 +16,11 @@ public interface NutritiousFoodRepository extends JpaRepository<NutritiousFood, 
 
     List<NutritiousFood> findBySpeciesAndFoodType(Species species, FoodType foodType);
 
-    List<NutritiousFood> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrNutritionContainingIgnoreCaseOrIngredientContainingIgnoreCase(String name, String description, String nutrition, String ingredient);
+    List<NutritiousFood> findByNameContaining(String name);
 
+    List<NutritiousFood> findByNameContainingAndSpecies(String name, Species species);
+
+    List<NutritiousFood> findByNameContainingAndFoodType(String name, FoodType foodType);
+
+    List<NutritiousFood> findByNameContainingAndFoodTypeAndSpecies(String name, FoodType foodType, Species species);
 }

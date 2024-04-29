@@ -37,21 +37,13 @@ public class NutritiousFoodController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Object> findNutritiousFood(@RequestParam(value = "species_id", required = false) Long speciesId, @RequestParam(value = "food_type_id", required = false) Long foodTypeId, @RequestParam(value = "keywords", required = false) String keywords) {
+    public ResponseEntity<Object> findNutritiousFood(
+            @RequestParam(value = "species_id", required = false) Long speciesId,
+            @RequestParam(value = "food_type_id", required = false) Long foodTypeId,
+            @RequestParam(value = "keywords", required = false) String keywords) {
         List<NutritiousFood> nutritiousFoodList = new ArrayList<>();
         try {
-            if (keywords != null) {
-                nutritiousFoodList = nutritiousFoodService.searchNutritiousFood(keywords);
-            }
-            if (speciesId != null && foodTypeId != null) {
-                nutritiousFoodList = nutritiousFoodService.getNutritiousFoodBySpeciesAndFoodType(speciesId, foodTypeId);
-            }
-            if (speciesId != null) {
-                nutritiousFoodList = nutritiousFoodService.getNutritiousFoodBySpecies(speciesId);
-            }
-            if (foodTypeId != null) {
-                nutritiousFoodList = nutritiousFoodService.getNutritiousFoodByFoodType(foodTypeId);
-            }
+            nutritiousFoodList = nutritiousFoodService.searchNutritiousFoodByFilter(keywords, speciesId, foodTypeId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Get nutritious food successfully")
