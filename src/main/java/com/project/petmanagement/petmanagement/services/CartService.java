@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,10 +27,15 @@ public class CartService {
 
     private Cart setTotalPriceForCart(Cart cart) {
         double totalPrice = 0;
-        for (CartItem cartItem : cart.getCartItems()) {
-            if (cartItem.getSelected()) {
-                totalPrice += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+        List<CartItem> cartItems = cart.getCartItems();
+        if (cartItems != null) {
+            for (CartItem cartItem : cartItems) {
+                if (cartItem.getSelected()) {
+                    totalPrice += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+                }
             }
+        } else {
+            cart.setCartItems(new ArrayList<>());
         }
         cart.setTotalPrice(totalPrice);
         return cart;
@@ -55,19 +61,29 @@ public class CartService {
             cart = cartRepository.save(cart);
         }
         List<CartItem> cartItems = cart.getCartItems();
-        CartItem existingCartItem = null;
-        boolean existed = false;
-        for (CartItem cartItem : cartItems) {
-            if (cartItem.getProduct().equals(product)) {
-                existed = true;
-                existingCartItem = cartItem;
-                break;
+        if (cartItems != null) {
+            CartItem existingCartItem = null;
+            boolean existed = false;
+            for (CartItem cartItem : cartItems) {
+                if (cartItem.getProduct().equals(product)) {
+                    existed = true;
+                    existingCartItem = cartItem;
+                    break;
+                }
             }
-        }
-        if (existed) {
-            int newQuantity = existingCartItem.getQuantity() + quantity;
-            existingCartItem.setQuantity(newQuantity);
-            cartItemRepository.save(existingCartItem);
+            if (existed) {
+                int newQuantity = existingCartItem.getQuantity() + quantity;
+                existingCartItem.setQuantity(newQuantity);
+                cartItemRepository.save(existingCartItem);
+            } else {
+                CartItem cartItem = CartItem.builder()
+                        .cart(cart)
+                        .product(product)
+                        .quantity(quantity)
+                        .selected(false)
+                        .build();
+                cartItemRepository.save(cartItem);
+            }
         } else {
             CartItem cartItem = CartItem.builder()
                     .cart(cart)
