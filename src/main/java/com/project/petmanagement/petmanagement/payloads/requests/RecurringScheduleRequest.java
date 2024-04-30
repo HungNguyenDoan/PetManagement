@@ -25,9 +25,6 @@ public class RecurringScheduleRequest {
     @NotNull(message = "You have to set the value of frequency")
     private Integer value;
 
-    @JsonProperty("days_of_month")
-    private List<Integer> daysOfMonth;
-
     @JsonProperty("days_of_week")
     private List<DayOfWeek> daysOfWeek;
 

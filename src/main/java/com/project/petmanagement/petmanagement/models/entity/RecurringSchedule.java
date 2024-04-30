@@ -34,9 +34,6 @@ public class RecurringSchedule {
     private Integer value;
 
     @ElementCollection
-    private List<Integer> daysOfMonth;
-
-    @ElementCollection
     private List<DayOfWeek> daysOfWeek;
 
     @Column(name = "date")
