@@ -2,7 +2,6 @@ package com.project.petmanagement.petmanagement.payloads.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.petmanagement.petmanagement.models.enums.FrequencyEnum;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,9 +24,6 @@ public class RecurringScheduleRequest {
 
     @NotNull(message = "You have to set the value of frequency")
     private Integer value;
-
-    @JsonProperty("days_of_month")
-    private List<Integer> daysOfMonth;
 
     @JsonProperty("days_of_week")
     private List<DayOfWeek> daysOfWeek;

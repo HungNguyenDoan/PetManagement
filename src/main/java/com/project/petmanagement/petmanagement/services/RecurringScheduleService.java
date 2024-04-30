@@ -21,7 +21,6 @@ public class RecurringScheduleService {
                 .name(recurringScheduleRequest.getName())
                 .frequency(recurringScheduleRequest.getFrequency())
                 .value(recurringScheduleRequest.getValue())
-                .daysOfMonth(recurringScheduleRequest.getDaysOfMonth())
                 .daysOfWeek(recurringScheduleRequest.getDaysOfWeek())
                 .date(recurringScheduleRequest.getDate())
                 .time(recurringScheduleRequest.getTime())
@@ -37,7 +36,6 @@ public class RecurringScheduleService {
         existingRecurringSchedule.setName(recurringScheduleRequest.getName());
         existingRecurringSchedule.setFrequency(recurringScheduleRequest.getFrequency());
         existingRecurringSchedule.setValue(recurringScheduleRequest.getValue());
-        existingRecurringSchedule.setDaysOfMonth(recurringScheduleRequest.getDaysOfMonth());
         existingRecurringSchedule.setDaysOfWeek(recurringScheduleRequest.getDaysOfWeek());
         existingRecurringSchedule.setDate(recurringScheduleRequest.getDate());
         existingRecurringSchedule.setTime(recurringScheduleRequest.getTime());
