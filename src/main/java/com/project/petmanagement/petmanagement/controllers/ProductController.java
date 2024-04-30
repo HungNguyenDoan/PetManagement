@@ -48,6 +48,5 @@ public class ProductController {
                     .build();
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-
     }
 }

@@ -34,39 +34,54 @@ public class OrderService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Order createOrder(OrderRequest orderRequest) throws Exception {
+    public Order createOrder(OrderRequest orderRequest) throws DataNotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        if (cart == null || cart.getCartItems() == null) {
+        boolean existedSelectedItem = false;
+        for (CartItem item : cart.getCartItems()) {
+            if (item.getSelected()) {
+                existedSelectedItem = true;
+                break;
+            }
+        }
+        if (cart.getCartItems().isEmpty()) {
             throw new DataNotFoundException("Cart is empty");
         }
-        List<CartItem> cartItems = cart.getCartItems();
-        Order order = new Order();
-        order.setStatus(OrderStatusEnum.PENDING);
-        order.setPaymentMethod(orderRequest.getPaymentMethod());
-        order.setShippingAddress(orderRequest.getShippingAddress());
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setPhone(orderRequest.getPhone());
-        order.setUser(cart.getUser());
-        order.setOrderDate(new Date());
-        order = orderRepository.save(order);
-        for (CartItem cartItem : cartItems) {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setQuantity(cartItem.getQuantity());
-            orderDetail.setProduct(cartItem.getProduct());
-            orderDetail.setPrice(cartItem.getProduct().getPrice());
-            orderDetail.setOrder(order);
-            orderDetailRepository.save(orderDetail);
-            cartItemRepository.delete(cartItem);
+        if (!existedSelectedItem) {
+            throw new DataNotFoundException("No item to create order");
         }
-        cartRepository.delete(cart);
-        return order;
+        Order order = Order.builder()
+                .user(cart.getUser())
+                .orderDate(new Date())
+                .phone(orderRequest.getPhone())
+                .shippingAddress(orderRequest.getShippingAddress())
+                .paymentMethod(orderRequest.getPaymentMethod())
+                .status(OrderStatusEnum.PENDING)
+                .build();
+        order = orderRepository.save(order);
+        List<CartItem> cartItems = cart.getCartItems();
+        double totalPrice = 0;
+        for (CartItem cartItem : cartItems) {
+            if (cartItem.getSelected()) {
+                OrderDetail orderDetail = OrderDetail.builder()
+                        .order(order)
+                        .product(cartItem.getProduct())
+                        .quantity(cartItem.getQuantity())
+                        .price(cartItem.getProduct().getPrice())
+                        .build();
+                orderDetailRepository.save(orderDetail);
+                cartItemRepository.deleteById(cartItem.getId());
+                totalPrice += orderDetail.getPrice() * orderDetail.getQuantity();
+            }
+        }
+        order.setTotalPrice(totalPrice);
+        return orderRepository.save(order);
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Order cancelOrder(Long id) throws Exception {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Can not found order with ID: " + id));
+    public Order cancelOrder(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new DataNotFoundException("Can not found order with ID: " + orderId));
         order.setStatus(OrderStatusEnum.CANCELLED);
         return orderRepository.save(order);
     }
