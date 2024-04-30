@@ -56,22 +56,16 @@ public class ShopCartFragment extends Fragment {
         btnPayment = view.findViewById(R.id.btn_payment);
         totalPrices = view.findViewById(R.id.total_price);
         getCart();
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShopActivity shopActivity = (ShopActivity) getActivity();
-                shopActivity.getHomePage();
-            }
+        btnBack.setOnClickListener(v -> {
+            ShopActivity shopActivity = (ShopActivity) getActivity();
+            shopActivity.getHomePage();
         });
-        btnPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), PaymentActivity.class);
-                intent.putExtra("cart", cart);
-                startActivity(intent);
-            }
+        btnPayment.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), PaymentActivity.class);
+            startActivity(intent);
         });
     }
+
     private void getCart(){
         ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
             @Override
@@ -83,13 +77,20 @@ public class ShopCartFragment extends Fragment {
                         if(cart!=null){
                             List<CartItem> cartItems = cart.getCartItems();
                             if(cartItems!=null){
-                                cartItemAdapter = new ListCartItemAdapter(getContext(), cartItems, totalPrices);
+                                cartItemAdapter = new ListCartItemAdapter(getContext(), cartItems, totalPrices, btnPayment);
                                 carItemRecyclerView.setAdapter(cartItemAdapter);
                                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                                 carItemRecyclerView.setLayoutManager(layoutManager);
                             }
                             String totalPrice = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VNĐ";
                             totalPrices.setText(totalPrice);
+                            if(cart.getTotalPrice()==0){
+                                btnPayment.setEnabled(false);
+                                btnPayment.setAlpha(0.4f);
+                            }else{
+                                btnPayment.setEnabled(true);
+                                btnPayment.setAlpha(1f);
+                            }
                         }
 
                     }

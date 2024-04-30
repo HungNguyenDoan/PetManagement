@@ -82,7 +82,6 @@ public interface ApiService {
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
     @POST("auth/register")
     Call<LoginResponse> signup(@Body RegisterRequest registerRequest);
-
     @GET("food_types/all")
     Call<ListFoodTypeResponse> getAllFoodType();
     @GET("nutritious_food/all")
@@ -110,8 +109,8 @@ public interface ApiService {
     @GET("carts/users")
     Call<CartResponse> getCart();
     @PUT("carts/update")
-    Call<CartResponse> updateCart(@Query("item_id") Long idItem, @Query("quantity") Integer quantity);
-    @DELETE("carts/delete/cart_items/{id}")
+    Call<CartResponse> updateCart(@Query("item_id") Long idItem, @Query("quantity") Integer quantity, @Query("selected") Boolean selected);
+    @DELETE("carts/cart_items/delete/{id}")
     Call<CartResponse> deleteCartItem(@Path("id") Long idItem);
     @POST("orders/create")
     Call<OrderResponse> createOrder(@Body OrderRequest orderRequest);

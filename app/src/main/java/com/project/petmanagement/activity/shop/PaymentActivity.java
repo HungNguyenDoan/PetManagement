@@ -27,11 +27,13 @@ import com.project.petmanagement.models.entity.CartItem;
 import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.models.enums.PaymentMethodEnum;
 import com.project.petmanagement.payloads.requests.OrderRequest;
+import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
 import com.project.petmanagement.utils.FormatNumberUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,8 +44,9 @@ public class PaymentActivity extends AppCompatActivity {
     private TextView fullName;
     private TextView phoneNumber;
     private TextView address;
+    private RecyclerView listItemRecyclerView;
     private CharSequence items[] = new CharSequence[] {"Thanh toán khi nhận hàng", "Thẻ tín dụng"};
-
+    private TextView totalPrice;
     private StorageService storageService = MyApplication.getStorageService();
     ActivityResultLauncher<Intent> infoLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -57,6 +60,37 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
     });
+    private void getCardByUser(){
+        ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
+            @Override
+            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                if(response.isSuccessful()){
+                    CartResponse cartResponse = response.body();
+                    if(cartResponse!=null && cartResponse.getData()!=null){
+                        Cart cart = cartResponse.getData();
+                        if(cart!=null){
+                            List<CartItem> cartItems = new ArrayList<>();
+                            for(CartItem cartItem: cart.getCartItems()){
+                                if(cartItem.getSelected()){
+                                    cartItems.add(cartItem);
+                                }
+                            }
+                            PaymentItemAdapter paymentItemAdapter = new PaymentItemAdapter(PaymentActivity.this,cartItems);
+                            listItemRecyclerView.setAdapter(paymentItemAdapter);
+                            listItemRecyclerView.setLayoutManager(new LinearLayoutManager(PaymentActivity.this,RecyclerView.VERTICAL,false));
+                            String totalPrices = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VND";
+                            totalPrice.setText(totalPrices);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartResponse> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +100,9 @@ public class PaymentActivity extends AppCompatActivity {
         fullName = findViewById(R.id.full_name);
         phoneNumber = findViewById(R.id.phone_number);
         address = findViewById(R.id.address);
-        RecyclerView listItemRecyclerView = findViewById(R.id.list_item);
+        listItemRecyclerView = findViewById(R.id.list_item);
         Button btnConfirmPayment = findViewById(R.id.confirm_payment);
-        TextView totalPrice = findViewById(R.id.total_price);
+        totalPrice = findViewById(R.id.total_price);
         TextView textChangePaymentMethod = findViewById(R.id.change_payment_method);
         TextView paymentMethod = findViewById(R.id.payment_method);
         TextView textChangeInfo = findViewById(R.id.change_info);
@@ -76,88 +110,58 @@ public class PaymentActivity extends AppCompatActivity {
         fullName.setText(user.getFullName());
         phoneNumber.setText(user.getPhoneNumber());
         address.setText(user.getAddress());
-        Cart cart = (Cart) getIntent().getSerializableExtra("cart");
-        if(cart!=null){
-            List<CartItem> cartItems = cart.getCartItems();
-            PaymentItemAdapter paymentItemAdapter = new PaymentItemAdapter(this,cartItems);
-            listItemRecyclerView.setAdapter(paymentItemAdapter);
-            listItemRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
-            String totalPrices = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VND";
-            totalPrice.setText(totalPrices);
-        }
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        getCardByUser();
+        btnBack.setOnClickListener(v -> finish());
+        btnCart.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentActivity.this, ShopActivity.class);
+            intent.putExtra("key", "cart");
+            startActivity(intent);
         });
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PaymentActivity.this, ShopActivity.class);
-                intent.putExtra("key", "cart");
-                startActivity(intent);
-            }
+        textChangeInfo.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentActivity.this, ChangeInfoActivity.class);
+            intent.putExtra("fullName", fullName.getText().toString());
+            intent.putExtra("phoneNumber", phoneNumber.getText().toString());
+            intent.putExtra("address", address.getText().toString());
+            infoLauncher.launch(intent);
         });
-        textChangeInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PaymentActivity.this, ChangeInfoActivity.class);
-                intent.putExtra("fullName", fullName.getText().toString());
-                intent.putExtra("phoneNumber", phoneNumber.getText().toString());
-                intent.putExtra("address", address.getText().toString());
-                infoLauncher.launch(intent);
-            }
+        textChangePaymentMethod.setOnClickListener(v -> {
+            final int[] checkedItem = {-1};
+            AlertDialog.Builder builder = new AlertDialog.Builder(PaymentActivity.this);
+            builder.setSingleChoiceItems(items, checkedItem[0], (dialog, which) -> {
+                checkedItem[0] = which;
+                paymentMethod.setText(items[which]);
+                dialog.dismiss();
+            });
+            builder.setNegativeButton("Thoát", null);
+            builder.setTitle("Chọn phương thức thanh toán");
+            builder.show();
         });
-        textChangePaymentMethod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int[] checkedItem = {-1};
-                AlertDialog.Builder builder = new AlertDialog.Builder(PaymentActivity.this);
-                builder.setSingleChoiceItems(items, checkedItem[0], new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        checkedItem[0] = which;
-                        paymentMethod.setText(items[which]);
-                        dialog.dismiss();
+        btnConfirmPayment.setOnClickListener(v -> {
+            PaymentMethodEnum paymentMethodEnum;
+            if(paymentMethod.getText().toString().equals(items[0].toString())){
+                paymentMethodEnum = PaymentMethodEnum.CASH_ON_DELIVERY;
+            }else{
+                paymentMethodEnum = PaymentMethodEnum.CREDIT_CARD;
+
+            }
+            OrderRequest orderRequest = new OrderRequest(address.getText().toString(), phoneNumber.getText().toString(),paymentMethodEnum);
+            ApiService.apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
+                @Override
+                public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                    if(response.isSuccessful()){
+                        Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(PaymentActivity.this, OrderActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
-                });
-                builder.setNegativeButton("Thoát", null);
-                builder.setTitle("Chọn phương thức thanh toán");
-                builder.show();
-            }
-        });
-        btnConfirmPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PaymentMethodEnum paymentMethodEnum;
-                if(paymentMethod.getText().toString().equals(items[0].toString())){
-                    paymentMethodEnum = PaymentMethodEnum.CASH_ON_DELIVERY;
-                }else{
-                    paymentMethodEnum = PaymentMethodEnum.CREDIT_CARD;
+                }
+
+                @Override
+                public void onFailure(Call<OrderResponse> call, Throwable t) {
 
                 }
-                OrderRequest orderRequest = new OrderRequest(address.getText().toString(), phoneNumber.getText().toString(),paymentMethodEnum);
-                ApiService.apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
-                    @Override
-                    public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(PaymentActivity.this, OrderActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<OrderResponse> call, Throwable t) {
-
-                    }
-                });
-            }
+            });
         });
-
-
     }
 
 }
