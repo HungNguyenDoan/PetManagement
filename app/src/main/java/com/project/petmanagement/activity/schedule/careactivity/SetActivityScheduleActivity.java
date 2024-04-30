@@ -9,14 +9,17 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
+import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 
 import java.util.List;
@@ -29,7 +32,9 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
     private Pet pet;
     private CircleImageView imagePet;
     private TextView namePet;
-    private List<CareActivityInfoRequest>  careActivityInfoRequests;
+    private CareActivityNotificationRequest  careActivityNotificationRequest;
+    private CardView sefActivityInfo;
+
     private ActivityResultLauncher<Intent> launcherPet = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
@@ -42,19 +47,23 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
             }
         }
     });
-    private ActivityResultLauncher<Intent> launcherCareActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {
-        if(o.getResultCode() == RESULT_OK){
-            Intent data = o.getData();
-            if (data != null) {
-                careActivityInfoRequests = (List<CareActivityInfoRequest>) data.getSerializableExtra("listOneTime");
+    private ActivityResultLauncher<Intent> launcherCareActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult o) {
+            if(o.getResultCode() == RESULT_OK){
+                Intent data = o.getData();
+                if (data != null) {
+                    careActivityNotificationRequest = (CareActivityNotificationRequest) data.getSerializableExtra("careActivityNotificationRequest");
+                }
             }
         }
     });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_activity_schedule);
-        CardView sefActivityInfo = findViewById(R.id.set_activity_info);
+        sefActivityInfo = findViewById(R.id.set_activity_info);
         btnSelectPet = findViewById(R.id.return_choose_pet);
         imagePet = findViewById(R.id.image_pet);
         namePet = findViewById(R.id.name_pet);
@@ -67,20 +76,21 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
             intent.putExtra("action", "reselect");
             launcherPet.launch(intent);
         });
+
         sefActivityInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SetActivityInfoActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent(SetActivityScheduleActivity.this, SetActivityInfoActivity.class);
+            launcherCareActivity.launch(intent);
         });
 
         CardView setActivityNotification = findViewById(R.id.set_activity_notification);
         setActivityNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), SetActivityNotificationActivity.class);
+            Intent intent = new Intent(SetActivityScheduleActivity.this, SetActivityNotificationActivity.class);
             startActivity(intent);
         });
 
         Button saveActivityScheduleBtn = findViewById(R.id.save_activity_schedule_btn);
         saveActivityScheduleBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ActivityScheduleInfoActivity.class);
+            Intent intent = new Intent(SetActivityScheduleActivity.this, ActivityScheduleInfoActivity.class);
             startActivity(intent);
         });
 

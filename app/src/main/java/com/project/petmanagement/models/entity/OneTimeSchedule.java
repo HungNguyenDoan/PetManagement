@@ -1,8 +1,9 @@
 package com.project.petmanagement.models.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OneTimeSchedule {
+public class OneTimeSchedule implements Serializable {
 
     private Long id;
     private VaccinationNotification vaccinationNotification;

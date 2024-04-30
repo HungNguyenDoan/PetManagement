@@ -55,21 +55,18 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //server
-//    String BASE_URL = "http://103.163.215.125/api/";
+    String BASE_URL = "http://103.163.215.125/api/";
     //local
-    String BASE_URL = "http://192.151.62.105:8080/";
+//    String BASE_URL = "http://192.151.62.105:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setLenient().create();
-    Interceptor interceptor = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            Request.Builder builder = request.newBuilder();
-            String authToken = "Bearer "+storageService.getString("token");
-            builder.header("Authorization", authToken);
-            return chain.proceed(builder.build());
-        }
+    Interceptor interceptor = chain -> {
+        Request request = chain.request();
+        Request.Builder builder = request.newBuilder();
+        String authToken = "Bearer "+storageService.getString("token");
+        builder.header("Authorization", authToken);
+        return chain.proceed(builder.build());
     };
     OkHttpClient.Builder okClient = new OkHttpClient.Builder().addInterceptor(interceptor);
     ApiService apiService = new Retrofit.Builder()
@@ -150,7 +147,7 @@ public interface ApiService {
     Call<com.project.petmanagement.payloads.responses.Response> setFcmToken(@Body FCMToken fcmToken);
     @POST("health_records/add")
     Call<HealRecordResponse> addHealthRecord(@Body HealRecordRequest healRecordRequest);
-    @GET("vaccination_notification/all")
+    @GET("vaccination_notification/users")
     Call<ListVaccineNotification> getVaccineNotificationByUser();
     @GET("vaccines/pets/{id}")
     Call<ListVaccineResponse> getVaccineByPet(@Path("id") Long id);

@@ -11,7 +11,9 @@ public class OneTimeScheduleRequest implements Serializable {
     private String time;
 
     private Boolean status;
+    public OneTimeScheduleRequest() {
 
+    }
     public OneTimeScheduleRequest(String date, String time) {
         this.date = date;
         this.time = time;

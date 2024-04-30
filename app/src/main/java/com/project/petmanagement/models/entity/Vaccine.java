@@ -1,6 +1,8 @@
 package com.project.petmanagement.models.entity;
 
-public class Vaccine {
+import java.io.Serializable;
+
+public class Vaccine implements Serializable {
     private Long id;
     private String name;
     private Integer vaccineDose;

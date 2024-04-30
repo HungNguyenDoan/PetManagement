@@ -2,11 +2,18 @@ package com.project.petmanagement.payloads.requests;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CareActivityInfoRequest {
+import java.io.Serializable;
+
+public class CareActivityInfoRequest implements Serializable {
     private Long id;
     @SerializedName("care_activity_id")
     private Long careActivityId;
     private String note;
+
+    public CareActivityInfoRequest(Long careActivityId, String note) {
+        this.careActivityId = careActivityId;
+        this.note = note;
+    }
 
     public Long getId() {
         return id;

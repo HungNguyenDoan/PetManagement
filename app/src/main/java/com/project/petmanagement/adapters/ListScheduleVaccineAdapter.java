@@ -2,6 +2,7 @@ package com.project.petmanagement.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.schedule.inject.VaccineScheduleDetailActivity;
 import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.responses.Response;
@@ -83,31 +85,33 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
 //
 //            }
 //        });
-        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                AlertDialog.Builder arlertDialog = new AlertDialog.Builder(context);
-                arlertDialog.setTitle("Thông báo")
-                        .setMessage("Bạn chắc chán muốn xóa thông báo")
-                        .setPositiveButton("Có", (dialog, which) -> {
-                            ApiService.apiService.deleteVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<Response>() {
-                                @Override
-                                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                    if(response.isSuccessful()){
-                                        Toast.makeText(context, "Xóa thông báo thành công.", Toast.LENGTH_SHORT).show();
-                                    }
+        holder.layout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, VaccineScheduleDetailActivity.class);
+            intent.putExtra("vaccineNotification", vaccinationNotification);
+            context.startActivity(intent);
+        });
+        holder.layout.setOnLongClickListener(v -> {
+            AlertDialog.Builder arlertDialog = new AlertDialog.Builder(context);
+            arlertDialog.setTitle("Thông báo")
+                    .setMessage("Bạn chắc chán muốn xóa thông báo")
+                    .setPositiveButton("Có", (dialog, which) -> {
+                        ApiService.apiService.deleteVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(context, "Xóa thông báo thành công.", Toast.LENGTH_SHORT).show();
                                 }
+                            }
 
-                                @Override
-                                public void onFailure(Call<Response> call, Throwable t) {
-                                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        })
-                        .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
-                        .show();
-                return true;
-            }
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    })
+                    .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
+                    .show();
+            return true;
         });
     }
 

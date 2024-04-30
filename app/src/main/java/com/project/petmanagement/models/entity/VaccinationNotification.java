@@ -1,8 +1,9 @@
 package com.project.petmanagement.models.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class VaccinationNotification extends Notification {
+public class VaccinationNotification extends Notification  implements Serializable{
     private Vaccine vaccine;
     private List<OneTimeSchedule> schedules;
 

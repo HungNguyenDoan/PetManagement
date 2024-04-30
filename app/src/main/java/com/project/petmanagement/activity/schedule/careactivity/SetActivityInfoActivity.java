@@ -16,11 +16,18 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
+import com.project.petmanagement.models.entity.CareActivityInfo;
 import com.project.petmanagement.models.entity.DailyActivity;
+import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
+import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
+import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
 import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.utils.FormatDateUtils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +43,6 @@ public class SetActivityInfoActivity extends AppCompatActivity {
     private Button saveBtn;
     private ArrayAdapter<String> dailyActivityAdapter;
     private Map<String, DailyActivity> dailyActivityMap;
-
     private TextInputEditText title, totalNote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +62,11 @@ public class SetActivityInfoActivity extends AppCompatActivity {
 
         Button saveBtn = findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(v -> {
-
+            saveCareActivityInfo();
         });
         setUpButton();
     }
-    private boolean validate(TextInputEditText editTypeActivity, TextInputEditText editNote){
+    private boolean validate(AutoCompleteTextView editTypeActivity, TextInputEditText editNote){
         if(title.length()==0){
             title.setError("Title không được để trống");
             return false;
@@ -70,6 +76,31 @@ public class SetActivityInfoActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+    private void saveCareActivityInfo(){
+        List<CareActivityInfoRequest> careActivityInfoList = new ArrayList<>();
+        for(int i =0; i<parentLayout.getChildCount();i++){
+            View childView = parentLayout.getChildAt(i);
+            AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
+            TextInputEditText note = childView.findViewById(R.id.note);
+            if(validate(activityType,note)){
+                Long careActivityId = dailyActivityMap.get(activityType.getText().toString()).getId();
+                if(validate(activityType, note)){
+                    CareActivityInfoRequest careActivityInfoRequest = new CareActivityInfoRequest(careActivityId, note.getText().toString());
+                    careActivityInfoList.add(careActivityInfoRequest);
+                }
+            }
+        }
+        if(!careActivityInfoList.isEmpty()){
+            CareActivityNotificationRequest careActivityNotificationRequest = new CareActivityNotificationRequest();
+            careActivityNotificationRequest.setTitle(title.getText().toString());
+            careActivityNotificationRequest.setNote(totalNote.getText().toString());
+            careActivityNotificationRequest.setCareActivityInfoRequestList(careActivityInfoList);
+            Intent intent = new Intent(SetActivityInfoActivity.this, SetActivityScheduleActivity.class);
+            intent.putExtra("careActivityNotificationRequest",careActivityNotificationRequest);
+            setResult(RESULT_OK,intent);
+            finish();
+        }
     }
     private void addView() {
         final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv,null,false);
