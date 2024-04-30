@@ -19,10 +19,10 @@ import java.util.List;
 public class OneTimeScheduleController {
     private final OneTimeScheduleService oneTimeScheduleService;
 
-    @PutMapping("/update")
-    public ResponseEntity<Object> updateOneTimeSchedule(@RequestBody List<OneTimeScheduleRequest> oneTimeScheduleRequestList) {
+    @PutMapping("/update/{vaccination_notification_id}")
+    public ResponseEntity<Object> updateOneTimeSchedule(@PathVariable("vaccination_notification_id") Long vaccinationNotificationId, @RequestBody List<OneTimeScheduleRequest> oneTimeScheduleRequestList) {
         try {
-            List<OneTimeSchedule> oneTimeScheduleList = oneTimeScheduleService.updateOneTimeScheduleList(oneTimeScheduleRequestList);
+            List<OneTimeSchedule> oneTimeScheduleList = oneTimeScheduleService.updateOneTimeScheduleList(vaccinationNotificationId, oneTimeScheduleRequestList);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Update one time schedules successfully")

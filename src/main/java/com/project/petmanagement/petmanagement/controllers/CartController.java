@@ -60,9 +60,9 @@ public class CartController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Object> updateItemInCart(@RequestParam("item_id") Long itemId, @RequestParam(name = "quantity") Integer quantity) {
+    public ResponseEntity<Object> updateItemInCart(@RequestParam("item_id") Long itemId, @RequestParam(name = "quantity") Integer quantity, @RequestParam("selected") Boolean selected) {
         try {
-            Cart cart = cartService.updateItemInCart(itemId, quantity);
+            Cart cart = cartService.updateItemInCart(itemId, quantity, selected);
             if (cart == null) {
                 ErrorResponse errorResponse = ErrorResponse.builder()
                         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())

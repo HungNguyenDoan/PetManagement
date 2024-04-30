@@ -29,4 +29,7 @@ public class CartItem {
 
     @Column(name = "quantity")
     private Integer quantity;
+
+    @Column(name = "selected")
+    private Boolean selected;
 }

@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 @Service
@@ -23,10 +24,22 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
 
+    private Cart setTotalPriceForCart(Cart cart) {
+        double totalPrice = 0;
+        for (CartItem cartItem : cart.getCartItems()) {
+            if (cartItem.getSelected()) {
+                totalPrice += cartItem.getQuantity() * cartItem.getProduct().getPrice();
+            }
+        }
+        cart.setTotalPrice(totalPrice);
+        return cart;
+    }
+
     public Cart getCartByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
-        return cartRepository.findByUser(jwtUserDetail.getUser());
+        Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
+        return setTotalPriceForCart(cart);
     }
 
     @Transactional(rollbackFor = {Exception.class})
@@ -60,20 +73,16 @@ public class CartService {
                     .cart(cart)
                     .product(product)
                     .quantity(quantity)
+                    .selected(false)
                     .build();
             cartItemRepository.save(cartItem);
         }
         cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        double totalPrice = 0;
-        for (CartItem item : cart.getCartItems()) {
-            totalPrice += item.getQuantity() * item.getProduct().getPrice();
-        }
-        cart.setTotalPrice(totalPrice);
-        return cart;
+        return setTotalPriceForCart(cart);
     }
 
-    @Transactional(rollbackFor = {Exception.class})
-    public Cart updateItemInCart(Long itemId, Integer quantity) throws Exception {
+    @Transactional(rollbackFor = {InvalidParameterException.class})
+    public Cart updateItemInCart(Long itemId, Integer quantity, Boolean selected) throws InvalidParameterException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
@@ -82,22 +91,20 @@ public class CartService {
             for (CartItem cartItem : cartItems) {
                 if (cartItem.getId().equals(itemId)) {
                     cartItem.setQuantity(quantity);
+                    cartItem.setSelected(selected);
                     cartItemRepository.save(cartItem);
                     break;
                 }
             }
+        } else {
+            throw new InvalidParameterException("Quantity invalid");
         }
         cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        double totalPrice = 0;
-        for (CartItem item : cart.getCartItems()) {
-            totalPrice += item.getQuantity() * item.getProduct().getPrice();
-        }
-        cart.setTotalPrice(totalPrice);
-        return cart;
+        return setTotalPriceForCart(cart);
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Cart deleteItemInCart(Long itemId) throws Exception {
+    public Cart deleteItemInCart(Long itemId) throws DataNotFoundException {
         CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(() -> new DataNotFoundException("Can not find item with ID: " + itemId));
         if (cartItem != null) {
             cartItemRepository.deleteById(itemId);
@@ -105,11 +112,6 @@ public class CartService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        double totalPrice = 0;
-        for (CartItem item : cart.getCartItems()) {
-            totalPrice += item.getQuantity() * item.getProduct().getPrice();
-        }
-        cart.setTotalPrice(totalPrice);
-        return cart;
+        return setTotalPriceForCart(cart);
     }
 }
