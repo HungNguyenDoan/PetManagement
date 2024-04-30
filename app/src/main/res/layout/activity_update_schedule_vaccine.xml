@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_button"
-    tools:context=".activity.schedule.inject.VaccineScheduleDetailActivity"
+    tools:context=".activity.schedule.inject.UpdateScheduleVaccineActivity"
     android:scrollbars="none">
 
     <androidx.appcompat.widget.Toolbar
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Thiết lập lịch tiêm vaccine"
+            android:text="Cập nhập lịch tiêm vaccine"
             android:textColor="@color/black"
             android:textSize="25sp"
             tools:ignore="HardcodedText" />
@@ -67,12 +67,12 @@
                         tools:ignore="HardcodedText" />
 
                     <LinearLayout
-                        android:layout_marginBottom="30dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="20dp"
                         android:orientation="horizontal">
 
                         <de.hdodenhof.circleimageview.CircleImageView
@@ -94,7 +94,6 @@
                             android:textSize="24sp"
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -174,8 +173,6 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/bg_input_static_health"
                                 android:textSize="18sp"
-                                android:focusable="false"
-                                android:cursorVisible="false"
                                 />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.cardview.widget.CardView>
@@ -239,7 +236,7 @@
                                 android:background="@drawable/bg_input_static_health"
                                 android:textSize="18sp"
                                 android:focusable="false"
-                                android:cursorVisible="false"                                />
+                                />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
@@ -270,8 +267,6 @@
                                 android:padding="8dp"
                                 android:background="@drawable/bg_input_static_health"
                                 android:textSize="18sp"
-                                android:focusable="false"
-                                android:cursorVisible="false"
                                 />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.cardview.widget.CardView>
@@ -323,6 +318,14 @@
                                 android:textColor="@color/white"
                                 android:text="Lịch tiêm"
                                 android:textSize="20sp" />
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/btn_edit"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_edit_24"
+                                tools:ignore="ContentDescription"
+                                app:tint="@color/white" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                     <LinearLayout
@@ -335,34 +338,20 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="15dp"
-                android:layout_below="@+id/injection_info"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
                 <Button
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_below="@+id/injection_info"
                     android:id="@id/btn_update"
                     android:layout_width="match_parent"
-                    android:text="Chỉnh sửa"
+                    android:text="Lưu"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:background="@drawable/btn_login_custom"
                     android:layout_height="wrap_content"/>
 
-                <Button
-                    android:id="@+id/btn_delete"
-                    android:layout_marginVertical="20dp"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:background="@drawable/btn_delete_custom"
-                    android:text="Xóa"
-                    android:textAllCaps="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

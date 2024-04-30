@@ -31,6 +31,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.schedule.inject.UpdateVaccineNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.inject.UpdateScheduleVaccineActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.schedule.inject.VaccineScheduleDetailActivity"
             android:exported="false" />
         <activity
@@ -65,18 +71,7 @@
         <activity
             android:name=".activity.schedule.inject.VaccineInjectionScheduleActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity.schedule.walk.WalkScheduleInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.walk.SetWalkScheduleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.walk.SetWalkNotificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.walk.SelectPetToWalkActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activity.schedule.careactivity.SetActivityNotificationActivity"
             android:exported="false" />
@@ -92,24 +87,7 @@
         <activity
             android:name=".activity.schedule.careactivity.ActivityScheduleInfoActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity.schedule.inject.VaccineInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.inject.SetInjectionScheduleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.inject.SetInjectNotificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.inject.SelectPetToInjectActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.inject.PetInjectionScheduleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.schedule.inject.PetInjectionActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activity.schedule.ScheduleActivity"
             android:exported="false" />

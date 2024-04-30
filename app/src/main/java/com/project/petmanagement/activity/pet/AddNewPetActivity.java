@@ -128,24 +128,17 @@ public class AddNewPetActivity extends AppCompatActivity {
         gender = findViewById(R.id.gender);
         ImageView openCamera = findViewById(R.id.camera);
         getSpecies();
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        btnBack.setOnClickListener(v -> finish());
+        speciesView.setOnItemClickListener((parent, view, position, id) -> {
+            namePet.clearFocus();
+            breedsMap.clear();
+            breedView.setText("");
+            String speciesSelect = parent.getItemAtPosition(position).toString();
+            for (Breed breed : speciesMap.get(speciesSelect).getBreeds()) {
+                breedsMap.put(breed.getName(), breed);
             }
-        });
-        speciesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                namePet.clearFocus();
-                breedsMap.clear();
-                String speciesSelect = parent.getItemAtPosition(position).toString();
-                for (Breed breed : speciesMap.get(speciesSelect).getBreeds()) {
-                    breedsMap.put(breed.getName(), breed);
-                }
-                breedAdapter = new ArrayAdapter<>(AddNewPetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(breedsMap.keySet()));
-                breedView.setAdapter(breedAdapter);
-            }
+            breedAdapter = new ArrayAdapter<>(AddNewPetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(breedsMap.keySet()));
+            breedView.setAdapter(breedAdapter);
         });
         dob.setOnClickListener(new View.OnClickListener() {
             @Override
