@@ -1,6 +1,7 @@
 package com.project.petmanagement.petmanagement.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,5 +29,7 @@ public class Cart {
     @JsonManagedReference
     private List<CartItem> cartItems;
 
+    @JsonProperty("totalPrice")
+    @Transient
     private Double totalPrice;
 }
