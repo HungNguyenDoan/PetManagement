@@ -3,7 +3,6 @@ package com.project.petmanagement.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,14 +31,15 @@ import retrofit2.Response;
 
 public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapter.CartItemViewHolder> {
     private List<CartItem> cartItemList;
-    private List<CartItem> cartItemListToOrder;
-    private final Context context;
-    private final TextView totalPrice;
+    private Context context;
+    private TextView totalPrice;
+    private TextView btnPayment;
 
-    public ListCartItemAdapter(Context context, List<CartItem> cartItemList, TextView totalPrice) {
+    public ListCartItemAdapter(Context context, List<CartItem> cartItemList, TextView totalPrice, TextView btnPayment) {
         this.context = context;
         this.cartItemList = cartItemList;
         this.totalPrice = totalPrice;
+        this.btnPayment = btnPayment;
     }
 
     @NonNull
@@ -51,55 +50,22 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartItemViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
         final CartItem cartItem = cartItemList.get(position);
         holder.imageProduct.setImageBitmap(ImageUtils.decodeBase64(cartItem.getProduct().getImage()));
         holder.nameProduct.setText(cartItem.getProduct().getName());
         holder.quantity.setText(String.valueOf(cartItem.getQuantity()));
         String price1 = FormatNumberUtils.formatFloat(cartItem.getProduct().getPrice()) + "đ";
         holder.price.setText(price1);
-        holder.nameProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("product", cartItem.getProduct());
-                context.startActivity(intent);
-            }
+        holder.checkBox.setChecked(cartItem.getSelected());
+        holder.nameProduct.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("product", cartItem.getProduct());
+            context.startActivity(intent);
         });
-        holder.btnSub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(holder.quantity.getText().toString()) - 1;
-                if (quantity > 0) {
-                    ApiService.apiService.updateCart(cartItem.getId(), quantity, holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
-                        @SuppressLint("NotifyDataSetChanged")
-                        @Override
-                        public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                            if (response.isSuccessful()) {
-                                CartResponse cartResponse = response.body();
-                                if (cartResponse != null) {
-                                    Cart cart = cartResponse.getData();
-                                    cartItemList = cart.getCartItems();
-                                    notifyDataSetChanged();
-                                    totalPrice.setText(String.valueOf(cart.getTotalPrice()));
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<CartResponse> call, Throwable t) {
-
-                        }
-                    });
-                } else {
-                    quantity = Integer.parseInt(holder.quantity.getText().toString());
-                }
-            }
-        });
-        holder.btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(holder.quantity.getText().toString()) + 1;
+        holder.btnSub.setOnClickListener(v -> {
+            int quantity = Integer.parseInt(holder.quantity.getText().toString()) - 1;
+            if (quantity > 0) {
                 ApiService.apiService.updateCart(cartItem.getId(), quantity, holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
@@ -112,8 +78,14 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                                 notifyDataSetChanged();
                                 String totalPrice1 = FormatNumberUtils.formatFloat(cart.getTotalPrice()) + " VNĐ";
                                 totalPrice.setText(totalPrice1);
+                                if(cart.getTotalPrice()==0){
+                                    btnPayment.setEnabled(false);
+                                    btnPayment.setAlpha(0.4f);
+                                }else{
+                                    btnPayment.setEnabled(true);
+                                    btnPayment.setAlpha(1f);
+                                }
                             }
-
                         }
                     }
 
@@ -122,54 +94,102 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
 
                     }
                 });
+            } else {
+                quantity = Integer.parseInt(holder.quantity.getText().toString());
             }
         });
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ApiService.apiService.deleteCartItem(cartItem.getId()).enqueue(new Callback<CartResponse>() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                        if (response.isSuccessful()) {
-                            CartResponse cartResponse = response.body();
-                            if (cartResponse != null) {
-                                cartItemList = cartResponse.getData().getCartItems();
-                                notifyDataSetChanged();
-                                String totalPrice1 = FormatNumberUtils.formatFloat(cartResponse.getData().getTotalPrice()) + "VNĐ";
-                                totalPrice.setText(totalPrice1);
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<CartResponse> call, Throwable t) {
-
-                    }
-                });
-            }
-        });
-
-        if (cartItemList != null && cartItemList.size() > 0) {
-            holder.checkBox.setText(String.valueOf(cartItemList.get(position)));
-            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+        holder.btnAdd.setOnClickListener(v -> {
+            int quantity = Integer.parseInt(holder.quantity.getText().toString()) + 1;
+            ApiService.apiService.updateCart(cartItem.getId(), quantity, holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
-                public void onClick(View v) {
-                    if (holder.checkBox.isChecked()) {
-                        cartItemListToOrder.add(cartItemList.get(position));
-                    } else {
-                        cartItemListToOrder.remove(cartItemList.get(position));
+                public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                    if (response.isSuccessful()) {
+                        CartResponse cartResponse = response.body();
+                        if (cartResponse != null) {
+                            Cart cart = cartResponse.getData();
+                            cartItemList = cart.getCartItems();
+                            notifyDataSetChanged();
+                            String totalPrice1 = FormatNumberUtils.formatFloat(cart.getTotalPrice()) + " VNĐ";
+                            totalPrice.setText(totalPrice1);
+                            if(cart.getTotalPrice()==0){
+                                btnPayment.setEnabled(false);
+                                btnPayment.setAlpha(0.4f);
+                            }else{
+                                btnPayment.setEnabled(true);
+                                btnPayment.setAlpha(1f);
+                            }
+                        }
+
                     }
-                    double sum = 0;
-                    for (CartItem cartItem : cartItemListToOrder) {
-                        sum += cartItem.getQuantity() * cartItem.getProduct().getPrice();
-                    }
-                    totalPrice.setText(String.valueOf(sum));
+                }
+
+                @Override
+                public void onFailure(Call<CartResponse> call, Throwable t) {
+
                 }
             });
-        }
+        });
+        holder.btnDelete.setOnClickListener(v -> ApiService.apiService.deleteCartItem(cartItem.getId()).enqueue(new Callback<CartResponse>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                if (response.isSuccessful()) {
+                    CartResponse cartResponse = response.body();
+                    if (cartResponse != null) {
+                        Cart cart = cartResponse.getData();
+                        cartItemList = cart.getCartItems();
+                        notifyDataSetChanged();
+                        String totalPrice1 = FormatNumberUtils.formatFloat(cartResponse.getData().getTotalPrice()) + " VNĐ";
+                        totalPrice.setText(totalPrice1);
+                        if(cart.getTotalPrice()==0){
+                            btnPayment.setEnabled(false);
+                            btnPayment.setAlpha(0.4f);
+                        }else{
+                            btnPayment.setEnabled(true);
+                            btnPayment.setAlpha(1f);
+                        }
+                    }
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartResponse> call, Throwable t) {
+
+            }
+        }));
+        holder.checkBox.setOnClickListener(v -> {
+            ApiService.apiService.updateCart(cartItem.getId(), Integer.parseInt(holder.quantity.getText().toString()), holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                    if (response.isSuccessful()) {
+                        CartResponse cartResponse = response.body();
+                        if (cartResponse != null) {
+                            Cart cart = cartResponse.getData();
+                            cartItemList = cart.getCartItems();
+                            notifyDataSetChanged();
+                            String totalPrice1 = FormatNumberUtils.formatFloat(cartResponse.getData().getTotalPrice()) + " VNĐ";
+                            totalPrice.setText(totalPrice1);
+                            if(cart.getTotalPrice()==0){
+                                btnPayment.setEnabled(false);
+                                btnPayment.setAlpha(0.4f);
+                            }else{
+                                btnPayment.setEnabled(true);
+                                btnPayment.setAlpha(1f);
+                            }
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CartResponse> call, Throwable t) {
+
+                }
+            });
+        });
     }
 
     @Override

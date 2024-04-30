@@ -56,32 +56,24 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         holder.nameProduct.setText(product.getName());
         String priceFormat = FormatNumberUtils.formatFloat(product.getPrice())+"đ";
         holder.priceProduct.setText(priceFormat);
-        holder.productItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("product", product);
-                context.startActivity(intent);
-            }
+        holder.productItem.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("product", product);
+            context.startActivity(intent);
         });
-        holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
+        holder.btnAddToCart.setOnClickListener(v -> ApiService.apiService.addToCart(product.getId(), 1).enqueue(new Callback<CartResponse>() {
             @Override
-            public void onClick(View v) {
-                ApiService.apiService.addToCart(product.getId(), 1).enqueue(new Callback<CartResponse>() {
-                    @Override
-                    public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<CartResponse> call, Throwable t) {
-
-                    }
-                });
+            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công.", Toast.LENGTH_SHORT).show();
+                }
             }
-        });
+
+            @Override
+            public void onFailure(Call<CartResponse> call, Throwable t) {
+
+            }
+        }));
     }
 
     @Override
