@@ -62,7 +62,6 @@ public class ShopCartFragment extends Fragment {
         });
         btnPayment.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), PaymentActivity.class);
-            intent.putExtra("cart", cart);
             startActivity(intent);
         });
     }

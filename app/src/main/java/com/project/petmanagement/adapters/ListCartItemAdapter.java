@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -137,6 +138,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                 if (response.isSuccessful()) {
                     CartResponse cartResponse = response.body();
                     if (cartResponse != null) {
+                        Toast.makeText(context, "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
                         Cart cart = cartResponse.getData();
                         cartItemList = cart.getCartItems();
                         notifyDataSetChanged();
@@ -156,7 +158,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
 
             @Override
             public void onFailure(Call<CartResponse> call, Throwable t) {
-
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }));
         holder.checkBox.setOnClickListener(v -> {

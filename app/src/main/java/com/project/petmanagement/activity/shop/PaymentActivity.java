@@ -27,6 +27,7 @@ import com.project.petmanagement.models.entity.CartItem;
 import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.models.enums.PaymentMethodEnum;
 import com.project.petmanagement.payloads.requests.OrderRequest;
+import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
@@ -43,8 +44,9 @@ public class PaymentActivity extends AppCompatActivity {
     private TextView fullName;
     private TextView phoneNumber;
     private TextView address;
+    private RecyclerView listItemRecyclerView;
     private CharSequence items[] = new CharSequence[] {"Thanh toán khi nhận hàng", "Thẻ tín dụng"};
-
+    private TextView totalPrice;
     private StorageService storageService = MyApplication.getStorageService();
     ActivityResultLauncher<Intent> infoLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -58,6 +60,37 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
     });
+    private void getCardByUser(){
+        ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
+            @Override
+            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                if(response.isSuccessful()){
+                    CartResponse cartResponse = response.body();
+                    if(cartResponse!=null && cartResponse.getData()!=null){
+                        Cart cart = cartResponse.getData();
+                        if(cart!=null){
+                            List<CartItem> cartItems = new ArrayList<>();
+                            for(CartItem cartItem: cart.getCartItems()){
+                                if(cartItem.getSelected()){
+                                    cartItems.add(cartItem);
+                                }
+                            }
+                            PaymentItemAdapter paymentItemAdapter = new PaymentItemAdapter(PaymentActivity.this,cartItems);
+                            listItemRecyclerView.setAdapter(paymentItemAdapter);
+                            listItemRecyclerView.setLayoutManager(new LinearLayoutManager(PaymentActivity.this,RecyclerView.VERTICAL,false));
+                            String totalPrices = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VND";
+                            totalPrice.setText(totalPrices);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartResponse> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +100,9 @@ public class PaymentActivity extends AppCompatActivity {
         fullName = findViewById(R.id.full_name);
         phoneNumber = findViewById(R.id.phone_number);
         address = findViewById(R.id.address);
-        RecyclerView listItemRecyclerView = findViewById(R.id.list_item);
+        listItemRecyclerView = findViewById(R.id.list_item);
         Button btnConfirmPayment = findViewById(R.id.confirm_payment);
-        TextView totalPrice = findViewById(R.id.total_price);
+        totalPrice = findViewById(R.id.total_price);
         TextView textChangePaymentMethod = findViewById(R.id.change_payment_method);
         TextView paymentMethod = findViewById(R.id.payment_method);
         TextView textChangeInfo = findViewById(R.id.change_info);
@@ -77,20 +110,7 @@ public class PaymentActivity extends AppCompatActivity {
         fullName.setText(user.getFullName());
         phoneNumber.setText(user.getPhoneNumber());
         address.setText(user.getAddress());
-        Cart cart = (Cart) getIntent().getSerializableExtra("cart");
-        if(cart!=null){
-            List<CartItem> cartItems = new ArrayList<>();
-            for(CartItem cartItem: cart.getCartItems()){
-                if(cartItem.getSelected()){
-                    cartItems.add(cartItem);
-                }
-            }
-            PaymentItemAdapter paymentItemAdapter = new PaymentItemAdapter(this,cartItems);
-            listItemRecyclerView.setAdapter(paymentItemAdapter);
-            listItemRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
-            String totalPrices = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VND";
-            totalPrice.setText(totalPrices);
-        }
+        getCardByUser();
         btnBack.setOnClickListener(v -> finish());
         btnCart.setOnClickListener(v -> {
             Intent intent = new Intent(PaymentActivity.this, ShopActivity.class);
@@ -142,8 +162,6 @@ public class PaymentActivity extends AppCompatActivity {
                 }
             });
         });
-
-
     }
 
 }
