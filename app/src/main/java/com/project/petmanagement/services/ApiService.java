@@ -107,7 +107,7 @@ public interface ApiService {
     @GET("carts/users")
     Call<CartResponse> getCart();
     @PUT("carts/update")
-    Call<CartResponse> updateCart(@Query("item_id") Long idItem, @Query("quantity") Integer quantity);
+    Call<CartResponse> updateCart(@Query("item_id") Long idItem, @Query("quantity") Integer quantity, @Query("selected") Boolean selected);
     @DELETE("carts/delete/cart_items/{id}")
     Call<CartResponse> deleteCartItem(@Path("id") Long idItem);
     @POST("orders/create")
