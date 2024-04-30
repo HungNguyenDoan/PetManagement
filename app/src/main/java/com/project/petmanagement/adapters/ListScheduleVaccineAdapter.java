@@ -90,29 +90,7 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
             intent.putExtra("vaccineNotification", vaccinationNotification);
             context.startActivity(intent);
         });
-        holder.layout.setOnLongClickListener(v -> {
-            AlertDialog.Builder arlertDialog = new AlertDialog.Builder(context);
-            arlertDialog.setTitle("Thông báo")
-                    .setMessage("Bạn chắc chán muốn xóa thông báo")
-                    .setPositiveButton("Có", (dialog, which) -> {
-                        ApiService.apiService.deleteVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<Response>() {
-                            @Override
-                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                if(response.isSuccessful()){
-                                    Toast.makeText(context, "Xóa thông báo thành công.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
 
-                            @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
-                                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    })
-                    .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
-                    .show();
-            return true;
-        });
     }
 
     public static class ScheduleViewHolder extends RecyclerView.ViewHolder{

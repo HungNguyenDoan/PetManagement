@@ -22,25 +22,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductDetailActivity extends AppCompatActivity {
-    private ImageView btnBack, btnCart;
-    private Button btnAddToCart;
-    private ImageView imageProduct;
-    private TextView nameProduct;
-    private TextView detailProduct;
-    private TextView priceProduct;
     private TextView quantity;
     private  ImageView btnSub, btnAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-        btnBack = findViewById(R.id.btn_back);
-        btnAddToCart = findViewById(R.id.btn_add_to_cart);
-        btnCart = findViewById(R.id.btn_cart);
-        imageProduct = findViewById(R.id.image_product);
-        nameProduct = findViewById(R.id.name_product);
-        detailProduct = findViewById(R.id.product_detail);
-        priceProduct = findViewById(R.id.price);
+        ImageView btnBack = findViewById(R.id.btn_back);
+        Button btnAddToCart = findViewById(R.id.btn_add_to_cart);
+        ImageView btnCart = findViewById(R.id.btn_cart);
+        ImageView imageProduct = findViewById(R.id.image_product);
+        TextView nameProduct = findViewById(R.id.name_product);
+        TextView detailProduct = findViewById(R.id.product_detail);
+        TextView priceProduct = findViewById(R.id.price);
         quantity = findViewById(R.id.quantity);
         btnSub = findViewById(R.id.btn_sub);
         btnAdd = findViewById(R.id.btn_add);

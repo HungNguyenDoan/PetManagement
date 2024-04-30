@@ -7,6 +7,7 @@ import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
 import com.project.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.payloads.requests.MedicalDocumentRequest;
+import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
@@ -19,6 +20,7 @@ import com.project.petmanagement.payloads.responses.ListDiseaseResponse;
 import com.project.petmanagement.payloads.responses.ListFoodTypeResponse;
 import com.project.petmanagement.payloads.responses.ListMedicalResponse;
 import com.project.petmanagement.payloads.responses.ListNutritiousFoodResponse;
+import com.project.petmanagement.payloads.responses.ListOneTimeScheduleResponse;
 import com.project.petmanagement.payloads.responses.ListOrderResponse;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
 import com.project.petmanagement.payloads.responses.ListProductResponse;
@@ -33,6 +35,7 @@ import com.project.petmanagement.payloads.responses.PetResponse;
 import com.project.petmanagement.payloads.responses.VaccineNotificationResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.MultipartBody;
@@ -55,9 +58,9 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //server
-    String BASE_URL = "http://103.163.215.125/api/";
+//    String BASE_URL = "http://103.163.215.125/api/";
     //local
-//    String BASE_URL = "http://192.151.62.105:8080/";
+    String BASE_URL = "http://192.151.62.105:8080/";
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setLenient().create();
@@ -157,4 +160,10 @@ public interface ApiService {
     Call<com.project.petmanagement.payloads.responses.Response> deleteVaccineNotification(@Path("id") Long id);
     @GET("daily_activities/all")
     Call<ListDaiLyActivityResponse> getAllDaiLyActivity();
+    @PUT("one_time_schedules/update/{vaccination_notification_id}")
+    Call<ListOneTimeScheduleResponse> updateOneSchedule(@Path("vaccination_notification_id") Long vaccinationNotificationId, @Body List<OneTimeScheduleRequest>oneTimeScheduleRequestList);
+    @GET("vaccination_notification/{id}")
+    Call<VaccineNotificationResponse> getVaccineNotification(@Path("id") Long id);
+    @PUT("vaccination_notification/update/{id}")
+    Call<VaccineNotificationResponse> updateVaccinationNotification(@Path("id") Long id, @Body VaccinationNotificationRequest vaccinationNotificationRequest);
 }

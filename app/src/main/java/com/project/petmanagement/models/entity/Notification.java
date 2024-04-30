@@ -1,11 +1,12 @@
 package com.project.petmanagement.models.entity;
 
-public class Notification {
+import java.io.Serializable;
+
+public class Notification implements Serializable {
     private Long id;
     private Pet pet;
     private String title;
     private String note;
-    private Boolean status;
 
     public Long getId() {
         return id;
@@ -37,11 +38,4 @@ public class Notification {
         this.note = note;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
 }
