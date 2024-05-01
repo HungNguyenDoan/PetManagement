@@ -88,21 +88,29 @@ public class CartController {
     @DeleteMapping("/cart_items/delete/{id}")
     public ResponseEntity<Object> deleteItemInCart(@PathVariable("id") Long itemId) {
         try {
-            cartService.deleteItemInCart(itemId);
-            Cart cart = cartService.getCartByUser();
-            if (cart == null) {
-                ErrorResponse errorResponse = ErrorResponse.builder()
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .message("Can not find cart")
+            if (cartService.deleteItemInCart(itemId)) {
+                Cart cart = cartService.getCartByUser();
+                if (cart == null) {
+                    ErrorResponse errorResponse = ErrorResponse.builder()
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                            .message("Can not find cart")
+                            .build();
+                    return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                DataResponse cartResponse = DataResponse.builder()
+                        .status(HttpStatus.OK.value())
+                        .message("Delete item in cart successfully")
+                        .data(cart)
                         .build();
-                return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+            } else {
+                DataResponse cartResponse = DataResponse.builder()
+                        .status(HttpStatus.OK.value())
+                        .message("Delete item in cart failed")
+                        .build();
+                return new ResponseEntity<>(cartResponse, HttpStatus.OK);
             }
-            DataResponse cartResponse = DataResponse.builder()
-                    .status(HttpStatus.OK.value())
-                    .message("Delete item in cart successfully")
-                    .data(cart)
-                    .build();
-            return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+
         } catch (Exception e) {
             ErrorResponse errorResponse = ErrorResponse.builder()
                     .status(HttpStatus.BAD_REQUEST.value())
