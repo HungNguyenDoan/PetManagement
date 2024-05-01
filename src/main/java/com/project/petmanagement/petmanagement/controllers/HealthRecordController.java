@@ -2,7 +2,6 @@ package com.project.petmanagement.petmanagement.controllers;
 
 import com.project.petmanagement.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.petmanagement.payloads.requests.HealthRecordRequest;
-import com.project.petmanagement.petmanagement.payloads.requests.HealthStaticRequest;
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.HealthRecordService;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -100,12 +100,14 @@ public class HealthRecordController {
     }
 
     @GetMapping("/static")
-    public ResponseEntity<Object> getListHealthRecordsByFilter(@RequestBody HealthStaticRequest request) {
+    public ResponseEntity<Object> getListHealthRecordsByFilter(@RequestParam(value = "pet_id") Long petId,
+            @RequestParam(value = "start_date") Date starDate,
+            @RequestParam(value = "end_date") Date endDate) {
         try {
             DataResponse response = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Get health records successfully")
-                    .data(healthRecordService.getListHealthRecordByFilter(request))
+                    .data(healthRecordService.getListHealthRecordByFilter(petId, starDate, endDate))
                     .build();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
