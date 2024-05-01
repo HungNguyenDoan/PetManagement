@@ -55,12 +55,13 @@ public class CartService {
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
         if (cart == null) {
-            cart = Cart.builder()
+            Cart newCart = Cart.builder()
                     .user(jwtUserDetail.getUser())
                     .build();
-            cart = cartRepository.save(cart);
+            cart = cartRepository.save(newCart);
         }
         List<CartItem> cartItems = cart.getCartItems();
+        List<CartItem> newCartItems = new ArrayList<>();
         if (cartItems != null) {
             CartItem existingCartItem = null;
             boolean existed = false;
@@ -68,13 +69,14 @@ public class CartService {
                 if (cartItem.getProduct().equals(product)) {
                     existed = true;
                     existingCartItem = cartItem;
-                    break;
+                } else {
+                    newCartItems.add(cartItem);
                 }
             }
             if (existed) {
                 int newQuantity = existingCartItem.getQuantity() + quantity;
                 existingCartItem.setQuantity(newQuantity);
-                cartItemRepository.save(existingCartItem);
+                newCartItems.add(cartItemRepository.save(existingCartItem));
             } else {
                 CartItem cartItem = CartItem.builder()
                         .cart(cart)
@@ -82,7 +84,7 @@ public class CartService {
                         .quantity(quantity)
                         .selected(false)
                         .build();
-                cartItemRepository.save(cartItem);
+                newCartItems.add(cartItemRepository.save(cartItem));
             }
         } else {
             CartItem cartItem = CartItem.builder()
@@ -91,9 +93,9 @@ public class CartService {
                     .quantity(quantity)
                     .selected(false)
                     .build();
-            cartItemRepository.save(cartItem);
+            newCartItems.add(cartItemRepository.save(cartItem));
         }
-        cart = cartRepository.findByUser(jwtUserDetail.getUser());
+        cart.setCartItems(newCartItems);
         return setTotalPriceForCart(cart);
     }
 
@@ -103,31 +105,29 @@ public class CartService {
         JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
         Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
         List<CartItem> cartItems = cart.getCartItems();
+        List<CartItem> newCartItems = new ArrayList<>();
         if (quantity > 0) {
             for (CartItem cartItem : cartItems) {
                 if (cartItem.getId().equals(itemId)) {
                     cartItem.setQuantity(quantity);
                     cartItem.setSelected(selected);
-                    cartItemRepository.save(cartItem);
-                    break;
+                    newCartItems.add(cartItemRepository.save(cartItem));
+                } else {
+                    newCartItems.add(cartItem);
                 }
             }
         } else {
             throw new InvalidParameterException("Quantity invalid");
         }
-        cart = cartRepository.findByUser(jwtUserDetail.getUser());
+        cart.setCartItems(newCartItems);
         return setTotalPriceForCart(cart);
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public Cart deleteItemInCart(Long itemId) throws DataNotFoundException {
+    public void deleteItemInCart(Long itemId) throws DataNotFoundException {
         CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(() -> new DataNotFoundException("Can not find item with ID: " + itemId));
         if (cartItem != null) {
             cartItemRepository.deleteById(itemId);
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JWTUserDetail jwtUserDetail = (JWTUserDetail) authentication.getPrincipal();
-        Cart cart = cartRepository.findByUser(jwtUserDetail.getUser());
-        return setTotalPriceForCart(cart);
     }
 }

@@ -68,7 +68,6 @@ public class CareActivityNotificationService {
             careActivityNotificationRepository.deleteById(careActivityNotificationId);
         }
     }
-
 }
 
 
