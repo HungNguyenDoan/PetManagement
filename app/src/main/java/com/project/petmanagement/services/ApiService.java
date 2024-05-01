@@ -3,10 +3,11 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
+import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
+import com.project.petmanagement.payloads.requests.HealthStaticRequest;
 import com.project.petmanagement.payloads.requests.LoginRequest;
-import com.project.petmanagement.payloads.requests.MedicalDocumentRequest;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.requests.PetRequest;
@@ -18,6 +19,7 @@ import com.project.petmanagement.payloads.responses.ListCategoryResponse;
 import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
 import com.project.petmanagement.payloads.responses.ListDiseaseResponse;
 import com.project.petmanagement.payloads.responses.ListFoodTypeResponse;
+import com.project.petmanagement.payloads.responses.ListHealthRecordResponse;
 import com.project.petmanagement.payloads.responses.ListMedicalResponse;
 import com.project.petmanagement.payloads.responses.ListNutritiousFoodResponse;
 import com.project.petmanagement.payloads.responses.ListOneTimeScheduleResponse;
@@ -32,9 +34,9 @@ import com.project.petmanagement.payloads.responses.MedicalDocumentResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
 import com.project.petmanagement.payloads.responses.ListVetResponse;
 import com.project.petmanagement.payloads.responses.PetResponse;
+import com.project.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.payloads.responses.VaccineNotificationResponse;
 
-import java.io.IOException;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -42,7 +44,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -61,6 +62,8 @@ public interface ApiService {
 //    String BASE_URL = "http://103.163.215.125/api/";
     //local
     String BASE_URL = "http://192.151.62.105:8080/";
+//    String BASE_URL = "http://192.168.0.104:8080/";
+
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
             .setLenient().create();
@@ -123,7 +126,7 @@ public interface ApiService {
     @GET("vets/search")
     Call<ListVetResponse> searchVet(@Query("keywords") String keywords);
     @Multipart
-    @POST("medical_documents/")
+    @POST("medical_documents/add")
     Call<MedicalDocumentResponse> addMedicalDocument(
             @Part("title") RequestBody title,
             @Part("note") RequestBody note,
@@ -135,7 +138,7 @@ public interface ApiService {
     @GET("medical_documents/{id}")
     Call<MedicalDocumentResponse> getMedicalDocumentByid(@Path("id") Long medicalId);
     @Multipart
-    @PUT("medical_documents/{id}")
+    @PUT("medical_documents/update/{id}")
     Call<MedicalDocumentResponse> updateMedicalDocument(
             @Path("id") Long id,
             @Part("title") RequestBody title,
@@ -143,12 +146,20 @@ public interface ApiService {
             @Part("petId") RequestBody petId,
             @Part MultipartBody.Part file
             );
-    @DELETE("medical_documents/{id}")
+    @DELETE("medical_documents/delete/{id}")
     Call<com.project.petmanagement.payloads.responses.Response> deleteMedicalDocument(@Path("id") Long medicalId);
     @POST("auth/fcm")
     Call<com.project.petmanagement.payloads.responses.Response> setFcmToken(@Body FCMToken fcmToken);
     @POST("health_records/add")
     Call<HealRecordResponse> addHealthRecord(@Body HealRecordRequest healRecordRequest);
+    @PUT("health_records/update/{id}")
+    Call<HealRecordResponse> updateHealthRecord(@Path("id") Long healthRecordId,@Body HealRecordRequest healRecordRequest);
+    @DELETE("health_records/delete/{id}")
+    Call<Response> deleteHealthRecord(@Path("id") Long id);
+    @GET("health_records/pets/{pet_id}")
+    Call<ListHealthRecordResponse> getHealthRecordByPet(@Path("pet_id") Long petId);
+    @POST("health_records/static")
+    Call<ListHealthRecordResponse> staticsHealthRecord(@Body HealthStaticRequest healthStaticRequest);
     @GET("vaccination_notification/users")
     Call<ListVaccineNotification> getVaccineNotificationByUser();
     @GET("vaccines/pets/{id}")

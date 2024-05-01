@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.schedule.careactivity.ActivityScheduleInfoActivity;
 import com.project.petmanagement.activity.schedule.ScheduleActivity;
-import com.project.petmanagement.activity.schedule.inject.VaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.schedule.vaccine.VaccineInjectionScheduleActivity;
 
 
 public class HomeFragment extends Fragment {

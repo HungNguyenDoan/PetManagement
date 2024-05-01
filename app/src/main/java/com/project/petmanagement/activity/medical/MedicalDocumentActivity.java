@@ -98,18 +98,8 @@ public class MedicalDocumentActivity extends AppCompatActivity {
         medicalRecyclerview = findViewById(R.id.document_recycler_view);
         idPet = getIntent().getLongExtra("petId", 0);
         getListDocument();
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openAddDialog(Gravity.CENTER);
-            }
-        });
+        btnBack.setOnClickListener(v -> finish());
+        btnAdd.setOnClickListener(v -> openAddDialog(Gravity.CENTER));
     }
 
     private void checkEmpty() {
@@ -145,14 +135,11 @@ public class MedicalDocumentActivity extends AppCompatActivity {
         TextView btnAccept = dialog.findViewById(R.id.btn_accept);
         nameFile = dialog.findViewById(R.id.name_file);
         ImageView chooseFile = dialog.findViewById(R.id.choose_file);
-        chooseFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.setType("application/pdf");
-                intent = Intent.createChooser(intent, "Chọn 1 file");
-                chooseFileLauncher.launch(intent);
-            }
+        chooseFile.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.setType("application/pdf");
+            intent = Intent.createChooser(intent, "Chọn 1 file");
+            chooseFileLauncher.launch(intent);
         });
         btnAccept.setOnClickListener(v -> {
             RequestBody title = RequestBody.create(MediaType.parse("text/plain"), editTitleMedical.getText().toString());

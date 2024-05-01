@@ -35,7 +35,6 @@ public class ShopCartFragment extends Fragment {
 
     private RecyclerView carItemRecyclerView;
     private ListCartItemAdapter cartItemAdapter;
-    private ImageView btnBack;
     private TextView btnPayment;
     private TextView totalPrices;
     private Cart cart;
@@ -52,7 +51,7 @@ public class ShopCartFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         carItemRecyclerView = view.findViewById(R.id.cart_item_recyclerview);
-        btnBack = view.findViewById(R.id.btn_back);
+        ImageView btnBack = view.findViewById(R.id.btn_back);
         btnPayment = view.findViewById(R.id.btn_payment);
         totalPrices = view.findViewById(R.id.total_price);
         getCart();

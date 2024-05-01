@@ -1,9 +1,7 @@
 package com.project.petmanagement.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,24 +9,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.inject.VaccineScheduleDetailActivity;
+import com.project.petmanagement.activity.schedule.vaccine.VaccineScheduleDetailActivity;
 import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
-import com.project.petmanagement.payloads.responses.Response;
-import com.project.petmanagement.services.ApiService;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListScheduleVaccineAdapter.ScheduleViewHolder> {
     private List<VaccinationNotification> vaccinationNotificationList;

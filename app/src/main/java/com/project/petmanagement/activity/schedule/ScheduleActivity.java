@@ -2,15 +2,13 @@ package com.project.petmanagement.activity.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.inject.SelectPetToVaccineActivity;
-import com.project.petmanagement.activity.schedule.inject.VaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.schedule.vaccine.VaccineInjectionScheduleActivity;
 
 public class ScheduleActivity extends AppCompatActivity {
 

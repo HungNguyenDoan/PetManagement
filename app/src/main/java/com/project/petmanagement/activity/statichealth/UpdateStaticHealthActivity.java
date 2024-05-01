@@ -15,66 +15,78 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.login.RegisterActivity;
-import com.project.petmanagement.activity.schedule.vaccine.SetVaccineNotificationActivity;
+import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
-import com.project.petmanagement.payloads.responses.HealthRecordErrorResponse;
-import com.project.petmanagement.payloads.responses.RegisterErrorResponse;
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
+import com.project.petmanagement.payloads.responses.HealthRecordErrorResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddStaticHealthActity extends AppCompatActivity {
+public class UpdateStaticHealthActivity extends AppCompatActivity {
     private final String[] exerciseLevel = {"1","2", "3", "4", "5"};
     private TextInputEditText checkUpdate;
-    private DatePickerDialog datePickerDialog;
     private EditText editWeight;
     private TextInputEditText editSymptoms, editDiagnosis, editNote;
-    private Long petId;
+    private HealthRecord healthRecord;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_static_health_actity);
+        setContentView(R.layout.activity_static_health_detail);
         Spinner spinner = findViewById(R.id.exercise_level);
-        Button btnAdd = findViewById(R.id.btn_add);
+        Button btnUpdate = findViewById(R.id.btn_update);
         editWeight = findViewById(R.id.weight);
         checkUpdate = findViewById(R.id.check_update);
         editSymptoms = findViewById(R.id.symptoms);
         editDiagnosis = findViewById(R.id.diagnosis);
         editNote = findViewById(R.id.note);
+        ImageView btnEdit = findViewById(R.id.btn_edit);
+        spinner.setEnabled(false);
         ArrayAdapter<String> exerciseAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown, Arrays.asList(exerciseLevel));
         spinner.setAdapter(exerciseAdapter);
         ImageView btnBack = findViewById(R.id.btn_back);
-        petId = getIntent().getLongExtra("petId", 0);
+        healthRecord = (HealthRecord) getIntent().getSerializableExtra("healthRecord");
+        if(healthRecord!=null){
+            editWeight.setText(String.valueOf(healthRecord.getWeight()));
+            String strCheckUpdate = FormatDateUtils.DateToString(healthRecord.getCheckUpDate());
+            checkUpdate.setText(strCheckUpdate);
+            editSymptoms.setText(healthRecord.getSymptoms());
+            editDiagnosis.setText(healthRecord.getDiagnosis());
+            editNote.setText(healthRecord.getNote());
+        }
         btnBack.setOnClickListener(v -> finish());
-        customCheckUpdate();
-        btnAdd.setOnClickListener(v -> {
+        btnEdit.setOnClickListener(v -> {
+            spinner.setEnabled(true);
+            editWeight.setEnabled(true);
+            editSymptoms.setEnabled(true);
+            editDiagnosis.setEnabled(true);
+            editNote.setEnabled(true);
+            btnUpdate.setVisibility(View.VISIBLE);
+        });
+        btnUpdate.setOnClickListener(v -> {
             if(validate()){
                 String strCheckupDate = Objects.requireNonNull(checkUpdate.getText()).toString().trim();
                 Date checkUpdate1 = null;
                 try {
                     checkUpdate1 = FormatDateUtils.StringToDate1(strCheckupDate);
                     strCheckupDate = FormatDateUtils.DateToString1(checkUpdate1);
-                    HealRecordRequest healRecordRequest = new HealRecordRequest(strCheckupDate, Double.parseDouble(editWeight.getText().toString()) ,Integer.parseInt(spinner.getSelectedItem().toString()), editSymptoms.getText().toString(), editDiagnosis.getText().toString(), editNote.getText().toString(), petId);
-                    ApiService.apiService.addHealthRecord(healRecordRequest).enqueue(new Callback<HealRecordResponse>() {
+                    HealRecordRequest healRecordRequest = new HealRecordRequest(strCheckupDate, Double.parseDouble(editWeight.getText().toString()) ,Integer.parseInt(spinner.getSelectedItem().toString()), editSymptoms.getText().toString(), editDiagnosis.getText().toString(), editNote.getText().toString(), healthRecord.getPet().getId());
+                    ApiService.apiService.updateHealthRecord(healthRecord.getId(), healRecordRequest).enqueue(new Callback<HealRecordResponse>() {
                         @Override
                         public void onResponse(Call<HealRecordResponse> call, Response<HealRecordResponse> response) {
                             if(response.isSuccessful()){
-                                Toast.makeText(AddStaticHealthActity.this, "Thêm báo cáo thành công", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UpdateStaticHealthActivity.this, "Cập nhập báo cáo sức khỏe thành công", Toast.LENGTH_SHORT).show();
                                 finish();
                             }else{
                                 Gson gson = new Gson();
@@ -103,7 +115,7 @@ public class AddStaticHealthActity extends AppCompatActivity {
                                     if(healthRecordErrorResponse.getMessage().getPetId() !=null) {
                                         message += healthRecordErrorResponse.getMessage().getPetId() + "\n";
                                     }
-                                    DialogUtils.setUpDialog(AddStaticHealthActity.this, message);
+                                    DialogUtils.setUpDialog(UpdateStaticHealthActivity.this, message);
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -112,16 +124,14 @@ public class AddStaticHealthActity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<HealRecordResponse> call, Throwable t) {
-                            Toast.makeText(AddStaticHealthActity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdateStaticHealthActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
             }
-
         });
-
     }
     private boolean validate(){
         if(checkUpdate.length()==0){
@@ -133,47 +143,5 @@ public class AddStaticHealthActity extends AppCompatActivity {
             return false;
         }
         return true;
-    }
-
-    private void customCheckUpdate() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        checkUpdate.setOnClickListener(v -> {
-            datePickerDialog = new DatePickerDialog(AddStaticHealthActity.this, (view, year1, month1, dayOfMonth) -> {
-                String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                try {
-                    Date date1 = sdf.parse(date);
-                    String date2 = sdf.format(date1);
-                    Date currentDate = new Date();
-                    String date3 = FormatDateUtils.DateToString1(date1);
-                    Date dateChoose = FormatDateUtils.StringToDate(date3);
-                    Calendar cal1 = Calendar.getInstance();
-                    cal1.setTime(currentDate);
-                    cal1.set(Calendar.HOUR_OF_DAY, 0);
-                    cal1.set(Calendar.MINUTE, 0);
-                    cal1.set(Calendar.SECOND, 0);
-                    cal1.set(Calendar.MILLISECOND, 0);
-                    Calendar cal2 = Calendar.getInstance();
-                    cal2.setTime(dateChoose);
-                    cal2.set(Calendar.HOUR_OF_DAY, 0);
-                    cal2.set(Calendar.MINUTE, 0);
-                    cal2.set(Calendar.SECOND, 0);
-                    cal2.set(Calendar.MILLISECOND, 0);
-                    if (cal1.compareTo(cal2) > 0) {
-                        DialogUtils.setUpDialog(AddStaticHealthActity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
-                    } else {
-                        checkUpdate.setText(date2);
-                    }
-                    checkUpdate.setError(null);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }, year, month, day);
-            datePickerDialog.show();
-        });
     }
 }

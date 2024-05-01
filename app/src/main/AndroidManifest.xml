@@ -31,13 +31,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activity.schedule.inject.UpdateVaccineNotificationActivity"
+            android:name=".activity.schedule.vaccine.UpdateVaccineNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.UpdateScheduleVaccineActivity"
+            android:name=".activity.schedule.vaccine.UpdateScheduleVaccineActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.VaccineScheduleDetailActivity"
+            android:name=".activity.schedule.vaccine.VaccineScheduleDetailActivity"
             android:exported="false" />
         <activity
             android:name=".activity.medical.ViewPdfActivity"
@@ -60,16 +60,16 @@
             android:name=".activity.shop.ChangeInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.SetVaccineNotificationActivity"
+            android:name=".activity.schedule.vaccine.SetVaccineNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.SetVaccineScheduleActivity"
+            android:name=".activity.schedule.vaccine.SetVaccineScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.SelectPetToVaccineActivity"
+            android:name=".activity.schedule.vaccine.SelectPetToVaccineActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.inject.VaccineInjectionScheduleActivity"
+            android:name=".activity.schedule.vaccine.VaccineInjectionScheduleActivity"
             android:exported="false" />
 
         <activity
@@ -101,7 +101,7 @@
             android:name=".activity.shop.ProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.statichealth.StaticHealthDetailActivity"
+            android:name=".activity.statichealth.UpdateStaticHealthActivity"
             android:exported="false" />
         <activity
             android:name=".activity.statichealth.AddStaticHealthActity"

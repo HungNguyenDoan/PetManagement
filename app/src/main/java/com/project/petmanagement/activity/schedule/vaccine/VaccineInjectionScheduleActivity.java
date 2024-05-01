@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule.inject;
+package com.project.petmanagement.activity.schedule.vaccine;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
-import com.project.petmanagement.activity.schedule.inject.SelectPetToVaccineActivity;
 import com.project.petmanagement.adapters.ListScheduleVaccineAdapter;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.responses.ListVaccineNotification;
