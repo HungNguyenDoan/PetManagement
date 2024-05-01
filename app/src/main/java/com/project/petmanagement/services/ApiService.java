@@ -3,10 +3,8 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
-import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
-import com.project.petmanagement.payloads.requests.HealthStaticRequest;
 import com.project.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
@@ -158,8 +156,8 @@ public interface ApiService {
     Call<Response> deleteHealthRecord(@Path("id") Long id);
     @GET("health_records/pets/{pet_id}")
     Call<ListHealthRecordResponse> getHealthRecordByPet(@Path("pet_id") Long petId);
-    @POST("health_records/static")
-    Call<ListHealthRecordResponse> staticsHealthRecord(@Body HealthStaticRequest healthStaticRequest);
+    @GET("health_records/static")
+    Call<ListHealthRecordResponse> staticsHealthRecord(@Query("pet_id") Long petId, @Query("start_date") String startDate, @Query("end_date") String endDate);
     @GET("vaccination_notification/users")
     Call<ListVaccineNotification> getVaccineNotificationByUser();
     @GET("vaccines/pets/{id}")

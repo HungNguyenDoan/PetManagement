@@ -25,7 +25,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.StaticHealthAdapter;
 import com.project.petmanagement.models.entity.HealthRecord;
-import com.project.petmanagement.payloads.requests.HealthStaticRequest;
 import com.project.petmanagement.payloads.responses.ListHealthRecordResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.DialogUtils;
@@ -86,8 +85,7 @@ public class StaticHealthActivity extends AppCompatActivity {
             try {
                 Date dateStartDate = FormatDateUtils.StringToDate1(strStartDate);
                 Date dateEndDate = FormatDateUtils.StringToDate1(strEndDate);
-                HealthStaticRequest healthStaticRequest = new HealthStaticRequest(petId, FormatDateUtils.DateToString1(dateStartDate), FormatDateUtils.DateToString1(dateEndDate));
-                ApiService.apiService.staticsHealthRecord(healthStaticRequest).enqueue(new Callback<ListHealthRecordResponse>() {
+                ApiService.apiService.staticsHealthRecord(petId, FormatDateUtils.DateToString1(dateStartDate), FormatDateUtils.DateToString1(dateEndDate)).enqueue(new Callback<ListHealthRecordResponse>() {
                     @Override
                     public void onResponse(Call<ListHealthRecordResponse> call, Response<ListHealthRecordResponse> response) {
                         if(response.isSuccessful()){

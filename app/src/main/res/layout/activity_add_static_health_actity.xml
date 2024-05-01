@@ -176,6 +176,7 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/bg_input_static_health"
                 android:hint="Ghi chú"
+                android:padding="8dp"
                 app:endIconMode="clear_text"
                 android:layout_height="120dp"
                 tools:ignore="HardcodedText">
