@@ -88,11 +88,12 @@ public class CartController {
     @DeleteMapping("/cart_items/delete/{id}")
     public ResponseEntity<Object> deleteItemInCart(@PathVariable("id") Long itemId) {
         try {
-            Cart cart = cartService.deleteItemInCart(itemId);
+            cartService.deleteItemInCart(itemId);
+            Cart cart = cartService.getCartByUser();
             if (cart == null) {
                 ErrorResponse errorResponse = ErrorResponse.builder()
                         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .message("Can not delete item in cart")
+                        .message("Can not find cart")
                         .build();
                 return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
             }

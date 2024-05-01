@@ -78,7 +78,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping(value = "/change-password")
+    @PostMapping(value = "/change_password")
     public ResponseEntity<Object> changeUserPassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
         if (!changePasswordRequest.getNewPassword().equals(changePasswordRequest.getRenewPassword())) {
             ErrorResponse response = ErrorResponse.builder()
