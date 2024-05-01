@@ -1,9 +1,8 @@
-package com.project.petmanagement.activity.schedule.inject;
+package com.project.petmanagement.activity.schedule.vaccine;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,9 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
-import com.project.petmanagement.models.entity.Vaccine;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
-import com.project.petmanagement.payloads.responses.ListVaccineResponse;
 import com.project.petmanagement.payloads.responses.VaccineNotificationResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -29,9 +26,7 @@ import com.project.petmanagement.utils.FormatDateUtils;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -166,6 +161,7 @@ public class VaccineScheduleDetailActivity extends AppCompatActivity {
                             oneTimeScheduleRequest.setDate(date1);
                             oneTimeScheduleRequestList.add(oneTimeScheduleRequest);
                         }
+                        setUpInfoVaccineNotification();
                         setUpOneTimeSchedule();
                     }
                 }
@@ -181,7 +177,6 @@ public class VaccineScheduleDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setUpOneTimeSchedule();
-        setUpInfoVaccineNotification();
+        getVaccineNotificationById();
     }
 }

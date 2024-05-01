@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:theme="@style/InPutTheme"
             android:orientation="vertical"
             android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
@@ -63,6 +64,7 @@
                 android:textSize="25sp"
                 android:textColor="@color/green"
                 android:paddingVertical="8sp"
+                android:inputType="number"
                 />
             <LinearLayout
                 android:layout_marginTop="20dp"
@@ -97,8 +99,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:background="@drawable/bg_input_static_health"
-                android:hint="Ngày sinh"
-                android:padding="12dp"
+                android:hint="Ngày kiểm tra"
+                android:padding="8dp"
                 android:layout_height="wrap_content"
                 tools:ignore="HardcodedText">
                 <com.google.android.material.textfield.TextInputEditText
@@ -124,8 +126,9 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/bg_input_static_health"
                 android:hint="Triệu chứng"
-                android:padding="12dp"
                 android:layout_height="120dp"
+                android:padding="8dp"
+                app:endIconMode="clear_text"
                 tools:ignore="HardcodedText">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/symptoms"
@@ -148,8 +151,9 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/bg_input_static_health"
                 android:hint="Chuẩn đoán"
-                android:padding="12dp"
+                android:padding="8dp"
                 android:layout_height="120dp"
+                app:endIconMode="clear_text"
                 tools:ignore="HardcodedText">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/diagnosis"
@@ -172,11 +176,13 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/bg_input_static_health"
                 android:hint="Ghi chú"
-                android:padding="12dp"
+                android:padding="8dp"
+                app:endIconMode="clear_text"
                 android:layout_height="120dp"
                 tools:ignore="HardcodedText">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/note"
+                    android:padding="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
