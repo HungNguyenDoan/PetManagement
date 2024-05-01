@@ -4,13 +4,13 @@ import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
 import com.project.petmanagement.petmanagement.payloads.requests.HealthRecordRequest;
-import com.project.petmanagement.petmanagement.payloads.requests.HealthStaticRequest;
 import com.project.petmanagement.petmanagement.repositories.HealthRecordRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -72,8 +72,8 @@ public class HealthRecordService {
         }
     }
 
-    public List<HealthRecord> getListHealthRecordByFilter(HealthStaticRequest request) {
-        return healthRecordRepository.findByCheckUpDateBetweenAndPet(request.getStartDate(), request.getEndDate(),
-                petRepository.findById(request.getPetId()).get());
+    public List<HealthRecord> getListHealthRecordByFilter(Long petId, Date startDate, Date endDate) {
+        return healthRecordRepository.findByCheckUpDateBetweenAndPet(startDate, endDate,
+                petRepository.findById(petId).get());
     }
 }
