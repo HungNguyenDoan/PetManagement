@@ -2,6 +2,7 @@ package com.project.petmanagement.activity.medical;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,8 +23,12 @@ public class ViewPdfActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pdf);
         pdfView = findViewById(R.id.pdfView);
+        Button btnReturn = findViewById(R.id.btn_back);
         String urlPdf = getIntent().getStringExtra("url");
         new RetrivePdfStream().execute(urlPdf);
+        btnReturn.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     class RetrivePdfStream extends AsyncTask<String, Void, InputStream> {
