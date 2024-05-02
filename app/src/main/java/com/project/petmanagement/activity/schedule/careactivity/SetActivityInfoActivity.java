@@ -112,7 +112,7 @@ public class SetActivityInfoActivity extends AppCompatActivity {
         activityType.setOnItemClickListener((parent, view, position, id) -> {
             activityType.setError(null);
         });
-        ApiService.apiService.getAllDaiLyActivity().enqueue(new Callback<ListDaiLyActivityResponse>() {
+        ApiService.apiService.getAllDaiLyActivities().enqueue(new Callback<ListDaiLyActivityResponse>() {
             @Override
             public void onResponse(Call<ListDaiLyActivityResponse> call, Response<ListDaiLyActivityResponse> response) {
                 if(response.isSuccessful()){

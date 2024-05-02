@@ -3,6 +3,7 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
+import com.project.petmanagement.payloads.requests.DailyActivityLogRequest;
 import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
 import com.project.petmanagement.payloads.requests.LoginRequest;
@@ -12,6 +13,8 @@ import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.payloads.requests.VaccinationNotificationRequest;
 import com.project.petmanagement.payloads.responses.CartResponse;
+import com.project.petmanagement.payloads.responses.DailyActivityLogResponse;
+import com.project.petmanagement.payloads.responses.ListDailyActivityLogResponse;
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
 import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
@@ -57,9 +60,9 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //server
-//    String BASE_URL = "http://103.163.215.125/api/";
+    String BASE_URL = "http://103.163.215.125/api/";
     //local
-    String BASE_URL = "http://192.151.62.105:8080/";
+//    String BASE_URL = "http://192.168.1.19:8080/";
 //    String BASE_URL = "http://192.168.0.104:8080/";
 
     StorageService storageService = MyApplication.getStorageService();
@@ -167,11 +170,21 @@ public interface ApiService {
     @DELETE("vaccination_notification/delete/{id}")
     Call<com.project.petmanagement.payloads.responses.Response> deleteVaccineNotification(@Path("id") Long id);
     @GET("daily_activities/all")
-    Call<ListDaiLyActivityResponse> getAllDaiLyActivity();
+    Call<ListDaiLyActivityResponse> getAllDaiLyActivities();
     @PUT("one_time_schedules/update/{vaccination_notification_id}")
     Call<ListOneTimeScheduleResponse> updateOneSchedule(@Path("vaccination_notification_id") Long vaccinationNotificationId, @Body List<OneTimeScheduleRequest>oneTimeScheduleRequestList);
     @GET("vaccination_notification/{id}")
     Call<VaccineNotificationResponse> getVaccineNotification(@Path("id") Long id);
     @PUT("vaccination_notification/update/{id}")
     Call<VaccineNotificationResponse> updateVaccinationNotification(@Path("id") Long id, @Body VaccinationNotificationRequest vaccinationNotificationRequest);
+    @POST("daily_activity_logs/pets")
+    Call<ListDailyActivityLogResponse> getDailyLogsByPet(@Body DailyActivityLogRequest dailyActivityLogRequest);
+    @POST("daily_activity_logs/add")
+    Call<DailyActivityLogResponse> addDailyLog(@Body DailyActivityLogRequest dailyActivityLogRequest);
+    @GET("daily_activity_logs/{id}")
+    Call<DailyActivityLogResponse> getDailyLogById(@Path("id") Long dailyLogId);
+    @PUT("daily_activity_logs/update")
+    Call<DailyActivityLogResponse> updateDailyLog(@Body DailyActivityLogRequest dailyActivityLogRequest);
+    @DELETE("daily_activity_logs/delete/{id}")
+    Call<DailyActivityLogResponse> deleteDailyLog(@Path("id") Long dailyLogId);
 }

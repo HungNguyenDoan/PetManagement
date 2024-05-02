@@ -28,7 +28,7 @@
     <string name="library_disease">Thư viện bệnh</string>
     <string name="diseases_detail">Chi tiết bệnh</string>
     <string name="notification">Thông báo</string>
-    <string name="community">Cộng đồng</string>
+    <string name="title_community">Cộng đồng</string>
     <string name="cart">Giỏ hàng</string>
     <string name="more">Thêm</string>
     <!-- TODO: Remove or change this placeholder text -->
