@@ -5,7 +5,9 @@ import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.*;
 import com.project.petmanagement.petmanagement.models.enums.OrderStatusEnum;
 import com.project.petmanagement.petmanagement.payloads.requests.OrderRequest;
+import com.project.petmanagement.petmanagement.repositories.CartItemRepository;
 import com.project.petmanagement.petmanagement.repositories.CartRepository;
+import com.project.petmanagement.petmanagement.repositories.OrderDetailRepository;
 import com.project.petmanagement.petmanagement.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,8 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
     public List<Order> getOrdersByUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,10 +44,11 @@ public class OrderService {
             throw new DataNotFoundException("Cart is empty");
         }
         boolean existedSelectedItem = false;
+        List<CartItem> selectedItems = new ArrayList<>();
         for (CartItem item : cartItems) {
             if (item.getSelected()) {
                 existedSelectedItem = true;
-                break;
+                selectedItems.add(item); // Collect selected items for order
             }
         }
         if (!existedSelectedItem) {
@@ -60,18 +65,21 @@ public class OrderService {
         Order order = orderRepository.save(newOrder);
         List<OrderDetail> orderDetails = new ArrayList<>();
         double totalPrice = 0;
-        for (CartItem cartItem : cartItems) {
-            if (cartItem.getSelected()) {
-                OrderDetail orderDetail = OrderDetail.builder()
-                        .order(order)
-                        .product(cartItem.getProduct())
-                        .quantity(cartItem.getQuantity())
-                        .price(cartItem.getProduct().getPrice())
-                        .build();
-                orderDetails.add(orderDetail);
-                totalPrice += orderDetail.getPrice() * orderDetail.getQuantity();
-            }
+        for (CartItem cartItem : selectedItems) {
+            OrderDetail orderDetail = OrderDetail.builder()
+                    .order(order)
+                    .product(cartItem.getProduct())
+                    .quantity(cartItem.getQuantity())
+                    .price(cartItem.getProduct().getPrice())
+                    .build();
+            orderDetails.add(orderDetail);
+            totalPrice += orderDetail.getPrice() * orderDetail.getQuantity();
         }
+        orderDetailRepository.saveAll(orderDetails);
+        cartItemRepository.deleteAll(selectedItems);
+        cartItems.removeAll(selectedItems);
+        cart.setCartItems(cartItems);
+        cartRepository.save(cart);
         order.setOrderDetails(orderDetails);
         order.setTotalPrice(totalPrice);
         return orderRepository.save(order);
