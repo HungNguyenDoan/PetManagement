@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,17 @@ public class VaccinationNotificationController {
         DataResponse dataResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Get vaccination notification by user successfully")
+                .data(vaccinationNotificationList)
+                .build();
+        return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/date")
+    public ResponseEntity<Object> getVaccinationNotificationByDate(@RequestParam Date date) {
+        List<VaccinationNotification> vaccinationNotificationList = vaccinationNotificationService.getVaccinationNotificationByDate(date);
+        DataResponse dataResponse = DataResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("Get vaccination notification by date successfully")
                 .data(vaccinationNotificationList)
                 .build();
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);

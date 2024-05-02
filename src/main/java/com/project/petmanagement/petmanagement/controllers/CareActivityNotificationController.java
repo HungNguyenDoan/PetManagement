@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -26,6 +27,17 @@ public class CareActivityNotificationController {
     @GetMapping("/users")
     public ResponseEntity<Object> getCareActivityNotificationByUser() {
         List<CareActivityNotification> careActivityNotificationList = careActivityNotificationService.getCareActivityNotificationByUser();
+        DataResponse dataResponse = DataResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("Get all notification successfully")
+                .data(careActivityNotificationList)
+                .build();
+        return new ResponseEntity<>(dataResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/date")
+    public ResponseEntity<Object> getCareActivityNotificationByDate(@RequestParam Date date) {
+        List<CareActivityNotification> careActivityNotificationList = careActivityNotificationService.getCareActivityNotificationByDate(date);
         DataResponse dataResponse = DataResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Get all notification successfully")

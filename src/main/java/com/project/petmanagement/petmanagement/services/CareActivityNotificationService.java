@@ -4,7 +4,9 @@ import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
+import com.project.petmanagement.petmanagement.models.entity.RecurringSchedule;
 import com.project.petmanagement.petmanagement.models.entity.User;
+import com.project.petmanagement.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.petmanagement.repositories.CareActivityNotificationRepository;
 import com.project.petmanagement.petmanagement.repositories.PetRepository;
@@ -13,6 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +40,73 @@ public class CareActivityNotificationService {
 
     public List<CareActivityNotification> getCareActivityNotificationByPet(Pet pet) {
         return careActivityNotificationRepository.findByPet(pet);
+    }
+
+    public List<CareActivityNotification> getCareActivityNotificationByDate(Date date) {
+        LocalDate currentDate = date.toLocalDate();
+        List<CareActivityNotification> careActivityNotificationList = new ArrayList<>();
+        for (CareActivityNotification careActivityNotification : getCareActivityNotificationByUser()) {
+            if (careActivityNotification.getNotificationStatus()) {
+                RecurringSchedule recurringSchedule = careActivityNotification.getSchedule();
+                FrequencyEnum frequency = recurringSchedule.getFrequency();
+                int step = recurringSchedule.getValue();
+                boolean onTime = false;
+                if (frequency.compareTo(FrequencyEnum.NO_REPEAT) == 0 && step == 0) {
+                    LocalDate scheduledDate = recurringSchedule.getDate().toLocalDate();
+                    if (scheduledDate.equals(currentDate)) {
+                        onTime = true;
+                    }
+                } else if (frequency.compareTo(FrequencyEnum.DAILY) == 0 && step > 0) {
+                    LocalDate fromDate = recurringSchedule.getFromDate().toLocalDate();
+                    LocalDate toDate = recurringSchedule.getToDate().toLocalDate();
+                    LocalDate tempDate = fromDate;
+                    while (!tempDate.isAfter(toDate)) {
+                        if (tempDate.equals(currentDate)) {
+                            onTime = true;
+                            break;
+                        } else if (tempDate.isAfter(currentDate)) {
+                            break;
+                        }
+                        tempDate = tempDate.plusDays(step);
+                    }
+                } else if (frequency.compareTo(FrequencyEnum.WEEKLY) == 0 && step > 0) {
+                    List<DayOfWeek> scheduledDaysOfWeek = recurringSchedule.getDaysOfWeek();
+                    LocalDate fromDate = recurringSchedule.getFromDate().toLocalDate();
+                    LocalDate toDate = recurringSchedule.getToDate().toLocalDate();
+                    DayOfWeek dateToDayOfWeek = currentDate.getDayOfWeek();
+                    if (scheduledDaysOfWeek.contains(dateToDayOfWeek)) {
+                        LocalDate firstDayOfWeek = fromDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+                        LocalDate lastDayOfWeek = fromDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+                        boolean stop = false;
+                        while (!firstDayOfWeek.isAfter(lastDayOfWeek)) {
+                            if (stop) {
+                                break;
+                            }
+                            if (scheduledDaysOfWeek.contains(firstDayOfWeek.getDayOfWeek())) {
+                                LocalDate tempDate = firstDayOfWeek;
+                                while (!tempDate.isAfter(toDate)) {
+                                    if (!tempDate.isBefore(fromDate)) {
+                                        if (tempDate.equals(currentDate)) {
+                                            onTime = true;
+                                            stop = true;
+                                            break;
+                                        } else if (tempDate.isAfter(currentDate)) {
+                                            break;
+                                        }
+                                    }
+                                    tempDate = tempDate.plusWeeks(step);
+                                }
+                            }
+                            firstDayOfWeek = firstDayOfWeek.plusDays(1);
+                        }
+                    }
+                }
+                if (onTime) {
+                    careActivityNotificationList.add(careActivityNotification);
+                }
+            }
+        }
+        return careActivityNotificationList;
     }
 
     public CareActivityNotification getCareActivityNotificationDetails(Long careActivityNotificationId) throws DataNotFoundException {
