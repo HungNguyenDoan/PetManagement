@@ -11,14 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MedicalDocumentRequest {
-    @NotBlank(message = "Title can not be empty or blank")
+    @NotBlank(message = "Title is required.")
     private String title;
 
     private String note;
 
-    @NotNull(message = "You have to define pet to add medical document")
+    @NotNull(message = "Pet can not be null")
     private Long petId;
 
-    @NotNull(message = "Document file can not be null")
+    @NotNull(message = "Document file is required.")
     private MultipartFile file;
 }

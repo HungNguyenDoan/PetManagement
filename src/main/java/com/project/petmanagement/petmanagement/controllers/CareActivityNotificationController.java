@@ -8,6 +8,7 @@ import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.CareActivityInfoService;
 import com.project.petmanagement.petmanagement.services.CareActivityNotificationService;
 import com.project.petmanagement.petmanagement.services.RecurringScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,7 +67,7 @@ public class CareActivityNotificationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addCareActivityNotification(@RequestBody CareActivityNotificationRequest careActivityNotificationRequest) {
+    public ResponseEntity<Object> addCareActivityNotification(@Valid @RequestBody CareActivityNotificationRequest careActivityNotificationRequest) {
         try {
             CareActivityNotification careActivityNotification = careActivityNotificationService.addCareActivityNotification(careActivityNotificationRequest);
             careActivityNotification.setCareActivityInfoList(careActivityInfoService.addCareActivityInfoList(careActivityNotificationRequest.getCareActivityInfoRequestList(), careActivityNotification));
@@ -87,7 +88,7 @@ public class CareActivityNotificationController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> updateCareActivityNotification(@PathVariable("id") Long careActivityNotificationId, @RequestBody CareActivityNotificationRequest careActivityNotificationRequest) {
+    public ResponseEntity<Object> updateCareActivityNotification(@PathVariable("id") Long careActivityNotificationId, @Valid @RequestBody CareActivityNotificationRequest careActivityNotificationRequest) {
         try {
             CareActivityNotification careActivityNotification = careActivityNotificationService.updateCareActivityNotification(careActivityNotificationId, careActivityNotificationRequest);
             DataResponse dataResponse = DataResponse.builder()

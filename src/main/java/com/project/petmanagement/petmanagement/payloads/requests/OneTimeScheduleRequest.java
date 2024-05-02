@@ -1,5 +1,7 @@
 package com.project.petmanagement.petmanagement.payloads.requests;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +16,10 @@ import java.sql.Date;
 public class OneTimeScheduleRequest {
     private Long id;
 
+    @NotNull(message = "Date is required.")
     private Date date;
 
+    @NotBlank(message = "Time is required.")
     private String time;
 
     private Boolean status;

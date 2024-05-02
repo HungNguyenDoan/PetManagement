@@ -6,6 +6,7 @@ import com.project.petmanagement.petmanagement.payloads.requests.CareActivityInf
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.CareActivityInfoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CareActivityInfoController {
     private final CareActivityInfoService careActivityInfoService;
 
     @PutMapping("/update")
-    public ResponseEntity<Object> updateCareActivityInfo(@RequestBody List<CareActivityInfoRequest> careActivityInfoRequestList) {
+    public ResponseEntity<Object> updateCareActivityInfo(@Valid @RequestBody List<CareActivityInfoRequest> careActivityInfoRequestList) {
         try {
             List<CareActivityInfo> careActivityInfoList = careActivityInfoService.updateCareActivityInfoList(careActivityInfoRequestList);
             DataResponse dataResponse = DataResponse.builder()
@@ -38,10 +39,10 @@ public class CareActivityInfoController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteCareActivityInfo(@RequestBody CareActivityInfoRequest careActivityInfoRequest) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteCareActivityInfo(@PathVariable("id") Long careActivityInfoId) {
         try {
-            careActivityInfoService.deleteCareActivityInfo(careActivityInfoRequest.getId());
+            careActivityInfoService.deleteCareActivityInfo(careActivityInfoId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Delete care activity information successfully")

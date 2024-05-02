@@ -124,7 +124,7 @@ public class CartService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public boolean deleteItemInCart(Long itemId) throws DataNotFoundException {
+    public Boolean deleteItemInCart(Long itemId) throws DataNotFoundException {
         CartItem cartItem = cartItemRepository.findById(itemId).orElseThrow(() -> new DataNotFoundException("Can not find item with ID: " + itemId));
         if (cartItem != null) {
             cartItemRepository.deleteById(itemId);

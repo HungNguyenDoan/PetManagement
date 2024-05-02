@@ -1,5 +1,6 @@
 package com.project.petmanagement.petmanagement.payloads.requests;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginRequest {
-    @NotEmpty(message = "Please enter username")
+    @NotBlank(message = "Please enter username")
     String username;
 
-    @NotEmpty(message = "Please enter password")
+    @NotBlank(message = "Please enter password")
     String password;
 }

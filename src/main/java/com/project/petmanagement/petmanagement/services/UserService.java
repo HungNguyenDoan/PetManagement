@@ -68,7 +68,8 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void deleteUser(Long userId) throws DataNotFoundException {
+    public void deleteUser() throws DataNotFoundException {
+        Long userId = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
         User user = userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("Can not find user with ID: " + userId));
         if (user != null) {
             userRepository.deleteById(userId);

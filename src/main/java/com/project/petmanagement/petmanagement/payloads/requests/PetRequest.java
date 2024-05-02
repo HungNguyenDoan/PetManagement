@@ -20,7 +20,7 @@ public class PetRequest {
     String fullName;
 
     @JsonProperty("breed_id")
-    @NotNull(message = "Pet's breed is required.")
+    @NotNull(message = "Breed can not be null.")
     Long breedId;
 
     @NotNull(message = "You should define your pet's gender")

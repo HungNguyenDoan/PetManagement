@@ -12,18 +12,24 @@ import java.sql.Date;
 @Data
 @NoArgsConstructor
 public class HealthRecordRequest {
-    @JsonProperty("check_update")
-    @NotNull(message = "Check update is required.")
+    @JsonProperty("checkup_date")
+    @NotNull(message = "Checkup date is required.")
     private Date checkUpDate;
-    @NotNull(message = "Weight is required")
+
+    @NotNull(message = "Weight is required.")
     private Double weight;
+
     @JsonProperty("exercise_level")
-    @NotNull(message = "Exercise_level is required")
+    @NotNull(message = "Exercise level is required.")
     private Integer exerciseLevel;
+
     private String symptoms;
+
     private String diagnosis;
+
     private String note;
+
     @JsonProperty("pet_id")
-    @NotNull(message = "Pet is required")
+    @NotNull(message = "Pet can not be null")
     private Long petId;
 }

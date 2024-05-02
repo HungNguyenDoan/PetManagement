@@ -57,10 +57,10 @@ public class DailyActivityLogController {
         }
     }
 
-    @PostMapping("/pets")
-    public ResponseEntity<Object> getDailyActivityLogsByPet(@RequestBody DailyActivityLogRequest dailyActivityLogRequest) {
+    @GetMapping("/pets/{id}")
+    public ResponseEntity<Object> getDailyActivityLogsByPet(@PathVariable("id") Long petId) {
         try {
-            List<DailyActivityLog> dailyActivityLog = dailyActivityLogService.getDailyActivityLogsByPet(dailyActivityLogRequest.getPetId());
+            List<DailyActivityLog> dailyActivityLog = dailyActivityLogService.getDailyActivityLogsByPet(petId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Get daily activity logs by pet successfully")
@@ -77,7 +77,7 @@ public class DailyActivityLogController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addDailyActivityLog(@RequestBody DailyActivityLogRequest dailyActivityLogRequest) {
+    public ResponseEntity<Object> addDailyActivityLog(@Valid @RequestBody DailyActivityLogRequest dailyActivityLogRequest) {
         try {
             DailyActivityLog dailyActivityLog = dailyActivityLogService.addDailyActivityLog(dailyActivityLogRequest);
             if (dailyActivityLog == null) {
@@ -128,10 +128,10 @@ public class DailyActivityLogController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteDailyActivityLog(@RequestBody DailyActivityLogRequest request) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteDailyActivityLog(@PathVariable("id") Long dailyLogId) {
         try {
-            dailyActivityLogService.deleteDailyActivityLog(request.getId());
+            dailyActivityLogService.deleteDailyActivityLog(dailyLogId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(200)
                     .message("Record deleted successfully")

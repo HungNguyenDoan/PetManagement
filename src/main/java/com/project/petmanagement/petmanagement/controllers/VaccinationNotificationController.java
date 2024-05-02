@@ -8,6 +8,7 @@ import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.OneTimeScheduleService;
 import com.project.petmanagement.petmanagement.services.VaccinationNotificationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class VaccinationNotificationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addVaccinationNotification(@RequestBody VaccinationNotificationRequest vaccinationNotificationRequest) {
+    public ResponseEntity<Object> addVaccinationNotification(@Valid @RequestBody VaccinationNotificationRequest vaccinationNotificationRequest) {
         try {
             VaccinationNotification vaccinationNotification = vaccinationNotificationService.addVaccinationNotification(vaccinationNotificationRequest);
             List<OneTimeSchedule> oneTimeScheduleList = oneTimeScheduleService.addOneTimeScheduleList(vaccinationNotificationRequest.getOneTimeScheduleRequestList(), vaccinationNotification);
@@ -86,7 +87,7 @@ public class VaccinationNotificationController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Object> updateVaccinationNotification(@PathVariable("id") Long vaccinationNotificationId, @RequestBody VaccinationNotificationRequest vaccinationNotificationRequest) {
+    public ResponseEntity<Object> updateVaccinationNotification(@PathVariable("id") Long vaccinationNotificationId, @Valid @RequestBody VaccinationNotificationRequest vaccinationNotificationRequest) {
         try {
             VaccinationNotification vaccinationNotification = vaccinationNotificationService.updateVaccinationNotification(vaccinationNotificationId, vaccinationNotificationRequest);
             DataResponse dataResponse = DataResponse.builder()

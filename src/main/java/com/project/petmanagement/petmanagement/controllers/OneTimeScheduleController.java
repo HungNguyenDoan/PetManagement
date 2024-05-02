@@ -6,6 +6,7 @@ import com.project.petmanagement.petmanagement.payloads.requests.OneTimeSchedule
 import com.project.petmanagement.petmanagement.payloads.responses.DataResponse;
 import com.project.petmanagement.petmanagement.payloads.responses.ErrorResponse;
 import com.project.petmanagement.petmanagement.services.OneTimeScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class OneTimeScheduleController {
     private final OneTimeScheduleService oneTimeScheduleService;
 
     @PutMapping("/update/{vaccination_notification_id}")
-    public ResponseEntity<Object> updateOneTimeSchedule(@PathVariable("vaccination_notification_id") Long vaccinationNotificationId, @RequestBody List<OneTimeScheduleRequest> oneTimeScheduleRequestList) {
+    public ResponseEntity<Object> updateOneTimeSchedule(@PathVariable("vaccination_notification_id") Long vaccinationNotificationId, @Valid @RequestBody List<OneTimeScheduleRequest> oneTimeScheduleRequestList) {
         try {
             List<OneTimeSchedule> oneTimeScheduleList = oneTimeScheduleService.updateOneTimeScheduleList(vaccinationNotificationId, oneTimeScheduleRequestList);
             DataResponse dataResponse = DataResponse.builder()
@@ -38,10 +39,10 @@ public class OneTimeScheduleController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteOneTimeSchedule(@RequestBody OneTimeScheduleRequest oneTimeScheduleRequest) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Object> deleteOneTimeSchedule(@PathVariable("id") Long oneTimeScheduleId) {
         try {
-            oneTimeScheduleService.deleteOneTimeSchedule(oneTimeScheduleRequest.getId());
+            oneTimeScheduleService.deleteOneTimeSchedule(oneTimeScheduleId);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Delete one time schedule successfully")

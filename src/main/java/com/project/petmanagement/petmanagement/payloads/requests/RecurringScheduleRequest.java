@@ -19,10 +19,10 @@ public class RecurringScheduleRequest {
 
     private String name;
 
-    @NotNull(message = "You have to set the frequency")
+    @NotNull(message = "Frequency is required.")
     private FrequencyEnum frequency;
 
-    @NotNull(message = "You have to set the value of frequency")
+    @NotNull(message = "Value of the repetition is required.")
     private Integer value;
 
     @JsonProperty("days_of_week")

@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> softDeleteUser(@PathVariable("id") Long userId) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> softDeleteUser() {
         try {
-            userService.deleteUser(userId);
+            userService.deleteUser();
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Delete user successfully")

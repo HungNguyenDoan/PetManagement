@@ -20,8 +20,8 @@ import java.util.List;
 public class HealthRecordController {
     private final HealthRecordService healthRecordService;
 
-    @GetMapping("pets/{pet_id}")
-    public ResponseEntity<?> getHealthRecordByPet(@PathVariable(name = "pet_id") Long petId) {
+    @GetMapping("/pets/{id}")
+    public ResponseEntity<?> getHealthRecordByPet(@PathVariable(name = "id") Long petId) {
         try {
             List<HealthRecord> healthRecords = healthRecordService.getHealthRecordByPet(petId);
             DataResponse healthRecordResponse = DataResponse.builder()
@@ -58,7 +58,7 @@ public class HealthRecordController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateHealthRecord(@PathVariable("id") Long idHealRecord,
-            @Valid @RequestBody HealthRecordRequest healthRecordRequest) {
+                                                @Valid @RequestBody HealthRecordRequest healthRecordRequest) {
         try {
             HealthRecord healthRecord = healthRecordService.updateHealthRecord(healthRecordRequest, idHealRecord);
             DataResponse healthRecordResponse = DataResponse.builder().status(HttpStatus.CREATED.value())
@@ -101,8 +101,8 @@ public class HealthRecordController {
 
     @GetMapping("/static")
     public ResponseEntity<Object> getListHealthRecordsByFilter(@RequestParam(value = "pet_id") Long petId,
-            @RequestParam(value = "start_date") Date starDate,
-            @RequestParam(value = "end_date") Date endDate) {
+                                                               @RequestParam(value = "start_date") Date starDate,
+                                                               @RequestParam(value = "end_date") Date endDate) {
         try {
             DataResponse response = DataResponse.builder()
                     .status(HttpStatus.OK.value())
