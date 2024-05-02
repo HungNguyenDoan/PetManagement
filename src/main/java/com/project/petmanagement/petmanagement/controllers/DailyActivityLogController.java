@@ -57,7 +57,7 @@ public class DailyActivityLogController {
         }
     }
 
-    @GetMapping("/pets")
+    @PostMapping("/pets")
     public ResponseEntity<Object> getDailyActivityLogsByPet(@RequestBody DailyActivityLogRequest dailyActivityLogRequest) {
         try {
             List<DailyActivityLog> dailyActivityLog = dailyActivityLogService.getDailyActivityLogsByPet(dailyActivityLogRequest.getPetId());
