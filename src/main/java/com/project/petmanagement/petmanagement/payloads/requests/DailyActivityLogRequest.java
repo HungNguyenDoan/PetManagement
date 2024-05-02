@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,7 +23,7 @@ public class DailyActivityLogRequest {
 
     private Time time;
 
-    private String image;
+    private List<String> images;
 
     private String note;
 

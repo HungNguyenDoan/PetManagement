@@ -2,6 +2,7 @@ package com.project.petmanagement.petmanagement.services;
 
 import com.project.petmanagement.petmanagement.JWT.JWTUserDetail;
 import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
+import com.project.petmanagement.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.petmanagement.models.entity.Pet;
 import com.project.petmanagement.petmanagement.models.entity.User;
 import com.project.petmanagement.petmanagement.models.entity.VaccinationNotification;
@@ -14,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,28 @@ public class VaccinationNotificationService {
 
     public List<VaccinationNotification> getVaccinationNotificationByPet(Pet pet) {
         return vaccinationNotificationRepository.findByPet(pet);
+    }
+
+    public List<VaccinationNotification> getVaccinationNotificationByDate(Date date) {
+        LocalDate currentDate = date.toLocalDate();
+        List<VaccinationNotification> vaccinationNotificationList = new ArrayList<>();
+        for (VaccinationNotification vaccinationNotification : getVaccinationNotificationByUser()) {
+            boolean ok = false;
+            List<OneTimeSchedule> oneTimeScheduleList = vaccinationNotification.getSchedules();
+            for (OneTimeSchedule oneTimeSchedule : oneTimeScheduleList) {
+                if (!oneTimeSchedule.getVaccinationStatus()) {
+                    LocalDate scheduledDate = oneTimeSchedule.getDate().toLocalDate();
+                    if (scheduledDate.equals(currentDate)) {
+                        ok = true;
+                        break;
+                    }
+                }
+            }
+            if (ok) {
+                vaccinationNotificationList.add(vaccinationNotification);
+            }
+        }
+        return vaccinationNotificationList;
     }
 
     public VaccinationNotification getVaccinationNotificationDetails(Long vaccinationNotificationId) throws DataNotFoundException {

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 @Entity
 @Table(name = "daily_activity_logs")
@@ -29,8 +30,9 @@ public class DailyActivityLog {
     @Column(name = "time")
     private Time time;
 
+    @ElementCollection
     @Column(name = "image", columnDefinition = "TEXT")
-    private String image;
+    private List<String> images;
 
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;

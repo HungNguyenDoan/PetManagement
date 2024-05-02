@@ -89,13 +89,13 @@ public class Scheduler {
                         int step = recurringSchedule.getValue();
                         String scheduledTime = recurringSchedule.getTime();
                         boolean onTime = false;
-                        if (frequency.compareTo(FrequencyEnum.NO_REPEAT) == 0) {
+                        if (frequency.compareTo(FrequencyEnum.NO_REPEAT) == 0 && step == 0) {
                             LocalDate scheduledDate = recurringSchedule.getDate().toLocalDate();
                             if (scheduledDate.equals(currentDate) && scheduledTime.equals(currentTime)) {
                                 log.info("NO_REPEAT: OK");
                                 onTime = true;
                             }
-                        } else if (frequency.compareTo(FrequencyEnum.DAILY) == 0) {
+                        } else if (frequency.compareTo(FrequencyEnum.DAILY) == 0 && step > 0) {
                             LocalDate fromDate = recurringSchedule.getFromDate().toLocalDate();
                             LocalDate toDate = recurringSchedule.getToDate().toLocalDate();
                             LocalDate date = fromDate;
@@ -110,7 +110,7 @@ public class Scheduler {
                                 }
                                 date = date.plusDays(step);
                             }
-                        } else if (frequency.compareTo(FrequencyEnum.WEEKLY) == 0) {
+                        } else if (frequency.compareTo(FrequencyEnum.WEEKLY) == 0 && step > 0) {
                             List<DayOfWeek> scheduledDaysOfWeek = recurringSchedule.getDaysOfWeek();
                             LocalDate fromDate = recurringSchedule.getFromDate().toLocalDate();
                             LocalDate toDate = recurringSchedule.getToDate().toLocalDate();
