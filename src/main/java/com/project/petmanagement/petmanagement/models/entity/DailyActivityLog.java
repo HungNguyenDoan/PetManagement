@@ -28,11 +28,10 @@ public class DailyActivityLog {
     private Date date;
 
     @Column(name = "time")
-    private Time time;
+    private String time;
 
-    @ElementCollection
     @Column(name = "image", columnDefinition = "TEXT")
-    private List<String> images;
+    private String image;
 
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;

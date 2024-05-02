@@ -41,7 +41,7 @@ public class DailyActivityLogService {
         DailyActivityLog dailyActivityLog = DailyActivityLog.builder()
                 .date(request.getDate())
                 .time(request.getTime())
-                .images(request.getImages())
+                .image(request.getImage())
                 .title(request.getTitle())
                 .note(request.getNote())
                 .pet(pet)
@@ -59,7 +59,7 @@ public class DailyActivityLogService {
             dailyActivityLog.setDate(request.getDate());
             dailyActivityLog.setTime(request.getTime());
             dailyActivityLog.setTitle(request.getTitle());
-            dailyActivityLog.setImages(request.getImages());
+            dailyActivityLog.setImage(request.getImage());
             dailyActivityLog.setNote(request.getNote());
             dailyActivityLog.setPet(pet);
             dailyActivityLog.setDailyActivity(dailyActivity);

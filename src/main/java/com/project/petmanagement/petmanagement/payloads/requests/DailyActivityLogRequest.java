@@ -21,9 +21,9 @@ public class DailyActivityLogRequest {
 
     private Date date;
 
-    private Time time;
+    private String time;
 
-    private List<String> images;
+    private String image;
 
     private String note;
 
