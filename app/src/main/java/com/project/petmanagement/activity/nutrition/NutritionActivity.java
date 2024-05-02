@@ -135,7 +135,7 @@ public class NutritionActivity extends AppCompatActivity {
         });
     }
     private void getALlFoodType() {
-        ApiService.apiService.getAllFoodType().enqueue(new Callback<ListFoodTypeResponse>() {
+        ApiService.apiService.getAllFoodTypes().enqueue(new Callback<ListFoodTypeResponse>() {
             @Override
             public void onResponse(Call<ListFoodTypeResponse> call, Response<ListFoodTypeResponse> response) {
                 if (response.isSuccessful()) {

@@ -60,9 +60,7 @@ public class PetActivityFragment extends Fragment {
     }
 
     public void getDailyActivityLogByPet(){
-        DailyActivityLogRequest dailyActivityLogRequest = new DailyActivityLogRequest();
-        dailyActivityLogRequest.setPetId(petId);
-        ApiService.apiService.getDailyLogsByPet(dailyActivityLogRequest).enqueue(new Callback<ListDailyActivityLogResponse>() {
+        ApiService.apiService.getDailyLogsByPet(petId).enqueue(new Callback<ListDailyActivityLogResponse>() {
             @Override
             public void onResponse(Call<ListDailyActivityLogResponse> call, Response<ListDailyActivityLogResponse> response) {
                 if(response.isSuccessful()){
