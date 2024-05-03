@@ -3,15 +3,21 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
+import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
+import com.project.petmanagement.payloads.requests.ChangePasswordRequest;
+import com.project.petmanagement.payloads.requests.DailyActivityLogRequest;
 import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
 import com.project.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.requests.PetRequest;
+import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.payloads.requests.VaccinationNotificationRequest;
 import com.project.petmanagement.payloads.responses.CartResponse;
+import com.project.petmanagement.payloads.responses.DailyActivityLogResponse;
+import com.project.petmanagement.payloads.responses.ListDailyActivityLogResponse;
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
 import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
@@ -56,10 +62,11 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    //server
-//    String BASE_URL = "http://103.163.215.125/api/";
-    //local
-    String BASE_URL = "http://192.151.62.105:8080/";
+    // Server
+    String BASE_URL = "http://103.163.215.125/api/";
+
+    // Local
+//    String BASE_URL = "http://192.168.1.19:8080/";
 //    String BASE_URL = "http://192.168.0.104:8080/";
 
     StorageService storageService = MyApplication.getStorageService();
@@ -79,32 +86,66 @@ public interface ApiService {
             .client(okClient.build())
             .build()
             .create(ApiService.class);
+
+    // AuthController/UserController
     @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
     @POST("auth/register")
     Call<LoginResponse> signup(@Body RegisterRequest registerRequest);
+    @POST("auth/change_password")
+    Call<Response> changePassword(@Body ChangePasswordRequest changePasswordRequest);
+    @POST("auth/fcm")
+    Call<com.project.petmanagement.payloads.responses.Response> setFcmToken(@Body FCMToken fcmToken);
+    @DELETE("user/delete")
+    Call<Response> deleteUser();
+
+
+    // FoodTypeController
     @GET("food_types/all")
-    Call<ListFoodTypeResponse> getAllFoodType();
+    Call<ListFoodTypeResponse> getAllFoodTypes();
+
+
+    // NutritiousFoodController
     @GET("nutritious_food/all")
     Call<ListNutritiousFoodResponse> getAllNutritious();
+    @GET("nutritious_food/search")
+    Call<ListNutritiousFoodResponse> searchNutritiousFood(@Query("species_id") Long speciesId, @Query("food_type_id") Long foodTypeId, @Query("keywords") String keywords);
+
+
+    // SpeciesController
     @GET("species/all")
     Call<ListSpeciesResponse> getSpecies();
+
+
+    // DiseaseController
     @GET("diseases/all")
     Call<ListDiseaseResponse> getDiseases();
+
+
+    // PetController
     @GET("pets/users")
     Call<ListPetResponse> getAllPetUser();
     @POST("pets/add")
     Call<PetResponse> addPet(@Body PetRequest petRequest);
     @GET("pets/{id}")
     Call<PetResponse> getPetDetail(@Path("id") Long id);
-    @PUT("pets/{id}")
+    @PUT("pets/update/{id}")
     Call<PetResponse> updatePet(@Body PetRequest petRequest, @Path("id") Long id);
-    @DELETE("pets/{id}")
+    @DELETE("pets/delete/{id}")
     Call<PetResponse> deletePet(@Path("id") Long petId);
+
+
+    // CategoryController
     @GET("categories/all")
     Call<ListCategoryResponse> getAllCategory();
+
+
+    // ProductController
     @GET("products/all")
     Call<ListProductResponse> getAllProduct();
+
+
+    // CartController
     @POST("carts/add")
     Call<CartResponse> addToCart(@Query("product_id") Long idProduct, @Query("quantity") Integer quantity);
     @GET("carts/users")
@@ -113,16 +154,25 @@ public interface ApiService {
     Call<CartResponse> updateCart(@Query("item_id") Long idItem, @Query("quantity") Integer quantity, @Query("selected") Boolean selected);
     @DELETE("carts/cart_items/delete/{id}")
     Call<CartResponse> deleteCartItem(@Path("id") Long idItem);
+
+
+    // OrderController
     @POST("orders/create")
     Call<OrderResponse> createOrder(@Body OrderRequest orderRequest);
     @GET("orders/users")
     Call<ListOrderResponse> getOrderUser();
     @PUT("orders/cancel/{id}")
     Call<OrderResponse> cancelOrder(@Path("id") Long idOrder);
+
+
+    // VetController
     @GET("vets/all")
     Call<ListVetResponse> getAllVet();
     @GET("vets/search")
     Call<ListVetResponse> searchVet(@Query("keywords") String keywords);
+
+
+    // MedicalDocumentController
     @Multipart
     @POST("medical_documents/add")
     Call<MedicalDocumentResponse> addMedicalDocument(
@@ -146,32 +196,83 @@ public interface ApiService {
             );
     @DELETE("medical_documents/delete/{id}")
     Call<com.project.petmanagement.payloads.responses.Response> deleteMedicalDocument(@Path("id") Long medicalId);
-    @POST("auth/fcm")
-    Call<com.project.petmanagement.payloads.responses.Response> setFcmToken(@Body FCMToken fcmToken);
+
+
+    // HealthRecordController
     @POST("health_records/add")
     Call<HealRecordResponse> addHealthRecord(@Body HealRecordRequest healRecordRequest);
     @PUT("health_records/update/{id}")
     Call<HealRecordResponse> updateHealthRecord(@Path("id") Long healthRecordId,@Body HealRecordRequest healRecordRequest);
     @DELETE("health_records/delete/{id}")
     Call<Response> deleteHealthRecord(@Path("id") Long id);
-    @GET("health_records/pets/{pet_id}")
-    Call<ListHealthRecordResponse> getHealthRecordByPet(@Path("pet_id") Long petId);
+    @GET("health_records/pets/{id}")
+    Call<ListHealthRecordResponse> getHealthRecordByPet(@Path("id") Long petId);
     @GET("health_records/static")
     Call<ListHealthRecordResponse> staticsHealthRecord(@Query("pet_id") Long petId, @Query("start_date") String startDate, @Query("end_date") String endDate);
-    @GET("vaccination_notification/users")
-    Call<ListVaccineNotification> getVaccineNotificationByUser();
+
+
+    // VaccineController
     @GET("vaccines/pets/{id}")
     Call<ListVaccineResponse> getVaccineByPet(@Path("id") Long id);
+
+
+    // OneTimeScheduleController
+    @PUT("one_time_schedules/update/{vaccination_notification_id}")
+    Call<ListOneTimeScheduleResponse> updateOneSchedule(@Path("vaccination_notification_id") Long vaccinationNotificationId, @Body List<OneTimeScheduleRequest>oneTimeScheduleRequestList);
+    @DELETE("one_time_schedules/delete/{id}")
+    Call<Response> deleteOneTimeSchedule(@Path("id") Long oneTimeScheduleId);
+
+
+    // VaccinationNotificationController
+    @GET("vaccination_notification/users")
+    Call<ListVaccineNotification> getVaccineNotificationByUser();
+    @GET("vaccination_notification/date")
+    Call<ListVaccineNotification> getVaccinationNotificationByDate(@Query("date") String date);
     @POST("vaccination_notification/add")
     Call<VaccineNotificationResponse> addVaccinationNotification(@Body VaccinationNotificationRequest vaccinationNotificationRequest);
     @DELETE("vaccination_notification/delete/{id}")
     Call<com.project.petmanagement.payloads.responses.Response> deleteVaccineNotification(@Path("id") Long id);
-    @GET("daily_activities/all")
-    Call<ListDaiLyActivityResponse> getAllDaiLyActivity();
-    @PUT("one_time_schedules/update/{vaccination_notification_id}")
-    Call<ListOneTimeScheduleResponse> updateOneSchedule(@Path("vaccination_notification_id") Long vaccinationNotificationId, @Body List<OneTimeScheduleRequest>oneTimeScheduleRequestList);
     @GET("vaccination_notification/{id}")
     Call<VaccineNotificationResponse> getVaccineNotification(@Path("id") Long id);
     @PUT("vaccination_notification/update/{id}")
     Call<VaccineNotificationResponse> updateVaccinationNotification(@Path("id") Long id, @Body VaccinationNotificationRequest vaccinationNotificationRequest);
+
+
+    // CareActivityController
+    @GET("care_activities/all")
+    Call<Response> getAllCareActivities();
+
+
+    // CareActivityInfoController
+    @PUT("care_activity_info/update")
+    Call<Response> updateCareActivityInfo(@Body List<CareActivityInfoRequest> careActivityInfoRequestList);
+    @DELETE("care_activity_info/delete/{id}")
+    Call<Response> deleteCareActivityInfo(@Path("id") Long careActivityInfoId);
+
+
+    // RecurringScheduleController
+    @PUT("recurring_schedules/update")
+    Call<Response> updateRecurringSchedule(@Body RecurringScheduleRequest recurringScheduleRequest);
+
+
+    // CareActivityNotificationController
+
+
+
+    // DailyActivityController
+    @GET("daily_activities/all")
+    Call<ListDaiLyActivityResponse> getAllDaiLyActivities();
+
+
+    // DailyActivityLogController
+    @GET("daily_activity_logs/pets/{id}")
+    Call<ListDailyActivityLogResponse> getDailyLogsByPet(@Path("id") Long petId);
+    @POST("daily_activity_logs/add")
+    Call<DailyActivityLogResponse> addDailyLog(@Body DailyActivityLogRequest dailyActivityLogRequest);
+    @GET("daily_activity_logs/{id}")
+    Call<DailyActivityLogResponse> getDailyLogById(@Path("id") Long dailyLogId);
+    @PUT("daily_activity_logs/update")
+    Call<DailyActivityLogResponse> updateDailyLog(@Body DailyActivityLogRequest dailyActivityLogRequest);
+    @DELETE("daily_activity_logs/delete/{id}")
+    Call<DailyActivityLogResponse> deleteDailyLog(@Path("id") Long dailyLogId);
 }

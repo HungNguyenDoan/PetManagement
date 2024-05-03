@@ -1,12 +1,13 @@
 package com.project.petmanagement.models.entity;
 
-import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 public class DailyActivityLog {
     private Long id;
+    private String title;
     private Date date;
-    private Time time;
+    private String time;
     private String image;
     private String note;
     private Pet pet;
@@ -20,6 +21,14 @@ public class DailyActivityLog {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -28,11 +37,11 @@ public class DailyActivityLog {
         this.date = date;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
