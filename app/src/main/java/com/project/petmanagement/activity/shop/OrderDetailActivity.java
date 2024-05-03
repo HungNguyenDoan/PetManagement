@@ -58,7 +58,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(OrderDetailActivity.this, ShopActivity.class);
                 intent.putExtra("key", "cart");
                 startActivity(intent);
-
+                finish();
             }
         });
         if (order != null) {

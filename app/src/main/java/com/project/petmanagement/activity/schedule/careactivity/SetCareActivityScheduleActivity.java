@@ -14,15 +14,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.MainActivity;
+import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.schedule.vaccine.SetVaccineScheduleActivity;
 import com.project.petmanagement.models.entity.CareActivity;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
+import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -37,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SetActivityScheduleActivity extends AppCompatActivity {
+public class SetCareActivityScheduleActivity extends AppCompatActivity {
     private Pet pet;
     private CircleImageView imagePet;
     private TextView namePet;
@@ -92,6 +97,7 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
         Button btnSelectPet = findViewById(R.id.return_choose_pet);
         getCareActivity();
         ImageView btnEditActivityInfo = findViewById(R.id.btn_edit_info_activity);
+        ImageView btnEditRecurringSchedule = findViewById(R.id.btn_edit_notify);
         saveActivityScheduleBtn = findViewById(R.id.save_activity_schedule_btn);
         imagePet = findViewById(R.id.image_pet);
         namePet = findViewById(R.id.name_pet);
@@ -112,28 +118,51 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
             setInfoPet();
         }
         btnEditActivityInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(SetActivityScheduleActivity.this, SetActivityInfoActivity.class);
+            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityInfoActivity.class);
             intent.putExtra("activityInfo", careActivityNotificationRequest);
             launcherCareActivity.launch(intent);
         });
+        btnEditRecurringSchedule.setOnClickListener(v -> {
+            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityNotificationActivity.class);
+            intent.putExtra("recurringScheduleRequest", recurringScheduleRequest);
+            launcherRecuringSchedule.launch(intent);
+        });
         btnSelectPet.setOnClickListener(v -> {
-            Intent intent = new Intent(SetActivityScheduleActivity.this, SelectPetToActivityActivity.class);
+            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SelectPetToActivityActivity.class);
             intent.putExtra("action", "reselect");
             launcherPet.launch(intent);
         });
         setActivityInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(SetActivityScheduleActivity.this, SetActivityInfoActivity.class);
+            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityInfoActivity.class);
             launcherCareActivity.launch(intent);
         });
 
         setActivityNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(SetActivityScheduleActivity.this, SetActivityNotificationActivity.class);
+            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityNotificationActivity.class);
             launcherRecuringSchedule.launch(intent);
         });
 
         saveActivityScheduleBtn.setOnClickListener(v -> {
             careActivityNotificationRequest.setRecurringScheduleRequest(recurringScheduleRequest);
             careActivityNotificationRequest.setPetId(pet.getId());
+            ApiService.apiService.addCareActivityNotification(careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
+                @Override
+                public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
+                    if(response.isSuccessful()){
+                        Toast.makeText(SetCareActivityScheduleActivity.this, "Thêm lịch thành công.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SetCareActivityScheduleActivity.this, ManageVaccineInjectionScheduleActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Toast.makeText(SetCareActivityScheduleActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CareActivityNotificationResponse> call, Throwable t) {
+                    Toast.makeText(SetCareActivityScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
         setButtonSave();
         ImageView returnArrow = findViewById(R.id.return_arrow);
@@ -144,7 +173,7 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
     private void setInfoPet(){
         if(pet!=null){
             namePet.setText(pet.getFullName());
-            Glide.with(SetActivityScheduleActivity.this)
+            Glide.with(SetCareActivityScheduleActivity.this)
                     .load(pet.getImage())
                     .error(R.drawable.default_pet_no_image)
                     .into(imagePet);
@@ -182,7 +211,7 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
             setActivityNotification.setVisibility(View.GONE);
             if(recurringScheduleRequest.getFrequency() == FrequencyEnum.NO_REPEAT){
                 dayNotify.setVisibility(View.GONE);
-                frequency.setText("Không lặp");
+                frequency.setText("Không lặp lại");
                 try {
                     Date date = FormatDateUtils.StringToDate(recurringScheduleRequest.getDate());
                     String date1 = FormatDateUtils.DateToString(date);
@@ -193,7 +222,8 @@ public class SetActivityScheduleActivity extends AppCompatActivity {
                 }
             } else if (recurringScheduleRequest.getFrequency() == FrequencyEnum.DAILY) {
                 dayNotify.setVisibility(View.GONE);
-                frequency.setText("Lặp theo ngày");
+                String strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() +" ngày 1 lần";
+                frequency.setText(strFrequency);
                 hourNotify.setText(recurringScheduleRequest.getTime());
                 try {
                     Date date = FormatDateUtils.StringToDate(recurringScheduleRequest.getFromDate());

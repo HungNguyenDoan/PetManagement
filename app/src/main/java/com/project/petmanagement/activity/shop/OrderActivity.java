@@ -46,7 +46,7 @@ public class OrderActivity extends AppCompatActivity {
                 Intent intent = new Intent(OrderActivity.this, ShopActivity.class);
                 intent.putExtra("key", "cart");
                 startActivity(intent);
-
+                finish();
             }
         });
 

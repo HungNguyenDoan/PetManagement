@@ -129,7 +129,7 @@ public class SetVaccineScheduleActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<VaccineNotificationResponse> call, Response<VaccineNotificationResponse> response) {
                         if(response.isSuccessful()){
-                            Intent intent = new Intent(SetVaccineScheduleActivity.this, VaccineInjectionScheduleActivity.class);
+                            Intent intent = new Intent(SetVaccineScheduleActivity.this, ManageVaccineInjectionScheduleActivity.class);
                             startActivity(intent);
                             finish();
                             Toast.makeText(SetVaccineScheduleActivity.this, "Thêm lịch thành công", Toast.LENGTH_SHORT).show();

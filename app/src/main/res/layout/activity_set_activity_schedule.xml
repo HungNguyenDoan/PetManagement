@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_button"
     android:scrollbars="none"
-    tools:context=".activity.schedule.careactivity.SetActivityScheduleActivity">
+    tools:context=".activity.schedule.careactivity.SetCareActivityScheduleActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"

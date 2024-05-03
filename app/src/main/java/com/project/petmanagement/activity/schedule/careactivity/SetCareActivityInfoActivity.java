@@ -3,7 +3,6 @@ package com.project.petmanagement.activity.schedule.careactivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -17,19 +16,12 @@ import androidx.cardview.widget.CardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.CareActivity;
-import com.project.petmanagement.models.entity.CareActivityInfo;
-import com.project.petmanagement.models.entity.DailyActivity;
 import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
-import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
-import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
 import com.project.petmanagement.services.ApiService;
-import com.project.petmanagement.utils.FormatDateUtils;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SetActivityInfoActivity extends AppCompatActivity {
+public class SetCareActivityInfoActivity extends AppCompatActivity {
 
     private int stt=1;
     private LinearLayout parentLayout;
@@ -81,7 +73,7 @@ public class SetActivityInfoActivity extends AppCompatActivity {
                                         if(careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())){
                                             activityType.setText(careActivity.getName());
                                         }
-                                        careActivityAdapter = new ArrayAdapter<>(SetActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                                        careActivityAdapter = new ArrayAdapter<>(SetCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
                                         activityType.setAdapter(careActivityAdapter);
                                     }
                                 }
@@ -156,7 +148,7 @@ public class SetActivityInfoActivity extends AppCompatActivity {
             careActivityNotificationRequest.setTitle(title.getText().toString());
             careActivityNotificationRequest.setNote(totalNote.getText().toString());
             careActivityNotificationRequest.setCareActivityInfoRequestList(careActivityInfoList);
-            Intent intent = new Intent(SetActivityInfoActivity.this, SetActivityScheduleActivity.class);
+            Intent intent = new Intent(SetCareActivityInfoActivity.this, SetCareActivityScheduleActivity.class);
             intent.putExtra("careActivityNotificationRequest",careActivityNotificationRequest);
             setResult(RESULT_OK,intent);
             finish();
@@ -183,7 +175,7 @@ public class SetActivityInfoActivity extends AppCompatActivity {
                         for(CareActivity careActivity: response.body().getData()){
                             careActivityMap.put(careActivity.getName(), careActivity);
                         }
-                        careActivityAdapter = new ArrayAdapter<>(SetActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                        careActivityAdapter = new ArrayAdapter<>(SetCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
                         activityType.setAdapter(careActivityAdapter);
                     }
                 }

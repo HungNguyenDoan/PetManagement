@@ -78,22 +78,22 @@
             android:name=".activity.schedule.vaccine.SelectPetToVaccineActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.VaccineInjectionScheduleActivity"
+            android:name=".activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetActivityNotificationActivity"
+            android:name=".activity.schedule.careactivity.SetCareActivityNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetActivityInfoActivity"
+            android:name=".activity.schedule.careactivity.SetCareActivityInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetActivityScheduleActivity"
+            android:name=".activity.schedule.careactivity.SetCareActivityScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.careactivity.SelectPetToActivityActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.ActivityScheduleInfoActivity"
+            android:name=".activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.ScheduleActivity"

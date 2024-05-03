@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.project.petmanagement.R;
 
-public class ActivityScheduleInfoActivity extends AppCompatActivity {
+public class ManageCareActivityScheduleInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

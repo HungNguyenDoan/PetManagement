@@ -116,6 +116,7 @@ public class PaymentActivity extends AppCompatActivity {
             Intent intent = new Intent(PaymentActivity.this, ShopActivity.class);
             intent.putExtra("key", "cart");
             startActivity(intent);
+            finish();
         });
         textChangeInfo.setOnClickListener(v -> {
             Intent intent = new Intent(PaymentActivity.this, ChangeInfoActivity.class);
