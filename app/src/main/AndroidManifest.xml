@@ -31,6 +31,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.schedule.careactivity.CareActivityScheduleDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.dailyLog.GetDailyLogDetails"
             android:exported="false" />
         <activity
@@ -69,10 +72,10 @@
             android:name=".activity.shop.ChangeInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.SetVaccineNotificationActivity"
+            android:name=".activity.schedule.vaccine.AddVaccineNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.SetVaccineScheduleActivity"
+            android:name=".activity.schedule.vaccine.AddVaccineScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.vaccine.SelectPetToVaccineActivity"
@@ -81,13 +84,13 @@
             android:name=".activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetCareActivityNotificationActivity"
+            android:name=".activity.schedule.careactivity.AddCareActivityNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetCareActivityInfoActivity"
+            android:name=".activity.schedule.careactivity.AddCareActivityInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetCareActivityScheduleActivity"
+            android:name=".activity.schedule.careactivity.AddCareActivityScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.careactivity.SelectPetToActivityActivity"

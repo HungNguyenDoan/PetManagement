@@ -147,7 +147,7 @@ public class NutritionActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
     }
     private void search(Long speciesId, Long foodTypeId, String keyword){
-        ApiService.apiService.searchNutritious(speciesId,foodTypeId, keyword).enqueue(new Callback<ListNutritiousFoodResponse>() {
+        ApiService.apiService.searchNutritiousFood(speciesId,foodTypeId, keyword).enqueue(new Callback<ListNutritiousFoodResponse>() {
             @Override
             public void onResponse(Call<ListNutritiousFoodResponse> call, Response<ListNutritiousFoodResponse> response) {
                 if( response.isSuccessful()){

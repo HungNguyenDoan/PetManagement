@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class SetVaccineNotificationActivity extends AppCompatActivity {
+public class AddVaccineNotificationActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private LinearLayout parentLayout;
@@ -121,7 +121,7 @@ public class SetVaccineNotificationActivity extends AppCompatActivity {
             }
         }
         if(!oneTimeScheduleRequests.isEmpty()&&parentLayout.getChildCount()!=0){
-            Intent intent = new Intent(SetVaccineNotificationActivity.this,SetVaccineScheduleActivity.class);
+            Intent intent = new Intent(AddVaccineNotificationActivity.this, AddVaccineScheduleActivity.class);
             intent.putExtra("listOneTime",(Serializable) oneTimeScheduleRequests);
             setResult(RESULT_OK,intent);
             finish();
@@ -171,7 +171,7 @@ public class SetVaccineNotificationActivity extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         editDate.setOnClickListener(v -> {
-            datePickerDialog = new DatePickerDialog(SetVaccineNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
+            datePickerDialog = new DatePickerDialog(AddVaccineNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
                 String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 try {
@@ -193,7 +193,7 @@ public class SetVaccineNotificationActivity extends AppCompatActivity {
                     cal2.set(Calendar.SECOND, 0);
                     cal2.set(Calendar.MILLISECOND, 0);
                     if(cal1.compareTo(cal2)>0){
-                        DialogUtils.setUpDialog(SetVaccineNotificationActivity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
+                        DialogUtils.setUpDialog(AddVaccineNotificationActivity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
                     }else {
                         editDate.setText(date2);
                     }
@@ -211,7 +211,7 @@ public class SetVaccineNotificationActivity extends AppCompatActivity {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         editTime.setOnClickListener(v -> {
-            timePickerDialog = new TimePickerDialog(SetVaccineNotificationActivity.this, (view, hourOfDay, minute1) -> {
+            timePickerDialog = new TimePickerDialog(AddVaccineNotificationActivity.this, (view, hourOfDay, minute1) -> {
                 String time = hourOfDay + ":"+ minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {

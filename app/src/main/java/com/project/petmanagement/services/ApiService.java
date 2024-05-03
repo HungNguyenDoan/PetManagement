@@ -20,6 +20,7 @@ import com.project.petmanagement.payloads.requests.VaccinationNotificationReques
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.DailyActivityLogResponse;
+import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListDailyActivityLogResponse;
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
@@ -67,11 +68,11 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     // Server
-    String BASE_URL = "http://103.163.215.125/api/";
+//    String BASE_URL = "http://103.163.215.125/api/";
 
     // Local
 //    String BASE_URL = "http://192.168.1.19:8080/";
-//    String BASE_URL = "http://192.168.0.104:8080/";
+    String BASE_URL = "http://192.168.0.102:8080/";
 
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
@@ -244,7 +245,7 @@ public interface ApiService {
 
     // CareActivityController
     @GET("care_activities/all")
-    Call<Response> getAllCareActivities();
+    Call<ListCareActivityResponse> getAllCareActivities();
 
 
     // CareActivityInfoController
@@ -260,8 +261,10 @@ public interface ApiService {
 
 
     // CareActivityNotificationController
-
-
+    @POST("care_activity_notification/add")
+    Call<CareActivityNotificationResponse> addCareActivityNotification(@Body CareActivityNotificationRequest careActivityNotificationRequest);
+    @GET("care_activity_notification/users")
+    Call<ListCareActivityNotificationResponse> getAllCareActivityNotificationByUser();
 
     // DailyActivityController
     @GET("daily_activities/all")

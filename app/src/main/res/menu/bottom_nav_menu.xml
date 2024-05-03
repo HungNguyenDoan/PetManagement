@@ -13,7 +13,7 @@
     <item
         android:id="@+id/navigation_community"
         android:icon="@drawable/moment_icon"
-        android:title="@string/community" />
+        android:title="@string/title_community" />
 
     <item
         android:id="@+id/navigation_profile"

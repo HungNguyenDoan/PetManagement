@@ -4,10 +4,12 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +20,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.MainActivity;
-import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
-import com.project.petmanagement.activity.schedule.vaccine.SetVaccineScheduleActivity;
 import com.project.petmanagement.models.entity.CareActivity;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.models.enums.FrequencyEnum;
@@ -33,6 +32,7 @@ import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.text.ParseException;
+import java.time.DayOfWeek;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -42,29 +42,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SetCareActivityScheduleActivity extends AppCompatActivity {
+public class CareActivityScheduleDetailActivity extends AppCompatActivity {
     private Pet pet;
     private CircleImageView imagePet;
     private TextView namePet;
-    private CareActivityNotificationRequest  careActivityNotificationRequest;
+    private CareActivityNotificationRequest careActivityNotificationRequest;
     private RecurringScheduleRequest recurringScheduleRequest;
-    private Button saveActivityScheduleBtn;
-    private LinearLayout parentLayout1, parentLayout2;
+    private Button updateActivityScheduleBtn;
+    private LinearLayout parentLayout1, parentLayout2, linearDayOfWeek;
     private CardView setActivityInfo, activityInfo, notifyInfo, setActivityNotification;
     private Map<Long, CareActivity> careActivityMap;
     private TextView careActivityNotifyTitle, careActivityNotifyNote, frequency, hourNotify, dayNotify, fromToEndDate;
-    private ActivityResultLauncher<Intent> launcherPet = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == RESULT_OK){
-                Intent data = o.getData();
-                if (data != null) {
-                    pet = (Pet) data.getSerializableExtra("pet");
-                    setInfoPet();
-                }
-            }
-        }
-    });
     private ActivityResultLauncher<Intent> launcherCareActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
@@ -72,7 +60,6 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
                 Intent data = o.getData();
                 if (data != null) {
                     careActivityNotificationRequest = (CareActivityNotificationRequest) data.getSerializableExtra("careActivityNotificationRequest");
-                    setButtonSave();
                 }
             }
         }
@@ -84,21 +71,20 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
                 Intent data = o.getData();
                 if (data != null) {
                     recurringScheduleRequest = (RecurringScheduleRequest) data.getSerializableExtra("recurringScheduleRequest");
-                    setButtonSave();
                 }
             }
         }
     });
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_activity_schedule);
+        setContentView(R.layout.activity_care_schedule_detail);
         setActivityInfo = findViewById(R.id.set_activity_info);
-        Button btnSelectPet = findViewById(R.id.return_choose_pet);
         getCareActivity();
         ImageView btnEditActivityInfo = findViewById(R.id.btn_edit_info_activity);
         ImageView btnEditRecurringSchedule = findViewById(R.id.btn_edit_notify);
-        saveActivityScheduleBtn = findViewById(R.id.save_activity_schedule_btn);
+        updateActivityScheduleBtn = findViewById(R.id.btn_update);
         imagePet = findViewById(R.id.image_pet);
         namePet = findViewById(R.id.name_pet);
         parentLayout1 = findViewById(R.id.parent_layout1);
@@ -113,58 +99,51 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
         fromToEndDate = findViewById(R.id.start_date_to_end_date);
         notifyInfo = findViewById(R.id.notify_info);
         setActivityNotification = findViewById(R.id.set_activity_notification);
-        pet = (Pet) getIntent().getSerializableExtra("pet");
-        if(pet!=null){
-            setInfoPet();
-        }
+        linearDayOfWeek = findViewById(R.id.linear_day_of_week);
+
         btnEditActivityInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityInfoActivity.class);
+            Intent intent = new Intent(CareActivityScheduleDetailActivity.this, AddCareActivityInfoActivity.class);
             intent.putExtra("activityInfo", careActivityNotificationRequest);
             launcherCareActivity.launch(intent);
         });
         btnEditRecurringSchedule.setOnClickListener(v -> {
-            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityNotificationActivity.class);
+            Intent intent = new Intent(CareActivityScheduleDetailActivity.this, AddCareActivityNotificationActivity.class);
             intent.putExtra("recurringScheduleRequest", recurringScheduleRequest);
             launcherRecuringSchedule.launch(intent);
         });
-        btnSelectPet.setOnClickListener(v -> {
-            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SelectPetToActivityActivity.class);
-            intent.putExtra("action", "reselect");
-            launcherPet.launch(intent);
-        });
+
         setActivityInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityInfoActivity.class);
+            Intent intent = new Intent(CareActivityScheduleDetailActivity.this, AddCareActivityInfoActivity.class);
             launcherCareActivity.launch(intent);
         });
 
         setActivityNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(SetCareActivityScheduleActivity.this, SetCareActivityNotificationActivity.class);
+            Intent intent = new Intent(CareActivityScheduleDetailActivity.this, AddCareActivityNotificationActivity.class);
             launcherRecuringSchedule.launch(intent);
         });
 
-        saveActivityScheduleBtn.setOnClickListener(v -> {
+        updateActivityScheduleBtn.setOnClickListener(v -> {
             careActivityNotificationRequest.setRecurringScheduleRequest(recurringScheduleRequest);
             careActivityNotificationRequest.setPetId(pet.getId());
             ApiService.apiService.addCareActivityNotification(careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
                 @Override
                 public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
                     if(response.isSuccessful()){
-                        Toast.makeText(SetCareActivityScheduleActivity.this, "Thêm lịch thành công.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SetCareActivityScheduleActivity.this, ManageVaccineInjectionScheduleActivity.class);
+                        Intent intent = new Intent(CareActivityScheduleDetailActivity.this, ManageCareActivityScheduleInfoActivity.class);
                         startActivity(intent);
                         finish();
+                        Toast.makeText(CareActivityScheduleDetailActivity.this, "Thêm lịch thành công.", Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(SetCareActivityScheduleActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CareActivityScheduleDetailActivity.this, response.code(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<CareActivityNotificationResponse> call, Throwable t) {
-                    Toast.makeText(SetCareActivityScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CareActivityScheduleDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         });
-        setButtonSave();
         ImageView returnArrow = findViewById(R.id.return_arrow);
         returnArrow.setOnClickListener(v -> finish());
         setUpActivityCareActivityNotification();
@@ -173,7 +152,7 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
     private void setInfoPet(){
         if(pet!=null){
             namePet.setText(pet.getFullName());
-            Glide.with(SetCareActivityScheduleActivity.this)
+            Glide.with(CareActivityScheduleDetailActivity.this)
                     .load(pet.getImage())
                     .error(R.drawable.default_pet_no_image)
                     .into(imagePet);
@@ -204,13 +183,14 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
             setActivityInfo.setVisibility(View.VISIBLE);
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setUpRecurringSchedule(){
         if(recurringScheduleRequest!=null){
             parentLayout2.removeAllViews();
             notifyInfo.setVisibility(View.VISIBLE);
             setActivityNotification.setVisibility(View.GONE);
             if(recurringScheduleRequest.getFrequency() == FrequencyEnum.NO_REPEAT){
-                dayNotify.setVisibility(View.GONE);
+                linearDayOfWeek.setVisibility(View.GONE);
                 frequency.setText("Không lặp lại");
                 try {
                     Date date = FormatDateUtils.StringToDate(recurringScheduleRequest.getDate());
@@ -220,9 +200,34 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            } else if (recurringScheduleRequest.getFrequency() == FrequencyEnum.DAILY) {
-                dayNotify.setVisibility(View.GONE);
-                String strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() +" ngày 1 lần";
+            } else  {
+                String strFrequency;
+                if (recurringScheduleRequest.getFrequency() == FrequencyEnum.DAILY){
+                    dayNotify.setVisibility(View.GONE);
+                    strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() +" ngày 1 lần";
+                }else {
+                    linearDayOfWeek.setVisibility(View.VISIBLE);
+                    strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() +" tuần 1 lần";
+                    StringBuilder day = new StringBuilder();
+                    for(DayOfWeek dayOfWeek: recurringScheduleRequest.getDaysOfWeek()){
+                        if(dayOfWeek == DayOfWeek.MONDAY){
+                            day.append("Thứ hai, ");
+                        }else if(dayOfWeek == DayOfWeek.TUESDAY){
+                            day.append("Thứ ba, ");
+                        }else if(dayOfWeek == DayOfWeek.WEDNESDAY){
+                            day.append("Thứ tư, ");
+                        }else if(dayOfWeek == DayOfWeek.THURSDAY){
+                            day.append("Thứ năm, ");
+                        }else if(dayOfWeek == DayOfWeek.FRIDAY){
+                            day.append("Thứ sáu, ");
+                        }else if(dayOfWeek == DayOfWeek.SATURDAY){
+                            day.append("Thứ bảy, ");
+                        }else {
+                            day.append("Chủ nhật, ");
+                        }
+                    }
+                    dayNotify.setText(day.toString().substring(0,day.toString().length()-2));
+                }
                 frequency.setText(strFrequency);
                 hourNotify.setText(recurringScheduleRequest.getTime());
                 try {
@@ -237,23 +242,13 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
             }
-
-        }else{
+        }else {
             notifyInfo.setVisibility(View.GONE);
             setActivityNotification.setVisibility(View.VISIBLE);
         }
     }
-    private void setButtonSave(){
-        if(careActivityNotificationRequest!=null && recurringScheduleRequest!=null){
-            saveActivityScheduleBtn.setEnabled(true);
-            saveActivityScheduleBtn.setAlpha(1);
-        }else{
-            saveActivityScheduleBtn.setEnabled(false);
-            saveActivityScheduleBtn.setAlpha(0.4f);
-        }
-    }
     private void getCareActivity(){
-        ApiService.apiService.getAllCareActivity().enqueue(new Callback<ListCareActivityResponse>() {
+        ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                 if(response.isSuccessful()){
@@ -273,11 +268,11 @@ public class SetCareActivityScheduleActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
         super.onResume();
         setUpActivityCareActivityNotification();
         setUpRecurringSchedule();
-        setButtonSave();
     }
 }

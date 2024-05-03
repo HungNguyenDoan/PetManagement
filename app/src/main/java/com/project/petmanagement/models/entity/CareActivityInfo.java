@@ -6,8 +6,6 @@ public class CareActivityInfo {
     private CareActivity careActivity;
     private String note;
 
-    private CareActivityNotification careActivityNotification;
-
     public Long getId() {
         return id;
     }
@@ -32,11 +30,4 @@ public class CareActivityInfo {
         this.note = note;
     }
 
-    public CareActivityNotification getCareActivityNotification() {
-        return careActivityNotification;
-    }
-
-    public void setCareActivityNotification(CareActivityNotification careActivityNotification) {
-        this.careActivityNotification = careActivityNotification;
-    }
 }

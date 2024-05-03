@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SetCareActivityInfoActivity extends AppCompatActivity {
+public class AddCareActivityInfoActivity extends AppCompatActivity {
 
     private int stt=1;
     private LinearLayout parentLayout;
@@ -63,7 +63,7 @@ public class SetCareActivityInfoActivity extends AppCompatActivity {
                     AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
                     TextInputEditText noteEdit = childView.findViewById(R.id.note);
                     noteEdit.setText(careActivityInfoRequest.getNote());
-                    ApiService.apiService.getAllCareActivity().enqueue(new Callback<ListCareActivityResponse>() {
+                    ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
                         @Override
                         public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                             if(response.isSuccessful()){
@@ -73,7 +73,7 @@ public class SetCareActivityInfoActivity extends AppCompatActivity {
                                         if(careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())){
                                             activityType.setText(careActivity.getName());
                                         }
-                                        careActivityAdapter = new ArrayAdapter<>(SetCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
                                         activityType.setAdapter(careActivityAdapter);
                                     }
                                 }
@@ -148,7 +148,7 @@ public class SetCareActivityInfoActivity extends AppCompatActivity {
             careActivityNotificationRequest.setTitle(title.getText().toString());
             careActivityNotificationRequest.setNote(totalNote.getText().toString());
             careActivityNotificationRequest.setCareActivityInfoRequestList(careActivityInfoList);
-            Intent intent = new Intent(SetCareActivityInfoActivity.this, SetCareActivityScheduleActivity.class);
+            Intent intent = new Intent(AddCareActivityInfoActivity.this, AddCareActivityScheduleActivity.class);
             intent.putExtra("careActivityNotificationRequest",careActivityNotificationRequest);
             setResult(RESULT_OK,intent);
             finish();
@@ -167,7 +167,7 @@ public class SetCareActivityInfoActivity extends AppCompatActivity {
         activityType.setOnItemClickListener((parent, view, position, id) -> {
             activityType.setError(null);
         });
-        ApiService.apiService.getAllCareActivity().enqueue(new Callback<ListCareActivityResponse>() {
+        ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                 if(response.isSuccessful()){
@@ -175,7 +175,7 @@ public class SetCareActivityInfoActivity extends AppCompatActivity {
                         for(CareActivity careActivity: response.body().getData()){
                             careActivityMap.put(careActivity.getName(), careActivity);
                         }
-                        careActivityAdapter = new ArrayAdapter<>(SetCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
                         activityType.setAdapter(careActivityAdapter);
                     }
                 }

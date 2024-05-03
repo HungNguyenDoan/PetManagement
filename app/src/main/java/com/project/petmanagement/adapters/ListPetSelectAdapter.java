@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.vaccine.SetVaccineScheduleActivity;
+import com.project.petmanagement.activity.schedule.vaccine.AddVaccineScheduleActivity;
 import com.project.petmanagement.models.entity.Pet;
 
 import java.util.List;
@@ -48,12 +48,12 @@ public class ListPetSelectAdapter extends RecyclerView.Adapter<ListPetSelectAdap
         holder.namePet.setText(pet.getFullName());
         holder.cardView.setOnClickListener(v -> {
             if(action != null){
-                Intent intent = new Intent(context, SetVaccineScheduleActivity.class);
+                Intent intent = new Intent(context, AddVaccineScheduleActivity.class);
                 intent.putExtra("pet", pet);
                 ((Activity) context).setResult(Activity.RESULT_OK, intent);
                 ((Activity) context).finish();
             }else{
-                Intent intent = new Intent(context, SetVaccineScheduleActivity.class);
+                Intent intent = new Intent(context, AddVaccineScheduleActivity.class);
                 intent.putExtra("pet", pet);
                 context.startActivity(intent);
             }
