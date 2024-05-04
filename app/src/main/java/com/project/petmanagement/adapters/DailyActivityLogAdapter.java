@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.dailyLog.AddDailyLog;
 import com.project.petmanagement.activity.dailyLog.GetDailyLogDetails;
 import com.project.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -20,8 +19,8 @@ import com.project.petmanagement.utils.FormatDateUtils;
 import java.util.List;
 
 public class DailyActivityLogAdapter extends RecyclerView.Adapter<DailyActivityLogAdapter.DailyActivityLogViewHolder> {
-    private Context context;
-    private List<DailyActivityLog> dailyActivityLogs;
+    private final Context context;
+    private final List<DailyActivityLog> dailyActivityLogs;
 
     public DailyActivityLogAdapter(Context context, List<DailyActivityLog> dailyActivityLogs) {
         this.context = context;

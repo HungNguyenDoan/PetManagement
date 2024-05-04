@@ -6,9 +6,9 @@ import android.content.DialogInterface;
 import androidx.appcompat.app.AlertDialog;
 
 public class DialogUtils {
-    public static void setUpDialog(Context context, String message){
-        AlertDialog.Builder arlertDialog = new AlertDialog.Builder(context);
-        arlertDialog.setTitle("Thông báo")
+    public static void setUpDialog(Context context, String message) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("Thông báo")
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
