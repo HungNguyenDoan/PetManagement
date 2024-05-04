@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.vaccine.VaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class ScheduleActivity extends AppCompatActivity {
         returnArrow.setOnClickListener(v -> finish());
         LinearLayout injectActivity = findViewById(R.id.inject_activity);
         injectActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), VaccineInjectionScheduleActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ManageVaccineInjectionScheduleActivity.class);
             startActivity(intent);
         });
     }

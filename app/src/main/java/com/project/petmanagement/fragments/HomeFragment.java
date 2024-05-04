@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.careactivity.ActivityScheduleInfoActivity;
+import com.project.petmanagement.activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity;
 import com.project.petmanagement.activity.schedule.ScheduleActivity;
-import com.project.petmanagement.activity.schedule.vaccine.VaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
 
 
 public class HomeFragment extends Fragment {
@@ -33,12 +33,12 @@ public class HomeFragment extends Fragment {
         });
         LinearLayout injectActivity = view.findViewById(R.id.inject_activity);
         injectActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), VaccineInjectionScheduleActivity.class);
+            Intent intent = new Intent(getContext(), ManageVaccineInjectionScheduleActivity.class);
             startActivity(intent);
         });
         LinearLayout careActivity = view.findViewById(R.id.care_activity);
         careActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ActivityScheduleInfoActivity.class);
+            Intent intent = new Intent(getContext(), ManageCareActivityScheduleInfoActivity.class);
             startActivity(intent);
         });
 

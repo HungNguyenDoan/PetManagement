@@ -31,6 +31,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.schedule.careactivity.UpdateCareActivityNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.careactivity.UpdateCareActivityInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.schedule.careactivity.CareActivityScheduleDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.dailyLog.GetDailyLogDetails"
             android:exported="false" />
         <activity
@@ -69,31 +78,31 @@
             android:name=".activity.shop.ChangeInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.SetVaccineNotificationActivity"
+            android:name=".activity.schedule.vaccine.AddVaccineNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.SetVaccineScheduleActivity"
+            android:name=".activity.schedule.vaccine.AddVaccineScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.vaccine.SelectPetToVaccineActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.VaccineInjectionScheduleActivity"
+            android:name=".activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetActivityNotificationActivity"
+            android:name=".activity.schedule.careactivity.AddCareActivityNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetActivityInfoActivity"
+            android:name=".activity.schedule.careactivity.AddCareActivityInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SetActivityScheduleActivity"
+            android:name=".activity.schedule.careactivity.AddCareActivityScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.careactivity.SelectPetToActivityActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.ActivityScheduleInfoActivity"
+            android:name=".activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity"
             android:exported="false" />
         <activity
             android:name=".activity.schedule.ScheduleActivity"

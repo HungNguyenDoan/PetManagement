@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.DayOfWeek;
 import java.util.List;
 
@@ -15,16 +14,14 @@ public class RecurringScheduleRequest implements Serializable {
 
     private FrequencyEnum frequency;
     private Integer value;
-    @SerializedName("days_of_month")
-    private List<Integer> daysOfMonth;
     @SerializedName("days_of_week")
     private List<DayOfWeek> daysOfWeek;
-    private Date date;
+    private String date;
     private String time;
     @SerializedName("from_date")
-    private Date fromDate;
+    private String fromDate;
     @SerializedName("to_date")
-    private Date toDate;
+    private String toDate;
 
     public Long getId() {
         return id;
@@ -58,13 +55,6 @@ public class RecurringScheduleRequest implements Serializable {
         this.value = value;
     }
 
-    public List<Integer> getDaysOfMonth() {
-        return daysOfMonth;
-    }
-
-    public void setDaysOfMonth(List<Integer> daysOfMonth) {
-        this.daysOfMonth = daysOfMonth;
-    }
 
     public List<DayOfWeek> getDaysOfWeek() {
         return daysOfWeek;
@@ -74,11 +64,11 @@ public class RecurringScheduleRequest implements Serializable {
         this.daysOfWeek = daysOfWeek;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -90,19 +80,19 @@ public class RecurringScheduleRequest implements Serializable {
         this.time = time;
     }
 
-    public Date getFromDate() {
+    public String getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(Date fromDate) {
+    public void setFromDate(String fromDate) {
         this.fromDate = fromDate;
     }
 
-    public Date getToDate() {
+    public String getToDate() {
         return toDate;
     }
 
-    public void setToDate(Date toDate) {
+    public void setToDate(String toDate) {
         this.toDate = toDate;
     }
 }

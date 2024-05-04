@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VaccineInjectionScheduleActivity extends AppCompatActivity {
+public class ManageVaccineInjectionScheduleActivity extends AppCompatActivity {
     private RecyclerView scheduleRecyclerView;
     private ListScheduleVaccineAdapter listScheduleVaccineAdapter;
     @Override
@@ -35,7 +35,7 @@ public class VaccineInjectionScheduleActivity extends AppCompatActivity {
         ImageView returnArrow = findViewById(R.id.return_arrow);
         scheduleRecyclerView = findViewById(R.id.list_schedule_recyclerview);
         returnArrow.setOnClickListener(v -> {
-            Intent intent = new Intent(VaccineInjectionScheduleActivity.this, MainActivity.class);
+            Intent intent = new Intent(ManageVaccineInjectionScheduleActivity.this, MainActivity.class);
             intent.putExtra("fragmentIndex", String.valueOf(0));
             startActivity(intent);
             finish();
@@ -65,9 +65,9 @@ public class VaccineInjectionScheduleActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     if(response.body()!=null && response.body().getData()!=null){
                         List<VaccinationNotification> vaccineNotificationList = response.body().getData();
-                        listScheduleVaccineAdapter = new ListScheduleVaccineAdapter(vaccineNotificationList, VaccineInjectionScheduleActivity.this);
+                        listScheduleVaccineAdapter = new ListScheduleVaccineAdapter(vaccineNotificationList, ManageVaccineInjectionScheduleActivity.this);
                         scheduleRecyclerView.setAdapter(listScheduleVaccineAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(VaccineInjectionScheduleActivity.this, LinearLayoutManager.VERTICAL, false);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ManageVaccineInjectionScheduleActivity.this, LinearLayoutManager.VERTICAL, false);
                         scheduleRecyclerView.setLayoutManager(layoutManager);
                     }
                 }
@@ -75,7 +75,7 @@ public class VaccineInjectionScheduleActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ListVaccineNotification> call, Throwable t) {
-                Toast.makeText(VaccineInjectionScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ManageVaccineInjectionScheduleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

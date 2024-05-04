@@ -1,6 +1,8 @@
 package com.project.petmanagement.activity.nutrition;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,7 +40,7 @@ import retrofit2.Response;
 public class NutritionActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private NutritionsRecyclerViewAdapter nutritionsAdapter;
+    private NutritionsRecyclerViewAdapter nutritiousAdapter;
     private List<NutritiousFood> nutritiousFoodList;
     private AutoCompleteTextView foodTypeView;
     private AutoCompleteTextView speciesView;
@@ -47,6 +49,7 @@ public class NutritionActivity extends AppCompatActivity {
     private TextInputEditText search;
     private ImageView btnBack;
     private Map<String, FoodType> foodTypes;
+    private Map<String, Species> speciesMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,52 +61,111 @@ public class NutritionActivity extends AppCompatActivity {
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
         foodTypes = new LinkedHashMap<>();
+        speciesMap = new LinkedHashMap<>();
         getAllSpecies();
         getALlFoodType();
         getAllNutritiousFood();
-//        speciesView.setOnItemClickListener((parent, view, position, id) -> {
-//            String speciesName = speciesArrayAdapter.getItem(position);
-//            if(speciesName.equals("All")||speciesName.isEmpty()){
-//                for(NutritiousFood nutritiousFood: nutritiousFoodList){
-//                    if(nutritiousFood.getSpecies().)
-//                }
-//            }
-//        });
-//        foodTypeView.setOnItemClickListener((parent, view, position, id) -> {
-//            String foodTypeName = foodTypeAdapter.getItem(position);
-//            FoodType foodType = foodTypes.get(foodTypeName);
-//            if(search.getText().toString().isEmpty()){
-//                List<NutritiousFood> nutritiousFoods = foodType.getNutritiousFoodList();
-//                nutritionsAdapter= new NutritionsRecyclerViewAdapter(NutritionActivity.this, nutritionsInfoList);
-//                recyclerView.setAdapter(nutritionsAdapter);
-//            }else{
-//                getListNutritionInfor(search.getText().toString(), foodType.getId());
-//            }
-//
-//        });
-//        search.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String key = s.toString();
-//                FoodType foodType = foodTypes.get(foodTypeView.getText().toString());
-//                if(foodType!=null){
-//                    getListNutritionInfor(key, foodType.getId());
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+        speciesView.setOnItemClickListener((parent, view, position, id) -> {
+            String speciesName = speciesArrayAdapter.getItem(position);
+            if((speciesName.equals("All")||speciesName.isEmpty())){
+                if(foodTypeView.length() == 0 ||foodTypeView.getText().toString().equals("All")){
+                    if(search.getText().toString().isEmpty()){
+                        nutritiousAdapter.setNutritiousFoods(nutritiousFoodList);
+                        recyclerView.setAdapter(nutritiousAdapter);
+                    }else{
+                        search(null, null, search.getText().toString());
+                    }
+                }
+                else{
+                    search(null, foodTypes.get(foodTypeView.getText().toString()).getId(), search.getText().toString());
+                }
+            }else{
+                if(foodTypeView.length() == 0 || foodTypeView.getText().toString().equals("All")){
+                    search(speciesMap.get(speciesName).getId(), null, search.getText().toString());
+                }else if(!foodTypeView.getText().toString().equals("All")){
+                    search(speciesMap.get(speciesName).getId(), foodTypes.get(foodTypeView.getText().toString()).getId(), search.getText().toString());
+                }
+            }
+        });
+        foodTypeView.setOnItemClickListener((parent, view, position, id) -> {
+            String foodTypeName = foodTypeAdapter.getItem(position);
+            if((foodTypeName.equals("All")||foodTypeName.isEmpty())){
+                if(speciesView.length() == 0 ||speciesView.getText().toString().equals("All")){
+                    if(search.getText().toString().isEmpty()){
+                        nutritiousAdapter.setNutritiousFoods(nutritiousFoodList);
+                        recyclerView.setAdapter(nutritiousAdapter);
+                    }else{
+                        search(null, null, search.getText().toString());
+
+                    }
+                }
+                else{
+                    search(speciesMap.get(speciesView.getText().toString()).getId(), null, search.getText().toString());
+                }
+            }else{
+                if(speciesView.length() == 0||speciesView.getText().toString().equals("All")){
+                    search(null, foodTypes.get(foodTypeName).getId(), search.getText().toString());
+                }else{
+                    search(speciesMap.get(speciesView.getText().toString()).getId(), foodTypes.get(foodTypeName).getId(), search.getText().toString());
+                }
+            }
+
+
+        });
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keyword = s.toString();
+                if((foodTypeView.length()==0||foodTypeView.getText().toString().equals("All"))&&(speciesView.length()==0||speciesView.getText().toString().equals("All"))){
+                    if(keyword.isEmpty()){
+                        nutritiousAdapter.setNutritiousFoods(nutritiousFoodList);
+                        recyclerView.setAdapter(nutritiousAdapter);
+                    }else {
+                        search(null, null, keyword);
+                    }
+                } else if ((foodTypeView.length()!=0&&!foodTypeView.getText().toString().equals("All"))&&(speciesView.length()!=0&&!speciesView.getText().toString().equals("All"))) {
+                    search(speciesMap.get(speciesView.getText().toString()).getId(), foodTypes.get(foodTypeView.getText().toString()).getId(), keyword);
+                } else if ((foodTypeView.length()==0||foodTypeView.getText().toString().equals("All") && (speciesView.length()!=0&&!speciesView.getText().toString().equals("All")))) {
+                    search(speciesMap.get(speciesView.getText().toString()).getId(), null, keyword);
+                } else if ((foodTypeView.length()!=0&&!foodTypeView.getText().toString().equals("All"))&&(speciesView.length()==0||speciesView.getText().toString().equals("All"))) {
+                    search(null, foodTypes.get(foodTypeView.getText().toString()).getId(), keyword);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+
+        });
         btnBack.setOnClickListener(v -> finish());
     }
+    private void search(Long speciesId, Long foodTypeId, String keyword){
+        ApiService.apiService.searchNutritiousFood(speciesId,foodTypeId, keyword).enqueue(new Callback<ListNutritiousFoodResponse>() {
+            @Override
+            public void onResponse(Call<ListNutritiousFoodResponse> call, Response<ListNutritiousFoodResponse> response) {
+                if( response.isSuccessful()){
+                    ListNutritiousFoodResponse listNutritiousFoodResponse = response.body();
+                    if(listNutritiousFoodResponse!=null&&listNutritiousFoodResponse.getData()!=null){
+                        List<NutritiousFood> nutritiousFoods = listNutritiousFoodResponse.getData();
+                        nutritiousAdapter.setNutritiousFoods(nutritiousFoods);
+                        recyclerView.setAdapter(nutritiousAdapter);
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ListNutritiousFoodResponse> call, Throwable t) {
+
+            }
+        });
+    }
     private void findViewById() {
         recyclerView = findViewById(R.id.recyclerview);
         foodTypeView = findViewById(R.id.foot_type);
@@ -121,9 +183,11 @@ public class NutritionActivity extends AppCompatActivity {
                         List<String> speciesName = new ArrayList<>();
                         speciesName.add("All");
                         for(Species species: listSpeciesResponse.getData()){
-                            speciesName.add(species.getName());
+                            speciesMap.put(species.getName(), species);
                         }
-                        foodTypeAdapter = new ArrayAdapter<>(NutritionActivity.this, R.layout.list_item_dropdown, new ArrayList<>(speciesName));
+                        speciesName.addAll(speciesMap.keySet());
+                        speciesArrayAdapter = new ArrayAdapter<>(NutritionActivity.this, R.layout.list_item_dropdown, speciesName);
+                        speciesView.setAdapter(speciesArrayAdapter);
                     }
                 }
             }
@@ -144,7 +208,10 @@ public class NutritionActivity extends AppCompatActivity {
                         for (FoodType x : foodTypeResponse.getData()) {
                             foodTypes.put(x.getName(), x);
                         }
-                        foodTypeAdapter = new ArrayAdapter<>(NutritionActivity.this, R.layout.list_item_dropdown, new ArrayList<>(foodTypes.keySet()));
+                        ArrayList<String> listItem = new ArrayList<>();
+                        listItem.add("All");
+                        listItem.addAll(foodTypes.keySet());
+                        foodTypeAdapter = new ArrayAdapter<>(NutritionActivity.this, R.layout.list_item_dropdown, listItem);
                         foodTypeView.setAdapter(foodTypeAdapter);
                     }
                 }
@@ -165,8 +232,8 @@ public class NutritionActivity extends AppCompatActivity {
                     ListNutritiousFoodResponse listNutritiousFoodResponse = response.body();
                     if (listNutritiousFoodResponse != null && listNutritiousFoodResponse.getData() != null) {
                         nutritiousFoodList = listNutritiousFoodResponse.getData();
-                        nutritionsAdapter = new NutritionsRecyclerViewAdapter(NutritionActivity.this, nutritiousFoodList);
-                        recyclerView.setAdapter(nutritionsAdapter);
+                        nutritiousAdapter = new NutritionsRecyclerViewAdapter(NutritionActivity.this, nutritiousFoodList);
+                        recyclerView.setAdapter(nutritiousAdapter);
                     }
                 }
             }

@@ -1,15 +1,22 @@
 package com.project.petmanagement.payloads.requests;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class CareActivityNotificationRequest implements Serializable {
+    @SerializedName("pet_id")
     private Long petId;
     private String title;
+    @SerializedName("care_activity_info_list")
     private List<CareActivityInfoRequest> careActivityInfoRequestList;
     private String note;
+    @SerializedName("schedule")
     private RecurringScheduleRequest recurringScheduleRequest;
+    @SerializedName("notification_status")
     private Boolean notificationStatus;
+
 
     public Long getPetId() {
         return petId;

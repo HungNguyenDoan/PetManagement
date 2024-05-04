@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.dailyLog.AddDailyLog;
 import com.project.petmanagement.activity.dailyLog.GetDailyLogDetails;
 import com.project.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.utils.FormatDateUtils;

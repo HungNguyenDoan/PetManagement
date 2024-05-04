@@ -7,6 +7,15 @@ public class CareActivityNotification extends Notification{
     private List<CareActivityInfo> careActivityInfoList;
 
     private RecurringSchedule schedule;
+    private Boolean notificationStatus;
+
+    public Boolean getNotificationStatus() {
+        return notificationStatus;
+    }
+
+    public void setNotificationStatus(Boolean notificationStatus) {
+        this.notificationStatus = notificationStatus;
+    }
 
     public List<CareActivityInfo> getCareActivityInfoList() {
         return careActivityInfoList;
