@@ -314,6 +314,9 @@ public class UpdateDailyLog extends AppCompatActivity {
                 Bundle bundle = o.getData().getExtras();
                 if (bundle != null) {
                     imageBitmap = (Bitmap) bundle.get("data");
+                    images.getLayoutParams().width = 400;
+                    images.getLayoutParams().height = 400;
+                    images.requestLayout();
                     images.setImageBitmap(imageBitmap);
                 }
             }
@@ -329,6 +332,9 @@ public class UpdateDailyLog extends AppCompatActivity {
                 }
                 try {
                     imageBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                    images.getLayoutParams().width = 400;
+                    images.getLayoutParams().height = 400;
+                    images.requestLayout();
                     images.setImageBitmap(imageBitmap);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);

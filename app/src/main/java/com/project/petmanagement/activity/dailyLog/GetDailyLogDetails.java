@@ -93,12 +93,15 @@ public class GetDailyLogDetails extends AppCompatActivity {
                     DailyActivityLogResponse dailyActivityLogResponse = response.body();
                     if (dailyActivityLogResponse != null) {
                         DailyActivityLog dailyActivityLog = dailyActivityLogResponse.getData();
-                        petName.setText(dailyActivityLog.getPet().getFullName());
+                        petName.setText(dailyActivityLog.getTitle());
+                        images.getLayoutParams().width = 400;
+                        images.getLayoutParams().height = 400;
+                        images.requestLayout();
                         Glide.with(GetDailyLogDetails.this)
                                 .load(dailyActivityLog.getPet().getImage())
                                 .error(R.drawable.default_pet_no_image)
                                 .into(petImage);
-                        logTitle.setText(dailyActivityLog.getTitle());
+                        logTitle.setText(dailyActivityLog.getDailyActivity().getName());
                         logTitle.setEnabled(false);
                         logTitle.setAlpha(1);
                         logDate.setText(FormatDateUtils.DateToString(dailyActivityLog.getDate()));

@@ -311,8 +311,28 @@ public class UpdatePetActivity extends AppCompatActivity {
                 try {
                     Date date1 = sdf.parse(date);
                     String date2 = sdf.format(date1);
-                    dob.setText(date2);
-                    dob.setError(null);
+                    Date currentDate = new Date();
+                    String date3 = FormatDateUtils.DateToString1(date1);
+                    Date dateChoose = FormatDateUtils.StringToDate(date3);
+                    Calendar cal1 = Calendar.getInstance();
+                    cal1.setTime(currentDate);
+                    cal1.set(Calendar.HOUR_OF_DAY, 0);
+                    cal1.set(Calendar.MINUTE, 0);
+                    cal1.set(Calendar.SECOND, 0);
+                    cal1.set(Calendar.MILLISECOND, 0);
+                    Calendar cal2 = Calendar.getInstance();
+                    cal2.setTime(dateChoose);
+                    cal2.set(Calendar.HOUR_OF_DAY, 0);
+                    cal2.set(Calendar.MINUTE, 0);
+                    cal2.set(Calendar.SECOND, 0);
+                    cal2.set(Calendar.MILLISECOND, 0);
+                    if(cal1.compareTo(cal2)<0) {
+                        DialogUtils.setUpDialog(UpdatePetActivity.this, "Ngày bạn chọn không được lớn hơn ngày hiện tại");
+                    }
+                    else{
+                        dob.setText(date2);
+                        dob.setError(null);
+                    }
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
