@@ -7,18 +7,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.schedule.careactivity.CareActivityScheduleDetailActivity;
+import com.project.petmanagement.models.entity.CareActivityInfo;
 import com.project.petmanagement.models.entity.CareActivityNotification;
+import com.project.petmanagement.models.entity.RecurringSchedule;
 import com.project.petmanagement.models.enums.FrequencyEnum;
+import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
+import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
+import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
+import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
+import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareActivityNotificationAdapter.CareActivityNotificationViewHolder> {
     private List<CareActivityNotification> careActivityNotifications;
@@ -61,7 +76,29 @@ public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareAc
             holder.date.setText(date);
         }
         holder.relativeLayout.setOnClickListener(v -> {
-            Intent intent = new Intent();
+            Intent intent = new Intent(context, CareActivityScheduleDetailActivity.class);
+            intent.putExtra("careActivityNotification", careActivityNotification);
+            context.startActivity(intent);
+        });
+        holder.status.setOnClickListener(v -> {
+            CareActivityNotificationRequest careActivityNotificationRequest = new CareActivityNotificationRequest();
+            careActivityNotificationRequest.setTitle(careActivityNotification.getTitle());
+            careActivityNotificationRequest.setNote(careActivityNotification.getNote());
+            careActivityNotificationRequest.setNotificationStatus(holder.status.isChecked());
+            careActivityNotificationRequest.setPetId(careActivityNotification.getPet().getId());
+            ApiService.apiService.updateCareActivityNotification(careActivityNotification.getId(), careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
+                @Override
+                public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
+                    if(response.isSuccessful()){
+                        Toast.makeText(context, "Cập nhập thành công", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CareActivityNotificationResponse> call, Throwable t) {
+                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 

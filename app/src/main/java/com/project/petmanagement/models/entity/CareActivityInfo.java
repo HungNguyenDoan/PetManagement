@@ -1,6 +1,8 @@
 package com.project.petmanagement.models.entity;
 
-public class CareActivityInfo {
+import java.io.Serializable;
+
+public class CareActivityInfo implements Serializable {
     private Long id;
 
     private CareActivity careActivity;

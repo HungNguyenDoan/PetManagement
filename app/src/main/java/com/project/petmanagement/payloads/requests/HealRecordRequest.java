@@ -3,7 +3,7 @@ package com.project.petmanagement.payloads.requests;
 import com.google.gson.annotations.SerializedName;
 
 public class HealRecordRequest {
-    @SerializedName(("check_update"))
+    @SerializedName(("checkup_date"))
     private String checkUpDate;
     private Double weight;
     @SerializedName("exercise_level")

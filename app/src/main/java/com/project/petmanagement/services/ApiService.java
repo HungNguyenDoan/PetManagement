@@ -3,6 +3,7 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
+import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
 import com.project.petmanagement.payloads.requests.ChangePasswordRequest;
 import com.project.petmanagement.payloads.requests.DailyActivityLogRequest;
@@ -72,7 +73,7 @@ public interface ApiService {
 
     // Local
 //    String BASE_URL = "http://192.168.1.19:8080/";
-    String BASE_URL = "http://192.168.0.102:8080/";
+    String BASE_URL = "http://192.151.62.100:8080/";
 
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
@@ -242,7 +243,6 @@ public interface ApiService {
     @PUT("vaccination_notification/update/{id}")
     Call<VaccineNotificationResponse> updateVaccinationNotification(@Path("id") Long id, @Body VaccinationNotificationRequest vaccinationNotificationRequest);
 
-
     // CareActivityController
     @GET("care_activities/all")
     Call<ListCareActivityResponse> getAllCareActivities();
@@ -265,7 +265,12 @@ public interface ApiService {
     Call<CareActivityNotificationResponse> addCareActivityNotification(@Body CareActivityNotificationRequest careActivityNotificationRequest);
     @GET("care_activity_notification/users")
     Call<ListCareActivityNotificationResponse> getAllCareActivityNotificationByUser();
-
+    @GET("care_activity_notification/{id}")
+    Call<CareActivityNotificationResponse> getCareActivityNotificationById(@Path("id") Long id);
+    @DELETE("care_activity_notification/delete/{id}")
+    Call<Response> deleteCareActivityNotification(@Path("id") Long id);
+    @PUT("care_activity_notification/update/{id}")
+    Call<CareActivityNotificationResponse> updateCareActivityNotification(@Path("id") Long id, @Body CareActivityNotificationRequest careActivityNotificationRequest);
     // DailyActivityController
     @GET("daily_activities/all")
     Call<ListDaiLyActivityResponse> getAllDaiLyActivities();
