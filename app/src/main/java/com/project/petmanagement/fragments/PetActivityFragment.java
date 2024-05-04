@@ -33,8 +33,9 @@ public class PetActivityFragment extends Fragment {
     private RecyclerView recyclerView;
     private FloatingActionButton addBtn;
     private long petId;
-    public PetActivityFragment(long petId) {
+    public PetActivityFragment(long petId, FloatingActionButton addBtn) {
         this.petId = petId;
+        this.addBtn = addBtn;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class PetActivityFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.daily_log_recycler_view);
-        addBtn = view.findViewById(R.id.btn_add);
+        addBtn.setVisibility(View.VISIBLE);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,5 +89,6 @@ public class PetActivityFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getDailyActivityLogByPet();
+        addBtn.setVisibility(View.VISIBLE);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.project.petmanagement.R;
@@ -34,6 +36,7 @@ public class PetDetailsActivity extends AppCompatActivity {
     private ImageView imagePet;
     private Pet pet;
     private long idPet;
+    private FloatingActionButton btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         idPet = getIntent().getLongExtra("idPet", 0);
         PetDetailsViewPager2Adapter adapter = new PetDetailsViewPager2Adapter(PetDetailsActivity.this);
         adapter.setData(idPet);
+        adapter.setBtnAdd(btnAdd);
         viewPager2.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             switch (position) {
@@ -105,6 +109,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         namePet = findViewById(R.id.name_pet);
         breed = findViewById(R.id.breed);
         imagePet = findViewById(R.id.image_pet);
+        btnAdd = findViewById(R.id.btn_add);
     }
 
     @Override
