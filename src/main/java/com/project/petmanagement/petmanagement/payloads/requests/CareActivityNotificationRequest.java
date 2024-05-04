@@ -20,13 +20,11 @@ public class CareActivityNotificationRequest {
     private String title;
 
     @JsonProperty("care_activity_info_list")
-    @NotEmpty(message = "Care activity information is required.")
     private List<CareActivityInfoRequest> careActivityInfoRequestList;
 
     private String note;
 
     @JsonProperty("schedule")
-    @NotNull(message = "Schedule is required.")
     private RecurringScheduleRequest recurringScheduleRequest;
 
     @JsonProperty("notification_status")
