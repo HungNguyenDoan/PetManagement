@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.careactivity.DayOfWeekInterface;
+import com.project.petmanagement.activity.notification.careActivity.DayOfWeekInterface;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;

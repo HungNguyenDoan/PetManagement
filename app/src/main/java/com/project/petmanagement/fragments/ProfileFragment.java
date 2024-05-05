@@ -168,10 +168,10 @@ public class ProfileFragment extends Fragment {
             btnLogout.setVisibility(View.GONE);
             openCamera.setVisibility(View.GONE);
         }
-        btnLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            startActivity(intent);
-        });
+//        btnLogin.setOnClickListener(v -> {
+//            Intent intent = new Intent(getContext(), LoginActivity.class);
+//            startActivity(intent);
+//        });
         nutrition.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), NutritionActivity.class);
             startActivity(intent);
@@ -239,7 +239,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onResponse(retrofit2.Call<com.project.petmanagement.payloads.responses.Response> call1, retrofit2.Response<Response> response1) {
                     if (response1.isSuccessful()) {
-                        Toast.makeText(requireActivity(), "set token is successful.", Toast.LENGTH_SHORT).show();
+
                     }
                 }
 
@@ -248,7 +248,7 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(requireActivity(), "set token is failed.", Toast.LENGTH_SHORT).show();
                 }
             });
-            Intent intent = new Intent(requireContext(), MainActivity.class);
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
             startActivity(intent);
         });
     }

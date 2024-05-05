@@ -93,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/btn_login_custom"
+        android:background="@drawable/green_background_button"
         android:layout_marginHorizontal="16dp"
         android:text="Hoàn thành"
         android:textColor="@color/white"

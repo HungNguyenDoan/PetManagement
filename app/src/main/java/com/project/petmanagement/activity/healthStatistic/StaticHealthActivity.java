@@ -1,8 +1,9 @@
-package com.project.petmanagement.activity.statichealth;
+package com.project.petmanagement.activity.healthStatistic;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -23,7 +24,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
-import com.project.petmanagement.adapters.StaticHealthAdapter;
+import com.project.petmanagement.adapters.HealthStatisticAdapter;
 import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.payloads.responses.ListHealthRecordResponse;
 import com.project.petmanagement.services.ApiService;
@@ -95,8 +96,13 @@ public class StaticHealthActivity extends AppCompatActivity {
                             ListHealthRecordResponse listHealthRecordResponse = response.body();
                             if (listHealthRecordResponse != null && listHealthRecordResponse.getData() != null) {
                                 healthRecords = listHealthRecordResponse.getData();
-                                StaticHealthAdapter staticHealthAdapter = new StaticHealthAdapter(StaticHealthActivity.this, healthRecords);
-                                statisticRecyclerView.setAdapter(staticHealthAdapter);
+                                HealthStatisticAdapter healthStatisticAdapter = new HealthStatisticAdapter(StaticHealthActivity.this, healthRecords);
+                                statisticRecyclerView.setAdapter(healthStatisticAdapter);
+                                if (healthRecords == null || healthRecords.isEmpty()) {
+                                    lineChart.setVisibility(View.GONE);
+                                } else {
+                                    lineChart.setVisibility(View.VISIBLE);
+                                }
                                 customChart();
                             }
                         }
@@ -123,8 +129,13 @@ public class StaticHealthActivity extends AppCompatActivity {
                     ListHealthRecordResponse healthRecordResponse = response.body();
                     if (healthRecordResponse != null && healthRecordResponse.getData() != null) {
                         healthRecords = healthRecordResponse.getData();
-                        StaticHealthAdapter staticHealthAdapter = new StaticHealthAdapter(StaticHealthActivity.this, healthRecords);
-                        statisticRecyclerView.setAdapter(staticHealthAdapter);
+                        HealthStatisticAdapter healthStatisticAdapter = new HealthStatisticAdapter(StaticHealthActivity.this, healthRecords);
+                        statisticRecyclerView.setAdapter(healthStatisticAdapter);
+                        if (healthRecords == null || healthRecords.isEmpty()) {
+                            lineChart.setVisibility(View.GONE);
+                        } else {
+                            lineChart.setVisibility(View.VISIBLE);
+                        }
                         customChart();
                     }
                 }
@@ -286,10 +297,8 @@ public class StaticHealthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        startDate.setText("");
+        endDate.setText("");
         getAllHealthRecords();
-        if (startDate.length() != 0 && endDate.length() != 0) {
-            statisticHealthRecords();
-        }
     }
-
 }

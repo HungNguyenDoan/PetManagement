@@ -1,8 +1,9 @@
-package com.project.petmanagement.activity.schedule.careactivity;
+package com.project.petmanagement.activity.notification.careActivity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -28,8 +28,6 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.DayOfWeekAdapter;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
-import com.project.petmanagement.payloads.responses.Response;
-import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -41,10 +39,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+public class AddCareActivityNotificationActivity extends AppCompatActivity implements DayOfWeekInterface {
 
-public class UpdateCareActivityNotificationActivity extends AppCompatActivity implements DayOfWeekInterface {
     private Dialog dialogCustom;
     private TextView frequency;
     private Integer valueFrequency;
@@ -53,7 +49,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
     private TextView chooseHourDayRepeat, chooseHourWeekRepeat, hourDayRepeat, hourWeekRepeat;
     private TimePickerDialog timePickerDialog;
     private RecyclerView dayOfWeekRecyclerView;
-    private Long recurringScheduleRequestId;
+
     private DatePickerDialog datePickerDialog;
     private List<DayOfWeek> dayOfWeeks;
 
@@ -72,7 +68,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_care_notification);
+        setContentView(R.layout.activity_set_activity_notification);
         LinearLayout changeFrequency = findViewById(R.id.change_frequency);
         dayOfWeekRecyclerView = findViewById(R.id.recyclerview_date);
         frequency = findViewById(R.id.frequency);
@@ -96,7 +92,6 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         dayOfWeekRecyclerView.setLayoutManager(layoutManager);
         RecurringScheduleRequest recurringScheduleRequest1 = (RecurringScheduleRequest) getIntent().getSerializableExtra("recurringScheduleRequest");
         if (recurringScheduleRequest1 != null) {
-            recurringScheduleRequestId = recurringScheduleRequest1.getId();
             if (recurringScheduleRequest1.getFrequency() == FrequencyEnum.NO_REPEAT) {
                 noRepeatLayout.setVisibility(View.VISIBLE);
                 dayRepeatLayout.setVisibility(View.GONE);
@@ -171,25 +166,14 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         recurringScheduleRequest.setFrequency(FrequencyEnum.NO_REPEAT);
                         Date date1 = FormatDateUtils.StringToDate1(dateNoRepeat.getText().toString());
                         String date2 = FormatDateUtils.DateToString1(date1);
-                        recurringScheduleRequest.setId(recurringScheduleRequestId);
                         recurringScheduleRequest.setDate(date2);
                         recurringScheduleRequest.setValue(0);
                         recurringScheduleRequest.setName(frequency.getText().toString());
                         recurringScheduleRequest.setTime(hourNoRepeat.getText().toString());
-                        ApiService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
-                            @Override
-                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(UpdateCareActivityNotificationActivity.this, "Cập thời gian nhập thành công", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
-
-                            }
-                        });
+                        Intent intent = new Intent(AddCareActivityNotificationActivity.this, AddCareActivityScheduleActivity.class);
+                        intent.putExtra("recurringScheduleRequest", recurringScheduleRequest);
+                        setResult(RESULT_OK, intent);
+                        finish();
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
@@ -204,27 +188,16 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         Date date1 = FormatDateUtils.StringToDate1(startDateDayRepeat.getText().toString());
                         String strStartDate = FormatDateUtils.DateToString1(date1);
                         recurringScheduleRequest.setFromDate(strStartDate);
-                        recurringScheduleRequest.setId(recurringScheduleRequestId);
                         Date date3 = FormatDateUtils.StringToDate1(endDateDayRepeat.getText().toString());
                         String strEndDate = FormatDateUtils.DateToString1(date3);
                         recurringScheduleRequest.setTime(hourDayRepeat.getText().toString());
                         recurringScheduleRequest.setToDate(strEndDate);
                         recurringScheduleRequest.setValue(valueFrequency);
                         recurringScheduleRequest.setName(frequency.getText().toString());
-                        ApiService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
-                            @Override
-                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(UpdateCareActivityNotificationActivity.this, "Cập thời gian nhập thành công", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
-
-                            }
-                        });
+                        Intent intent = new Intent(AddCareActivityNotificationActivity.this, AddCareActivityScheduleActivity.class);
+                        intent.putExtra("recurringScheduleRequest", recurringScheduleRequest);
+                        setResult(RESULT_OK, intent);
+                        finish();
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
@@ -237,7 +210,6 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         Date date1 = FormatDateUtils.StringToDate1(startDateWeekRepeat.getText().toString());
                         String strStartDate = FormatDateUtils.DateToString1(date1);
                         recurringScheduleRequest.setFromDate(strStartDate);
-                        recurringScheduleRequest.setId(recurringScheduleRequestId);
                         Date date3 = FormatDateUtils.StringToDate1(endDateWeekRepeat.getText().toString());
                         String strEndDate = FormatDateUtils.DateToString1(date3);
                         recurringScheduleRequest.setTime(hourWeekRepeat.getText().toString());
@@ -245,20 +217,10 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         recurringScheduleRequest.setValue(valueFrequency);
                         recurringScheduleRequest.setDaysOfWeek(dayOfWeeks);
                         recurringScheduleRequest.setName(frequency.getText().toString());
-                        ApiService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
-                            @Override
-                            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(UpdateCareActivityNotificationActivity.this, "Cập thời gian nhập thành công", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
-
-                            }
-                        });
+                        Intent intent = new Intent(AddCareActivityNotificationActivity.this, AddCareActivityScheduleActivity.class);
+                        intent.putExtra("recurringScheduleRequest", recurringScheduleRequest);
+                        setResult(RESULT_OK, intent);
+                        finish();
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
@@ -267,7 +229,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         });
         final int[] checkedItem = {-1};
         changeFrequency.setOnClickListener(v -> {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(UpdateCareActivityNotificationActivity.this);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddCareActivityNotificationActivity.this);
             final String[] listItems = new String[]{"Không lặp lại", "Lặp theo ngày", "Lặp theo tuần"};
             alertDialog.setSingleChoiceItems(listItems, checkedItem[0], (dialog, which) -> {
                 checkedItem[0] = which;
@@ -349,11 +311,11 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
 
     private boolean validationRepeatWeek() {
         if (startDateWeekRepeat.length() == 0) {
-            DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày bắt đầu không được để trống");
+            DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được để trống");
             return false;
         }
         if (endDateWeekRepeat.length() == 0) {
-            DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày kết thúc không được để trống");
+            DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày kết thúc không được để trống");
             return false;
         }
         return true;
@@ -361,11 +323,11 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
 
     private boolean validationRepeatDay() {
         if (startDateDayRepeat.length() == 0) {
-            DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày bắt đầu không được để trống");
+            DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được để trống");
             return false;
         }
         if (endDateDayRepeat.length() == 0) {
-            DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày kết thúc không được để trống");
+            DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày kết thúc không được để trống");
             return false;
         }
         return true;
@@ -373,11 +335,11 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
 
     private boolean validationNoRepeat() {
         if (dateNoRepeat.length() == 0) {
-            DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày không được để trống");
+            DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày không được để trống");
             return false;
         }
         if (hourNoRepeat.length() == 0) {
-            DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Giờ không được để trống");
+            DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Giờ không được để trống");
             return false;
         }
         return true;
@@ -401,7 +363,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         editDate.setOnClickListener(v -> {
-            datePickerDialog = new DatePickerDialog(UpdateCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
+            datePickerDialog = new DatePickerDialog(AddCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
                 String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 try {
@@ -423,7 +385,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                     cal2.set(Calendar.SECOND, 0);
                     cal2.set(Calendar.MILLISECOND, 0);
                     if (cal1.compareTo(cal2) > 0) {
-                        DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
+                        DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
                     } else {
                         editDate.setText(date2);
                     }
@@ -442,7 +404,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         chooseHourDayRepeat.setOnClickListener(v -> {
-            timePickerDialog = new TimePickerDialog(UpdateCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
+            timePickerDialog = new TimePickerDialog(AddCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
                 String time = hourOfDay + ":" + minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
@@ -462,7 +424,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         chooseHourWeekRepeat.setOnClickListener(v -> {
-            timePickerDialog = new TimePickerDialog(UpdateCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
+            timePickerDialog = new TimePickerDialog(AddCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
                 String time = hourOfDay + ":" + minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
@@ -482,7 +444,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         hourNoRepeat.setOnClickListener(v -> {
-            timePickerDialog = new TimePickerDialog(UpdateCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
+            timePickerDialog = new TimePickerDialog(AddCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
                 String time = hourOfDay + ":" + minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
@@ -503,7 +465,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         startDateDayRepeat.setOnClickListener(v -> {
-            datePickerDialog = new DatePickerDialog(UpdateCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
+            datePickerDialog = new DatePickerDialog(AddCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
                 String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
                 try {
                     Date startDate1 = FormatDateUtils.StringToDate1(date);
@@ -518,7 +480,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         String startDate2 = FormatDateUtils.DateToString(startDate1);
                         startDateDayRepeat.setText(startDate2);
                     } else {
-                        DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
+                        DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     startDateDayRepeat.setError(null);
                 } catch (ParseException e) {
@@ -535,7 +497,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         endDateDayRepeat.setOnClickListener(v -> {
-            datePickerDialog = new DatePickerDialog(UpdateCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
+            datePickerDialog = new DatePickerDialog(AddCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
                 String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
                 try {
                     Date endDate1 = FormatDateUtils.StringToDate1(date);
@@ -550,7 +512,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         String endDate2 = FormatDateUtils.DateToString(endDate1);
                         endDateDayRepeat.setText(endDate2);
                     } else {
-                        DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
+                        DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     endDateDayRepeat.setError(null);
 
@@ -568,7 +530,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         startDateWeekRepeat.setOnClickListener(v -> {
-            datePickerDialog = new DatePickerDialog(UpdateCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
+            datePickerDialog = new DatePickerDialog(AddCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
                 String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
                 try {
                     Date startDate1 = FormatDateUtils.StringToDate1(date);
@@ -583,7 +545,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         String startDate2 = FormatDateUtils.DateToString(startDate1);
                         startDateWeekRepeat.setText(startDate2);
                     } else {
-                        DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
+                        DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     startDateWeekRepeat.setError(null);
                 } catch (ParseException e) {
@@ -600,7 +562,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         endDateWeekRepeat.setOnClickListener(v -> {
-            datePickerDialog = new DatePickerDialog(UpdateCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
+            datePickerDialog = new DatePickerDialog(AddCareActivityNotificationActivity.this, (view, year1, month1, dayOfMonth) -> {
                 String date = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
                 try {
                     Date endDate1 = FormatDateUtils.StringToDate1(date);
@@ -615,7 +577,7 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
                         String endDate2 = FormatDateUtils.DateToString(endDate1);
                         endDateWeekRepeat.setText(endDate2);
                     } else {
-                        DialogUtils.setUpDialog(UpdateCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
+                        DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     endDateWeekRepeat.setError(null);
 
@@ -631,6 +593,4 @@ public class UpdateCareActivityNotificationActivity extends AppCompatActivity im
     public void getDayOfWeek(List<DayOfWeek> dayOfWeeks) {
         this.dayOfWeeks = dayOfWeeks;
     }
-
-
 }

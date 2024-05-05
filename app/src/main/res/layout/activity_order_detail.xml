@@ -225,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:text="Hủy"
                 android:textAllCaps="false"
-                android:background="@drawable/btn_cancel"
+                android:background="@drawable/red_background_button"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/white"

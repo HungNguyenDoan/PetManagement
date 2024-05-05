@@ -27,6 +27,7 @@
                 android:id="@+id/date"
                 android:orientation="horizontal"
                 android:layout_below="@+id/title"
+                android:layout_marginVertical="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView

@@ -20,11 +20,6 @@ public class MyApplication extends Application {
         super.onCreate();
         AndroidThreeTen.init(this);
         storageService = new StorageService(getApplicationContext());
-        User user = storageService.getUser("user");
-        if (user != null) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-        }
         createChannelNotification();
     }
 

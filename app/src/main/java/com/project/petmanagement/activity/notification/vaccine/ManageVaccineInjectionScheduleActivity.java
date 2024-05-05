@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule.vaccine;
+package com.project.petmanagement.activity.notification.vaccine;
 
 import android.content.Intent;
 import android.os.Bundle;

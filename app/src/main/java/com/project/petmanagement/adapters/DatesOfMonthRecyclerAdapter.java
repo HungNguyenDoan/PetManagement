@@ -35,6 +35,7 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
     private int indexRow = -1;
     private final RecyclerView vaccinationNotificationRecyclerView, careNotificationRecyclerView;
     private final ImageView noVaccinationNotificationImage, noCareNotificationImage;
+    private boolean check = false;
 
     public DatesOfMonthRecyclerAdapter(Context context, List<LocalDate> datesOfMonth, RecyclerView vaccinationNotificationRecyclerView, ImageView noVaccinationNotificationImage, RecyclerView careNotificationRecyclerView, ImageView noCareNotificationImage) {
         this.context = context;
@@ -58,10 +59,12 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
         LocalDate localDate = datesOfMonth.get(position);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             holder.dateOfMonth.setText(covertDayOfWeek(localDate.getDayOfWeek()) + "\n" + localDate.getDayOfMonth());
-//            if (localDate.equals(LocalDate.now())) {
-//                holder.dateOfMonth.setBackgroundColor(Color.parseColor("#EFF7EA"));
-//                holder.dateOfMonth.setTextColor(Color.parseColor("#FF61B93C"));
-//            }
+            if (localDate.equals(LocalDate.now()) && !check) {
+                holder.dateOfMonth.setBackgroundColor(Color.parseColor("#EFF7EA"));
+                holder.dateOfMonth.setTextColor(Color.parseColor("#FF61B93C"));
+                indexRow = position;
+                check = true;
+            }
         }
         holder.dateOfMonth.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -99,9 +102,9 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
                 ApiService.apiService.getCareActivityNotificationByDate(localDate.toString()).enqueue(new Callback<ListCareActivityNotificationResponse>() {
                     @Override
                     public void onResponse(Call<ListCareActivityNotificationResponse> call, Response<ListCareActivityNotificationResponse> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             ListCareActivityNotificationResponse listCareActivityNotificationResponse = response.body();
-                            if(listCareActivityNotificationResponse != null){
+                            if (listCareActivityNotificationResponse != null) {
                                 List<CareActivityNotification> careActivityNotificationList = listCareActivityNotificationResponse.getData();
                                 if (!careActivityNotificationList.isEmpty()) {
                                     CareActivityNotificationAdapter careActivityNotificationAdapter = new CareActivityNotificationAdapter(careActivityNotificationList, context);

@@ -37,13 +37,13 @@
             android:name=".activity.user.ChangePassword"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.UpdateCareActivityNotificationActivity"
+            android:name=".activity.notification.careActivity.UpdateCareActivityNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.UpdateCareActivityInfoActivity"
+            android:name=".activity.notification.careActivity.UpdateCareActivityInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.CareActivityScheduleDetailActivity"
+            android:name=".activity.notification.careActivity.CareActivityScheduleDetailActivity"
             android:exported="false" />
         <activity
             android:name=".activity.dailyLog.GetDailyLogDetails"
@@ -55,13 +55,13 @@
             android:name=".activity.dailyLog.UpdateDailyLog"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.UpdateVaccineNotificationActivity"
+            android:name=".activity.notification.vaccine.UpdateVaccineNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.UpdateScheduleVaccineActivity"
+            android:name=".activity.notification.vaccine.UpdateScheduleVaccineActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.VaccineScheduleDetailActivity"
+            android:name=".activity.notification.vaccine.VaccineScheduleDetailActivity"
             android:exported="false" />
         <activity
             android:name=".activity.medical.ViewPdfActivity"
@@ -84,34 +84,34 @@
             android:name=".activity.shop.ChangeInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.AddVaccineNotificationActivity"
+            android:name=".activity.notification.vaccine.AddVaccineNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.AddVaccineScheduleActivity"
+            android:name=".activity.notification.vaccine.AddVaccineScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.SelectPetToVaccineActivity"
+            android:name=".activity.notification.vaccine.SelectPetToVaccineActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity"
+            android:name=".activity.notification.vaccine.ManageVaccineInjectionScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.AddCareActivityNotificationActivity"
+            android:name=".activity.notification.careActivity.AddCareActivityNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.AddCareActivityInfoActivity"
+            android:name=".activity.notification.careActivity.AddCareActivityInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.AddCareActivityScheduleActivity"
+            android:name=".activity.notification.careActivity.AddCareActivityScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.SelectPetToActivityActivity"
+            android:name=".activity.notification.careActivity.SelectPetToActivityActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity"
+            android:name=".activity.notification.careActivity.ManageCareActivityScheduleInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.schedule.ScheduleActivity"
+            android:name=".activity.notification.ScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".activity.medical.MedicalDocumentActivity"
@@ -123,13 +123,13 @@
             android:name=".activity.shop.ProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.statichealth.UpdateStaticHealthActivity"
+            android:name=".activity.healthStatistic.UpdateStaticHealthActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.statichealth.AddStaticHealthActivity"
+            android:name=".activity.healthStatistic.AddStaticHealthActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.statichealth.StaticHealthActivity"
+            android:name=".activity.healthStatistic.StaticHealthActivity"
             android:exported="false" />
         <activity
             android:name=".activity.shop.OrderDetailActivity"
@@ -150,9 +150,6 @@
             android:name=".activity.veterinarian.ListVeterinarianActivity"
             android:exported="false"
             android:theme="@style/Theme.PetManagement" />
-        <activity
-            android:name=".activity.notification.NotificationActivity"
-            android:exported="false" />
         <activity
             android:name=".activity.diseases.DiseasesDetailActivity"
             android:exported="false" />

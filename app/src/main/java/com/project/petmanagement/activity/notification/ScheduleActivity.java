@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule;
+package com.project.petmanagement.activity.notification;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity;
-import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.notification.careActivity.ManageCareActivityScheduleInfoActivity;
+import com.project.petmanagement.activity.notification.vaccine.ManageVaccineInjectionScheduleActivity;
 
 public class ScheduleActivity extends AppCompatActivity {
 

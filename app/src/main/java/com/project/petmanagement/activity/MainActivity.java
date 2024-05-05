@@ -1,17 +1,22 @@
 package com.project.petmanagement.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.login.LoginActivity;
 import com.project.petmanagement.adapters.ViewPagerAdapter;
+import com.project.petmanagement.services.StorageService;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final StorageService storageService = MyApplication.getStorageService();
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
 
@@ -19,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String token = storageService.getString("token");
+        if (token == null || token.isEmpty()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         viewPager2 = findViewById(R.id.view_pager_2);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);

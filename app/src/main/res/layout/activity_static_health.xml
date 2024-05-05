@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity.statichealth.StaticHealthActivity">
+    tools:context=".activity.healthStatistic.StaticHealthActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -103,6 +103,7 @@
             android:layout_height="wrap_content">
 
             <com.github.mikephil.charting.charts.LineChart
+                android:visibility="gone"
                 android:id="@+id/line_chart"
                 android:layout_marginHorizontal="15dp"
                 android:layout_width="match_parent"

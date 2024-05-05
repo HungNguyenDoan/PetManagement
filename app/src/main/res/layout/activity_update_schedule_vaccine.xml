@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_button"
-    tools:context=".activity.schedule.vaccine.UpdateScheduleVaccineActivity"
+    tools:context=".activity.notification.vaccine.UpdateScheduleVaccineActivity"
     android:scrollbars="none">
 
     <androidx.appcompat.widget.Toolbar
@@ -348,7 +348,7 @@
                     android:text="Lưu"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:background="@drawable/green_background_button"
                     android:layout_height="wrap_content"/>
 

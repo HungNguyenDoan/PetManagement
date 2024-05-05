@@ -1,6 +1,8 @@
-package com.project.petmanagement.activity.schedule.careactivity;
+package com.project.petmanagement.activity.notification.careActivity;
 
-import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -9,15 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.CareActivity;
 import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
+import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
 import com.project.petmanagement.services.ApiService;
 
@@ -30,19 +31,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddCareActivityInfoActivity extends AppCompatActivity {
-
+public class UpdateCareActivityInfoActivity extends AppCompatActivity {
     private int stt = 1;
     private LinearLayout parentLayout;
     private Button saveBtn;
     private ArrayAdapter<String> careActivityAdapter;
     private Map<String, CareActivity> careActivityMap;
     private TextInputEditText title, totalNote;
+    private Long careActivityNotificationId;
+    private List<CareActivityInfoRequest> careActivityInfoRequests;
+    private final List<CareActivityInfoRequest> deleteCareActivityInfoRequests = new ArrayList<>();
+    private CareActivityNotificationRequest careActivityNotificationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_activity_info);
+        setContentView(R.layout.activity_update_care_info);
         ImageView returnArrow = findViewById(R.id.return_arrow);
         CardView btnAddView = findViewById(R.id.add_activity_btn);
         parentLayout = findViewById(R.id.parent_layout);
@@ -50,10 +54,12 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         totalNote = findViewById(R.id.total_note);
         careActivityMap = new LinkedHashMap<>();
-        CareActivityNotificationRequest careActivityNotificationRequest = (CareActivityNotificationRequest) getIntent().getSerializableExtra("activityInfo");
+        careActivityNotificationRequest = (CareActivityNotificationRequest) getIntent().getSerializableExtra("activityInfo");
         if (careActivityNotificationRequest != null) {
+            careActivityInfoRequests = careActivityNotificationRequest.getCareActivityInfoRequestList();
             title.setText(careActivityNotificationRequest.getTitle());
             totalNote.setText(careActivityNotificationRequest.getNote());
+            careActivityNotificationId = getIntent().getLongExtra("careActivityNotificationId", 0);
             if (careActivityNotificationRequest.getCareActivityInfoRequestList() != null) {
                 for (CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()) {
                     final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
@@ -63,7 +69,9 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                     title.setText(strTile);
                     AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
                     TextInputEditText noteEdit = childView.findViewById(R.id.note);
+                    TextView activityInfoId = childView.findViewById(R.id.activity_info_id);
                     noteEdit.setText(careActivityInfoRequest.getNote());
+                    activityInfoId.setText(String.valueOf(careActivityInfoRequest.getId()));
                     ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
                         @Override
                         public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
@@ -74,7 +82,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                                         if (careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())) {
                                             activityType.setText(careActivity.getName());
                                         }
-                                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                                        careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
                                         activityType.setAdapter(careActivityAdapter);
                                     }
                                 }
@@ -134,27 +142,75 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
 
     private void saveCareActivityInfo() {
         List<CareActivityInfoRequest> careActivityInfoList = new ArrayList<>();
+        List<Long> activityInfoId = new ArrayList<>();
         for (int i = 0; i < parentLayout.getChildCount(); i++) {
             View childView = parentLayout.getChildAt(i);
             AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
             TextInputEditText note = childView.findViewById(R.id.note);
+            TextView id = childView.findViewById(R.id.activity_info_id);
             if (validate(activityType, note)) {
                 Long careActivityId = careActivityMap.get(activityType.getText().toString()).getId();
                 if (validate(activityType, note)) {
                     CareActivityInfoRequest careActivityInfoRequest = new CareActivityInfoRequest(careActivityId, note.getText().toString());
+                    if (id.length() != 0) {
+                        careActivityInfoRequest.setId(Long.parseLong(id.getText().toString()));
+                        activityInfoId.add(Long.parseLong(id.getText().toString()));
+                    }
                     careActivityInfoList.add(careActivityInfoRequest);
                 }
             }
         }
         if (!careActivityInfoList.isEmpty()) {
-            CareActivityNotificationRequest careActivityNotificationRequest = new CareActivityNotificationRequest();
+            for (CareActivityInfoRequest careActivityInfoRequest : careActivityInfoRequests) {
+                if (!activityInfoId.contains(careActivityInfoRequest.getId())) {
+                    deleteCareActivityInfoRequests.add(careActivityInfoRequest);
+                }
+            }
             careActivityNotificationRequest.setTitle(title.getText().toString());
             careActivityNotificationRequest.setNote(totalNote.getText().toString());
-            careActivityNotificationRequest.setCareActivityInfoRequestList(careActivityInfoList);
-            Intent intent = new Intent(AddCareActivityInfoActivity.this, AddCareActivityScheduleActivity.class);
-            intent.putExtra("careActivityNotificationRequest", careActivityNotificationRequest);
-            setResult(RESULT_OK, intent);
-            finish();
+            if (!deleteCareActivityInfoRequests.isEmpty()) {
+                for (CareActivityInfoRequest careActivityInfoRequest : deleteCareActivityInfoRequests) {
+                    ApiService.apiService.deleteCareActivityInfo(careActivityInfoRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                        @Override
+                        public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<com.project.petmanagement.payloads.responses.Response> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+
+            ApiService.apiService.updateCareActivityNotification(careActivityNotificationId, careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
+                @Override
+                public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
+                    if (response.isSuccessful()) {
+
+                        ApiService.apiService.updateCareActivityInfo(careActivityNotificationId, careActivityInfoList).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                            @Override
+                            public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(UpdateCareActivityInfoActivity.this, "update thành công", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<com.project.petmanagement.payloads.responses.Response> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CareActivityNotificationResponse> call, Throwable t) {
+
+                }
+            });
         }
     }
 
@@ -176,7 +232,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                         for (CareActivity careActivity : response.body().getData()) {
                             careActivityMap.put(careActivity.getName(), careActivity);
                         }
-                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                        careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
                         activityType.setAdapter(careActivityAdapter);
                     }
                 }

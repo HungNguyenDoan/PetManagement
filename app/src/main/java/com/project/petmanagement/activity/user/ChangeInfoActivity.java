@@ -1,10 +1,6 @@
 package com.project.petmanagement.activity.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.app.DatePickerDialog;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -13,10 +9,11 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.login.RegisterActivity;
 import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.payloads.requests.UserRequest;
 import com.project.petmanagement.payloads.responses.UserResponse;

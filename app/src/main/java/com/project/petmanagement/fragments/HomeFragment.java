@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.pet.AddNewPetActivity;
-import com.project.petmanagement.activity.schedule.ScheduleActivity;
-import com.project.petmanagement.activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity;
-import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.notification.ScheduleActivity;
+import com.project.petmanagement.activity.notification.careActivity.ManageCareActivityScheduleInfoActivity;
+import com.project.petmanagement.activity.notification.vaccine.ManageVaccineInjectionScheduleActivity;
 import com.project.petmanagement.adapters.DatesOfMonthRecyclerAdapter;
 import com.project.petmanagement.adapters.PetHomeAdapter;
 import com.project.petmanagement.models.entity.Pet;

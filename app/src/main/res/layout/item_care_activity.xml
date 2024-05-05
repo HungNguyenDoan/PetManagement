@@ -25,6 +25,7 @@
                 />
             <LinearLayout
                 android:id="@+id/date"
+                android:layout_marginVertical="5dp"
                 android:orientation="horizontal"
                 android:layout_below="@+id/title"
                 android:layout_width="wrap_content"

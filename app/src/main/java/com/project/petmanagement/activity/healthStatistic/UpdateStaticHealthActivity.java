@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.statichealth;
+package com.project.petmanagement.activity.healthStatistic;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.statichealth;
+package com.project.petmanagement.activity.healthStatistic;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;

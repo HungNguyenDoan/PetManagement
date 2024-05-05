@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule.careactivity;
+package com.project.petmanagement.activity.notification.careActivity;
 
 import java.util.List;
 

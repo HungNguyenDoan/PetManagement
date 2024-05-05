@@ -14,7 +14,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.careactivity.CareActivityScheduleDetailActivity;
+import com.project.petmanagement.activity.notification.careActivity.CareActivityScheduleDetailActivity;
 import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;

@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.vaccine.VaccineScheduleDetailActivity;
+import com.project.petmanagement.activity.notification.vaccine.VaccineScheduleDetailActivity;
 import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;

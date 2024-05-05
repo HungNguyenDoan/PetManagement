@@ -1,4 +1,4 @@
-package com.project.petmanagement.activity.schedule.careactivity;
+package com.project.petmanagement.activity.notification.careActivity;
 
 import android.content.Intent;
 import android.os.Build;

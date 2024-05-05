@@ -123,7 +123,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_login_custom"
+        android:background="@drawable/green_background_button"
         android:text="Lưu"
         android:textAllCaps="false"
         android:textColor="@color/white"

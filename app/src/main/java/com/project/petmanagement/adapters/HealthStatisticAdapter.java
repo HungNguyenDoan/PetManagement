@@ -15,17 +15,17 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.statichealth.UpdateStaticHealthActivity;
+import com.project.petmanagement.activity.healthStatistic.UpdateStaticHealthActivity;
 import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.util.List;
 
-public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapter.StaticHealViewHolder> {
+public class HealthStatisticAdapter extends RecyclerView.Adapter<HealthStatisticAdapter.StaticHealViewHolder> {
     private Context context;
     private List<HealthRecord> healthRecords;
 
-    public StaticHealthAdapter(Context context, List<HealthRecord> healthRecords) {
+    public HealthStatisticAdapter(Context context, List<HealthRecord> healthRecords) {
         this.context = context;
         this.healthRecords = healthRecords;
     }
