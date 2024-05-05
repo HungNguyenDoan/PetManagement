@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.medical.MedicalDocumentActivity;
 import com.project.petmanagement.activity.statichealth.StaticHealthActivity;
@@ -50,9 +51,11 @@ public class InforPetFragment extends Fragment {
     private TextView age;
     private TextView seeMoreStatic, seeMoreMedical;
     private List<HealthRecord> healthRecords;
+    private FloatingActionButton btnAdd;
     private Pet pet;
-    public InforPetFragment(long idPet) {
+    public InforPetFragment(long idPet, FloatingActionButton btnAdd) {
         this.idPet = idPet;
+        this.btnAdd = btnAdd;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -203,5 +206,7 @@ public class InforPetFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getPet();
+        btnAdd.setVisibility(View.GONE);
     }
+
 }

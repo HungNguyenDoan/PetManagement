@@ -40,6 +40,7 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
     private Button saveBtn;
     private int stt=1;
     private Long vaccineNotificationId;
+    List<OneTimeScheduleRequest> finalOneTimeScheduleRequests;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,9 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.save_btn);
         vaccineNotificationId = getIntent().getLongExtra("vaccineNotificationId", 0);
         List<OneTimeScheduleRequest> oneTimeScheduleRequests = (List<OneTimeScheduleRequest>) getIntent().getSerializableExtra("listOneTime");
+        if (oneTimeScheduleRequests != null) {
+            finalOneTimeScheduleRequests = new ArrayList<>(oneTimeScheduleRequests);
+        }
         if(oneTimeScheduleRequests!=null){
             for(OneTimeScheduleRequest oneTimeScheduleRequest: oneTimeScheduleRequests){
                 final View childView = getLayoutInflater().inflate(R.layout.item_vaccine_notification,null,false);
@@ -123,6 +127,7 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
     }
     private void saveSchedule(){
         List<OneTimeScheduleRequest> oneTimeScheduleRequests = new ArrayList<>();
+        List<Long> oneTimeId = new ArrayList<>();
         for(int i =0; i<parentLayout.getChildCount();i++){
             View childView = parentLayout.getChildAt(i);
             TextInputEditText dateInject = childView.findViewById(R.id.date_inject);
@@ -136,6 +141,7 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                     OneTimeScheduleRequest oneTimeScheduleRequest = new OneTimeScheduleRequest(date2, hourInject.getText().toString());
                     if(scheduleId.length()!=0){
                         oneTimeScheduleRequest.setId(Long.parseLong(scheduleId.getText().toString()));
+                        oneTimeId.add(Long.parseLong(scheduleId.getText().toString()));
                     }
                     if(scheduleStatus.length()!=0){
                         int status = Integer.parseInt(scheduleStatus.getText().toString());
@@ -149,6 +155,20 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        }
+        for(OneTimeScheduleRequest oneTimeScheduleRequest: finalOneTimeScheduleRequests){
+            if(!oneTimeId.contains(oneTimeScheduleRequest.getId())){
+                ApiService.apiService.deleteOneTimeSchedule(oneTimeScheduleRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                    @Override
+                    public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<com.project.petmanagement.payloads.responses.Response> call, Throwable t) {
+
+                    }
+                });
             }
         }
         if(!oneTimeScheduleRequests.isEmpty()&&parentLayout.getChildCount()!=0){

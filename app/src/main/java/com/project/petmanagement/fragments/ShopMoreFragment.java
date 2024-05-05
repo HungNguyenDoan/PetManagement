@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.activity.shop.OrderActivity;
 
 
@@ -44,6 +45,8 @@ public class ShopMoreFragment extends Fragment {
         backApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                startActivity(intent);
                 requireActivity().finish();
             }
         });

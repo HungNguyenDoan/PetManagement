@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_button"
-    tools:context=".activity.schedule.vaccine.SetVaccineScheduleActivity"
+    tools:context=".activity.schedule.vaccine.AddVaccineScheduleActivity"
     android:scrollbars="none">
 
     <androidx.appcompat.widget.Toolbar

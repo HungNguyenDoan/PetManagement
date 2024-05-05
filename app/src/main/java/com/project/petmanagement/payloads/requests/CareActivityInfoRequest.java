@@ -10,6 +10,9 @@ public class CareActivityInfoRequest implements Serializable {
     private Long careActivityId;
     private String note;
 
+    public CareActivityInfoRequest() {
+    }
+
     public CareActivityInfoRequest(Long careActivityId, String note) {
         this.careActivityId = careActivityId;
         this.note = note;

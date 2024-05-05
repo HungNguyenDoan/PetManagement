@@ -75,7 +75,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProductDetailActivity.this, ShopActivity.class);
                 intent.putExtra("key", "cart");
                 startActivity(intent);
-
+                finish();
             }
         });
         btnAddToCart.setOnClickListener(new View.OnClickListener() {

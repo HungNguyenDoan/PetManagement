@@ -37,7 +37,7 @@ public class DailyActivityLogAdapter extends RecyclerView.Adapter<DailyActivityL
     @Override
     public void onBindViewHolder(@NonNull DailyActivityLogViewHolder holder, int position) {
         final DailyActivityLog dailyActivityLog = dailyActivityLogs.get(position);
-        holder.dailyLogTitle.setText(dailyActivityLog.getTitle());
+        holder.dailyLogTitle.setText(dailyActivityLog.getDailyActivity().getName());
         holder.dailyLogTime.setText(dailyActivityLog.getTime().substring(0, 5));
         holder.dailyLogDate.setText(FormatDateUtils.DateToString(dailyActivityLog.getDate()));
         holder.dailyLogItem.setOnClickListener(new View.OnClickListener() {
