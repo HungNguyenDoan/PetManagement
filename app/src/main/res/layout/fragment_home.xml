@@ -54,7 +54,6 @@
                 android:id="@+id/pet_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -73,25 +72,72 @@
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/pet_list_recycler_view"
+                <LinearLayout
+                    android:id="@+id/existed_pet_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp" />
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/pet_list_recycler_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/default_button"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_horizontal"
+                                android:text="Bạn có\nthú cưng mới?"
+                                android:textSize="22sp"
+                                tools:ignore="HardcodedText" />
+
+                            <Button
+                                android:id="@+id/add_pet_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/green_background_button"
+                                android:paddingHorizontal="25dp"
+                                android:paddingVertical="15dp"
+                                android:text="Thêm Nào"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="20sp"
+                                tools:ignore="HardcodedText" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/no_pet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp">
 
                     <ImageView
-                        android:id="@+id/no_pet_image"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:src="@drawable/no_pet_image"
                         android:scaleType="fitXY"
+                        android:src="@drawable/no_pet_image"
                         tools:ignore="ContentDescription" />
 
                 </RelativeLayout>
@@ -203,8 +249,6 @@
                             android:textSize="20sp"
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
-
-
                 </LinearLayout>
             </LinearLayout>
 
@@ -213,14 +257,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_section"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginVertical="15dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
                     android:layout_marginBottom="15dp"
                     android:orientation="horizontal"
                     android:weightSum="5">
@@ -245,288 +288,287 @@
                         tools:ignore="ContentDescription" />
                 </LinearLayout>
 
+                <HorizontalScrollView
+                    android:id="@+id/list_months"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_1"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 1"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_2"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 2"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_3"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 3"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_4"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 4"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_5"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 5"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_6"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 6"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_7"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 7"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_8"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 8"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_9"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 9"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_10"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 10"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_11"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 11"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="15dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/month_12"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:alpha="0.6"
+                                android:background="@color/gray"
+                                android:text="Tháng 12"
+                                android:textAllCaps="false"
+                                android:textSize="16sp"
+                                tools:ignore="HardcodedText,MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/date_of_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/schedule_section"
+                android:orientation="horizontal">
+
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/schedule_recycler_view"
+                    android:id="@+id/dates_month_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-                <HorizontalScrollView
-                    android:id="@+id/months"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 1"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="true"
-                            android:text="Tháng 2"
-                            android:textAllCaps="false"
-                            android:textColor="@color/orange"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 3"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 4"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 5"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 6"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 7"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 8"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 9"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 10"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 11"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/month_button"
-                            android:enabled="false"
-                            android:text="Tháng 12"
-                            android:textAllCaps="false"
-                            android:textSize="16sp"
-                            tools:ignore="ButtonStyle" />
-
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-                <HorizontalScrollView
-                    android:id="@+id/days"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="true"
-                            android:text="Thứ 5&#10;1"
-                            android:textAllCaps="false"
-                            android:textColor="@color/green"
-                            android:textSize="22sp" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="false"
-                            android:text="Thứ 6&#10;2"
-                            android:textAllCaps="false"
-                            android:textSize="22sp" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="false"
-                            android:text="Thứ 7&#10;3"
-                            android:textAllCaps="false"
-                            android:textSize="22sp" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="false"
-                            android:text="CN&#10;4"
-                            android:textAllCaps="false"
-                            android:textSize="22sp" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="false"
-                            android:text="Thứ 2&#10;5"
-                            android:textAllCaps="false"
-                            android:textSize="22sp" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="false"
-                            android:text="Thứ 3&#10;6"
-                            android:textAllCaps="false"
-                            android:textSize="22sp" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="false"
-                            android:text="Thứ 4&#10;7"
-                            android:textAllCaps="false"
-                            android:textSize="22sp" />
-
-                        <Button
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginEnd="20dp"
-                            android:background="@drawable/day_button"
-                            android:enabled="false"
-                            android:text="Thứ 5&#10;8"
-                            android:textAllCaps="false"
-                            android:textSize="22sp" />
-                    </LinearLayout>
-                </HorizontalScrollView>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/appointment_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/schedule_section"
-                android:layout_marginStart="15dp"
+                android:layout_below="@id/date_of_month"
                 android:layout_marginTop="25dp"
-                android:layout_marginEnd="15dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginHorizontal="15dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -541,14 +583,16 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/appointment_recycler_view"
+                    android:id="@+id/vaccination_notification_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <ImageView
-                    android:id="@+id/no_appointment_image"
+                    android:id="@+id/no_vaccination_notification_image"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/no_appointment_image"
                     tools:ignore="ContentDescription" />
             </LinearLayout>

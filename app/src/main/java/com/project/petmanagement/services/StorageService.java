@@ -7,48 +7,58 @@ import com.google.gson.Gson;
 import com.project.petmanagement.models.entity.User;
 
 public class StorageService {
-    private static  final String MY_SHARED_PREFERENCE = "petmanagement";
+    private static final String MY_SHARED_PREFERENCE = "petmanagement";
     private SharedPreferences sharedPreferences;
-    public StorageService (Context context){
+
+    public StorageService(Context context) {
         sharedPreferences = context.getSharedPreferences(MY_SHARED_PREFERENCE, Context.MODE_PRIVATE);
     }
-    public void setString(String key, String value){
+
+    public void setString(String key, String value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key,value);
+        editor.putString(key, value);
         editor.apply();
     }
-    public String getString(String key){
-        return sharedPreferences.getString(key,"");
+
+    public String getString(String key) {
+        return sharedPreferences.getString(key, "");
     }
-    public void setBoolean(String key, boolean value){
+
+    public void setBoolean(String key, boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(key,value);
+        editor.putBoolean(key, value);
         editor.apply();
     }
-    public boolean getBoolean(String key){
-        return sharedPreferences.getBoolean(key,false);
+
+    public boolean getBoolean(String key) {
+        return sharedPreferences.getBoolean(key, false);
     }
-    public void setLong(String key, long value){
+
+    public void setLong(String key, long value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(key,value);
+        editor.putLong(key, value);
         editor.apply();
     }
-    public long getLong(String key){
-        return sharedPreferences.getLong(key,0);
+
+    public long getLong(String key) {
+        return sharedPreferences.getLong(key, 0);
     }
-    public void setUser(String key, User user){
+
+    public void setUser(String key, User user) {
         Gson gson = new Gson();
         String jsonUser = gson.toJson(user);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key,jsonUser);
+        editor.putString(key, jsonUser);
         editor.apply();
     }
-    public User getUser(String key){
+
+    public User getUser(String key) {
         String strUser = sharedPreferences.getString(key, null);
         Gson gson = new Gson();
         return gson.fromJson(strUser, User.class);
     }
-    public void remove(String key){
+
+    public void remove(String key) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(key);
         editor.apply();

@@ -19,8 +19,8 @@ import com.project.petmanagement.utils.FormatDateUtils;
 import java.util.List;
 
 public class DailyActivityLogAdapter extends RecyclerView.Adapter<DailyActivityLogAdapter.DailyActivityLogViewHolder> {
-    private Context context;
-    private List<DailyActivityLog> dailyActivityLogs;
+    private final Context context;
+    private final List<DailyActivityLog> dailyActivityLogs;
 
     public DailyActivityLogAdapter(Context context, List<DailyActivityLog> dailyActivityLogs) {
         this.context = context;
