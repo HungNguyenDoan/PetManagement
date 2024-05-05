@@ -5,6 +5,7 @@ import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.Role;
 import com.project.petmanagement.petmanagement.models.entity.User;
 import com.project.petmanagement.petmanagement.payloads.requests.RegisterRequest;
+import com.project.petmanagement.petmanagement.payloads.requests.UserRequest;
 import com.project.petmanagement.petmanagement.repositories.RoleRepository;
 import com.project.petmanagement.petmanagement.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,17 @@ public class UserService implements UserDetailsService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User updateUser(UserRequest userRequest) throws DataNotFoundException {
+        Long userId = ((JWTUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId();
+        User existingUser = userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("Can not find user with ID: " + userId));
+        existingUser.setFullName(userRequest.getFullName());
+        existingUser.setDateOfBirth(userRequest.getDateOfBirth());
+        existingUser.setEmail(userRequest.getEmail());
+        existingUser.setAddress(userRequest.getAddress());
+        existingUser.setAvatar(userRequest.getAvatar());
+        return userRepository.save(existingUser);
     }
 
     public void deleteUser() throws DataNotFoundException {

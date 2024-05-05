@@ -39,11 +39,21 @@ public class CareActivityInfoService {
     public List<CareActivityInfo> updateCareActivityInfoList(List<CareActivityInfoRequest> careActivityInfoRequestList) throws DataNotFoundException {
         List<CareActivityInfo> careActivityInfoList = new ArrayList<>();
         for (CareActivityInfoRequest careActivityInfoRequest : careActivityInfoRequestList) {
-            CareActivityInfo existingCareActivityInfo = careActivityInfoRepository.findById(careActivityInfoRequest.getId()).orElseThrow(() -> new DataNotFoundException("Can not find care activity with ID: " + careActivityInfoRequest.getId()));
-            CareActivity careActivity = careActivityRepository.findById(careActivityInfoRequest.getCareActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find care activity with ID: " + careActivityInfoRequest.getCareActivityId()));
-            existingCareActivityInfo.setCareActivity(careActivity);
-            existingCareActivityInfo.setNote(careActivityInfoRequest.getNote());
-            careActivityInfoList.add(careActivityInfoRepository.save(existingCareActivityInfo));
+            if (careActivityInfoRequest.getId() != null) {
+                CareActivityInfo existingCareActivityInfo = careActivityInfoRepository.findById(careActivityInfoRequest.getId()).orElseThrow(() -> new DataNotFoundException("Can not find care activity with ID: " + careActivityInfoRequest.getId()));
+                CareActivity careActivity = careActivityRepository.findById(careActivityInfoRequest.getCareActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find care activity with ID: " + careActivityInfoRequest.getCareActivityId()));
+                existingCareActivityInfo.setCareActivity(careActivity);
+                existingCareActivityInfo.setNote(careActivityInfoRequest.getNote());
+                careActivityInfoList.add(careActivityInfoRepository.save(existingCareActivityInfo));
+            } else {
+                CareActivity careActivity = careActivityRepository.findById(careActivityInfoRequest.getCareActivityId()).orElseThrow(() -> new DataNotFoundException("Can not find care activity with ID: " + careActivityInfoRequest.getCareActivityId()));
+                CareActivityInfo existingCareActivityInfo = CareActivityInfo.builder()
+                        .careActivity(careActivity)
+                        .note(careActivityInfoRequest.getNote())
+                        .build();
+                careActivityInfoList.add(careActivityInfoRepository.save(existingCareActivityInfo));
+            }
+
         }
         return careActivityInfoList;
     }
