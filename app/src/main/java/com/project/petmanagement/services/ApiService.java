@@ -69,11 +69,11 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     // Server
-    String BASE_URL = "http://103.163.215.125/api/";
+//    String BASE_URL = "http://103.163.215.125/api/";
 
     // Local
 //    String BASE_URL = "http://192.168.1.19:8080/";
-//    String BASE_URL = "http://192.151.62.105:8080/";
+    String BASE_URL = "http://192.151.62.105:8080/";
 
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()

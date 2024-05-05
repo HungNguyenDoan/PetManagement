@@ -27,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    private TextView textSignup, textBack;
+    private TextView textSignup;
     private TextInputEditText inputPhoneNumber, inputPassword;
     private Button btnLogin;
     private final StorageService storageService = MyApplication.getStorageService();
@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         findViewById();
         changeSignup();
         btnLogin.setOnClickListener(v -> login());
-        textBack.setOnClickListener(v -> finish());
     }
 
     private void login() {
@@ -105,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
         inputPhoneNumber = findViewById(R.id.phone_number);
         inputPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.btn_login);
-        textBack = findViewById(R.id.text_back);
     }
 
     private void changeSignup() {

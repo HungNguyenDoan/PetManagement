@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,15 +16,15 @@ import java.util.Objects;
 public class ChangeInfoActivity extends AppCompatActivity {
     private TextInputEditText inputPhoneNumber, inputAddress;
     private Button btnConfirm;
-
+    private ImageView btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chang_info);
         inputPhoneNumber = findViewById(R.id.input_phone_number);
         inputAddress = findViewById(R.id.input_address);
+        btnBack = findViewById(R.id.btn_back);
         btnConfirm = findViewById(R.id.btn_confirm);
-        String fullName = getIntent().getStringExtra("fullName");
         String phoneNumber = getIntent().getStringExtra("phoneNumber");
         String address = getIntent().getStringExtra("address");
         inputAddress.setText(address);
@@ -38,6 +39,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

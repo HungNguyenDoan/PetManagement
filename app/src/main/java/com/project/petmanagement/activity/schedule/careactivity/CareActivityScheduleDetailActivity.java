@@ -63,8 +63,18 @@ public class CareActivityScheduleDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_care_schedule_detail);
         setActivityInfo = findViewById(R.id.set_activity_info);
+        ImageView btnUpdate = findViewById(R.id.btn_update);
         ImageView btnEditActivityInfo = findViewById(R.id.btn_edit_info_activity);
         ImageView btnEditRecurringSchedule = findViewById(R.id.btn_edit_notify);
+        btnEditActivityInfo.setVisibility(View.GONE);
+        btnEditRecurringSchedule.setVisibility(View.GONE);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnEditActivityInfo.setVisibility(View.VISIBLE);
+                btnEditRecurringSchedule.setVisibility(View.VISIBLE);
+            }
+        });
         imagePet = findViewById(R.id.image_pet);
         namePet = findViewById(R.id.name_pet);
         parentLayout1 = findViewById(R.id.parent_layout1);

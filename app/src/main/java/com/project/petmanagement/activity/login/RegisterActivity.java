@@ -26,6 +26,7 @@ import com.project.petmanagement.payloads.responses.RegisterErrorResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
 import com.project.petmanagement.utils.DialogUtils;
+import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -39,7 +40,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
-    private TextView textLogin, textBack;
+    private TextView textLogin;
     private TextInputEditText fullName, dob, phoneNumber, password, rePassword, email, address;
     private Button btnSignup;
     private DatePickerDialog datePickerDialog;
@@ -53,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
         changeLogin();
         customDob();
         btnSignup.setOnClickListener(v -> signUp());
-        textBack.setOnClickListener(v -> finish());
     }
 
     private void findViewById() {
@@ -66,7 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
         rePassword = findViewById(R.id.confirm_password);
         email = findViewById(R.id.email);
         address = findViewById(R.id.address);
-        textBack = findViewById(R.id.text_back);
     }
 
     private void signUp() {
@@ -192,8 +191,27 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             Date date1 = sdf.parse(date);
                             String date2 = sdf.format(date1);
-                            dob.setText(date2);
-                            dob.setError(null);
+                            Date currentDate = new Date();
+                            String date3 = FormatDateUtils.DateToString1(date1);
+                            Date dateChoose = FormatDateUtils.StringToDate(date3);
+                            Calendar cal1 = Calendar.getInstance();
+                            cal1.setTime(currentDate);
+                            cal1.set(Calendar.HOUR_OF_DAY, 0);
+                            cal1.set(Calendar.MINUTE, 0);
+                            cal1.set(Calendar.SECOND, 0);
+                            cal1.set(Calendar.MILLISECOND, 0);
+                            Calendar cal2 = Calendar.getInstance();
+                            cal2.setTime(dateChoose);
+                            cal2.set(Calendar.HOUR_OF_DAY, 0);
+                            cal2.set(Calendar.MINUTE, 0);
+                            cal2.set(Calendar.SECOND, 0);
+                            cal2.set(Calendar.MILLISECOND, 0);
+                            if (cal1.compareTo(cal2) < 0) {
+                                DialogUtils.setUpDialog(RegisterActivity.this, "Ngày bạn chọn không được lớn hơn ngày hiện tại");
+                            } else {
+                                dob.setText(date2);
+                                dob.setError(null);
+                            }
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
                         }

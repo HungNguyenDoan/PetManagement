@@ -3,9 +3,12 @@ package com.project.petmanagement;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.os.Build;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.project.petmanagement.activity.login.LoginActivity;
+import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.services.StorageService;
 
 public class MyApplication extends Application {
@@ -17,6 +20,11 @@ public class MyApplication extends Application {
         super.onCreate();
         AndroidThreeTen.init(this);
         storageService = new StorageService(getApplicationContext());
+        User user = storageService.getUser("user");
+        if (user != null) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
         createChannelNotification();
     }
 

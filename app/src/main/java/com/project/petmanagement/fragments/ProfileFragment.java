@@ -39,6 +39,7 @@ import com.project.petmanagement.activity.login.LoginActivity;
 import com.project.petmanagement.activity.nutrition.NutritionActivity;
 import com.project.petmanagement.activity.pet.ManagePetActivity;
 import com.project.petmanagement.activity.shop.ShopActivity;
+import com.project.petmanagement.activity.user.ChangeInfoActivity;
 import com.project.petmanagement.activity.user.ChangePassword;
 import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
 import com.project.petmanagement.models.entity.User;
@@ -67,6 +68,10 @@ public class ProfileFragment extends Fragment {
     private final static int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private final static int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 101;
     private final static int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 102;
+    private Button btnLogout, btnLogin;
+    private TextView fullName;
+    private TextView phoneNumber;
+    private ImageView openCamera;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -131,32 +136,37 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btnLogin = view.findViewById(R.id.logout_btn);
+        btnLogin = view.findViewById(R.id.logout_btn);
         CardView pet = view.findViewById(R.id.pet_card_view);
         CardView nutrition = view.findViewById(R.id.nutrition_card_view);
         CardView vet = view.findViewById(R.id.veterinarian);
         CardView shop = view.findViewById(R.id.shop);
         CardView changePassword = view.findViewById(R.id.change_password_card_view);
         CardView deleteAccount = view.findViewById(R.id.delete_account_card_view);
-        Button btnLogout = view.findViewById(R.id.btn_logout);
-        TextView fullName = view.findViewById(R.id.full_name);
-        TextView phoneNumber = view.findViewById(R.id.phone_number);
+        ImageView updateProfile = view.findViewById(R.id.update_profile);
+        btnLogout = view.findViewById(R.id.btn_logout);
+        fullName = view.findViewById(R.id.full_name);
+        phoneNumber = view.findViewById(R.id.phone_number);
         images = view.findViewById(R.id.avatar);
-        ImageView openCamera = view.findViewById(R.id.camera);
+        openCamera = view.findViewById(R.id.camera);
+        openCamera.setVisibility(View.GONE);
         User user = storageService.getUser("user");
         if (user != null) {
+            openCamera.setVisibility(View.VISIBLE);
             fullName.setText(user.getFullName());
             String phone = "+84 " + user.getPhoneNumber().substring(1, 4) + " xxx xxx";
             phoneNumber.setText(phone);
-            Glide.with(requireActivity())
-                .load(user.getAvatar())
-                .error(R.drawable.gray_pet_image)
-                .into(images);
+            if(user.getAvatar()!=null){
+                images.setImageURI(Uri.parse(user.getAvatar()));
+            }else{
+                images.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.gray_pet_image));
+            }
             btnLogin.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
         } else {
             btnLogin.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.GONE);
+            openCamera.setVisibility(View.GONE);
         }
         btnLogin.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), LoginActivity.class);
@@ -182,6 +192,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+        updateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChangeInfoActivity.class);
                 startActivity(intent);
             }
         });
@@ -327,4 +344,26 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        User user = storageService.getUser("user");
+        if (user != null) {
+            openCamera.setVisibility(View.VISIBLE);
+            fullName.setText(user.getFullName());
+            String phone = "+84 " + user.getPhoneNumber().substring(1, 4) + " xxx xxx";
+            phoneNumber.setText(phone);
+            if(user.getAvatar()!=null){
+                images.setImageURI(Uri.parse(user.getAvatar()));
+            }else{
+                images.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.gray_pet_image));
+            }
+            btnLogin.setVisibility(View.GONE);
+            btnLogout.setVisibility(View.VISIBLE);
+        } else {
+            btnLogin.setVisibility(View.VISIBLE);
+            btnLogout.setVisibility(View.GONE);
+            openCamera.setVisibility(View.GONE);
+        }
+    }
 }

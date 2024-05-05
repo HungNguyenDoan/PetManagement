@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,16 +67,12 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                 TextInputEditText dateInject = childView.findViewById(R.id.date_inject);
                 TextInputEditText hourInject = childView.findViewById(R.id.hour);
                 TextView oneTimeScheduleId = childView.findViewById(R.id.one_time_schedule_id);
-                TextView scheduleStatus = childView.findViewById(R.id.one_time_schedule_status);
+                CheckBox scheduleStatus = childView.findViewById(R.id.one_time_schedule_status);
                 if (oneTimeScheduleRequest.getId() != null) {
                     oneTimeScheduleId.setText(String.valueOf(oneTimeScheduleRequest.getId()));
                 }
                 if (oneTimeScheduleRequest.getStatus() != null) {
-                    if (oneTimeScheduleRequest.getStatus()) {
-                        scheduleStatus.setText(String.valueOf(1));
-                    } else {
-                        scheduleStatus.setText(String.valueOf(0));
-                    }
+                    scheduleStatus.setChecked(oneTimeScheduleRequest.getStatus());
                 }
                 Date date = null;
                 try {
@@ -136,7 +133,7 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
             TextInputEditText dateInject = childView.findViewById(R.id.date_inject);
             TextInputEditText hourInject = childView.findViewById(R.id.hour);
             TextView scheduleId = childView.findViewById(R.id.one_time_schedule_id);
-            TextView scheduleStatus = childView.findViewById(R.id.one_time_schedule_status);
+            CheckBox scheduleStatus = childView.findViewById(R.id.one_time_schedule_status);
             if (validate(dateInject, hourInject)) {
                 try {
                     Date date1 = FormatDateUtils.StringToDate1(dateInject.getText().toString());
@@ -146,14 +143,7 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                         oneTimeScheduleRequest.setId(Long.parseLong(scheduleId.getText().toString()));
                         oneTimeId.add(Long.parseLong(scheduleId.getText().toString()));
                     }
-                    if (scheduleStatus.length() != 0) {
-                        int status = Integer.parseInt(scheduleStatus.getText().toString());
-                        if (status == 0) {
-                            oneTimeScheduleRequest.setStatus(false);
-                        } else {
-                            oneTimeScheduleRequest.setStatus(true);
-                        }
-                    }
+                    oneTimeScheduleRequest.setStatus(scheduleStatus.isChecked());
                     oneTimeScheduleRequests.add(oneTimeScheduleRequest);
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
