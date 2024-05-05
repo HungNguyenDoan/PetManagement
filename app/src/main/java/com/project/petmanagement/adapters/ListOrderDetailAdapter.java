@@ -32,16 +32,16 @@ public class ListOrderDetailAdapter extends RecyclerView.Adapter<ListOrderDetail
     @NonNull
     @Override
     public ProductDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ProductDetailViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_detail,parent,false));
+        return new ProductDetailViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_detail, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductDetailViewHolder holder, int position) {
         final OrderDetail orderDetail = orderDetails.get(position);
         holder.nameProduct.setText(orderDetail.getProduct().getName());
-        String price = FormatNumberUtils.formatFloat(orderDetail.getPrice())+" VNĐ";
+        String price = FormatNumberUtils.formatFloat(orderDetail.getPrice()) + " VNĐ";
         holder.priceProduct.setText(price);
-        String quantity = "x"+String.valueOf(orderDetail.getQuantity());
+        String quantity = "x" + String.valueOf(orderDetail.getQuantity());
         holder.quantity.setText(quantity);
         holder.imageProduct.setImageBitmap(ImageUtils.decodeBase64(orderDetail.getProduct().getImage()));
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +56,7 @@ public class ListOrderDetailAdapter extends RecyclerView.Adapter<ListOrderDetail
 
     @Override
     public int getItemCount() {
-        if(orderDetails!=null){
+        if (orderDetails != null) {
             return orderDetails.size();
         }
         return 0;

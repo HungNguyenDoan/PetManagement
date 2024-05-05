@@ -1,12 +1,5 @@
 package com.project.petmanagement.activity.schedule.vaccine;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
@@ -62,7 +62,7 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
     private TextView message;
     private TextInputEditText title, note;
     private final ActivityResultLauncher<Intent> launcherSchedule = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {
-        if(o.getResultCode() == RESULT_OK){
+        if (o.getResultCode() == RESULT_OK) {
             Intent data = o.getData();
             if (data != null) {
                 oneTimeScheduleRequestList = (List<OneTimeScheduleRequest>) data.getSerializableExtra("listOneTime");
@@ -72,7 +72,7 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> launcherPet = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == RESULT_OK){
+            if (o.getResultCode() == RESULT_OK) {
                 Intent data = o.getData();
                 if (data != null) {
                     pet = (Pet) data.getSerializableExtra("pet");
@@ -81,6 +81,7 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
             }
         }
     });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,13 +123,13 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
         returnArrow.setOnClickListener(v -> finish());
         setUpOneTimeSchedule();
         btnSave.setOnClickListener(v -> {
-            if(validation()){
+            if (validation()) {
                 Vaccine vaccine = vaccineMap.get(vaccineView.getText().toString());
                 VaccinationNotificationRequest vaccinationNotificationRequest = new VaccinationNotificationRequest(pet.getId(), title.getText().toString(), vaccine.getId(), note.getText().toString(), oneTimeScheduleRequestList);
                 ApiService.apiService.addVaccinationNotification(vaccinationNotificationRequest).enqueue(new Callback<VaccineNotificationResponse>() {
                     @Override
                     public void onResponse(Call<VaccineNotificationResponse> call, Response<VaccineNotificationResponse> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             Intent intent = new Intent(AddVaccineScheduleActivity.this, ManageVaccineInjectionScheduleActivity.class);
                             startActivity(intent);
                             finish();
@@ -146,17 +147,19 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
         });
         setUpButton();
     }
-    private void setUpButton(){
-        if(oneTimeScheduleRequestList==null){
+
+    private void setUpButton() {
+        if (oneTimeScheduleRequestList == null) {
             btnSave.setEnabled(false);
             btnSave.setAlpha(0.4f);
-        }else{
+        } else {
             btnSave.setEnabled(true);
             btnSave.setAlpha(1);
         }
     }
-    private void setInfoPet(){
-        if(pet!=null){
+
+    private void setInfoPet() {
+        if (pet != null) {
             namePet.setText(pet.getFullName());
             Glide.with(AddVaccineScheduleActivity.this)
                     .load(pet.getImage())
@@ -165,38 +168,40 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
             getVaccine();
         }
     }
-    private boolean validation(){
-        if(oneTimeScheduleRequestList == null || oneTimeScheduleRequestList.isEmpty()){
+
+    private boolean validation() {
+        if (oneTimeScheduleRequestList == null || oneTimeScheduleRequestList.isEmpty()) {
             return false;
         }
-        if(title.length()==0){
+        if (title.length() == 0) {
             title.setError("Hành động không được để trống");
             return false;
         }
-        if(vaccineView.length()==0){
+        if (vaccineView.length() == 0) {
             vaccineView.setError("Loại vaccine không được để trống");
             return false;
         }
         return true;
     }
-    private void setUpOneTimeSchedule(){
-        if(oneTimeScheduleRequestList!=null && !oneTimeScheduleRequestList.isEmpty()){
+
+    private void setUpOneTimeSchedule() {
+        if (oneTimeScheduleRequestList != null && !oneTimeScheduleRequestList.isEmpty()) {
             parentLayout.removeAllViews();
             injectInfo.setVisibility(View.VISIBLE);
             message.setVisibility(View.GONE);
             setInjectionNotificationCardView.setVisibility(View.GONE);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnSave.getLayoutParams();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) btnSave.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, injectInfo.getId());
             btnSave.setLayoutParams(params);
             int stt = 1;
-            for(OneTimeScheduleRequest oneTimeScheduleRequest: oneTimeScheduleRequestList){
+            for (OneTimeScheduleRequest oneTimeScheduleRequest : oneTimeScheduleRequestList) {
                 try {
                     Date date = FormatDateUtils.StringToDate(oneTimeScheduleRequest.getDate());
                     String strDate = FormatDateUtils.DateToString(date);
-                    View childView = getLayoutInflater().inflate(R.layout.item_chedule_vaccine,null,false);
+                    View childView = getLayoutInflater().inflate(R.layout.item_chedule_vaccine, null, false);
                     TextView title = childView.findViewById(R.id.title);
-                    String strTile = "Lịch tiêm vaccine "+stt;
-                    stt+=1;
+                    String strTile = "Lịch tiêm vaccine " + stt;
+                    stt += 1;
                     title.setText(strTile);
                     TextView dateInject = childView.findViewById(R.id.date_inject);
                     TextView hourInject = childView.findViewById(R.id.hour);
@@ -207,7 +212,7 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
             }
-        }else{
+        } else {
             injectInfo = findViewById(R.id.injection_info);
             injectInfo.setVisibility(View.GONE);
             message.setVisibility(View.VISIBLE);
@@ -216,20 +221,20 @@ public class AddVaccineScheduleActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AddVaccineNotificationActivity.class);
                 launcherSchedule.launch(intent);
             });
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnSave.getLayoutParams();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) btnSave.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, message.getId());
             btnSave.setLayoutParams(params);
         }
     }
 
-    private void getVaccine(){
+    private void getVaccine() {
         ApiService.apiService.getVaccineByPet(pet.getId()).enqueue(new Callback<ListVaccineResponse>() {
             @Override
             public void onResponse(Call<ListVaccineResponse> call, Response<ListVaccineResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListVaccineResponse vaccineResponse = response.body();
-                    if(vaccineResponse!=null && vaccineResponse.getData()!=null){
-                        for(Vaccine vaccine: vaccineResponse.getData()){
+                    if (vaccineResponse != null && vaccineResponse.getData() != null) {
+                        for (Vaccine vaccine : vaccineResponse.getData()) {
                             vaccineMap.put(vaccine.getName(), vaccine);
                         }
                         vaccineAdapter = new ArrayAdapter<>(AddVaccineScheduleActivity.this, R.layout.list_item_dropdown, new ArrayList<>(vaccineMap.keySet()));

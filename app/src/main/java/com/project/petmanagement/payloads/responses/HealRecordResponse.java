@@ -2,7 +2,7 @@ package com.project.petmanagement.payloads.responses;
 
 import com.project.petmanagement.models.entity.HealthRecord;
 
-public class HealRecordResponse extends Response{
+public class HealRecordResponse extends Response {
     private HealthRecord data;
 
     public HealthRecord getData() {

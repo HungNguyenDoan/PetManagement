@@ -2,8 +2,6 @@ package com.project.petmanagement.payloads.requests;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 public class RegisterRequest {
     @SerializedName("full_name")
     private String fullName;
@@ -16,7 +14,7 @@ public class RegisterRequest {
     private String avatar;
     private String password;
 
-    public RegisterRequest(String fullName, String dateOfBirth, String phoneNumber, String email, String address,  String password) {
+    public RegisterRequest(String fullName, String dateOfBirth, String phoneNumber, String email, String address, String password) {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;

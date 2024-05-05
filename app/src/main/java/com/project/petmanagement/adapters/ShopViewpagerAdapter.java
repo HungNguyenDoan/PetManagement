@@ -17,7 +17,7 @@ public class ShopViewpagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return new ShopHomeFragment();
             case 1:

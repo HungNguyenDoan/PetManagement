@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.CareActivityNotification;
 
 import java.util.List;
 
-public class ListCareActivityNotificationResponse extends Response{
+public class ListCareActivityNotificationResponse extends Response {
     private List<CareActivityNotification> data;
 
     public List<CareActivityNotification> getData() {

@@ -3,17 +3,16 @@ package com.project.petmanagement.fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -34,10 +33,8 @@ import com.project.petmanagement.payloads.responses.PetResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,10 +50,12 @@ public class InforPetFragment extends Fragment {
     private List<HealthRecord> healthRecords;
     private FloatingActionButton btnAdd;
     private Pet pet;
+
     public InforPetFragment(long idPet, FloatingActionButton btnAdd) {
         this.idPet = idPet;
         this.btnAdd = btnAdd;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,18 +80,19 @@ public class InforPetFragment extends Fragment {
             startActivity(intent);
         });
     }
-    private void getPet(){
+
+    private void getPet() {
         ApiService.apiService.getPetDetail(idPet).enqueue(new Callback<PetResponse>() {
             @Override
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     PetResponse petResponse = response.body();
-                    if (petResponse!=null){
+                    if (petResponse != null) {
                         pet = petResponse.getData();
-                        if(pet.getGender() == 0){
+                        if (pet.getGender() == 0) {
                             gender.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.baseline_female_24));
-                        }else{
-                            gender.setImageDrawable(ContextCompat.getDrawable(requireActivity(),R.drawable.baseline_male_24));
+                        } else {
+                            gender.setImageDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.baseline_male_24));
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             age.setText(FormatDateUtils.calculate(pet.getDateOfBirth()));
@@ -100,22 +100,25 @@ public class InforPetFragment extends Fragment {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<PetResponse> call, Throwable t) {
             }
         });
     }
-    private void findViewById(View view){
+
+    private void findViewById(View view) {
         lineChart = view.findViewById(R.id.line_chart);
         seeMoreStatic = view.findViewById(R.id.see_more_static);
         seeMoreMedical = view.findViewById(R.id.see_more_medical);
         gender = view.findViewById(R.id.gender);
         age = view.findViewById(R.id.age);
     }
-    private void customChart(){
+
+    private void customChart() {
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = 0; i < healthRecords.size(); i++){
+        for (int i = 0; i < healthRecords.size(); i++) {
             HealthRecord healthRecord = healthRecords.get(i);
             float x = i;
             float y = healthRecord.getWeight().floatValue();
@@ -156,6 +159,7 @@ public class InforPetFragment extends Fragment {
         // Cập nhật biểu đồ
         lineChart.invalidate();
     }
+
     public static class CustomXAxisValueFormatter extends ValueFormatter {
 
         private final List<String> labels;
@@ -175,18 +179,19 @@ public class InforPetFragment extends Fragment {
             }
         }
     }
-    private void getHealthRecord(){
+
+    private void getHealthRecord() {
         ApiService.apiService.getHealthRecordByPet(idPet).enqueue(new Callback<ListHealthRecordResponse>() {
             @Override
             public void onResponse(Call<ListHealthRecordResponse> call, Response<ListHealthRecordResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListHealthRecordResponse healthRecordResponse = response.body();
-                    if(healthRecordResponse!=null&& healthRecordResponse.getData()!=null){
+                    if (healthRecordResponse != null && healthRecordResponse.getData() != null) {
                         List<HealthRecord> healthRecordList = healthRecordResponse.getData();
-                        if(healthRecordList.size()<=5){
+                        if (healthRecordList.size() <= 5) {
                             healthRecords.addAll(healthRecordList);
-                        }else{
-                            for(int i = healthRecordList.size()-5; i < healthRecordList.size();i++){
+                        } else {
+                            for (int i = healthRecordList.size() - 5; i < healthRecordList.size(); i++) {
                                 healthRecords.add(healthRecordList.get(i));
                             }
                         }
@@ -202,6 +207,7 @@ public class InforPetFragment extends Fragment {
             }
         });
     }
+
     @Override
     public void onResume() {
         super.onResume();

@@ -1,8 +1,5 @@
 package com.project.petmanagement.activity.statichealth;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -34,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdateStaticHealthActivity extends AppCompatActivity {
-    private final String[] exerciseLevel = {"1","2", "3", "4", "5"};
+    private final String[] exerciseLevel = {"1", "2", "3", "4", "5"};
     private TextInputEditText checkUpdate;
     private EditText editWeight;
     private TextInputEditText editSymptoms, editDiagnosis, editNote;
@@ -57,7 +56,7 @@ public class UpdateStaticHealthActivity extends AppCompatActivity {
         spinner.setAdapter(exerciseAdapter);
         ImageView btnBack = findViewById(R.id.btn_back);
         healthRecord = (HealthRecord) getIntent().getSerializableExtra("healthRecord");
-        if(healthRecord!=null){
+        if (healthRecord != null) {
             editWeight.setText(String.valueOf(healthRecord.getWeight()));
             String strCheckUpdate = FormatDateUtils.DateToString(healthRecord.getCheckUpDate());
             checkUpdate.setText(strCheckUpdate);
@@ -75,20 +74,20 @@ public class UpdateStaticHealthActivity extends AppCompatActivity {
             btnUpdate.setVisibility(View.VISIBLE);
         });
         btnUpdate.setOnClickListener(v -> {
-            if(validate()){
+            if (validate()) {
                 String strCheckupDate = Objects.requireNonNull(checkUpdate.getText()).toString().trim();
                 Date checkUpdate1 = null;
                 try {
                     checkUpdate1 = FormatDateUtils.StringToDate1(strCheckupDate);
                     strCheckupDate = FormatDateUtils.DateToString1(checkUpdate1);
-                    HealRecordRequest healRecordRequest = new HealRecordRequest(strCheckupDate, Double.parseDouble(editWeight.getText().toString()) ,Integer.parseInt(spinner.getSelectedItem().toString()), editSymptoms.getText().toString(), editDiagnosis.getText().toString(), editNote.getText().toString(), healthRecord.getPet().getId());
+                    HealRecordRequest healRecordRequest = new HealRecordRequest(strCheckupDate, Double.parseDouble(editWeight.getText().toString()), Integer.parseInt(spinner.getSelectedItem().toString()), editSymptoms.getText().toString(), editDiagnosis.getText().toString(), editNote.getText().toString(), healthRecord.getPet().getId());
                     ApiService.apiService.updateHealthRecord(healthRecord.getId(), healRecordRequest).enqueue(new Callback<HealRecordResponse>() {
                         @Override
                         public void onResponse(Call<HealRecordResponse> call, Response<HealRecordResponse> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 Toast.makeText(UpdateStaticHealthActivity.this, "Cập nhập báo cáo sức khỏe thành công", Toast.LENGTH_SHORT).show();
                                 finish();
-                            }else{
+                            } else {
                                 Gson gson = new Gson();
                                 HealthRecordErrorResponse healthRecordErrorResponse = null;
                                 try {
@@ -106,13 +105,13 @@ public class UpdateStaticHealthActivity extends AppCompatActivity {
                                     if (healthRecordErrorResponse.getMessage().getWeight() != null) {
                                         message += healthRecordErrorResponse.getMessage().getWeight() + "\n";
                                     }
-                                    if(healthRecordErrorResponse.getMessage().getSymptoms() !=null) {
+                                    if (healthRecordErrorResponse.getMessage().getSymptoms() != null) {
                                         message += healthRecordErrorResponse.getMessage().getSymptoms() + "\n";
                                     }
-                                    if(healthRecordErrorResponse.getMessage().getExerciseLevel() !=null) {
+                                    if (healthRecordErrorResponse.getMessage().getExerciseLevel() != null) {
                                         message += healthRecordErrorResponse.getMessage().getExerciseLevel() + "\n";
                                     }
-                                    if(healthRecordErrorResponse.getMessage().getPetId() !=null) {
+                                    if (healthRecordErrorResponse.getMessage().getPetId() != null) {
                                         message += healthRecordErrorResponse.getMessage().getPetId() + "\n";
                                     }
                                     DialogUtils.setUpDialog(UpdateStaticHealthActivity.this, message);
@@ -133,12 +132,13 @@ public class UpdateStaticHealthActivity extends AppCompatActivity {
             }
         });
     }
-    private boolean validate(){
-        if(checkUpdate.length()==0){
+
+    private boolean validate() {
+        if (checkUpdate.length() == 0) {
             checkUpdate.setError("Ngày kiểm tra không được để trống.");
             return false;
         }
-        if(editWeight.length() == 0){
+        if (editWeight.length() == 0) {
             editWeight.setError("Cân nặng không được để trống");
             return false;
         }

@@ -1,7 +1,5 @@
 package com.project.petmanagement.models.entity;
 
-import com.project.petmanagement.models.entity.NutritiousFood;
-
 import java.io.Serializable;
 import java.util.List;
 

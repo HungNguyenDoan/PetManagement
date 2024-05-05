@@ -2,7 +2,7 @@ package com.project.petmanagement.models.entity;
 
 import java.util.Date;
 
-public class HealthStatistics extends HealthRecord{
+public class HealthStatistics extends HealthRecord {
     private Date fromDate;
     private Date toDate;
     private Double totalChangedWeight;

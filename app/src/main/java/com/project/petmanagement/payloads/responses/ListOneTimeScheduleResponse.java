@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.OneTimeSchedule;
 
 import java.util.List;
 
-public class ListOneTimeScheduleResponse extends Response{
+public class ListOneTimeScheduleResponse extends Response {
     private List<OneTimeSchedule> data;
 
     public List<OneTimeSchedule> getData() {

@@ -79,10 +79,10 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                                 notifyDataSetChanged();
                                 String totalPrice1 = FormatNumberUtils.formatFloat(cart.getTotalPrice()) + " VNĐ";
                                 totalPrice.setText(totalPrice1);
-                                if(cart.getTotalPrice()==0){
+                                if (cart.getTotalPrice() == 0) {
                                     btnPayment.setEnabled(false);
                                     btnPayment.setAlpha(0.4f);
-                                }else{
+                                } else {
                                     btnPayment.setEnabled(true);
                                     btnPayment.setAlpha(1f);
                                 }
@@ -113,10 +113,10 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                             notifyDataSetChanged();
                             String totalPrice1 = FormatNumberUtils.formatFloat(cart.getTotalPrice()) + " VNĐ";
                             totalPrice.setText(totalPrice1);
-                            if(cart.getTotalPrice()==0){
+                            if (cart.getTotalPrice() == 0) {
                                 btnPayment.setEnabled(false);
                                 btnPayment.setAlpha(0.4f);
-                            }else{
+                            } else {
                                 btnPayment.setEnabled(true);
                                 btnPayment.setAlpha(1f);
                             }
@@ -144,10 +144,10 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                         notifyDataSetChanged();
                         String totalPrice1 = FormatNumberUtils.formatFloat(cartResponse.getData().getTotalPrice()) + " VNĐ";
                         totalPrice.setText(totalPrice1);
-                        if(cart.getTotalPrice()==0){
+                        if (cart.getTotalPrice() == 0) {
                             btnPayment.setEnabled(false);
                             btnPayment.setAlpha(0.4f);
-                        }else{
+                        } else {
                             btnPayment.setEnabled(true);
                             btnPayment.setAlpha(1f);
                         }
@@ -174,10 +174,10 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                             notifyDataSetChanged();
                             String totalPrice1 = FormatNumberUtils.formatFloat(cartResponse.getData().getTotalPrice()) + " VNĐ";
                             totalPrice.setText(totalPrice1);
-                            if(cart.getTotalPrice()==0){
+                            if (cart.getTotalPrice() == 0) {
                                 btnPayment.setEnabled(false);
                                 btnPayment.setAlpha(0.4f);
-                            }else{
+                            } else {
                                 btnPayment.setEnabled(true);
                                 btnPayment.setAlpha(1f);
                             }

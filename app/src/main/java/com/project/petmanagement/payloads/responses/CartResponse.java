@@ -2,7 +2,7 @@ package com.project.petmanagement.payloads.responses;
 
 import com.project.petmanagement.models.entity.Cart;
 
-public class CartResponse extends Response{
+public class CartResponse extends Response {
     private Cart data;
 
     public Cart getData() {

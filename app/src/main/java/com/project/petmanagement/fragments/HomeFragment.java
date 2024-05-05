@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,15 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.pet.AddNewPetActivity;
 import com.project.petmanagement.activity.schedule.ScheduleActivity;
-import com.project.petmanagement.activity.schedule.careactivity.ActivityScheduleInfoActivity;
-import com.project.petmanagement.activity.schedule.vaccine.VaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity;
+import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
 import com.project.petmanagement.adapters.DatesOfMonthRecyclerAdapter;
 import com.project.petmanagement.adapters.PetHomeAdapter;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
 import com.project.petmanagement.services.ApiService;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -40,9 +38,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import com.project.petmanagement.activity.schedule.careactivity.ManageCareActivityScheduleInfoActivity;
-import com.project.petmanagement.activity.schedule.ScheduleActivity;
-import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
 
 
 public class HomeFragment extends Fragment {

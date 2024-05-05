@@ -178,7 +178,7 @@ public class CareActivityScheduleDetailActivity extends AppCompatActivity {
             public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
                 if (response.isSuccessful()) {
                     CareActivityNotificationResponse careActivityNotificationResponse = response.body();
-                    if(careActivityNotificationResponse!=null){
+                    if (careActivityNotificationResponse != null) {
                         careActivityNotification = careActivityNotificationResponse.getData();
                         if (careActivityNotification != null) {
                             pet = careActivityNotification.getPet();

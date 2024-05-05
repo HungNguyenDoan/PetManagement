@@ -3,7 +3,6 @@ package com.project.petmanagement.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
@@ -30,16 +28,18 @@ public class ListVetAdapter extends RecyclerView.Adapter<ListVetAdapter.Vererina
         this.vetList = VetList;
         this.context = context;
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    public void setVetList(List<Vet> VetList){
+    public void setVetList(List<Vet> VetList) {
         this.vetList = VetList;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public VererinarianViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vetenarian, parent, false);
-        return  new VererinarianViewHolder(view);
+        return new VererinarianViewHolder(view);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ListVetAdapter extends RecyclerView.Adapter<ListVetAdapter.Vererina
         holder.avatar.setImageBitmap(ImageUtils.decodeBase64(vet.getAvatar()));
         holder.name.setText(vet.getFullName());
         holder.workAt.setText(vet.getWorkAt());
-        String experience1 = vet.getExperience()+" năm";
+        String experience1 = vet.getExperience() + " năm";
         holder.experience.setText(experience1);
         holder.itemVet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +62,8 @@ public class ListVetAdapter extends RecyclerView.Adapter<ListVetAdapter.Vererina
 
     @Override
     public int getItemCount() {
-        if (vetList!=null)
-            return  vetList.size();
+        if (vetList != null)
+            return vetList.size();
         return 0;
     }
 
@@ -71,6 +71,7 @@ public class ListVetAdapter extends RecyclerView.Adapter<ListVetAdapter.Vererina
         private final ImageView avatar;
         private final TextView name, workAt, experience;
         private final LinearLayout itemVet;
+
         public VererinarianViewHolder(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.image_doctor);

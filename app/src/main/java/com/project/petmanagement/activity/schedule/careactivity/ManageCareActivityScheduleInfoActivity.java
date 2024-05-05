@@ -1,15 +1,15 @@
 package com.project.petmanagement.activity.schedule.careactivity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.CareActivityNotificationAdapter;
@@ -17,7 +17,6 @@ import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
 import com.project.petmanagement.services.ApiService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +25,7 @@ import retrofit2.Response;
 
 public class ManageCareActivityScheduleInfoActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +51,14 @@ public class ManageCareActivityScheduleInfoActivity extends AppCompatActivity {
             }
         });
     }
-    private void getCareActivityNotification(){
+
+    private void getCareActivityNotification() {
         ApiService.apiService.getAllCareActivityNotificationByUser().enqueue(new Callback<ListCareActivityNotificationResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityNotificationResponse> call, Response<ListCareActivityNotificationResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListCareActivityNotificationResponse careActivityNotificationResponse = response.body();
-                    if(careActivityNotificationResponse!=null){
+                    if (careActivityNotificationResponse != null) {
                         List<CareActivityNotification> careActivityNotificationList = careActivityNotificationResponse.getData();
                         LinearLayoutManager layoutManager = new LinearLayoutManager(ManageCareActivityScheduleInfoActivity.this, RecyclerView.VERTICAL, false);
                         CareActivityNotificationAdapter careActivityNotificationAdapter = new CareActivityNotificationAdapter(careActivityNotificationList, ManageCareActivityScheduleInfoActivity.this);

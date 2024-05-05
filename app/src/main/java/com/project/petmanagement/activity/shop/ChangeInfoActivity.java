@@ -1,11 +1,11 @@
 package com.project.petmanagement.activity.shop;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
@@ -13,8 +13,9 @@ import com.project.petmanagement.R;
 import java.util.Objects;
 
 public class ChangeInfoActivity extends AppCompatActivity {
-    private TextInputEditText  inputPhoneNumber, inputAddress;
+    private TextInputEditText inputPhoneNumber, inputAddress;
     private Button btnConfirm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validate()){
+                if (validate()) {
                     Intent intent = new Intent(ChangeInfoActivity.this, PaymentActivity.class);
                     intent.putExtra("phoneNumber", Objects.requireNonNull(inputPhoneNumber.getText()).toString());
                     intent.putExtra("address", Objects.requireNonNull(inputAddress.getText()).toString());
@@ -40,12 +41,13 @@ public class ChangeInfoActivity extends AppCompatActivity {
             }
         });
     }
-    private boolean validate(){
-        if(inputPhoneNumber.length()==0){
+
+    private boolean validate() {
+        if (inputPhoneNumber.length() == 0) {
             inputPhoneNumber.setError("Số điện thoại không được để trống");
             return false;
         }
-        if(inputAddress.length()==0){
+        if (inputAddress.length() == 0) {
             inputAddress.setError("Địa chỉ không được để trống");
             return false;
         }

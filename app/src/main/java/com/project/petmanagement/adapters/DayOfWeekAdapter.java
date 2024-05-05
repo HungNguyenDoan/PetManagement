@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.schedule.careactivity.DayOfWeekInterface;
 
@@ -22,12 +23,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DayOfWeekAdapter extends RecyclerView.Adapter<DayOfWeekAdapter.DayViewHolder>{
+public class DayOfWeekAdapter extends RecyclerView.Adapter<DayOfWeekAdapter.DayViewHolder> {
     private List<String> dayOfWeekList = new ArrayList<>();
     private Map<String, DayOfWeek> dayOfWeekMap = new LinkedHashMap<>();
     private Context context;
     private DayOfWeekInterface dayOfWeekInterface;
     private List<DayOfWeek> dayOfWeeksChoose = new ArrayList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public DayOfWeekAdapter(Context context, DayOfWeekInterface dayOfWeekInterface) {
         this.context = context;
@@ -41,10 +43,12 @@ public class DayOfWeekAdapter extends RecyclerView.Adapter<DayOfWeekAdapter.DayV
         dayOfWeekMap.put("Chủ Nhật", DayOfWeek.SUNDAY);
         dayOfWeekList.addAll(dayOfWeekMap.keySet());
     }
-    public void setDayOfWeeksChoose(List<DayOfWeek> dayOfWeeksChoose){
+
+    public void setDayOfWeeksChoose(List<DayOfWeek> dayOfWeeksChoose) {
         this.dayOfWeeksChoose = dayOfWeeksChoose;
         dayOfWeekInterface.getDayOfWeek(dayOfWeeksChoose);
     }
+
     @NonNull
     @Override
     public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,16 +60,16 @@ public class DayOfWeekAdapter extends RecyclerView.Adapter<DayOfWeekAdapter.DayV
         String day1 = dayOfWeekList.get(position);
         holder.day.setText(day1);
         final boolean[] check = {false};
-        if(dayOfWeeksChoose.contains(dayOfWeekMap.get(day1))){
+        if (dayOfWeeksChoose.contains(dayOfWeekMap.get(day1))) {
             holder.layout.setBackgroundColor(ContextCompat.getColor(context, R.color.orange1));
             check[0] = true;
         }
         holder.layout.setOnClickListener(v -> {
-            if(!check[0]){
+            if (!check[0]) {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(context, R.color.orange1));
                 dayOfWeeksChoose.add(dayOfWeekMap.get(dayOfWeekList.get(position)));
                 check[0] = true;
-            }else{
+            } else {
                 holder.layout.setBackgroundColor(ContextCompat.getColor(context, R.color.pink));
                 dayOfWeeksChoose.remove(dayOfWeekMap.get(dayOfWeekList.get(position)));
                 check[0] = false;
@@ -76,15 +80,16 @@ public class DayOfWeekAdapter extends RecyclerView.Adapter<DayOfWeekAdapter.DayV
 
     @Override
     public int getItemCount() {
-        if(!dayOfWeekList.isEmpty()){
+        if (!dayOfWeekList.isEmpty()) {
             return dayOfWeekList.size();
         }
         return 0;
     }
 
-    static class DayViewHolder extends RecyclerView.ViewHolder{
+    static class DayViewHolder extends RecyclerView.ViewHolder {
         private final TextView day;
         private RelativeLayout layout;
+
         public DayViewHolder(@NonNull View itemView) {
             super(itemView);
             day = itemView.findViewById(R.id.text_day);

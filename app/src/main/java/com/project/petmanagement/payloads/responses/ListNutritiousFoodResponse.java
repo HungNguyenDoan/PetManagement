@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.NutritiousFood;
 
 import java.util.List;
 
-public class ListNutritiousFoodResponse extends Response{
+public class ListNutritiousFoodResponse extends Response {
     private List<NutritiousFood> data;
 
     public List<NutritiousFood> getData() {

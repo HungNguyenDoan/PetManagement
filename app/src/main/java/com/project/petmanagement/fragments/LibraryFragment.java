@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
-//import com.project.petmanagement.adapters.LibraryRecyclerViewAdapter;
 import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.adapters.LibraryRecyclerViewAdapter;
 import com.project.petmanagement.models.entity.Disease;
@@ -32,9 +29,7 @@ import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
 import com.project.petmanagement.services.ApiService;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,6 +60,7 @@ public class LibraryFragment extends Fragment {
         super.onDetach();
         mActivity = null;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,24 +80,24 @@ public class LibraryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String speciesName = speciesAdapter.getItem(position);
                 List<Disease> diseaseList = new ArrayList<>();
-                if(speciesName.equals("All")){
-                    LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(getContext(),diseases);
+                if (speciesName.equals("All")) {
+                    LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(getContext(), diseases);
                     diseaseRecyclerview.setAdapter(recyclerViewAdapter);
-                }else{
-                    if(searchInput.getText().toString().isEmpty()){
-                        for(Disease disease: diseases){
-                            if(disease.getSpecies().getName().equals(speciesName)){
+                } else {
+                    if (searchInput.getText().toString().isEmpty()) {
+                        for (Disease disease : diseases) {
+                            if (disease.getSpecies().getName().equals(speciesName)) {
                                 diseaseList.add(disease);
                             }
                         }
-                    }else{
-                        for(Disease disease: diseases){
-                            if(disease.getSpecies().getName().equals(speciesName)&&disease.getName().toLowerCase().contains(searchInput.getText().toString().toLowerCase())){
+                    } else {
+                        for (Disease disease : diseases) {
+                            if (disease.getSpecies().getName().equals(speciesName) && disease.getName().toLowerCase().contains(searchInput.getText().toString().toLowerCase())) {
                                 diseaseList.add(disease);
                             }
                         }
                     }
-                    LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(getContext(),diseaseList);
+                    LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(getContext(), diseaseList);
                     diseaseRecyclerview.setAdapter(recyclerViewAdapter);
                 }
 
@@ -118,58 +114,60 @@ public class LibraryFragment extends Fragment {
                 String key = s.toString().toLowerCase();
                 List<Disease> diseaseList = new ArrayList<>();
                 String speciesName = speciesDropdown.getText().toString();
-                if(speciesName.isEmpty()||speciesName.equals("All")){
-                    if(diseases!=null){
-                        for(Disease disease: diseases){
-                            if(disease.getName().toLowerCase().contains(key)){
+                if (speciesName.isEmpty() || speciesName.equals("All")) {
+                    if (diseases != null) {
+                        for (Disease disease : diseases) {
+                            if (disease.getName().toLowerCase().contains(key)) {
                                 diseaseList.add(disease);
                             }
                         }
-                        LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(mActivity,diseaseList);
+                        LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(mActivity, diseaseList);
                         diseaseRecyclerview.setAdapter(recyclerViewAdapter);
                     }
-                }else {
-                    if(key.equals("") && diseases!=null){
-                        for(Disease disease: diseases){
-                            if(disease.getSpecies().getName().equals(speciesName)){
+                } else {
+                    if (key.equals("") && diseases != null) {
+                        for (Disease disease : diseases) {
+                            if (disease.getSpecies().getName().equals(speciesName)) {
                                 diseaseList.add(disease);
                             }
                         }
-                        LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(mActivity,diseaseList);
+                        LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(mActivity, diseaseList);
                         diseaseRecyclerview.setAdapter(recyclerViewAdapter);
-                    }else if(diseases!=null&& !speciesDropdown.getText().toString().isEmpty()){
-                        for(Disease disease: diseases){
-                            if(disease.getSpecies().getName().equals(speciesName)&&disease.getName().toLowerCase().contains(key)){
+                    } else if (diseases != null && !speciesDropdown.getText().toString().isEmpty()) {
+                        for (Disease disease : diseases) {
+                            if (disease.getSpecies().getName().equals(speciesName) && disease.getName().toLowerCase().contains(key)) {
                                 diseaseList.add(disease);
                             }
                         }
-                        LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(mActivity,diseaseList);
+                        LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(mActivity, diseaseList);
                         diseaseRecyclerview.setAdapter(recyclerViewAdapter);
                     }
 
                 }
 
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
             }
         });
     }
-    private void getSpecies(){
+
+    private void getSpecies() {
         ApiService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
             @Override
             public void onResponse(Call<ListSpeciesResponse> call, Response<ListSpeciesResponse> response) {
-                if(mActivity!=null){
-                    if (response.isSuccessful()){
+                if (mActivity != null) {
+                    if (response.isSuccessful()) {
                         if (response.body() != null) {
                             List<Species> speciesList = response.body().getData();
                             List<String> species1 = new ArrayList<>();
                             species1.add("All");
-                            for(Species species: speciesList){
+                            for (Species species : speciesList) {
                                 species1.add(species.getName());
                             }
-                            speciesAdapter = new ArrayAdapter<>(mActivity,R.layout.list_item_dropdown,species1);
+                            speciesAdapter = new ArrayAdapter<>(mActivity, R.layout.list_item_dropdown, species1);
                             speciesDropdown.setAdapter(speciesAdapter);
                         }
                     }
@@ -183,18 +181,19 @@ public class LibraryFragment extends Fragment {
             }
         });
     }
-    private void getDiseases(){
+
+    private void getDiseases() {
         ApiService.apiService.getDiseases().enqueue(new Callback<ListDiseaseResponse>() {
             @Override
             public void onResponse(Call<ListDiseaseResponse> call, Response<ListDiseaseResponse> response) {
-                if(mActivity!=null){
-                    if(response.isSuccessful()){
+                if (mActivity != null) {
+                    if (response.isSuccessful()) {
                         if (response.body() != null) {
                             diseases = response.body().getData();
-                            LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(getContext(),diseases);
+                            LibraryRecyclerViewAdapter recyclerViewAdapter = new LibraryRecyclerViewAdapter(getContext(), diseases);
                             RecyclerView.ItemDecoration decoration = new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL);
                             diseaseRecyclerview.setAdapter(recyclerViewAdapter);
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL,false);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
                             diseaseRecyclerview.setLayoutManager(linearLayoutManager);
                             diseaseRecyclerview.addItemDecoration(decoration);
                         }
@@ -202,6 +201,7 @@ public class LibraryFragment extends Fragment {
                 }
 
             }
+
             @Override
             public void onFailure(Call<ListDiseaseResponse> call, Throwable t) {
 

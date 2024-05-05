@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.VaccinationNotification;
 
 import java.util.List;
 
-public class ListVaccineNotification extends Response{
+public class ListVaccineNotification extends Response {
     private List<VaccinationNotification> data;
 
     public List<VaccinationNotification> getData() {

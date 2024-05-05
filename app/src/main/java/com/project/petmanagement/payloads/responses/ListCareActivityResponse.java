@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.CareActivity;
 
 import java.util.List;
 
-public class ListCareActivityResponse extends Response{
+public class ListCareActivityResponse extends Response {
     private List<CareActivity> data;
 
     public List<CareActivity> getData() {

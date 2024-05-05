@@ -2,8 +2,6 @@ package com.project.petmanagement.payloads.requests;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 public class PetRequest {
     @SerializedName("full_name")
     private String fullName;

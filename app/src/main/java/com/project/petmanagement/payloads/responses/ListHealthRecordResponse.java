@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.HealthRecord;
 
 import java.util.List;
 
-public class ListHealthRecordResponse extends Response{
+public class ListHealthRecordResponse extends Response {
     private List<HealthRecord> data;
 
     public List<HealthRecord> getData() {

@@ -33,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdateCareActivityInfoActivity extends AppCompatActivity {
-    private int stt=1;
+    private int stt = 1;
     private LinearLayout parentLayout;
     private Button saveBtn;
     private ArrayAdapter<String> careActivityAdapter;
@@ -43,6 +43,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
     private List<CareActivityInfoRequest> careActivityInfoRequests;
     private final List<CareActivityInfoRequest> deleteCareActivityInfoRequests = new ArrayList<>();
     private CareActivityNotificationRequest careActivityNotificationRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,17 +56,17 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
         totalNote = findViewById(R.id.total_note);
         careActivityMap = new LinkedHashMap<>();
         careActivityNotificationRequest = (CareActivityNotificationRequest) getIntent().getSerializableExtra("activityInfo");
-        if(careActivityNotificationRequest!=null){
+        if (careActivityNotificationRequest != null) {
             careActivityInfoRequests = careActivityNotificationRequest.getCareActivityInfoRequestList();
             title.setText(careActivityNotificationRequest.getTitle());
             totalNote.setText(careActivityNotificationRequest.getNote());
             careActivityNotificationId = getIntent().getLongExtra("careActivityNotificationId", 0);
-            if(careActivityNotificationRequest.getCareActivityInfoRequestList()!=null){
-                for(CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()){
-                    final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv,null,false);
+            if (careActivityNotificationRequest.getCareActivityInfoRequestList() != null) {
+                for (CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()) {
+                    final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
                     TextView title = childView.findViewById(R.id.title);
-                    String strTile = "Hoạt động "+stt;
-                    stt+=1;
+                    String strTile = "Hoạt động " + stt;
+                    stt += 1;
                     title.setText(strTile);
                     AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
                     TextInputEditText noteEdit = childView.findViewById(R.id.note);
@@ -75,11 +76,11 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
                     ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
                         @Override
                         public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
-                            if(response.isSuccessful()){
-                                if(response.body()!=null && response.body().getData()!=null){
-                                    for(CareActivity careActivity: response.body().getData()){
+                            if (response.isSuccessful()) {
+                                if (response.body() != null && response.body().getData() != null) {
+                                    for (CareActivity careActivity : response.body().getData()) {
                                         careActivityMap.put(careActivity.getName(), careActivity);
-                                        if(careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())){
+                                        if (careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())) {
                                             activityType.setText(careActivity.getName());
                                         }
                                         careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
@@ -98,13 +99,13 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
                     deleteLayout.setOnClickListener(v -> {
                         int position = parentLayout.indexOfChild(childView);
                         parentLayout.removeView(childView);
-                        for(int i=position;i<parentLayout.getChildCount();i++){
+                        for (int i = position; i < parentLayout.getChildCount(); i++) {
                             TextView title1 = parentLayout.getChildAt(i).findViewById(R.id.title);
-                            String strTile1 = "Hoạt động "+(i+1);
+                            String strTile1 = "Hoạt động " + (i + 1);
                             title1.setText(strTile1);
                         }
-                        stt = parentLayout.getChildCount()+1;
-                        if(parentLayout.getChildCount()==0){
+                        stt = parentLayout.getChildCount() + 1;
+                        if (parentLayout.getChildCount() == 0) {
                             stt = 1;
                         }
                         setUpButton();
@@ -127,30 +128,32 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
         });
         setUpButton();
     }
-    private boolean validate(AutoCompleteTextView editTypeActivity, TextInputEditText editNote){
-        if(title.length()==0){
+
+    private boolean validate(AutoCompleteTextView editTypeActivity, TextInputEditText editNote) {
+        if (title.length() == 0) {
             title.setError("Title không được để trống");
             return false;
         }
-        if(editTypeActivity.length()==0){
+        if (editTypeActivity.length() == 0) {
             editTypeActivity.setError("Loại hành động không được để trống");
             return false;
         }
         return true;
     }
-    private void saveCareActivityInfo(){
+
+    private void saveCareActivityInfo() {
         List<CareActivityInfoRequest> careActivityInfoList = new ArrayList<>();
         List<Long> activityInfoId = new ArrayList<>();
-        for(int i =0; i<parentLayout.getChildCount();i++){
+        for (int i = 0; i < parentLayout.getChildCount(); i++) {
             View childView = parentLayout.getChildAt(i);
             AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
             TextInputEditText note = childView.findViewById(R.id.note);
             TextView id = childView.findViewById(R.id.activity_info_id);
-            if(validate(activityType,note)){
+            if (validate(activityType, note)) {
                 Long careActivityId = careActivityMap.get(activityType.getText().toString()).getId();
-                if(validate(activityType, note)){
+                if (validate(activityType, note)) {
                     CareActivityInfoRequest careActivityInfoRequest = new CareActivityInfoRequest(careActivityId, note.getText().toString());
-                    if(id.length()!=0){
+                    if (id.length() != 0) {
                         careActivityInfoRequest.setId(Long.parseLong(id.getText().toString()));
                         activityInfoId.add(Long.parseLong(id.getText().toString()));
                     }
@@ -158,16 +161,16 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
                 }
             }
         }
-        if(!careActivityInfoList.isEmpty()){
-            for(CareActivityInfoRequest careActivityInfoRequest: careActivityInfoRequests){
-                if(!activityInfoId.contains(careActivityInfoRequest.getId())){
+        if (!careActivityInfoList.isEmpty()) {
+            for (CareActivityInfoRequest careActivityInfoRequest : careActivityInfoRequests) {
+                if (!activityInfoId.contains(careActivityInfoRequest.getId())) {
                     deleteCareActivityInfoRequests.add(careActivityInfoRequest);
                 }
             }
             careActivityNotificationRequest.setTitle(title.getText().toString());
             careActivityNotificationRequest.setNote(totalNote.getText().toString());
-            if(!deleteCareActivityInfoRequests.isEmpty()){
-                for(CareActivityInfoRequest careActivityInfoRequest: deleteCareActivityInfoRequests){
+            if (!deleteCareActivityInfoRequests.isEmpty()) {
+                for (CareActivityInfoRequest careActivityInfoRequest : deleteCareActivityInfoRequests) {
                     ApiService.apiService.deleteCareActivityInfo(careActivityInfoRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                         @Override
                         public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
@@ -185,12 +188,12 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
             ApiService.apiService.updateCareActivityNotification(careActivityNotificationId, careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
                 @Override
                 public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
 
-                        ApiService.apiService.updateCareActivityInfo(careActivityInfoList).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                        ApiService.apiService.updateCareActivityInfo(careActivityNotificationId, careActivityInfoList).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                             @Override
                             public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
-                                if(response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     Toast.makeText(UpdateCareActivityInfoActivity.this, "update thành công", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
@@ -211,11 +214,12 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
             });
         }
     }
+
     private void addView() {
-        final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv,null,false);
+        final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
         TextView title = childView.findViewById(R.id.title);
-        String strTile = "Hoạt động "+stt;
-        stt+=1;
+        String strTile = "Hoạt động " + stt;
+        stt += 1;
         title.setText(strTile);
         AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
         activityType.setOnItemClickListener((parent, view, position, id) -> {
@@ -224,9 +228,9 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
         ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null && response.body().getData()!=null){
-                        for(CareActivity careActivity: response.body().getData()){
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getData() != null) {
+                        for (CareActivity careActivity : response.body().getData()) {
                             careActivityMap.put(careActivity.getName(), careActivity);
                         }
                         careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
@@ -244,13 +248,13 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
         deleteLayout.setOnClickListener(v -> {
             int position = parentLayout.indexOfChild(childView);
             parentLayout.removeView(childView);
-            for(int i=position;i<parentLayout.getChildCount();i++){
+            for (int i = position; i < parentLayout.getChildCount(); i++) {
                 TextView title1 = parentLayout.getChildAt(i).findViewById(R.id.title);
-                String strTile1 = "Hoạt động "+(i+1);
+                String strTile1 = "Hoạt động " + (i + 1);
                 title1.setText(strTile1);
             }
-            stt = parentLayout.getChildCount()+1;
-            if(parentLayout.getChildCount()==0){
+            stt = parentLayout.getChildCount() + 1;
+            if (parentLayout.getChildCount() == 0) {
                 stt = 1;
             }
             setUpButton();
@@ -258,11 +262,12 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
         parentLayout.addView(childView);
         setUpButton();
     }
-    private void setUpButton(){
-        if(parentLayout.getChildCount()==0){
+
+    private void setUpButton() {
+        if (parentLayout.getChildCount() == 0) {
             saveBtn.setEnabled(false);
             saveBtn.setAlpha(0.4f);
-        }else{
+        } else {
             saveBtn.setEnabled(true);
             saveBtn.setAlpha(1);
         }

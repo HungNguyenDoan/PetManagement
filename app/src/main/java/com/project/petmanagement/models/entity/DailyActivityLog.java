@@ -1,7 +1,6 @@
 package com.project.petmanagement.models.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class DailyActivityLog {
     private Long id;

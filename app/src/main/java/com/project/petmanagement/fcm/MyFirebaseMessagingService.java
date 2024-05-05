@@ -20,7 +20,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
         RemoteMessage.Notification notification = message.getNotification();
-        if(notification == null){
+        if (notification == null) {
             return;
         }
         String strTitle = notification.getTitle();
@@ -38,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
         Notification notification = notificationBuilder.build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if(notificationManager != null){
+        if (notificationManager != null) {
             notificationManager.notify(1, notification);
         }
     }

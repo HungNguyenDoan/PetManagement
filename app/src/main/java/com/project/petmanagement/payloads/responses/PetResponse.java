@@ -2,7 +2,7 @@ package com.project.petmanagement.payloads.responses;
 
 import com.project.petmanagement.models.entity.Pet;
 
-public class PetResponse extends Response{
+public class PetResponse extends Response {
     private Pet data;
 
     public Pet getData() {

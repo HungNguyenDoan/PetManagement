@@ -1,10 +1,5 @@
 package com.project.petmanagement.activity.shop;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +7,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.ListOrderDetailAdapter;
@@ -44,7 +44,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btn_back);
         ImageView btnCart = findViewById(R.id.btn_cart);
         TextView status = findViewById(R.id.status);
-        Button btnCancelOrder = findViewById(R.id.btn_cancel) ;
+        Button btnCancelOrder = findViewById(R.id.btn_cancel);
         Order order = (Order) getIntent().getSerializableExtra("order");
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,20 +69,20 @@ public class OrderDetailActivity extends AppCompatActivity {
             String totalPrice1 = FormatNumberUtils.formatFloat(order.getTotalPrice()) + " VNĐ";
             textTotalPrice.setText(totalPrice1);
             textAddress.setText(order.getShippingAddress());
-            if(order.getPaymentMethod() == PaymentMethodEnum.CASH_ON_DELIVERY){
+            if (order.getPaymentMethod() == PaymentMethodEnum.CASH_ON_DELIVERY) {
                 textPaymentMethod.setText("Thanh toán khi nhận hàng");
-            }else{
+            } else {
                 textPaymentMethod.setText("Thẻ tín dụng");
             }
-            if(order.getStatus() == OrderStatusEnum.CANCELLED||order.getStatus() == OrderStatusEnum.DELIVERED){
+            if (order.getStatus() == OrderStatusEnum.CANCELLED || order.getStatus() == OrderStatusEnum.DELIVERED) {
                 btnCancelOrder.setVisibility(View.GONE);
-            }else{
+            } else {
                 btnCancelOrder.setVisibility(View.VISIBLE);
             }
-            if(order.getStatus()== OrderStatusEnum.PENDING){
-               status.setText("Đang xử lý");
+            if (order.getStatus() == OrderStatusEnum.PENDING) {
+                status.setText("Đang xử lý");
                 status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.orange1));
-            } else if (order.getStatus()== OrderStatusEnum.PROCESSING) {
+            } else if (order.getStatus() == OrderStatusEnum.PROCESSING) {
                 status.setText("Chờ giao");
                 status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.yellow));
             } else if (order.getStatus() == OrderStatusEnum.SHIPPED) {
@@ -91,7 +91,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             } else if (order.getStatus() == OrderStatusEnum.DELIVERED) {
                 status.setText("Đã nhận");
                 status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.green));
-            }else {
+            } else {
                 status.setText("Đã hủy");
                 status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.red));
             }
@@ -102,7 +102,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             btnCancelOrder.setOnClickListener(v -> ApiService.apiService.cancelOrder(order.getId()).enqueue(new Callback<OrderResponse>() {
                 @Override
                 public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Toast.makeText(OrderDetailActivity.this, "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
                         status.setText("Đã hủy");
                         status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.red));

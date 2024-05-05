@@ -326,10 +326,9 @@ public class UpdatePetActivity extends AppCompatActivity {
                     cal2.set(Calendar.MINUTE, 0);
                     cal2.set(Calendar.SECOND, 0);
                     cal2.set(Calendar.MILLISECOND, 0);
-                    if(cal1.compareTo(cal2)<0) {
+                    if (cal1.compareTo(cal2) < 0) {
                         DialogUtils.setUpDialog(UpdatePetActivity.this, "Ngày bạn chọn không được lớn hơn ngày hiện tại");
-                    }
-                    else{
+                    } else {
                         dob.setText(date2);
                         dob.setError(null);
                     }

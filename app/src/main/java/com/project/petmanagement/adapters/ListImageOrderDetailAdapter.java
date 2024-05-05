@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
@@ -20,7 +19,7 @@ public class ListImageOrderDetailAdapter extends RecyclerView.Adapter<ListImageO
     private List<OrderDetail> orderDetailList;
     private Context context;
 
-    public ListImageOrderDetailAdapter(Context context,List<OrderDetail> orderDetailList) {
+    public ListImageOrderDetailAdapter(Context context, List<OrderDetail> orderDetailList) {
         this.orderDetailList = orderDetailList;
         this.context = context;
     }
@@ -28,7 +27,7 @@ public class ListImageOrderDetailAdapter extends RecyclerView.Adapter<ListImageO
     @NonNull
     @Override
     public ImageOrderDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_order_detail,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_order_detail, parent, false);
         return new ImageOrderDetailViewHolder(view);
     }
 
@@ -40,15 +39,16 @@ public class ListImageOrderDetailAdapter extends RecyclerView.Adapter<ListImageO
 
     @Override
     public int getItemCount() {
-        if(orderDetailList!=null){
+        if (orderDetailList != null) {
             return orderDetailList.size();
         }
         return 0;
     }
 
-    public static class ImageOrderDetailViewHolder extends RecyclerView.ViewHolder{
+    public static class ImageOrderDetailViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageProductDetail;
+
         public ImageOrderDetailViewHolder(@NonNull View itemView) {
             super(itemView);
             imageProductDetail = itemView.findViewById(R.id.image_product_detail);

@@ -2,7 +2,7 @@ package com.project.petmanagement.payloads.responses;
 
 import com.project.petmanagement.models.entity.User;
 
-public class LoginResponse extends Response{
+public class LoginResponse extends Response {
     private String token;
     private User data;
 

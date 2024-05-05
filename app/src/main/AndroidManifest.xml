@@ -123,7 +123,7 @@
             android:name=".activity.statichealth.UpdateStaticHealthActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.statichealth.AddStaticHealthActity"
+            android:name=".activity.statichealth.AddStaticHealthActivity"
             android:exported="false" />
         <activity
             android:name=".activity.statichealth.StaticHealthActivity"

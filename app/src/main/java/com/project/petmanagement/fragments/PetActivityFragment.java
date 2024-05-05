@@ -18,7 +18,6 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.activity.dailyLog.AddDailyLog;
 import com.project.petmanagement.adapters.DailyActivityLogAdapter;
 import com.project.petmanagement.models.entity.DailyActivityLog;
-import com.project.petmanagement.payloads.requests.DailyActivityLogRequest;
 import com.project.petmanagement.payloads.responses.ListDailyActivityLogResponse;
 import com.project.petmanagement.services.ApiService;
 
@@ -33,6 +32,7 @@ public class PetActivityFragment extends Fragment {
     private RecyclerView recyclerView;
     private FloatingActionButton addBtn;
     private long petId;
+
     public PetActivityFragment(long petId, FloatingActionButton addBtn) {
         this.petId = petId;
         this.addBtn = addBtn;
@@ -60,13 +60,13 @@ public class PetActivityFragment extends Fragment {
         getDailyActivityLogByPet();
     }
 
-    public void getDailyActivityLogByPet(){
+    public void getDailyActivityLogByPet() {
         ApiService.apiService.getDailyLogsByPet(petId).enqueue(new Callback<ListDailyActivityLogResponse>() {
             @Override
             public void onResponse(Call<ListDailyActivityLogResponse> call, Response<ListDailyActivityLogResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListDailyActivityLogResponse listDailyActivityLogResponse = response.body();
-                    if(listDailyActivityLogResponse !=null){
+                    if (listDailyActivityLogResponse != null) {
                         dailyActivityLogList = listDailyActivityLogResponse.getData();
                         DailyActivityLogAdapter dailyActivityLogAdapter = new DailyActivityLogAdapter(requireActivity(), dailyActivityLogList);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false);

@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.FoodType;
 
 import java.util.List;
 
-public class ListFoodTypeResponse extends Response{
+public class ListFoodTypeResponse extends Response {
     private List<FoodType> data;
 
     public List<FoodType> getData() {

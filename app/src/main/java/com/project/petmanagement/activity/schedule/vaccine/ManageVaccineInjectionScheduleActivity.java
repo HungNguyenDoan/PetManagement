@@ -1,16 +1,16 @@
 package com.project.petmanagement.activity.schedule.vaccine;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
@@ -28,6 +28,7 @@ import retrofit2.Response;
 public class ManageVaccineInjectionScheduleActivity extends AppCompatActivity {
     private RecyclerView scheduleRecyclerView;
     private ListScheduleVaccineAdapter listScheduleVaccineAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +59,13 @@ public class ManageVaccineInjectionScheduleActivity extends AppCompatActivity {
             }
         });
     }
-    private void getListVaccineNotification(){
+
+    private void getListVaccineNotification() {
         ApiService.apiService.getVaccineNotificationByUser().enqueue(new Callback<ListVaccineNotification>() {
             @Override
             public void onResponse(Call<ListVaccineNotification> call, Response<ListVaccineNotification> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null && response.body().getData()!=null){
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getData() != null) {
                         List<VaccinationNotification> vaccineNotificationList = response.body().getData();
                         listScheduleVaccineAdapter = new ListScheduleVaccineAdapter(vaccineNotificationList, ManageVaccineInjectionScheduleActivity.this);
                         scheduleRecyclerView.setAdapter(listScheduleVaccineAdapter);

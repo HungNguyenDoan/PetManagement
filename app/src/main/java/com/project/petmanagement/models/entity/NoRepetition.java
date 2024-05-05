@@ -10,6 +10,7 @@ public class NoRepetition {
     private Time time;
     private Time alarmBefore;
     private RecurringSchedule recurringSchedule;
+
     public Long getId() {
         return id;
     }

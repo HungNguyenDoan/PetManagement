@@ -3,9 +3,6 @@ package com.project.petmanagement.activity.nutrition;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -28,7 +25,6 @@ import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
 import com.project.petmanagement.services.ApiService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,45 +63,43 @@ public class NutritionActivity extends AppCompatActivity {
         getAllNutritiousFood();
         speciesView.setOnItemClickListener((parent, view, position, id) -> {
             String speciesName = speciesArrayAdapter.getItem(position);
-            if((speciesName.equals("All")||speciesName.isEmpty())){
-                if(foodTypeView.length() == 0 ||foodTypeView.getText().toString().equals("All")){
-                    if(search.getText().toString().isEmpty()){
+            if ((speciesName.equals("All") || speciesName.isEmpty())) {
+                if (foodTypeView.length() == 0 || foodTypeView.getText().toString().equals("All")) {
+                    if (search.getText().toString().isEmpty()) {
                         nutritiousAdapter.setNutritiousFoods(nutritiousFoodList);
                         recyclerView.setAdapter(nutritiousAdapter);
-                    }else{
+                    } else {
                         search(null, null, search.getText().toString());
                     }
-                }
-                else{
+                } else {
                     search(null, foodTypes.get(foodTypeView.getText().toString()).getId(), search.getText().toString());
                 }
-            }else{
-                if(foodTypeView.length() == 0 || foodTypeView.getText().toString().equals("All")){
+            } else {
+                if (foodTypeView.length() == 0 || foodTypeView.getText().toString().equals("All")) {
                     search(speciesMap.get(speciesName).getId(), null, search.getText().toString());
-                }else if(!foodTypeView.getText().toString().equals("All")){
+                } else if (!foodTypeView.getText().toString().equals("All")) {
                     search(speciesMap.get(speciesName).getId(), foodTypes.get(foodTypeView.getText().toString()).getId(), search.getText().toString());
                 }
             }
         });
         foodTypeView.setOnItemClickListener((parent, view, position, id) -> {
             String foodTypeName = foodTypeAdapter.getItem(position);
-            if((foodTypeName.equals("All")||foodTypeName.isEmpty())){
-                if(speciesView.length() == 0 ||speciesView.getText().toString().equals("All")){
-                    if(search.getText().toString().isEmpty()){
+            if ((foodTypeName.equals("All") || foodTypeName.isEmpty())) {
+                if (speciesView.length() == 0 || speciesView.getText().toString().equals("All")) {
+                    if (search.getText().toString().isEmpty()) {
                         nutritiousAdapter.setNutritiousFoods(nutritiousFoodList);
                         recyclerView.setAdapter(nutritiousAdapter);
-                    }else{
+                    } else {
                         search(null, null, search.getText().toString());
 
                     }
-                }
-                else{
+                } else {
                     search(speciesMap.get(speciesView.getText().toString()).getId(), null, search.getText().toString());
                 }
-            }else{
-                if(speciesView.length() == 0||speciesView.getText().toString().equals("All")){
+            } else {
+                if (speciesView.length() == 0 || speciesView.getText().toString().equals("All")) {
                     search(null, foodTypes.get(foodTypeName).getId(), search.getText().toString());
-                }else{
+                } else {
                     search(speciesMap.get(speciesView.getText().toString()).getId(), foodTypes.get(foodTypeName).getId(), search.getText().toString());
                 }
             }
@@ -121,18 +115,18 @@ public class NutritionActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String keyword = s.toString();
-                if((foodTypeView.length()==0||foodTypeView.getText().toString().equals("All"))&&(speciesView.length()==0||speciesView.getText().toString().equals("All"))){
-                    if(keyword.isEmpty()){
+                if ((foodTypeView.length() == 0 || foodTypeView.getText().toString().equals("All")) && (speciesView.length() == 0 || speciesView.getText().toString().equals("All"))) {
+                    if (keyword.isEmpty()) {
                         nutritiousAdapter.setNutritiousFoods(nutritiousFoodList);
                         recyclerView.setAdapter(nutritiousAdapter);
-                    }else {
+                    } else {
                         search(null, null, keyword);
                     }
-                } else if ((foodTypeView.length()!=0&&!foodTypeView.getText().toString().equals("All"))&&(speciesView.length()!=0&&!speciesView.getText().toString().equals("All"))) {
+                } else if ((foodTypeView.length() != 0 && !foodTypeView.getText().toString().equals("All")) && (speciesView.length() != 0 && !speciesView.getText().toString().equals("All"))) {
                     search(speciesMap.get(speciesView.getText().toString()).getId(), foodTypes.get(foodTypeView.getText().toString()).getId(), keyword);
-                } else if ((foodTypeView.length()==0||foodTypeView.getText().toString().equals("All") && (speciesView.length()!=0&&!speciesView.getText().toString().equals("All")))) {
+                } else if ((foodTypeView.length() == 0 || foodTypeView.getText().toString().equals("All") && (speciesView.length() != 0 && !speciesView.getText().toString().equals("All")))) {
                     search(speciesMap.get(speciesView.getText().toString()).getId(), null, keyword);
-                } else if ((foodTypeView.length()!=0&&!foodTypeView.getText().toString().equals("All"))&&(speciesView.length()==0||speciesView.getText().toString().equals("All"))) {
+                } else if ((foodTypeView.length() != 0 && !foodTypeView.getText().toString().equals("All")) && (speciesView.length() == 0 || speciesView.getText().toString().equals("All"))) {
                     search(null, foodTypes.get(foodTypeView.getText().toString()).getId(), keyword);
                 }
             }
@@ -146,13 +140,14 @@ public class NutritionActivity extends AppCompatActivity {
         });
         btnBack.setOnClickListener(v -> finish());
     }
-    private void search(Long speciesId, Long foodTypeId, String keyword){
-        ApiService.apiService.searchNutritiousFood(speciesId,foodTypeId, keyword).enqueue(new Callback<ListNutritiousFoodResponse>() {
+
+    private void search(Long speciesId, Long foodTypeId, String keyword) {
+        ApiService.apiService.searchNutritiousFood(speciesId, foodTypeId, keyword).enqueue(new Callback<ListNutritiousFoodResponse>() {
             @Override
             public void onResponse(Call<ListNutritiousFoodResponse> call, Response<ListNutritiousFoodResponse> response) {
-                if( response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListNutritiousFoodResponse listNutritiousFoodResponse = response.body();
-                    if(listNutritiousFoodResponse!=null&&listNutritiousFoodResponse.getData()!=null){
+                    if (listNutritiousFoodResponse != null && listNutritiousFoodResponse.getData() != null) {
                         List<NutritiousFood> nutritiousFoods = listNutritiousFoodResponse.getData();
                         nutritiousAdapter.setNutritiousFoods(nutritiousFoods);
                         recyclerView.setAdapter(nutritiousAdapter);
@@ -166,6 +161,7 @@ public class NutritionActivity extends AppCompatActivity {
             }
         });
     }
+
     private void findViewById() {
         recyclerView = findViewById(R.id.recyclerview);
         foodTypeView = findViewById(R.id.foot_type);
@@ -173,16 +169,17 @@ public class NutritionActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_back);
         search = findViewById(R.id.search);
     }
-    private void getAllSpecies(){
+
+    private void getAllSpecies() {
         ApiService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
             @Override
             public void onResponse(Call<ListSpeciesResponse> call, Response<ListSpeciesResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListSpeciesResponse listSpeciesResponse = response.body();
-                    if(listSpeciesResponse!=null&& listSpeciesResponse.getData()!=null){
+                    if (listSpeciesResponse != null && listSpeciesResponse.getData() != null) {
                         List<String> speciesName = new ArrayList<>();
                         speciesName.add("All");
-                        for(Species species: listSpeciesResponse.getData()){
+                        for (Species species : listSpeciesResponse.getData()) {
                             speciesMap.put(species.getName(), species);
                         }
                         speciesName.addAll(speciesMap.keySet());
@@ -198,6 +195,7 @@ public class NutritionActivity extends AppCompatActivity {
             }
         });
     }
+
     private void getALlFoodType() {
         ApiService.apiService.getAllFoodTypes().enqueue(new Callback<ListFoodTypeResponse>() {
             @Override

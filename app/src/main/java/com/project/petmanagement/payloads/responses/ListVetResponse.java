@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.Vet;
 
 import java.util.List;
 
-public class ListVetResponse extends Response{
+public class ListVetResponse extends Response {
     private List<Vet> data;
 
     public List<Vet> getData() {

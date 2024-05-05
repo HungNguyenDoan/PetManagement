@@ -18,18 +18,21 @@ import com.project.petmanagement.models.entity.Disease;
 
 import java.util.List;
 
-public class LibraryRecyclerViewAdapter extends RecyclerView.Adapter<LibraryRecyclerViewAdapter.LibraryViewholder>{
+public class LibraryRecyclerViewAdapter extends RecyclerView.Adapter<LibraryRecyclerViewAdapter.LibraryViewholder> {
     private List<Disease> listDiseases;
     private Context context;
-    public LibraryRecyclerViewAdapter(Context context, List<Disease> listDiseases){
+
+    public LibraryRecyclerViewAdapter(Context context, List<Disease> listDiseases) {
         this.context = context;
         this.listDiseases = listDiseases;
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    public void setList(List<Disease>  listDiseases){
+    public void setList(List<Disease> listDiseases) {
         this.listDiseases = listDiseases;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public LibraryViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,15 +56,16 @@ public class LibraryRecyclerViewAdapter extends RecyclerView.Adapter<LibraryRecy
 
     @Override
     public int getItemCount() {
-        if(listDiseases!=null){
+        if (listDiseases != null) {
             return listDiseases.size();
         }
         return 0;
     }
 
-    public static class LibraryViewholder extends RecyclerView.ViewHolder{
+    public static class LibraryViewholder extends RecyclerView.ViewHolder {
         private TextView nameDiseases;
         private LinearLayout linearItem;
+
         public LibraryViewholder(@NonNull View itemView) {
             super(itemView);
             nameDiseases = itemView.findViewById(R.id.name_diseases);

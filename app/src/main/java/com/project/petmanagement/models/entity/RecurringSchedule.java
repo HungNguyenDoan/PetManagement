@@ -3,8 +3,8 @@ package com.project.petmanagement.models.entity;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.time.DayOfWeek;
+import java.util.Date;
 import java.util.List;
 
 public class RecurringSchedule implements Serializable {

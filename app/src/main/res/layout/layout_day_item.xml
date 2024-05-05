@@ -2,23 +2,27 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="0dp"
-    android:layout_margin="10dp"
+    android:layout_marginVertical="10dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <RelativeLayout
         android:id="@+id/layout"
         android:background="@color/pink"
-        android:padding="6dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             android:id="@+id/text_day"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="Thứ hai" />
+            android:text="Chủ Nhật" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

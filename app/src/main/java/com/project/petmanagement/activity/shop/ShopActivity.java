@@ -1,11 +1,11 @@
 package com.project.petmanagement.activity.shop;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -15,6 +15,7 @@ import com.project.petmanagement.adapters.ShopViewpagerAdapter;
 public class ShopActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class ShopActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                switch (position){
+                switch (position) {
                     case 0:
                         bottomNavigationView.getMenu().findItem(R.id.shop_home).setChecked(true);
                         break;
@@ -43,20 +44,20 @@ public class ShopActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.shop_home){
+                if (item.getItemId() == R.id.shop_home) {
                     viewPager2.setCurrentItem(0);
-                }else if (item.getItemId() == R.id.cart){
+                } else if (item.getItemId() == R.id.cart) {
                     viewPager2.setCurrentItem(1);
-                }else{
+                } else {
                     viewPager2.setCurrentItem(2);
                 }
                 return true;
             }
         });
         Bundle extras = getIntent().getExtras();
-        if (extras!=null){
+        if (extras != null) {
             String key = extras.getString("key");
-            if(key!=null){
+            if (key != null) {
                 viewPager2.setCurrentItem(1);
                 bottomNavigationView.getMenu().findItem(R.id.cart).setChecked(true);
             }

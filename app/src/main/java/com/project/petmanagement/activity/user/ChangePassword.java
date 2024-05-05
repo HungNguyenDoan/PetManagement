@@ -1,12 +1,11 @@
 package com.project.petmanagement.activity.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
@@ -14,14 +13,11 @@ import com.project.petmanagement.payloads.requests.ChangePasswordRequest;
 import com.project.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.services.ApiService;
 
-import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ChangePassword extends AppCompatActivity {
     private TextInputEditText inputOldPassword, inputNewPassword, inputRetypeNewPassword;
-    private Button confirmBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +26,7 @@ public class ChangePassword extends AppCompatActivity {
         inputOldPassword = findViewById(R.id.input_old_password);
         inputNewPassword = findViewById(R.id.input_new_password);
         inputRetypeNewPassword = findViewById(R.id.input_retype_new_password);
-        confirmBtn = findViewById(R.id.btn_confirm);
+        Button confirmBtn = findViewById(R.id.btn_confirm);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -349,7 +349,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:background="@drawable/btn_login_custom"
+                    android:background="@drawable/green_background_button"
                     android:layout_height="wrap_content"/>
 
         </RelativeLayout>

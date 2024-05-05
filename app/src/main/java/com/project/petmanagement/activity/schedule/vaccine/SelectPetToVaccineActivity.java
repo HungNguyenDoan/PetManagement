@@ -1,12 +1,12 @@
 package com.project.petmanagement.activity.schedule.vaccine;
 
+import android.os.Bundle;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.widget.ImageView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.ListPetSelectAdapter;
@@ -21,6 +21,7 @@ public class SelectPetToVaccineActivity extends AppCompatActivity {
     private RecyclerView listPetRecyclerView;
     private ListPetSelectAdapter listPetSelectAdapter;
     private String action;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +33,14 @@ public class SelectPetToVaccineActivity extends AppCompatActivity {
         getListPet();
 
     }
-    private void getListPet(){
+
+    private void getListPet() {
         ApiService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
             @Override
             public void onResponse(Call<ListPetResponse> call, Response<ListPetResponse> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null && response.body().getData()!=null){
-                        listPetSelectAdapter = new ListPetSelectAdapter(response.body().getData(), SelectPetToVaccineActivity.this,action);
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getData() != null) {
+                        listPetSelectAdapter = new ListPetSelectAdapter(response.body().getData(), SelectPetToVaccineActivity.this, action);
                         listPetRecyclerView.setAdapter(listPetSelectAdapter);
                         listPetRecyclerView.setLayoutManager(new LinearLayoutManager(SelectPetToVaccineActivity.this, LinearLayoutManager.VERTICAL, false));
                         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(SelectPetToVaccineActivity.this, DividerItemDecoration.VERTICAL);

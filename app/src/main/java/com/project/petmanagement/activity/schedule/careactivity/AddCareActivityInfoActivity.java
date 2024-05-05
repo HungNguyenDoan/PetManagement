@@ -32,12 +32,13 @@ import retrofit2.Response;
 
 public class AddCareActivityInfoActivity extends AppCompatActivity {
 
-    private int stt=1;
+    private int stt = 1;
     private LinearLayout parentLayout;
     private Button saveBtn;
     private ArrayAdapter<String> careActivityAdapter;
     private Map<String, CareActivity> careActivityMap;
     private TextInputEditText title, totalNote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,15 +51,15 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
         totalNote = findViewById(R.id.total_note);
         careActivityMap = new LinkedHashMap<>();
         CareActivityNotificationRequest careActivityNotificationRequest = (CareActivityNotificationRequest) getIntent().getSerializableExtra("activityInfo");
-        if(careActivityNotificationRequest!=null){
+        if (careActivityNotificationRequest != null) {
             title.setText(careActivityNotificationRequest.getTitle());
             totalNote.setText(careActivityNotificationRequest.getNote());
-            if(careActivityNotificationRequest.getCareActivityInfoRequestList()!=null){
-                for(CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()){
-                    final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv,null,false);
+            if (careActivityNotificationRequest.getCareActivityInfoRequestList() != null) {
+                for (CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()) {
+                    final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
                     TextView title = childView.findViewById(R.id.title);
-                    String strTile = "Hoạt động "+stt;
-                    stt+=1;
+                    String strTile = "Hoạt động " + stt;
+                    stt += 1;
                     title.setText(strTile);
                     AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
                     TextInputEditText noteEdit = childView.findViewById(R.id.note);
@@ -66,11 +67,11 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                     ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
                         @Override
                         public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
-                            if(response.isSuccessful()){
-                                if(response.body()!=null && response.body().getData()!=null){
-                                    for(CareActivity careActivity: response.body().getData()){
+                            if (response.isSuccessful()) {
+                                if (response.body() != null && response.body().getData() != null) {
+                                    for (CareActivity careActivity : response.body().getData()) {
                                         careActivityMap.put(careActivity.getName(), careActivity);
-                                        if(careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())){
+                                        if (careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())) {
                                             activityType.setText(careActivity.getName());
                                         }
                                         careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
@@ -89,13 +90,13 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                     deleteLayout.setOnClickListener(v -> {
                         int position = parentLayout.indexOfChild(childView);
                         parentLayout.removeView(childView);
-                        for(int i=position;i<parentLayout.getChildCount();i++){
+                        for (int i = position; i < parentLayout.getChildCount(); i++) {
                             TextView title1 = parentLayout.getChildAt(i).findViewById(R.id.title);
-                            String strTile1 = "Hoạt động "+(i+1);
+                            String strTile1 = "Hoạt động " + (i + 1);
                             title1.setText(strTile1);
                         }
-                        stt = parentLayout.getChildCount()+1;
-                        if(parentLayout.getChildCount()==0){
+                        stt = parentLayout.getChildCount() + 1;
+                        if (parentLayout.getChildCount() == 0) {
                             stt = 1;
                         }
                         setUpButton();
@@ -118,47 +119,50 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
         });
         setUpButton();
     }
-    private boolean validate(AutoCompleteTextView editTypeActivity, TextInputEditText editNote){
-        if(title.length()==0){
+
+    private boolean validate(AutoCompleteTextView editTypeActivity, TextInputEditText editNote) {
+        if (title.length() == 0) {
             title.setError("Title không được để trống");
             return false;
         }
-        if(editTypeActivity.length()==0){
+        if (editTypeActivity.length() == 0) {
             editTypeActivity.setError("Loại hành động không được để trống");
             return false;
         }
         return true;
     }
-    private void saveCareActivityInfo(){
+
+    private void saveCareActivityInfo() {
         List<CareActivityInfoRequest> careActivityInfoList = new ArrayList<>();
-        for(int i =0; i<parentLayout.getChildCount();i++){
+        for (int i = 0; i < parentLayout.getChildCount(); i++) {
             View childView = parentLayout.getChildAt(i);
             AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
             TextInputEditText note = childView.findViewById(R.id.note);
-            if(validate(activityType,note)){
+            if (validate(activityType, note)) {
                 Long careActivityId = careActivityMap.get(activityType.getText().toString()).getId();
-                if(validate(activityType, note)){
+                if (validate(activityType, note)) {
                     CareActivityInfoRequest careActivityInfoRequest = new CareActivityInfoRequest(careActivityId, note.getText().toString());
                     careActivityInfoList.add(careActivityInfoRequest);
                 }
             }
         }
-        if(!careActivityInfoList.isEmpty()){
+        if (!careActivityInfoList.isEmpty()) {
             CareActivityNotificationRequest careActivityNotificationRequest = new CareActivityNotificationRequest();
             careActivityNotificationRequest.setTitle(title.getText().toString());
             careActivityNotificationRequest.setNote(totalNote.getText().toString());
             careActivityNotificationRequest.setCareActivityInfoRequestList(careActivityInfoList);
             Intent intent = new Intent(AddCareActivityInfoActivity.this, AddCareActivityScheduleActivity.class);
-            intent.putExtra("careActivityNotificationRequest",careActivityNotificationRequest);
-            setResult(RESULT_OK,intent);
+            intent.putExtra("careActivityNotificationRequest", careActivityNotificationRequest);
+            setResult(RESULT_OK, intent);
             finish();
         }
     }
+
     private void addView() {
-        final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv,null,false);
+        final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
         TextView title = childView.findViewById(R.id.title);
-        String strTile = "Hoạt động "+stt;
-        stt+=1;
+        String strTile = "Hoạt động " + stt;
+        stt += 1;
         title.setText(strTile);
         AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
         activityType.setOnItemClickListener((parent, view, position, id) -> {
@@ -167,9 +171,9 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
         ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
-                if(response.isSuccessful()){
-                    if(response.body()!=null && response.body().getData()!=null){
-                        for(CareActivity careActivity: response.body().getData()){
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getData() != null) {
+                        for (CareActivity careActivity : response.body().getData()) {
                             careActivityMap.put(careActivity.getName(), careActivity);
                         }
                         careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
@@ -187,13 +191,13 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
         deleteLayout.setOnClickListener(v -> {
             int position = parentLayout.indexOfChild(childView);
             parentLayout.removeView(childView);
-            for(int i=position;i<parentLayout.getChildCount();i++){
+            for (int i = position; i < parentLayout.getChildCount(); i++) {
                 TextView title1 = parentLayout.getChildAt(i).findViewById(R.id.title);
-                String strTile1 = "Hoạt động "+(i+1);
+                String strTile1 = "Hoạt động " + (i + 1);
                 title1.setText(strTile1);
             }
-            stt = parentLayout.getChildCount()+1;
-            if(parentLayout.getChildCount()==0){
+            stt = parentLayout.getChildCount() + 1;
+            if (parentLayout.getChildCount() == 0) {
                 stt = 1;
             }
             setUpButton();
@@ -201,11 +205,12 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
         parentLayout.addView(childView);
         setUpButton();
     }
-    private void setUpButton(){
-        if(parentLayout.getChildCount()==0){
+
+    private void setUpButton() {
+        if (parentLayout.getChildCount() == 0) {
             saveBtn.setEnabled(false);
             saveBtn.setAlpha(0.4f);
-        }else{
+        } else {
             saveBtn.setEnabled(true);
             saveBtn.setAlpha(1);
         }

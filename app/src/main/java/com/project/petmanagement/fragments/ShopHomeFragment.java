@@ -45,6 +45,7 @@ public class ShopHomeFragment extends Fragment {
 
     public ShopHomeFragment() {
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,19 +80,19 @@ public class ShopHomeFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()==0){
+                if (s.length() == 0) {
                     int defaultColor = ContextCompat.getColor(requireContext(), R.color.text_default);
-                    if(all.getCurrentTextColor() != defaultColor) {
+                    if (all.getCurrentTextColor() != defaultColor) {
                         ListProductAdapter listProductAdapter = new ListProductAdapter(getContext(), products);
                         recyclerViewProduct.setAdapter(listProductAdapter);
                         all.setTextColor(ContextCompat.getColor(requireContext(), R.color.green));
                         categoryAdapter.resetSelection();
                         recyclerViewCategory.setAdapter(categoryAdapter);
                     }
-                }else{
+                } else {
                     List<Product> productList = new ArrayList<>();
-                    for (Product product: products){
-                        if(product.getName().toLowerCase().contains(s.toString().toLowerCase())){
+                    for (Product product : products) {
+                        if (product.getName().toLowerCase().contains(s.toString().toLowerCase())) {
                             productList.add(product);
                         }
                     }
@@ -110,13 +111,14 @@ public class ShopHomeFragment extends Fragment {
         });
 
     }
-    private void getCategories(){
+
+    private void getCategories() {
         ApiService.apiService.getAllCategory().enqueue(new Callback<ListCategoryResponse>() {
             @Override
             public void onResponse(Call<ListCategoryResponse> call, Response<ListCategoryResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListCategoryResponse listCategoryResponse = response.body();
-                    if(listCategoryResponse!=null){
+                    if (listCategoryResponse != null) {
                         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                         recyclerViewCategory.setLayoutManager(layoutManager1);
                         categoryAdapter = new CategoryAdapter(requireContext(), listCategoryResponse.getData(), recyclerViewProduct, all, searchInput);
@@ -124,17 +126,19 @@ public class ShopHomeFragment extends Fragment {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ListCategoryResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Kiểm tra lại kết nối của bạn", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private void getAllProduct(){
+
+    private void getAllProduct() {
         ApiService.apiService.getAllProduct().enqueue(new Callback<ListProductResponse>() {
             @Override
             public void onResponse(Call<ListProductResponse> call, Response<ListProductResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListProductResponse listProductResponse = response.body();
                     if (listProductResponse != null) {
                         products = listProductResponse.getData();
@@ -145,6 +149,7 @@ public class ShopHomeFragment extends Fragment {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ListProductResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Kiểm tra lại kết nối của bạn", Toast.LENGTH_SHORT).show();

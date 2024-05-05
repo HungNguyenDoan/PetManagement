@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
@@ -30,18 +29,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ProductViewHoler>{
+public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.ProductViewHoler> {
     private List<Product> productList;
     private Context context;
-    public ListProductAdapter(Context context, List<Product> productList){
+
+    public ListProductAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    public void setProductList(List<Product> productList){
+    public void setProductList(List<Product> productList) {
         this.productList = productList;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public ProductViewHoler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,7 +56,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         final Product product = productList.get(position);
         holder.imageProduct.setImageBitmap(ImageUtils.decodeBase64(product.getImage()));
         holder.nameProduct.setText(product.getName());
-        String priceFormat = FormatNumberUtils.formatFloat(product.getPrice())+"đ";
+        String priceFormat = FormatNumberUtils.formatFloat(product.getPrice()) + "đ";
         holder.priceProduct.setText(priceFormat);
         holder.productItem.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProductDetailActivity.class);
@@ -64,7 +66,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         holder.btnAddToCart.setOnClickListener(v -> ApiService.apiService.addToCart(product.getId(), 1).enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -78,18 +80,19 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
 
     @Override
     public int getItemCount() {
-        if(productList!=null){
+        if (productList != null) {
             return productList.size();
         }
         return 0;
     }
 
-    public static class ProductViewHoler extends RecyclerView.ViewHolder{
+    public static class ProductViewHoler extends RecyclerView.ViewHolder {
 
         private final ImageView imageProduct;
         private final TextView nameProduct, priceProduct;
         private final RelativeLayout productItem;
         private final ImageButton btnAddToCart;
+
         public ProductViewHoler(@NonNull View itemView) {
             super(itemView);
             imageProduct = itemView.findViewById(R.id.image_product);

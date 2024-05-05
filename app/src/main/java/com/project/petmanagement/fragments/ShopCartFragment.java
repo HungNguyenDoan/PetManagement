@@ -2,18 +2,17 @@ package com.project.petmanagement.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.shop.PaymentActivity;
@@ -38,6 +37,7 @@ public class ShopCartFragment extends Fragment {
     private TextView btnPayment;
     private TextView totalPrices;
     private Cart cart;
+
     public ShopCartFragment() {
     }
 
@@ -65,28 +65,28 @@ public class ShopCartFragment extends Fragment {
         });
     }
 
-    private void getCart(){
+    private void getCart() {
         ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     CartResponse cartResponse = response.body();
-                    if(cartResponse!=null){
+                    if (cartResponse != null) {
                         cart = cartResponse.getData();
-                        if(cart!=null){
+                        if (cart != null) {
                             List<CartItem> cartItems = cart.getCartItems();
-                            if(cartItems!=null){
+                            if (cartItems != null) {
                                 cartItemAdapter = new ListCartItemAdapter(getContext(), cartItems, totalPrices, btnPayment);
                                 carItemRecyclerView.setAdapter(cartItemAdapter);
                                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                                 carItemRecyclerView.setLayoutManager(layoutManager);
                             }
-                            String totalPrice = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VNĐ";
+                            String totalPrice = FormatNumberUtils.formatFloat(cart.getTotalPrice()) + " VNĐ";
                             totalPrices.setText(totalPrice);
-                            if(cart.getTotalPrice()==0){
+                            if (cart.getTotalPrice() == 0) {
                                 btnPayment.setEnabled(false);
                                 btnPayment.setAlpha(0.4f);
-                            }else{
+                            } else {
                                 btnPayment.setEnabled(true);
                                 btnPayment.setAlpha(1f);
                             }

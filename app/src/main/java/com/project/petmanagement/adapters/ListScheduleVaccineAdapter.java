@@ -43,13 +43,13 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
     @NonNull
     @Override
     public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_vaccine_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_vaccine_item, parent, false);
         return new ScheduleViewHolder(view);
     }
 
     @Override
     public int getItemCount() {
-        if(vaccinationNotificationList != null){
+        if (vaccinationNotificationList != null) {
             return vaccinationNotificationList.size();
         }
         return 0;
@@ -58,32 +58,32 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
     @Override
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         final VaccinationNotification vaccinationNotification = vaccinationNotificationList.get(position);
-        boolean check=false;
+        boolean check = false;
         OneTimeSchedule oneTimeSchedule1 = null;
-        for(OneTimeSchedule oneTimeSchedule: vaccinationNotification.getSchedules()){
-            if(!oneTimeSchedule.getVaccinationStatus()){
+        for (OneTimeSchedule oneTimeSchedule : vaccinationNotification.getSchedules()) {
+            if (!oneTimeSchedule.getVaccinationStatus()) {
                 holder.hour.setText(oneTimeSchedule.getTime());
                 holder.title.setText(vaccinationNotification.getTitle());
                 holder.status.setText("Chưa tiêm");
-                holder.status.setTextColor(ContextCompat.getColor(context,R.color.red));
+                holder.status.setTextColor(ContextCompat.getColor(context, R.color.red));
                 oneTimeSchedule1 = oneTimeSchedule;
                 holder.statusCheckBox.setChecked(false);
                 check = true;
                 break;
             }
         }
-        if(!check){
-            OneTimeSchedule oneTimeSchedule = vaccinationNotification.getSchedules().get(vaccinationNotification.getSchedules().size()-1);
+        if (!check) {
+            OneTimeSchedule oneTimeSchedule = vaccinationNotification.getSchedules().get(vaccinationNotification.getSchedules().size() - 1);
             holder.hour.setText(oneTimeSchedule.getTime());
             holder.title.setText(vaccinationNotification.getTitle());
             holder.status.setText("Đã tiêm");
-            holder.status.setTextColor(ContextCompat.getColor(context,R.color.green));
+            holder.status.setTextColor(ContextCompat.getColor(context, R.color.green));
             holder.statusCheckBox.setChecked(true);
             holder.statusCheckBox.setEnabled(false);
         }
         OneTimeSchedule finalOneTimeSchedule = oneTimeSchedule1;
         holder.statusCheckBox.setOnClickListener(v -> {
-            if(finalOneTimeSchedule !=null){
+            if (finalOneTimeSchedule != null) {
                 OneTimeScheduleRequest oneTimeScheduleRequest = new OneTimeScheduleRequest();
                 oneTimeScheduleRequest.setId(finalOneTimeSchedule.getId());
                 oneTimeScheduleRequest.setDate(FormatDateUtils.DateToString1(finalOneTimeSchedule.getDate()));
@@ -94,9 +94,9 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
                 ApiService.apiService.updateOneSchedule(vaccinationNotification.getId(), oneTimeScheduleRequestList).enqueue(new Callback<ListOneTimeScheduleResponse>() {
                     @Override
                     public void onResponse(Call<ListOneTimeScheduleResponse> call, Response<ListOneTimeScheduleResponse> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             holder.status.setText("Đã tiêm");
-                            holder.status.setTextColor(ContextCompat.getColor(context,R.color.green));
+                            holder.status.setTextColor(ContextCompat.getColor(context, R.color.green));
                             holder.statusCheckBox.setChecked(true);
                             holder.statusCheckBox.setEnabled(false);
                             Toast.makeText(context, "Cập nhập thành công.", Toast.LENGTH_SHORT).show();
@@ -118,7 +118,7 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
 
     }
 
-    public static class ScheduleViewHolder extends RecyclerView.ViewHolder{
+    public static class ScheduleViewHolder extends RecyclerView.ViewHolder {
         private final Button hour;
         private final TextView title;
         private final TextView status;

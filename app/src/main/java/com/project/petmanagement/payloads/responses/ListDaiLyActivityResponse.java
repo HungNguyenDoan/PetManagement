@@ -4,7 +4,7 @@ import com.project.petmanagement.models.entity.DailyActivity;
 
 import java.util.List;
 
-public class ListDaiLyActivityResponse extends Response{
+public class ListDaiLyActivityResponse extends Response {
     private List<DailyActivity> data;
 
     public List<DailyActivity> getData() {

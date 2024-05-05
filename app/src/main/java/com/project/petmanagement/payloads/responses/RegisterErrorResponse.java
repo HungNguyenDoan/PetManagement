@@ -22,7 +22,7 @@ public class RegisterErrorResponse {
         this.message = message;
     }
 
-    public class Message{
+    public class Message {
         @SerializedName("fullName")
         private String fullNameError;
         @SerializedName("password")

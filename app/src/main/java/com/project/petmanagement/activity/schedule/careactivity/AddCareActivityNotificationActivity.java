@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -40,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddCareActivityNotificationActivity extends AppCompatActivity implements DayOfWeekInterface{
+public class AddCareActivityNotificationActivity extends AppCompatActivity implements DayOfWeekInterface {
 
     private Dialog dialogCustom;
     private TextView frequency;
@@ -54,7 +53,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
     private DatePickerDialog datePickerDialog;
     private List<DayOfWeek> dayOfWeeks;
 
-    private void clearText(){
+    private void clearText() {
         dateNoRepeat.setText("");
         hourNoRepeat.setText("");
         startDateDayRepeat.setText("");
@@ -64,6 +63,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
         startDateWeekRepeat.setText("");
         endDateWeekRepeat.setText("");
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +84,15 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
         chooseHourDayRepeat = findViewById(R.id.choose_hour_repeat_day);
         hourWeekRepeat = findViewById(R.id.hour_repeat_week);
         startDateWeekRepeat = findViewById(R.id.start_date_repeat_week);
-        endDateWeekRepeat =  findViewById(R.id.end_date_repeat_week);
+        endDateWeekRepeat = findViewById(R.id.end_date_repeat_week);
         chooseHourWeekRepeat = findViewById(R.id.choose_hour_repeat_week);
         DayOfWeekAdapter dayOfWeekAdapter = new DayOfWeekAdapter(this, this);
         dayOfWeekRecyclerView.setAdapter(dayOfWeekAdapter);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         dayOfWeekRecyclerView.setLayoutManager(layoutManager);
         RecurringScheduleRequest recurringScheduleRequest1 = (RecurringScheduleRequest) getIntent().getSerializableExtra("recurringScheduleRequest");
-        if(recurringScheduleRequest1!=null){
-            if(recurringScheduleRequest1.getFrequency() == FrequencyEnum.NO_REPEAT){
+        if (recurringScheduleRequest1 != null) {
+            if (recurringScheduleRequest1.getFrequency() == FrequencyEnum.NO_REPEAT) {
                 noRepeatLayout.setVisibility(View.VISIBLE);
                 dayRepeatLayout.setVisibility(View.GONE);
                 weekRepeatLayout.setVisibility(View.GONE);
@@ -107,7 +107,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            }else if (recurringScheduleRequest1.getFrequency() == FrequencyEnum.DAILY){
+            } else if (recurringScheduleRequest1.getFrequency() == FrequencyEnum.DAILY) {
                 noRepeatLayout.setVisibility(View.GONE);
                 dayRepeatLayout.setVisibility(View.VISIBLE);
                 weekRepeatLayout.setVisibility(View.GONE);
@@ -126,7 +126,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            }else {
+            } else {
                 noRepeatLayout.setVisibility(View.GONE);
                 dayRepeatLayout.setVisibility(View.GONE);
                 weekRepeatLayout.setVisibility(View.VISIBLE);
@@ -159,8 +159,8 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
         customTimepickerTextView();
         customTimepickerTextView1();
         saveBtn.setOnClickListener(v -> {
-            if(noRepeatLayout.getVisibility() == View.VISIBLE){
-                if(validationNoRepeat()){
+            if (noRepeatLayout.getVisibility() == View.VISIBLE) {
+                if (validationNoRepeat()) {
                     try {
                         RecurringScheduleRequest recurringScheduleRequest = new RecurringScheduleRequest();
                         recurringScheduleRequest.setFrequency(FrequencyEnum.NO_REPEAT);
@@ -180,8 +180,8 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
 
                 }
             }
-            if(dayRepeatLayout.getVisibility() == View.VISIBLE){
-                if(validationRepeatDay()){
+            if (dayRepeatLayout.getVisibility() == View.VISIBLE) {
+                if (validationRepeatDay()) {
                     try {
                         RecurringScheduleRequest recurringScheduleRequest = new RecurringScheduleRequest();
                         recurringScheduleRequest.setFrequency(FrequencyEnum.DAILY);
@@ -189,7 +189,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                         String strStartDate = FormatDateUtils.DateToString1(date1);
                         recurringScheduleRequest.setFromDate(strStartDate);
                         Date date3 = FormatDateUtils.StringToDate1(endDateDayRepeat.getText().toString());
-                        String strEndDate  = FormatDateUtils.DateToString1(date3);
+                        String strEndDate = FormatDateUtils.DateToString1(date3);
                         recurringScheduleRequest.setTime(hourDayRepeat.getText().toString());
                         recurringScheduleRequest.setToDate(strEndDate);
                         recurringScheduleRequest.setValue(valueFrequency);
@@ -202,8 +202,8 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                         throw new RuntimeException(e);
                     }
                 }
-            }else if(weekRepeatLayout.getVisibility() == View.VISIBLE){
-                if(validationRepeatWeek()){
+            } else if (weekRepeatLayout.getVisibility() == View.VISIBLE) {
+                if (validationRepeatWeek()) {
                     try {
                         RecurringScheduleRequest recurringScheduleRequest = new RecurringScheduleRequest();
                         recurringScheduleRequest.setFrequency(FrequencyEnum.WEEKLY);
@@ -211,7 +211,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                         String strStartDate = FormatDateUtils.DateToString1(date1);
                         recurringScheduleRequest.setFromDate(strStartDate);
                         Date date3 = FormatDateUtils.StringToDate1(endDateWeekRepeat.getText().toString());
-                        String strEndDate  = FormatDateUtils.DateToString1(date3);
+                        String strEndDate = FormatDateUtils.DateToString1(date3);
                         recurringScheduleRequest.setTime(hourWeekRepeat.getText().toString());
                         recurringScheduleRequest.setToDate(strEndDate);
                         recurringScheduleRequest.setValue(valueFrequency);
@@ -233,7 +233,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
             final String[] listItems = new String[]{"Không lặp lại", "Lặp theo ngày", "Lặp theo tuần"};
             alertDialog.setSingleChoiceItems(listItems, checkedItem[0], (dialog, which) -> {
                 checkedItem[0] = which;
-                if(which == 0){
+                if (which == 0) {
                     frequency.setText(listItems[which]);
                     noRepeatLayout.setVisibility(View.VISIBLE);
                     dayRepeatLayout.setVisibility(View.GONE);
@@ -241,10 +241,10 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                     valueFrequency = 0;
                     clearText();
                     dialog.dismiss();
-                }else if (which == 1){
+                } else if (which == 1) {
                     openAddDialog(Gravity.CENTER, "Lặp theo ngày");
                     dialog.dismiss();
-                }else {
+                } else {
                     openAddDialog(Gravity.CENTER, "Lặp theo tuần");
                     dialog.dismiss();
                 }
@@ -284,9 +284,9 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
             dialogCustom.dismiss();
         });
         btnAccept.setOnClickListener(v -> {
-            if(validation(editValueFrequency)){
+            if (validation(editValueFrequency)) {
                 String str = null;
-                if(typeFrequency.equals("Lặp theo ngày")){
+                if (typeFrequency.equals("Lặp theo ngày")) {
                     str = "Lặp lại mỗi " + editValueFrequency.getText().toString() + " ngày 1 lần";
                     frequency.setText(str);
                     valueFrequency = Integer.parseInt(editValueFrequency.getText().toString());
@@ -294,7 +294,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                     weekRepeatLayout.setVisibility(View.GONE);
                     dayOfWeekRecyclerView.setVisibility(View.GONE);
                     dayRepeatLayout.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     str = "Lặp lại  " + editValueFrequency.getText().toString() + " tuần 1 lần";
                     frequency.setText(str);
                     valueFrequency = Integer.parseInt(editValueFrequency.getText().toString());
@@ -308,50 +308,55 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
         });
         dialogCustom.show();
     }
-    private boolean validationRepeatWeek(){
-        if(startDateWeekRepeat.length()==0){
+
+    private boolean validationRepeatWeek() {
+        if (startDateWeekRepeat.length() == 0) {
             DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được để trống");
             return false;
         }
-        if(endDateWeekRepeat.length()==0){
+        if (endDateWeekRepeat.length() == 0) {
             DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày kết thúc không được để trống");
             return false;
         }
         return true;
     }
-    private boolean validationRepeatDay(){
-        if(startDateDayRepeat.length()==0){
+
+    private boolean validationRepeatDay() {
+        if (startDateDayRepeat.length() == 0) {
             DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được để trống");
             return false;
         }
-        if(endDateDayRepeat.length()==0){
+        if (endDateDayRepeat.length() == 0) {
             DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày kết thúc không được để trống");
             return false;
         }
         return true;
     }
-    private boolean validationNoRepeat(){
-        if(dateNoRepeat.length()==0){
+
+    private boolean validationNoRepeat() {
+        if (dateNoRepeat.length() == 0) {
             DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày không được để trống");
             return false;
         }
-        if(hourNoRepeat.length()==0){
+        if (hourNoRepeat.length() == 0) {
             DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Giờ không được để trống");
             return false;
         }
         return true;
     }
-    private boolean validation(TextInputEditText editText){
-        if(editText.length()==0){
+
+    private boolean validation(TextInputEditText editText) {
+        if (editText.length() == 0) {
             editText.setError("Giá trị lặp không được để trống.");
             return false;
         }
-        if(Integer.parseInt(editText.getText().toString())<=0){
+        if (Integer.parseInt(editText.getText().toString()) <= 0) {
             editText.setError("Giá trị lặp phải lớn hơn 0.");
             return false;
         }
         return true;
     }
+
     private void customDate(TextInputEditText editDate) {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -379,9 +384,9 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                     cal2.set(Calendar.MINUTE, 0);
                     cal2.set(Calendar.SECOND, 0);
                     cal2.set(Calendar.MILLISECOND, 0);
-                    if(cal1.compareTo(cal2)>0){
+                    if (cal1.compareTo(cal2) > 0) {
                         DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
-                    }else {
+                    } else {
                         editDate.setText(date2);
                     }
                     editDate.setError(null);
@@ -393,13 +398,14 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
             datePickerDialog.show();
         });
     }
-    private void customTimepickerTextView(){
+
+    private void customTimepickerTextView() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         chooseHourDayRepeat.setOnClickListener(v -> {
             timePickerDialog = new TimePickerDialog(AddCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
-                String time = hourOfDay + ":"+ minute1;
+                String time = hourOfDay + ":" + minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
                     Date date = dateFormat.parse(time);
@@ -408,17 +414,18 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            },hour, minute, true);
+            }, hour, minute, true);
             timePickerDialog.show();
         });
     }
-    private void customTimepickerTextView1(){
+
+    private void customTimepickerTextView1() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         chooseHourWeekRepeat.setOnClickListener(v -> {
             timePickerDialog = new TimePickerDialog(AddCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
-                String time = hourOfDay + ":"+ minute1;
+                String time = hourOfDay + ":" + minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
                     Date date = dateFormat.parse(time);
@@ -427,17 +434,18 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            },hour, minute, true);
+            }, hour, minute, true);
             timePickerDialog.show();
         });
     }
-    private void customTimepickerEditText(){
+
+    private void customTimepickerEditText() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         hourNoRepeat.setOnClickListener(v -> {
             timePickerDialog = new TimePickerDialog(AddCareActivityNotificationActivity.this, (view, hourOfDay, minute1) -> {
-                String time = hourOfDay + ":"+ minute1;
+                String time = hourOfDay + ":" + minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
                     Date date = dateFormat.parse(time);
@@ -446,10 +454,11 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            },hour, minute, true);
+            }, hour, minute, true);
             timePickerDialog.show();
         });
     }
+
     private void customDayFromDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -461,16 +470,16 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 try {
                     Date startDate1 = FormatDateUtils.StringToDate1(date);
                     boolean check = true;
-                    if(endDateDayRepeat.length()!=0){
+                    if (endDateDayRepeat.length() != 0) {
                         Date endDate1 = FormatDateUtils.StringToDate1(endDateDayRepeat.getText().toString());
-                        if(startDate1.compareTo(endDate1)>0){
+                        if (startDate1.compareTo(endDate1) > 0) {
                             check = false;
                         }
                     }
-                    if(check){
+                    if (check) {
                         String startDate2 = FormatDateUtils.DateToString(startDate1);
                         startDateDayRepeat.setText(startDate2);
-                    }else {
+                    } else {
                         DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     startDateDayRepeat.setError(null);
@@ -481,6 +490,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
             datePickerDialog.show();
         });
     }
+
     private void customDayEndDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -492,16 +502,16 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 try {
                     Date endDate1 = FormatDateUtils.StringToDate1(date);
                     boolean check = true;
-                    if(startDateDayRepeat.length()!=0){
+                    if (startDateDayRepeat.length() != 0) {
                         Date startDate1 = FormatDateUtils.StringToDate1(startDateDayRepeat.getText().toString());
-                        if(endDate1.compareTo(startDate1)<0){
+                        if (endDate1.compareTo(startDate1) < 0) {
                             check = false;
                         }
                     }
-                    if(check){
+                    if (check) {
                         String endDate2 = FormatDateUtils.DateToString(endDate1);
                         endDateDayRepeat.setText(endDate2);
-                    }else {
+                    } else {
                         DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     endDateDayRepeat.setError(null);
@@ -513,6 +523,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
             datePickerDialog.show();
         });
     }
+
     private void customWeekFromDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -524,16 +535,16 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 try {
                     Date startDate1 = FormatDateUtils.StringToDate1(date);
                     boolean check = true;
-                    if(endDateWeekRepeat.length()!=0){
+                    if (endDateWeekRepeat.length() != 0) {
                         Date endDate1 = FormatDateUtils.StringToDate1(endDateWeekRepeat.getText().toString());
-                        if(startDate1.compareTo(endDate1)>0){
+                        if (startDate1.compareTo(endDate1) > 0) {
                             check = false;
                         }
                     }
-                    if(check){
+                    if (check) {
                         String startDate2 = FormatDateUtils.DateToString(startDate1);
                         startDateWeekRepeat.setText(startDate2);
-                    }else {
+                    } else {
                         DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     startDateWeekRepeat.setError(null);
@@ -544,6 +555,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
             datePickerDialog.show();
         });
     }
+
     private void customWeekEndDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -555,16 +567,16 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity imple
                 try {
                     Date endDate1 = FormatDateUtils.StringToDate1(date);
                     boolean check = true;
-                    if(startDateWeekRepeat.length()!=0){
+                    if (startDateWeekRepeat.length() != 0) {
                         Date startDate1 = FormatDateUtils.StringToDate1(startDateWeekRepeat.getText().toString());
-                        if(endDate1.compareTo(startDate1)<0){
+                        if (endDate1.compareTo(startDate1) < 0) {
                             check = false;
                         }
                     }
-                    if(check){
+                    if (check) {
                         String endDate2 = FormatDateUtils.DateToString(endDate1);
                         endDateWeekRepeat.setText(endDate2);
-                    }else {
+                    } else {
                         DialogUtils.setUpDialog(AddCareActivityNotificationActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     endDateWeekRepeat.setError(null);

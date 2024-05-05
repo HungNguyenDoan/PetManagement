@@ -2,7 +2,7 @@ package com.project.petmanagement.payloads.responses;
 
 import com.project.petmanagement.models.entity.CareActivityNotification;
 
-public class CareActivityNotificationResponse extends Response{
+public class CareActivityNotificationResponse extends Response {
     private CareActivityNotification data;
 
     public CareActivityNotification getData() {

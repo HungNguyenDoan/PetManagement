@@ -1,10 +1,8 @@
 package com.project.petmanagement.activity.pet;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +19,6 @@ import com.project.petmanagement.adapters.PetDetailsViewPager2Adapter;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.PetResponse;
 import com.project.petmanagement.services.ApiService;
-import com.project.petmanagement.utils.ImageUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,13 +78,13 @@ public class PetDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
                 if (response.isSuccessful()) {
                     PetResponse petResponse = response.body();
-                    if (petResponse != null && petResponse.getData()!=null) {
+                    if (petResponse != null && petResponse.getData() != null) {
                         pet = petResponse.getData();
                         namePet.setText(pet.getFullName());
                         breed.setText(pet.getBreed().getName());
                         if (pet.getImage() != null) {
                             Glide.with(PetDetailsActivity.this).load(pet.getImage()).into(imagePet);
-                        }else {
+                        } else {
                             imagePet.setImageDrawable(ContextCompat.getDrawable(PetDetailsActivity.this, R.drawable.gray_pet_image));
                         }
                     }

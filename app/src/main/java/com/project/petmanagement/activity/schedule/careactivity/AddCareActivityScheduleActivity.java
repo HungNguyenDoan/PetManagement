@@ -1,13 +1,5 @@
 package com.project.petmanagement.activity.schedule.careactivity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,9 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.vaccine.ManageVaccineInjectionScheduleActivity;
 import com.project.petmanagement.models.entity.CareActivity;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.models.enums.FrequencyEnum;
@@ -43,11 +42,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddCareActivityScheduleActivity extends AppCompatActivity{
+public class AddCareActivityScheduleActivity extends AppCompatActivity {
     private Pet pet;
     private CircleImageView imagePet;
     private TextView namePet;
-    private CareActivityNotificationRequest  careActivityNotificationRequest;
+    private CareActivityNotificationRequest careActivityNotificationRequest;
     private RecurringScheduleRequest recurringScheduleRequest;
     private Button saveActivityScheduleBtn;
     private LinearLayout parentLayout1, parentLayout2, linearDayOfWeek;
@@ -57,7 +56,7 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
     private ActivityResultLauncher<Intent> launcherPet = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == RESULT_OK){
+            if (o.getResultCode() == RESULT_OK) {
                 Intent data = o.getData();
                 if (data != null) {
                     pet = (Pet) data.getSerializableExtra("pet");
@@ -69,7 +68,7 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
     private ActivityResultLauncher<Intent> launcherCareActivity = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == RESULT_OK){
+            if (o.getResultCode() == RESULT_OK) {
                 Intent data = o.getData();
                 if (data != null) {
                     careActivityNotificationRequest = (CareActivityNotificationRequest) data.getSerializableExtra("careActivityNotificationRequest");
@@ -81,7 +80,7 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
     private ActivityResultLauncher<Intent> launcherRecuringSchedule = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == RESULT_OK){
+            if (o.getResultCode() == RESULT_OK) {
                 Intent data = o.getData();
                 if (data != null) {
                     recurringScheduleRequest = (RecurringScheduleRequest) data.getSerializableExtra("recurringScheduleRequest");
@@ -90,6 +89,7 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
             }
         }
     });
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
         imagePet = findViewById(R.id.image_pet);
         namePet = findViewById(R.id.name_pet);
         parentLayout1 = findViewById(R.id.parent_layout1);
-        parentLayout2 = findViewById(R.id. parent_layout2);
+        parentLayout2 = findViewById(R.id.parent_layout2);
         activityInfo = findViewById(R.id.activity_info);
         careActivityMap = new LinkedHashMap<>();
         careActivityNotifyTitle = findViewById(R.id.care_activity_notify_title);
@@ -117,7 +117,7 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
         setActivityNotification = findViewById(R.id.set_activity_notification);
         linearDayOfWeek = findViewById(R.id.linear_day_of_week);
         pet = (Pet) getIntent().getSerializableExtra("pet");
-        if(pet!=null){
+        if (pet != null) {
             setInfoPet();
         }
         btnEditActivityInfo.setOnClickListener(v -> {
@@ -151,12 +151,12 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
             ApiService.apiService.addCareActivityNotification(careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
                 @Override
                 public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Intent intent = new Intent(AddCareActivityScheduleActivity.this, ManageCareActivityScheduleInfoActivity.class);
                         startActivity(intent);
                         finish();
                         Toast.makeText(AddCareActivityScheduleActivity.this, "Thêm lịch thành công.", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Toast.makeText(AddCareActivityScheduleActivity.this, response.code(), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -173,8 +173,9 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
         setUpActivityCareActivityNotification();
         setUpRecurringSchedule();
     }
-    private void setInfoPet(){
-        if(pet!=null){
+
+    private void setInfoPet() {
+        if (pet != null) {
             namePet.setText(pet.getFullName());
             Glide.with(AddCareActivityScheduleActivity.this)
                     .load(pet.getImage())
@@ -182,19 +183,20 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
                     .into(imagePet);
         }
     }
-    private void setUpActivityCareActivityNotification(){
-        if(careActivityNotificationRequest!=null && careActivityNotificationRequest.getCareActivityInfoRequestList()!=null){
+
+    private void setUpActivityCareActivityNotification() {
+        if (careActivityNotificationRequest != null && careActivityNotificationRequest.getCareActivityInfoRequestList() != null) {
             parentLayout1.removeAllViews();
             activityInfo.setVisibility(View.VISIBLE);
             setActivityInfo.setVisibility(View.GONE);
             int stt = 1;
             careActivityNotifyTitle.setText(careActivityNotificationRequest.getTitle());
             careActivityNotifyNote.setText(careActivityNotificationRequest.getNote());
-            for(CareActivityInfoRequest careActivityInfoRequest: careActivityNotificationRequest.getCareActivityInfoRequestList()){
-                View childView = getLayoutInflater().inflate(R.layout.item_care_activity,null,false);
+            for (CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()) {
+                View childView = getLayoutInflater().inflate(R.layout.item_care_activity, null, false);
                 TextView title = childView.findViewById(R.id.title);
-                String strTile = "Hành động "+stt;
-                stt+=1;
+                String strTile = "Hành động " + stt;
+                stt += 1;
                 title.setText(strTile);
                 TextView careActivityType = childView.findViewById(R.id.activity_type);
                 TextView note = childView.findViewById(R.id.note);
@@ -202,18 +204,19 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
                 note.setText(careActivityInfoRequest.getNote());
                 parentLayout1.addView(childView);
             }
-        }else{
+        } else {
             activityInfo.setVisibility(View.GONE);
             setActivityInfo.setVisibility(View.VISIBLE);
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setUpRecurringSchedule(){
-        if(recurringScheduleRequest!=null){
+    private void setUpRecurringSchedule() {
+        if (recurringScheduleRequest != null) {
             parentLayout2.removeAllViews();
             notifyInfo.setVisibility(View.VISIBLE);
             setActivityNotification.setVisibility(View.GONE);
-            if(recurringScheduleRequest.getFrequency() == FrequencyEnum.NO_REPEAT){
+            if (recurringScheduleRequest.getFrequency() == FrequencyEnum.NO_REPEAT) {
                 linearDayOfWeek.setVisibility(View.GONE);
                 frequency.setText("Không lặp lại");
                 try {
@@ -224,33 +227,33 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            } else  {
+            } else {
                 String strFrequency;
-                if (recurringScheduleRequest.getFrequency() == FrequencyEnum.DAILY){
+                if (recurringScheduleRequest.getFrequency() == FrequencyEnum.DAILY) {
                     dayNotify.setVisibility(View.GONE);
-                    strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() +" ngày 1 lần";
-                }else {
+                    strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() + " ngày 1 lần";
+                } else {
                     linearDayOfWeek.setVisibility(View.VISIBLE);
-                    strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() +" tuần 1 lần";
+                    strFrequency = "Lặp lại mỗi " + recurringScheduleRequest.getValue() + " tuần 1 lần";
                     StringBuilder day = new StringBuilder();
-                    for(DayOfWeek dayOfWeek: recurringScheduleRequest.getDaysOfWeek()){
-                        if(dayOfWeek == DayOfWeek.MONDAY){
+                    for (DayOfWeek dayOfWeek : recurringScheduleRequest.getDaysOfWeek()) {
+                        if (dayOfWeek == DayOfWeek.MONDAY) {
                             day.append("Thứ hai, ");
-                        }else if(dayOfWeek == DayOfWeek.TUESDAY){
+                        } else if (dayOfWeek == DayOfWeek.TUESDAY) {
                             day.append("Thứ ba, ");
-                        }else if(dayOfWeek == DayOfWeek.WEDNESDAY){
+                        } else if (dayOfWeek == DayOfWeek.WEDNESDAY) {
                             day.append("Thứ tư, ");
-                        }else if(dayOfWeek == DayOfWeek.THURSDAY){
+                        } else if (dayOfWeek == DayOfWeek.THURSDAY) {
                             day.append("Thứ năm, ");
-                        }else if(dayOfWeek == DayOfWeek.FRIDAY){
+                        } else if (dayOfWeek == DayOfWeek.FRIDAY) {
                             day.append("Thứ sáu, ");
-                        }else if(dayOfWeek == DayOfWeek.SATURDAY){
+                        } else if (dayOfWeek == DayOfWeek.SATURDAY) {
                             day.append("Thứ bảy, ");
-                        }else {
+                        } else {
                             day.append("Chủ nhật, ");
                         }
                     }
-                    dayNotify.setText(day.toString().substring(0,day.toString().length()-2));
+                    dayNotify.setText(day.toString().substring(0, day.toString().length() - 2));
                 }
                 frequency.setText(strFrequency);
                 hourNotify.setText(recurringScheduleRequest.getTime());
@@ -259,36 +262,38 @@ public class AddCareActivityScheduleActivity extends AppCompatActivity{
                     String date1 = FormatDateUtils.DateToString(date);
                     Date date2 = FormatDateUtils.StringToDate(recurringScheduleRequest.getToDate());
                     String date3 = FormatDateUtils.DateToString(date2);
-                    String endDate = "Từ ngày " + date1 + " đến "+date3;
+                    String endDate = "Từ ngày " + date1 + " đến " + date3;
                     fromToEndDate.setText(endDate);
                     hourNotify.setText(recurringScheduleRequest.getTime());
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
             }
-        }else {
+        } else {
             notifyInfo.setVisibility(View.GONE);
             setActivityNotification.setVisibility(View.VISIBLE);
         }
     }
-    private void setButtonSave(){
-        if(careActivityNotificationRequest!=null && recurringScheduleRequest!=null){
+
+    private void setButtonSave() {
+        if (careActivityNotificationRequest != null && recurringScheduleRequest != null) {
             saveActivityScheduleBtn.setEnabled(true);
             saveActivityScheduleBtn.setAlpha(1);
-        }else{
+        } else {
             saveActivityScheduleBtn.setEnabled(false);
             saveActivityScheduleBtn.setAlpha(0.4f);
         }
     }
-    private void getCareActivity(){
+
+    private void getCareActivity() {
         ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ListCareActivityResponse careActivityResponse = response.body();
-                    if(careActivityResponse!=null && careActivityResponse.getData()!=null){
-                        for(CareActivity careActivity: careActivityResponse.getData()){
-                            careActivityMap.put(careActivity.getId(),careActivity);
+                    if (careActivityResponse != null && careActivityResponse.getData() != null) {
+                        for (CareActivity careActivity : careActivityResponse.getData()) {
+                            careActivityMap.put(careActivity.getId(), careActivity);
                         }
                     }
                 }

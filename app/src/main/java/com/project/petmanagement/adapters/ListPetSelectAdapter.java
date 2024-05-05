@@ -25,6 +25,7 @@ public class ListPetSelectAdapter extends RecyclerView.Adapter<ListPetSelectAdap
     private List<Pet> petList;
     private Context context;
     private String action;
+
     public ListPetSelectAdapter(List<Pet> petList, Context context, String action) {
         this.petList = petList;
         this.context = context;
@@ -34,7 +35,7 @@ public class ListPetSelectAdapter extends RecyclerView.Adapter<ListPetSelectAdap
     @NonNull
     @Override
     public PetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_set_pet_schedule,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_set_pet_schedule, parent, false);
         return new PetViewHolder(view);
     }
 
@@ -47,12 +48,12 @@ public class ListPetSelectAdapter extends RecyclerView.Adapter<ListPetSelectAdap
                 .into(holder.imagePet);
         holder.namePet.setText(pet.getFullName());
         holder.cardView.setOnClickListener(v -> {
-            if(action != null){
+            if (action != null) {
                 Intent intent = new Intent(context, AddVaccineScheduleActivity.class);
                 intent.putExtra("pet", pet);
                 ((Activity) context).setResult(Activity.RESULT_OK, intent);
                 ((Activity) context).finish();
-            }else{
+            } else {
                 Intent intent = new Intent(context, AddVaccineScheduleActivity.class);
                 intent.putExtra("pet", pet);
                 context.startActivity(intent);
@@ -62,13 +63,13 @@ public class ListPetSelectAdapter extends RecyclerView.Adapter<ListPetSelectAdap
 
     @Override
     public int getItemCount() {
-        if(petList !=null){
+        if (petList != null) {
             return petList.size();
         }
         return 0;
     }
 
-    public static class PetViewHolder extends RecyclerView.ViewHolder{
+    public static class PetViewHolder extends RecyclerView.ViewHolder {
         private final CircleImageView imagePet;
         private final TextView namePet;
         private final CardView cardView;

@@ -1,6 +1,5 @@
 package com.project.petmanagement.models.entity;
 
-import com.google.gson.annotations.SerializedName;
 import com.project.petmanagement.models.enums.QualityEnum;
 
 import java.io.Serializable;

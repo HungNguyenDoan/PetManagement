@@ -2,7 +2,7 @@ package com.project.petmanagement.models.entity;
 
 import java.sql.Time;
 
-public class MonthlyRepetition extends Repetition{
+public class MonthlyRepetition extends Repetition {
     private Integer date;
     private Time time;
 

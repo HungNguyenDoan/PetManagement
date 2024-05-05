@@ -42,6 +42,7 @@ public class VaccineScheduleDetailActivity extends AppCompatActivity {
     private LinearLayout parentLayout;
     private VaccinationNotification vaccinationNotification;
     private TextInputEditText title, note;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +92,8 @@ public class VaccineScheduleDetailActivity extends AppCompatActivity {
         setUpOneTimeSchedule();
 
     }
-    private void setUpInfoVaccineNotification(){
+
+    private void setUpInfoVaccineNotification() {
         if (vaccinationNotification != null) {
             title.setText(vaccinationNotification.getTitle());
             note.setText(vaccinationNotification.getNote());
@@ -109,6 +111,7 @@ public class VaccineScheduleDetailActivity extends AppCompatActivity {
             }
         }
     }
+
     private void setInfoPet() {
         if (vaccinationNotification.getPet() != null) {
             namePet.setText(vaccinationNotification.getPet().getFullName());
@@ -143,16 +146,17 @@ public class VaccineScheduleDetailActivity extends AppCompatActivity {
             }
         }
     }
-    private void getVaccineNotificationById(){
+
+    private void getVaccineNotificationById() {
         ApiService.apiService.getVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<VaccineNotificationResponse>() {
             @Override
             public void onResponse(Call<VaccineNotificationResponse> call, Response<VaccineNotificationResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     VaccineNotificationResponse vaccineNotificationResponse = response.body();
-                    if (vaccineNotificationResponse!=null&&vaccineNotificationResponse.getData()!=null){
+                    if (vaccineNotificationResponse != null && vaccineNotificationResponse.getData() != null) {
                         vaccinationNotification = vaccineNotificationResponse.getData();
                         oneTimeScheduleRequestList.clear();
-                        for(OneTimeSchedule oneTimeSchedule : vaccinationNotification.getSchedules()){
+                        for (OneTimeSchedule oneTimeSchedule : vaccinationNotification.getSchedules()) {
                             OneTimeScheduleRequest oneTimeScheduleRequest = new OneTimeScheduleRequest();
                             oneTimeScheduleRequest.setId(oneTimeSchedule.getId());
                             oneTimeScheduleRequest.setTime(oneTimeSchedule.getTime());

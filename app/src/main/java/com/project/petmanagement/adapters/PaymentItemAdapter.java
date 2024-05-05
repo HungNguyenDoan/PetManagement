@@ -16,7 +16,7 @@ import com.project.petmanagement.models.entity.CartItem;
 
 import java.util.List;
 
-public class PaymentItemAdapter extends RecyclerView.Adapter<PaymentItemAdapter.PaymentHolder>{
+public class PaymentItemAdapter extends RecyclerView.Adapter<PaymentItemAdapter.PaymentHolder> {
     private Context context;
     private List<CartItem> cartItems;
 
@@ -30,14 +30,14 @@ public class PaymentItemAdapter extends RecyclerView.Adapter<PaymentItemAdapter.
     @NonNull
     @Override
     public PaymentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PaymentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_item,parent,false));
+        return new PaymentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull PaymentHolder holder, int position) {
         final CartItem cartItem = cartItems.get(position);
         holder.nameItem.setText(cartItem.getProduct().getName());
-        holder.quantity.setText("x"+String.valueOf(cartItem.getQuantity()));
+        holder.quantity.setText("x" + String.valueOf(cartItem.getQuantity()));
         holder.nameItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,14 +50,15 @@ public class PaymentItemAdapter extends RecyclerView.Adapter<PaymentItemAdapter.
 
     @Override
     public int getItemCount() {
-        if(cartItems!=null){
+        if (cartItems != null) {
             return cartItems.size();
         }
         return 0;
     }
 
-    public static class PaymentHolder extends RecyclerView.ViewHolder{
+    public static class PaymentHolder extends RecyclerView.ViewHolder {
         private TextView nameItem, quantity;
+
         public PaymentHolder(@NonNull View itemView) {
             super(itemView);
             nameItem = itemView.findViewById(R.id.name_item);

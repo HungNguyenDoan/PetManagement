@@ -13,11 +13,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -35,7 +33,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.vaccine.AddVaccineNotificationActivity;
 import com.project.petmanagement.models.entity.Breed;
 import com.project.petmanagement.models.entity.Species;
 import com.project.petmanagement.payloads.requests.PetRequest;
@@ -256,10 +253,9 @@ public class AddNewPetActivity extends AppCompatActivity {
                     cal2.set(Calendar.MINUTE, 0);
                     cal2.set(Calendar.SECOND, 0);
                     cal2.set(Calendar.MILLISECOND, 0);
-                    if(cal1.compareTo(cal2)<0) {
+                    if (cal1.compareTo(cal2) < 0) {
                         DialogUtils.setUpDialog(AddNewPetActivity.this, "Ngày bạn chọn không được lớn hơn ngày hiện tại");
-                    }
-                    else{
+                    } else {
                         dob.setText(date2);
                         dob.setError(null);
                     }

@@ -50,6 +50,7 @@ public class StaticHealthActivity extends AppCompatActivity {
     private List<HealthRecord> healthRecords;
     private TextInputEditText startDate, endDate;
     private Button btnStatics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +58,10 @@ public class StaticHealthActivity extends AppCompatActivity {
         findViewById();
         petId = getIntent().getLongExtra("petId", 0);
         btnBack.setOnClickListener(v -> finish());
-        staticRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        staticRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         staticRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         btnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(StaticHealthActivity.this, AddStaticHealthActity.class);
+            Intent intent = new Intent(StaticHealthActivity.this, AddStaticHealthActivity.class);
             intent.putExtra("petId", petId);
             startActivity(intent);
         });
@@ -69,7 +70,7 @@ public class StaticHealthActivity extends AppCompatActivity {
         btnStatics.setOnClickListener(v -> getHealthRecordList());
     }
 
-    private void findViewById(){
+    private void findViewById() {
         lineChart = findViewById(R.id.line_chart);
         staticRecyclerView = findViewById(R.id.static_recycler_view);
         btnAdd = findViewById(R.id.btn_add);
@@ -78,8 +79,9 @@ public class StaticHealthActivity extends AppCompatActivity {
         endDate = findViewById(R.id.end_date);
         btnStatics = findViewById(R.id.btn_statics);
     }
-    private void getHealthRecordList(){
-        if(validation()){
+
+    private void getHealthRecordList() {
+        if (validation()) {
             String strStartDate = startDate.getText().toString();
             String strEndDate = endDate.getText().toString();
             try {
@@ -88,11 +90,11 @@ public class StaticHealthActivity extends AppCompatActivity {
                 ApiService.apiService.staticsHealthRecord(petId, FormatDateUtils.DateToString1(dateStartDate), FormatDateUtils.DateToString1(dateEndDate)).enqueue(new Callback<ListHealthRecordResponse>() {
                     @Override
                     public void onResponse(Call<ListHealthRecordResponse> call, Response<ListHealthRecordResponse> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             ListHealthRecordResponse listHealthRecordResponse = response.body();
-                            if(listHealthRecordResponse!=null && listHealthRecordResponse.getData()!=null){
+                            if (listHealthRecordResponse != null && listHealthRecordResponse.getData() != null) {
                                 healthRecords = listHealthRecordResponse.getData();
-                                StaticHealthAdapter staticHealthAdapter = new StaticHealthAdapter(StaticHealthActivity.this,healthRecords);
+                                StaticHealthAdapter staticHealthAdapter = new StaticHealthAdapter(StaticHealthActivity.this, healthRecords);
                                 staticRecyclerView.setAdapter(staticHealthAdapter);
                                 customChart();
                             }
@@ -111,10 +113,11 @@ public class StaticHealthActivity extends AppCompatActivity {
 
         }
     }
-    private void customChart(){
+
+    private void customChart() {
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = 0; i < healthRecords.size(); i++){
+        for (int i = 0; i < healthRecords.size(); i++) {
             HealthRecord healthRecord = healthRecords.get(i);
             float x = i;
             float y = healthRecord.getWeight().floatValue();
@@ -156,6 +159,7 @@ public class StaticHealthActivity extends AppCompatActivity {
         // Cập nhật biểu đồ
         lineChart.invalidate();
     }
+
     public static class CustomXAxisValueFormatter extends ValueFormatter {
 
         private final List<String> labels;
@@ -176,17 +180,18 @@ public class StaticHealthActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validation(){
-        if(startDate.length()==0){
+    private boolean validation() {
+        if (startDate.length() == 0) {
             startDate.setError("Ngày bắt đầu không được để trống");
             return false;
         }
-        if(endDate.length()==0){
+        if (endDate.length() == 0) {
             endDate.setError("Ngày kết thúc không được để trống");
             return false;
         }
         return true;
     }
+
     private void customStartDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -198,16 +203,16 @@ public class StaticHealthActivity extends AppCompatActivity {
                 try {
                     Date startDate1 = FormatDateUtils.StringToDate1(date);
                     boolean check = true;
-                    if(endDate.length()!=0){
+                    if (endDate.length() != 0) {
                         Date endDate1 = FormatDateUtils.StringToDate1(endDate.getText().toString());
-                        if(startDate1.compareTo(endDate1)>0){
+                        if (startDate1.compareTo(endDate1) > 0) {
                             check = false;
                         }
                     }
-                    if(check){
+                    if (check) {
                         String startDate2 = FormatDateUtils.DateToString(startDate1);
                         startDate.setText(startDate2);
-                    }else {
+                    } else {
                         DialogUtils.setUpDialog(StaticHealthActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     startDate.setError(null);
@@ -218,6 +223,7 @@ public class StaticHealthActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
     }
+
     private void customEndDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -229,16 +235,16 @@ public class StaticHealthActivity extends AppCompatActivity {
                 try {
                     Date endDate1 = FormatDateUtils.StringToDate1(date);
                     boolean check = true;
-                    if(startDate.length()!=0){
+                    if (startDate.length() != 0) {
                         Date startDate1 = FormatDateUtils.StringToDate1(startDate.getText().toString());
-                        if(endDate1.compareTo(startDate1)<0){
+                        if (endDate1.compareTo(startDate1) < 0) {
                             check = false;
                         }
                     }
-                    if(check){
+                    if (check) {
                         String endDate2 = FormatDateUtils.DateToString(endDate1);
                         endDate.setText(endDate2);
-                    }else {
+                    } else {
                         DialogUtils.setUpDialog(StaticHealthActivity.this, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
                     }
                     endDate.setError(null);
@@ -254,7 +260,7 @@ public class StaticHealthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(startDate.length()!=0 && endDate.length()!=0){
+        if (startDate.length() != 0 && endDate.length() != 0) {
             getHealthRecordList();
         }
     }

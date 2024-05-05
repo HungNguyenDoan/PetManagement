@@ -15,20 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.schedule.careactivity.CareActivityScheduleDetailActivity;
-import com.project.petmanagement.models.entity.CareActivityInfo;
 import com.project.petmanagement.models.entity.CareActivityNotification;
-import com.project.petmanagement.models.entity.RecurringSchedule;
 import com.project.petmanagement.models.enums.FrequencyEnum;
-import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
-import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,32 +40,31 @@ public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareAc
     @NonNull
     @Override
     public CareActivityNotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.care_activity_notification_item, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.care_activity_notification_item, parent, false);
         return new CareActivityNotificationViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CareActivityNotificationViewHolder holder, int position) {
         final CareActivityNotification careActivityNotification = careActivityNotifications.get(position);
-        String strTitle = "Thông báo " + (position+1);
-        holder.title.setText(strTitle);
-        if(careActivityNotification.getNotificationStatus()){
+        holder.title.setText(careActivityNotification.getTitle());
+        if (careActivityNotification.getNotificationStatus()) {
             holder.status.setChecked(true);
-        }else {
+        } else {
             holder.status.setChecked(false);
         }
-        if(careActivityNotification.getSchedule().getFrequency() == FrequencyEnum.NO_REPEAT){
+        if (careActivityNotification.getSchedule().getFrequency() == FrequencyEnum.NO_REPEAT) {
             holder.frequency.setText("Không lặp lại");
             String date1 = FormatDateUtils.DateToString1(careActivityNotification.getSchedule().getDate());
             holder.date.setText(date1);
         } else {
             if (careActivityNotification.getSchedule().getFrequency() == FrequencyEnum.DAILY)
-                holder.frequency.setText("Lặp lại mỗi "+ careActivityNotification.getSchedule().getValue() +" ngày 1 lần");
+                holder.frequency.setText("Lặp lại mỗi " + careActivityNotification.getSchedule().getValue() + " ngày 1 lần");
             else
-                holder.frequency.setText("Lặp lại mỗi "+ careActivityNotification.getSchedule().getValue() +" tuần 1 lần");
+                holder.frequency.setText("Lặp lại mỗi " + careActivityNotification.getSchedule().getValue() + " tuần 1 lần");
             String fromDate = FormatDateUtils.DateToString1(careActivityNotification.getSchedule().getFromDate());
             String toDate = FormatDateUtils.DateToString1(careActivityNotification.getSchedule().getToDate());
-            String date = "Từ ngày "+fromDate +" đến ngày "+ toDate;
+            String date = "Từ ngày " + fromDate + " đến ngày " + toDate;
             holder.date.setText(date);
         }
         holder.relativeLayout.setOnClickListener(v -> {
@@ -89,7 +81,7 @@ public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareAc
             ApiService.apiService.updateCareActivityNotification(careActivityNotification.getId(), careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
                 @Override
                 public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Toast.makeText(context, "Cập nhập thành công", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -104,16 +96,17 @@ public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareAc
 
     @Override
     public int getItemCount() {
-        if(careActivityNotifications!=null){
+        if (careActivityNotifications != null) {
             return careActivityNotifications.size();
         }
         return 0;
     }
 
-    static class CareActivityNotificationViewHolder extends RecyclerView.ViewHolder{
+    static class CareActivityNotificationViewHolder extends RecyclerView.ViewHolder {
         private final TextView title, frequency, date;
         private final SwitchCompat status;
         private final RelativeLayout relativeLayout;
+
         public CareActivityNotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);

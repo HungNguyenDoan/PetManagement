@@ -1,7 +1,6 @@
 package com.project.petmanagement.payloads.responses;
 
 import com.project.petmanagement.models.entity.Category;
-import com.project.petmanagement.payloads.responses.Response;
 
 import java.util.List;
 

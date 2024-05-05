@@ -20,7 +20,7 @@ public class HealthRecordErrorResponse {
         this.message = message;
     }
 
-    public class Message{
+    public class Message {
         private String checkUpDate;
         private String weight;
         private String exerciseLevel;

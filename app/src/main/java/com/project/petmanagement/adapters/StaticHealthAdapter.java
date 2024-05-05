@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.schedule.vaccine.VaccineScheduleDetailActivity;
 import com.project.petmanagement.activity.statichealth.UpdateStaticHealthActivity;
 import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.payloads.responses.Response;
@@ -29,7 +28,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapter.StaticHealViewHolder>{
+public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapter.StaticHealViewHolder> {
     private Context context;
     private List<HealthRecord> healthRecords;
 
@@ -48,16 +47,16 @@ public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapte
     public void onBindViewHolder(@NonNull StaticHealViewHolder holder, int position) {
         final HealthRecord healthRecord = healthRecords.get(position);
         holder.imageStatic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.up));
-        if(position!=0){
-            if(healthRecords.get(position-1).getWeight()>healthRecord.getWeight()){
+        if (position != 0) {
+            if (healthRecords.get(position - 1).getWeight() > healthRecord.getWeight()) {
                 holder.imageStatic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.down));
-            }else{
+            } else {
                 holder.imageStatic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.up));
             }
-        }else{
+        } else {
             holder.imageStatic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.up));
         }
-        holder.weight.setText(String.valueOf(healthRecord.getWeight())+" kg");
+        holder.weight.setText(String.valueOf(healthRecord.getWeight()) + " kg");
         holder.checkupDate.setText(FormatDateUtils.DateToString(healthRecord.getCheckUpDate()));
         holder.itemStaticHealth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,17 +96,18 @@ public class StaticHealthAdapter extends RecyclerView.Adapter<StaticHealthAdapte
 
     @Override
     public int getItemCount() {
-        if (healthRecords!=null){
+        if (healthRecords != null) {
             return healthRecords.size();
         }
         return 0;
     }
 
-    public static class StaticHealViewHolder extends RecyclerView.ViewHolder{
+    public static class StaticHealViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageStatic;
         private final TextView weight;
         private final TextView checkupDate;
         private final RelativeLayout itemStaticHealth;
+
         public StaticHealViewHolder(@NonNull View itemView) {
             super(itemView);
             imageStatic = itemView.findViewById(R.id.image_static);

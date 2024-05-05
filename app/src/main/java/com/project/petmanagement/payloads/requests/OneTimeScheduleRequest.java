@@ -1,7 +1,6 @@
 package com.project.petmanagement.payloads.requests;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class OneTimeScheduleRequest implements Serializable {
     private Long id;
@@ -11,9 +10,11 @@ public class OneTimeScheduleRequest implements Serializable {
     private String time;
 
     private Boolean status;
+
     public OneTimeScheduleRequest() {
 
     }
+
     public OneTimeScheduleRequest(String date, String time) {
         this.date = date;
         this.time = time;

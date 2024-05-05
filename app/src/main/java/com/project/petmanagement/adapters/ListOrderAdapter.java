@@ -14,17 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-//import com.project.petmanagement.activity.shop.OrderDetailActivity;
 import com.project.petmanagement.activity.shop.OrderDetailActivity;
 import com.project.petmanagement.models.entity.Order;
-import com.project.petmanagement.models.entity.OrderDetail;
 import com.project.petmanagement.models.enums.OrderStatusEnum;
 import com.project.petmanagement.utils.FormatDateUtils;
 import com.project.petmanagement.utils.FormatNumberUtils;
 
 import java.util.List;
 
-public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.OrderViewHolder>{
+public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.OrderViewHolder> {
     private Context context;
     private List<Order> orderList;
 
@@ -36,7 +34,7 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.Orde
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new OrderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item,parent,false));
+        return new OrderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item, parent, false));
     }
 
     @Override
@@ -44,11 +42,11 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.Orde
         final Order order = orderList.get(position);
         holder.idOrder.setText(String.valueOf(order.getId()));
         holder.quantity.setText(String.valueOf(order.getOrderDetails().size()));
-        String totalPrice1= FormatNumberUtils.formatFloat(order.getTotalPrice())+" VNĐ";
+        String totalPrice1 = FormatNumberUtils.formatFloat(order.getTotalPrice()) + " VNĐ";
         holder.totalPrice.setText(totalPrice1);
-        if(order.getStatus()== OrderStatusEnum.PENDING){
+        if (order.getStatus() == OrderStatusEnum.PENDING) {
             holder.status.setText("Đang xử lý");
-        } else if (order.getStatus()== OrderStatusEnum.PROCESSING) {
+        } else if (order.getStatus() == OrderStatusEnum.PROCESSING) {
             holder.status.setText("Chờ giao");
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.yellow));
         } else if (order.getStatus() == OrderStatusEnum.SHIPPED) {
@@ -57,12 +55,12 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.Orde
         } else if (order.getStatus() == OrderStatusEnum.DELIVERED) {
             holder.status.setText("Đã nhận");
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.green));
-        }else {
+        } else {
             holder.status.setText("Đã hủy");
             holder.status.setTextColor(ContextCompat.getColor(context, R.color.red));
         }
         holder.dateOrder.setText(FormatDateUtils.DateToString2(order.getOrderDate()));
-        ListImageOrderDetailAdapter imageOrderDetailAdapter = new ListImageOrderDetailAdapter(context,order.getOrderDetails());
+        ListImageOrderDetailAdapter imageOrderDetailAdapter = new ListImageOrderDetailAdapter(context, order.getOrderDetails());
         holder.imageRecyclerView.setAdapter(imageOrderDetailAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         holder.imageRecyclerView.setLayoutManager(layoutManager);
@@ -78,15 +76,16 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.Orde
 
     @Override
     public int getItemCount() {
-        if(orderList!=null)
-            return  orderList.size();
+        if (orderList != null)
+            return orderList.size();
         return 0;
     }
 
-    public static class OrderViewHolder extends RecyclerView.ViewHolder{
-        private final TextView idOrder, dateOrder,quantity, totalPrice, status;
+    public static class OrderViewHolder extends RecyclerView.ViewHolder {
+        private final TextView idOrder, dateOrder, quantity, totalPrice, status;
         private final RecyclerView imageRecyclerView;
         private final Button btnOrderDetail;
+
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             idOrder = itemView.findViewById(R.id.id_order);

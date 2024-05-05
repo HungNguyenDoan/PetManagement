@@ -5,11 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,12 +30,14 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
     private Context context;
     private List<MedicalDocument> medicalList;
     private Long medicalId;
+
     public MedicalAdapter(Context context, List<MedicalDocument> medicalList) {
         this.context = context;
         this.medicalList = medicalList;
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    public void setMedicalList(List<MedicalDocument> medicalList){
+    public void setMedicalList(List<MedicalDocument> medicalList) {
         this.medicalList = medicalList;
         notifyDataSetChanged();
     }
@@ -45,7 +45,7 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
     @NonNull
     @Override
     public MedicalDocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.medical_document_item,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.medical_document_item, parent, false);
         return new MedicalDocumentViewHolder(view);
     }
 
@@ -74,8 +74,8 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
                                     @SuppressLint("NotifyDataSetChanged")
                                     @Override
                                     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                                        if(response.isSuccessful()){
-                                            if(response.code() == 200){
+                                        if (response.isSuccessful()) {
+                                            if (response.code() == 200) {
                                                 medicalList.remove(medicalDocument);
                                                 Toast.makeText(context, "Xóa document thành công.", Toast.LENGTH_SHORT).show();
                                                 notifyDataSetChanged();
@@ -102,19 +102,23 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
             }
         });
     }
+
     @Override
     public int getItemCount() {
-        if(medicalList!=null){
+        if (medicalList != null) {
             return medicalList.size();
         }
         return 0;
     }
-    private void openDialog(){
+
+    private void openDialog() {
 
     }
+
     public static class MedicalDocumentViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameMedical;
         private final RelativeLayout layout;
+
         public MedicalDocumentViewHolder(@NonNull View itemView) {
             super(itemView);
             nameMedical = itemView.findViewById(R.id.name_medical);

@@ -439,7 +439,7 @@
                         android:layout_marginVertical="20dp"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:background="@drawable/btn_delete_custom"
+                        android:background="@drawable/red_background_button"
                         android:text="Xóa"
                         android:textAllCaps="false"
                         android:layout_width="match_parent"

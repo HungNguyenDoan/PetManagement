@@ -17,16 +17,19 @@ public class PetDetailsViewPager2Adapter extends FragmentStateAdapter {
     public PetDetailsViewPager2Adapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
-    public void setData(long idPet){
+
+    public void setData(long idPet) {
         this.idPet = idPet;
     }
-    public void setBtnAdd(FloatingActionButton btnAdd){
+
+    public void setBtnAdd(FloatingActionButton btnAdd) {
         this.btnAdd = btnAdd;
     }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return new InforPetFragment(idPet, btnAdd);
             default:

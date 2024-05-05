@@ -1,5 +1,13 @@
 package com.project.petmanagement.activity.shop;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -8,16 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
@@ -45,40 +43,41 @@ public class PaymentActivity extends AppCompatActivity {
     private TextView phoneNumber;
     private TextView address;
     private RecyclerView listItemRecyclerView;
-    private CharSequence items[] = new CharSequence[] {"Thanh toán khi nhận hàng", "Thẻ tín dụng"};
+    private CharSequence items[] = new CharSequence[]{"Thanh toán khi nhận hàng", "Thẻ tín dụng"};
     private TextView totalPrice;
     private StorageService storageService = MyApplication.getStorageService();
     ActivityResultLauncher<Intent> infoLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
-            if (o.getResultCode() == Activity.RESULT_OK){
+            if (o.getResultCode() == Activity.RESULT_OK) {
                 Intent intent = o.getData();
-                if(intent!=null){
+                if (intent != null) {
                     phoneNumber.setText(intent.getStringExtra("phoneNumber"));
                     address.setText(intent.getStringExtra("address"));
                 }
             }
         }
     });
-    private void getCardByUser(){
+
+    private void getCardByUser() {
         ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     CartResponse cartResponse = response.body();
-                    if(cartResponse!=null && cartResponse.getData()!=null){
+                    if (cartResponse != null && cartResponse.getData() != null) {
                         Cart cart = cartResponse.getData();
-                        if(cart!=null){
+                        if (cart != null) {
                             List<CartItem> cartItems = new ArrayList<>();
-                            for(CartItem cartItem: cart.getCartItems()){
-                                if(cartItem.getSelected()){
+                            for (CartItem cartItem : cart.getCartItems()) {
+                                if (cartItem.getSelected()) {
                                     cartItems.add(cartItem);
                                 }
                             }
-                            PaymentItemAdapter paymentItemAdapter = new PaymentItemAdapter(PaymentActivity.this,cartItems);
+                            PaymentItemAdapter paymentItemAdapter = new PaymentItemAdapter(PaymentActivity.this, cartItems);
                             listItemRecyclerView.setAdapter(paymentItemAdapter);
-                            listItemRecyclerView.setLayoutManager(new LinearLayoutManager(PaymentActivity.this,RecyclerView.VERTICAL,false));
-                            String totalPrices = FormatNumberUtils.formatFloat(cart.getTotalPrice())+" VND";
+                            listItemRecyclerView.setLayoutManager(new LinearLayoutManager(PaymentActivity.this, RecyclerView.VERTICAL, false));
+                            String totalPrices = FormatNumberUtils.formatFloat(cart.getTotalPrice()) + " VND";
                             totalPrice.setText(totalPrices);
                         }
                     }
@@ -91,6 +90,7 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,17 +139,17 @@ public class PaymentActivity extends AppCompatActivity {
         });
         btnConfirmPayment.setOnClickListener(v -> {
             PaymentMethodEnum paymentMethodEnum;
-            if(paymentMethod.getText().toString().equals(items[0].toString())){
+            if (paymentMethod.getText().toString().equals(items[0].toString())) {
                 paymentMethodEnum = PaymentMethodEnum.CASH_ON_DELIVERY;
-            }else{
+            } else {
                 paymentMethodEnum = PaymentMethodEnum.CREDIT_CARD;
 
             }
-            OrderRequest orderRequest = new OrderRequest(address.getText().toString(), phoneNumber.getText().toString(),paymentMethodEnum);
+            OrderRequest orderRequest = new OrderRequest(address.getText().toString(), phoneNumber.getText().toString(), paymentMethodEnum);
             ApiService.apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
                 @Override
                 public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(PaymentActivity.this, OrderActivity.class);
                         startActivity(intent);

@@ -3,12 +3,10 @@ package com.project.petmanagement.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.project.petmanagement.MyApplication;
-import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
+import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.payloads.requests.ChangePasswordRequest;
 import com.project.petmanagement.payloads.requests.DailyActivityLogRequest;
-import com.project.petmanagement.models.entity.CareActivity;
-import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
 import com.project.petmanagement.payloads.requests.LoginRequest;
@@ -21,11 +19,8 @@ import com.project.petmanagement.payloads.requests.VaccinationNotificationReques
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.DailyActivityLogResponse;
-
-import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
-import com.project.petmanagement.payloads.responses.ListDailyActivityLogResponse;
-
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
+import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
 import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
@@ -72,11 +67,11 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     // Server
-//    String BASE_URL = "http://103.163.215.125/api/";
+    String BASE_URL = "http://103.163.215.125/api/";
 
     // Local
 //    String BASE_URL = "http://192.168.1.19:8080/";
-    String BASE_URL = "http://192.151.62.105:8080/";
+//    String BASE_URL = "http://192.151.62.105:8080/";
 
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
@@ -281,8 +276,8 @@ public interface ApiService {
 
 
     // CareActivityInfoController
-    @PUT("care_activity_info/update")
-    Call<Response> updateCareActivityInfo(@Body List<CareActivityInfoRequest> careActivityInfoRequestList);
+    @PUT("care_activity_info/update/{care_activity_notification_id}")
+    Call<Response> updateCareActivityInfo(@Path("care_activity_notification_id") Long careActivityNotificationId, @Body List<CareActivityInfoRequest> careActivityInfoRequestList);
 
     @DELETE("care_activity_info/delete/{id}")
     Call<Response> deleteCareActivityInfo(@Path("id") Long careActivityInfoId);
@@ -296,12 +291,16 @@ public interface ApiService {
     // CareActivityNotificationController
     @POST("care_activity_notification/add")
     Call<CareActivityNotificationResponse> addCareActivityNotification(@Body CareActivityNotificationRequest careActivityNotificationRequest);
+
     @GET("care_activity_notification/users")
     Call<ListCareActivityNotificationResponse> getAllCareActivityNotificationByUser();
+
     @GET("care_activity_notification/{id}")
     Call<CareActivityNotificationResponse> getCareActivityNotificationById(@Path("id") Long id);
+
     @DELETE("care_activity_notification/delete/{id}")
     Call<Response> deleteCareActivityNotification(@Path("id") Long id);
+
     @PUT("care_activity_notification/update/{id}")
     Call<CareActivityNotificationResponse> updateCareActivityNotification(@Path("id") Long id, @Body CareActivityNotificationRequest careActivityNotificationRequest);
 

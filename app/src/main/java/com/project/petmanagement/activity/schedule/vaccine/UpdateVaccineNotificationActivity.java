@@ -1,8 +1,5 @@
 package com.project.petmanagement.activity.schedule.vaccine;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -12,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
@@ -38,9 +38,10 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
     private TimePickerDialog timePickerDialog;
     private LinearLayout parentLayout;
     private Button saveBtn;
-    private int stt=1;
+    private int stt = 1;
     private Long vaccineNotificationId;
     List<OneTimeScheduleRequest> finalOneTimeScheduleRequests;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,24 +56,24 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
         if (oneTimeScheduleRequests != null) {
             finalOneTimeScheduleRequests = new ArrayList<>(oneTimeScheduleRequests);
         }
-        if(oneTimeScheduleRequests!=null){
-            for(OneTimeScheduleRequest oneTimeScheduleRequest: oneTimeScheduleRequests){
-                final View childView = getLayoutInflater().inflate(R.layout.item_vaccine_notification,null,false);
+        if (oneTimeScheduleRequests != null) {
+            for (OneTimeScheduleRequest oneTimeScheduleRequest : oneTimeScheduleRequests) {
+                final View childView = getLayoutInflater().inflate(R.layout.item_vaccine_notification, null, false);
                 TextView title = childView.findViewById(R.id.title);
-                String strTile = "Lịch tiêm vaccine "+stt;
-                stt+=1;
+                String strTile = "Lịch tiêm vaccine " + stt;
+                stt += 1;
                 title.setText(strTile);
                 TextInputEditText dateInject = childView.findViewById(R.id.date_inject);
                 TextInputEditText hourInject = childView.findViewById(R.id.hour);
                 TextView oneTimeScheduleId = childView.findViewById(R.id.one_time_schedule_id);
                 TextView scheduleStatus = childView.findViewById(R.id.one_time_schedule_status);
-                if(oneTimeScheduleRequest.getId()!=null){
+                if (oneTimeScheduleRequest.getId() != null) {
                     oneTimeScheduleId.setText(String.valueOf(oneTimeScheduleRequest.getId()));
                 }
-                if(oneTimeScheduleRequest.getStatus()!=null){
-                    if(oneTimeScheduleRequest.getStatus()){
+                if (oneTimeScheduleRequest.getStatus() != null) {
+                    if (oneTimeScheduleRequest.getStatus()) {
                         scheduleStatus.setText(String.valueOf(1));
-                    }else{
+                    } else {
                         scheduleStatus.setText(String.valueOf(0));
                     }
                 }
@@ -89,13 +90,13 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                 deleteLayout.setOnClickListener(v -> {
                     int position = parentLayout.indexOfChild(childView);
                     parentLayout.removeView(childView);
-                    for(int i=position;i<parentLayout.getChildCount();i++){
+                    for (int i = position; i < parentLayout.getChildCount(); i++) {
                         TextView title1 = parentLayout.getChildAt(i).findViewById(R.id.title);
-                        String strTile1 = "Lịch tiêm vaccine "+(i+1);
+                        String strTile1 = "Lịch tiêm vaccine " + (i + 1);
                         title1.setText(strTile1);
                     }
-                    stt = parentLayout.getChildCount()+1;
-                    if(parentLayout.getChildCount()==0){
+                    stt = parentLayout.getChildCount() + 1;
+                    if (parentLayout.getChildCount() == 0) {
                         stt = 1;
                     }
                     setUpButton();
@@ -114,40 +115,42 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
             addView();
         });
     }
-    private boolean validate(TextInputEditText date, TextInputEditText hour){
-        if(date.length()==0){
+
+    private boolean validate(TextInputEditText date, TextInputEditText hour) {
+        if (date.length() == 0) {
             date.setError("Không được để trống");
             return false;
         }
-        if(hour.length()==0){
+        if (hour.length() == 0) {
             hour.setError("Không được để trống");
             return false;
         }
         return true;
     }
-    private void saveSchedule(){
+
+    private void saveSchedule() {
         List<OneTimeScheduleRequest> oneTimeScheduleRequests = new ArrayList<>();
         List<Long> oneTimeId = new ArrayList<>();
-        for(int i =0; i<parentLayout.getChildCount();i++){
+        for (int i = 0; i < parentLayout.getChildCount(); i++) {
             View childView = parentLayout.getChildAt(i);
             TextInputEditText dateInject = childView.findViewById(R.id.date_inject);
             TextInputEditText hourInject = childView.findViewById(R.id.hour);
             TextView scheduleId = childView.findViewById(R.id.one_time_schedule_id);
             TextView scheduleStatus = childView.findViewById(R.id.one_time_schedule_status);
-            if(validate(dateInject,hourInject)){
+            if (validate(dateInject, hourInject)) {
                 try {
                     Date date1 = FormatDateUtils.StringToDate1(dateInject.getText().toString());
                     String date2 = FormatDateUtils.DateToString1(date1);
                     OneTimeScheduleRequest oneTimeScheduleRequest = new OneTimeScheduleRequest(date2, hourInject.getText().toString());
-                    if(scheduleId.length()!=0){
+                    if (scheduleId.length() != 0) {
                         oneTimeScheduleRequest.setId(Long.parseLong(scheduleId.getText().toString()));
                         oneTimeId.add(Long.parseLong(scheduleId.getText().toString()));
                     }
-                    if(scheduleStatus.length()!=0){
+                    if (scheduleStatus.length() != 0) {
                         int status = Integer.parseInt(scheduleStatus.getText().toString());
-                        if(status==0){
+                        if (status == 0) {
                             oneTimeScheduleRequest.setStatus(false);
-                        }else{
+                        } else {
                             oneTimeScheduleRequest.setStatus(true);
                         }
                     }
@@ -157,8 +160,8 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                 }
             }
         }
-        for(OneTimeScheduleRequest oneTimeScheduleRequest: finalOneTimeScheduleRequests){
-            if(!oneTimeId.contains(oneTimeScheduleRequest.getId())){
+        for (OneTimeScheduleRequest oneTimeScheduleRequest : finalOneTimeScheduleRequests) {
+            if (!oneTimeId.contains(oneTimeScheduleRequest.getId())) {
                 ApiService.apiService.deleteOneTimeSchedule(oneTimeScheduleRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                     @Override
                     public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
@@ -171,13 +174,13 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                 });
             }
         }
-        if(!oneTimeScheduleRequests.isEmpty()&&parentLayout.getChildCount()!=0){
+        if (!oneTimeScheduleRequests.isEmpty() && parentLayout.getChildCount() != 0) {
             ApiService.apiService.updateOneSchedule(vaccineNotificationId, oneTimeScheduleRequests).enqueue(new Callback<ListOneTimeScheduleResponse>() {
                 @Override
                 public void onResponse(Call<ListOneTimeScheduleResponse> call, Response<ListOneTimeScheduleResponse> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         ListOneTimeScheduleResponse listOneTimeScheduleResponse = response.body();
-                        if(listOneTimeScheduleResponse!=null&&listOneTimeScheduleResponse.getData()!=null){
+                        if (listOneTimeScheduleResponse != null && listOneTimeScheduleResponse.getData() != null) {
                             Toast.makeText(UpdateVaccineNotificationActivity.this, "Cập nhập lịch thành công.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
@@ -191,20 +194,22 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
             });
         }
     }
-    private void setUpButton(){
-        if(parentLayout.getChildCount()==0){
+
+    private void setUpButton() {
+        if (parentLayout.getChildCount() == 0) {
             saveBtn.setEnabled(false);
             saveBtn.setAlpha(0.4f);
-        }else{
+        } else {
             saveBtn.setEnabled(true);
             saveBtn.setAlpha(1);
         }
     }
+
     private void addView() {
-        final View childView = getLayoutInflater().inflate(R.layout.item_vaccine_notification,null,false);
+        final View childView = getLayoutInflater().inflate(R.layout.item_vaccine_notification, null, false);
         TextView title = childView.findViewById(R.id.title);
-        String strTile = "Lịch tiêm vaccine "+stt;
-        stt+=1;
+        String strTile = "Lịch tiêm vaccine " + stt;
+        stt += 1;
         title.setText(strTile);
         TextInputEditText dateInject = childView.findViewById(R.id.date_inject);
         TextInputEditText hourInject = childView.findViewById(R.id.hour);
@@ -212,13 +217,13 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
         deleteLayout.setOnClickListener(v -> {
             int position = parentLayout.indexOfChild(childView);
             parentLayout.removeView(childView);
-            for(int i=position;i<parentLayout.getChildCount();i++){
+            for (int i = position; i < parentLayout.getChildCount(); i++) {
                 TextView title1 = parentLayout.getChildAt(i).findViewById(R.id.title);
-                String strTile1 = "Lịch tiêm vaccine "+(i+1);
+                String strTile1 = "Lịch tiêm vaccine " + (i + 1);
                 title1.setText(strTile1);
             }
-            stt = parentLayout.getChildCount()+1;
-            if(parentLayout.getChildCount()==0){
+            stt = parentLayout.getChildCount() + 1;
+            if (parentLayout.getChildCount() == 0) {
                 stt = 1;
             }
             setUpButton();
@@ -256,9 +261,9 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                     cal2.set(Calendar.MINUTE, 0);
                     cal2.set(Calendar.SECOND, 0);
                     cal2.set(Calendar.MILLISECOND, 0);
-                    if(cal1.compareTo(cal2)>0){
+                    if (cal1.compareTo(cal2) > 0) {
                         DialogUtils.setUpDialog(UpdateVaccineNotificationActivity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
-                    }else {
+                    } else {
                         editDate.setText(date2);
                     }
                     editDate.setError(null);
@@ -270,13 +275,14 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
     }
-    private void customTimepicker(TextInputEditText editTime){
+
+    private void customTimepicker(TextInputEditText editTime) {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         editTime.setOnClickListener(v -> {
             timePickerDialog = new TimePickerDialog(UpdateVaccineNotificationActivity.this, (view, hourOfDay, minute1) -> {
-                String time = hourOfDay + ":"+ minute1;
+                String time = hourOfDay + ":" + minute1;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
                     Date date = dateFormat.parse(time);
@@ -285,7 +291,7 @@ public class UpdateVaccineNotificationActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-            },hour, minute, true);
+            }, hour, minute, true);
             timePickerDialog.show();
         });
     }

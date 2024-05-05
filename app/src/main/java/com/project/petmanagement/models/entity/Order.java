@@ -17,6 +17,7 @@ public class Order implements Serializable {
     private String phone;
     private PaymentMethodEnum paymentMethod;
     private OrderStatusEnum status;
+
     public Long getId() {
         return id;
     }
