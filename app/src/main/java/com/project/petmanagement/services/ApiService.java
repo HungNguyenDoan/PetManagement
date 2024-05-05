@@ -100,7 +100,7 @@ public interface ApiService {
     @POST("auth/fcm")
     Call<com.project.petmanagement.payloads.responses.Response> setFcmToken(@Body FCMToken fcmToken);
 
-    @DELETE("user/delete")
+    @DELETE("users/delete")
     Call<Response> deleteUser();
 
 

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -34,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 //import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
+import com.project.petmanagement.activity.dailyLog.AddDailyLog;
 import com.project.petmanagement.activity.login.LoginActivity;
 //import com.project.petmanagement.activity.NutritionDetailsActivity;
 import com.project.petmanagement.activity.MainActivity;
@@ -42,6 +44,7 @@ import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.activity.nutrition.NutritionActivity;
 import com.project.petmanagement.activity.pet.ManagePetActivity;
 import com.project.petmanagement.activity.shop.ShopActivity;
+import com.project.petmanagement.activity.user.ChangePassword;
 import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
 import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.payloads.requests.FCMToken;
@@ -73,6 +76,8 @@ public class ProfileFragment extends Fragment {
         CardView nutrition = view.findViewById(R.id.nutrition_card_view);
         CardView vet = view.findViewById(R.id.veterinarian);
         CardView shop = view.findViewById(R.id.shop);
+        CardView changePassword = view.findViewById(R.id.change_password_card_view);
+        CardView deleteAccount = view.findViewById(R.id.delete_account_card_view);
         Button btnLogout = view.findViewById(R.id.btn_logout);
         TextView fullName = view.findViewById(R.id.full_name);
         TextView phoneNumber = view.findViewById(R.id.phone_number);
@@ -107,6 +112,41 @@ public class ProfileFragment extends Fragment {
         pet.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ManagePetActivity.class);
             startActivity(intent);
+        });
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
+                alertDialog.setTitle("Thông báo")
+                        .setMessage("Bạn có chắc chắn muốn xóa tài khoản")
+                        .setPositiveButton("Có", (dialog, which) -> {
+                            ApiService.apiService.deleteUser().enqueue(new Callback<Response>() {
+                                @Override
+                                public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                                    if(response.isSuccessful()){
+                                        storageService.remove("user");
+                                        storageService.remove("token");
+                                        Intent intent = new Intent(requireContext(), LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Response> call, Throwable t) {
+                                    Toast.makeText(requireContext(), "Xóa tài khoản thất bại.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
+                        .show();
+            }
         });
         btnLogout.setOnClickListener(v -> {
             storageService.remove("user");

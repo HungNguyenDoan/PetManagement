@@ -297,7 +297,7 @@
                             android:orientation="vertical">
 
                             <androidx.cardview.widget.CardView
-                                android:id="@+id/security_privacy_card_view"
+                                android:id="@+id/change_password_card_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="10dp"
@@ -309,21 +309,21 @@
 
                                     <ImageView
                                         android:id="@+id/security_privacy_item_image"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
                                         android:layout_gravity="center_vertical"
                                         android:src="@drawable/security_icon"
                                         tools:ignore="ContentDescription" />
 
                                     <TextView
                                         android:id="@+id/security_privacy_item_title"
-                                        android:layout_width="260dp"
+                                        android:layout_width="250dp"
                                         android:layout_height="match_parent"
                                         android:layout_centerVertical="true"
                                         android:layout_marginStart="20dp"
                                         android:layout_toEndOf="@+id/security_privacy_item_image"
                                         android:gravity="center_vertical"
-                                        android:text="Bảo mật và quyền riêng tư"
+                                        android:text="Thay đổi mật khẩu"
                                         android:textColor="@color/black"
                                         android:textSize="18sp"
                                         tools:ignore="HardcodedText" />
@@ -352,15 +352,15 @@
 
                                     <ImageView
                                         android:id="@+id/setting_item_image"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
                                         android:layout_gravity="center_vertical"
                                         android:src="@drawable/setting_icon"
                                         tools:ignore="ContentDescription" />
 
                                     <TextView
                                         android:id="@+id/setting_item_title"
-                                        android:layout_width="260dp"
+                                        android:layout_width="250dp"
                                         android:layout_height="match_parent"
                                         android:layout_centerVertical="true"
                                         android:layout_marginStart="20dp"
@@ -395,15 +395,15 @@
 
                                     <ImageView
                                         android:id="@+id/delete_account_item_image"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
                                         android:layout_gravity="center_vertical"
                                         android:src="@drawable/bin_icon"
                                         tools:ignore="ContentDescription" />
 
                                     <TextView
                                         android:id="@+id/delete_account_item_title"
-                                        android:layout_width="260dp"
+                                        android:layout_width="250dp"
                                         android:layout_height="match_parent"
                                         android:layout_centerVertical="true"
                                         android:layout_marginStart="20dp"

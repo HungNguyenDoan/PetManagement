@@ -2,11 +2,24 @@ package com.project.petmanagement.models.entity;
 
 import java.util.List;
 
-public class CareActivityNotification extends Notification{
+public class CareActivityNotification extends Notification {
 
     private List<CareActivityInfo> careActivityInfoList;
 
     private RecurringSchedule schedule;
+
+    private Boolean notificationStatus;
+
+    public CareActivityNotification() {
+    }
+
+    public Boolean getNotificationStatus() {
+        return notificationStatus;
+    }
+
+    public void setNotificationStatus(Boolean notificationStatus) {
+        this.notificationStatus = notificationStatus;
+    }
 
     public List<CareActivityInfo> getCareActivityInfoList() {
         return careActivityInfoList;

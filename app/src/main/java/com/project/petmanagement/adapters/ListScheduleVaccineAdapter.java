@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -18,8 +19,17 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.activity.schedule.vaccine.VaccineScheduleDetailActivity;
 import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
+import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
+import com.project.petmanagement.payloads.responses.ListOneTimeScheduleResponse;
+import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.utils.FormatDateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListScheduleVaccineAdapter.ScheduleViewHolder> {
     private List<VaccinationNotification> vaccinationNotificationList;
@@ -69,13 +79,37 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
             holder.status.setText("Đã tiêm");
             holder.status.setTextColor(ContextCompat.getColor(context,R.color.green));
             holder.statusCheckBox.setChecked(true);
+            holder.statusCheckBox.setEnabled(false);
         }
-//        holder.statusCheckBox.setOnClickListener(v -> {
-//            if(oneTimeSchedule1!=null && holder.statusCheckBox.isChecked()){
-//                oneTimeSchedule1.setVaccinationStatus(true);
-//
-//            }
-//        });
+        OneTimeSchedule finalOneTimeSchedule = oneTimeSchedule1;
+        holder.statusCheckBox.setOnClickListener(v -> {
+            if(finalOneTimeSchedule !=null){
+                OneTimeScheduleRequest oneTimeScheduleRequest = new OneTimeScheduleRequest();
+                oneTimeScheduleRequest.setId(finalOneTimeSchedule.getId());
+                oneTimeScheduleRequest.setDate(FormatDateUtils.DateToString1(finalOneTimeSchedule.getDate()));
+                oneTimeScheduleRequest.setTime(finalOneTimeSchedule.getTime());
+                oneTimeScheduleRequest.setStatus(true);
+                List<OneTimeScheduleRequest> oneTimeScheduleRequestList = new ArrayList<>();
+                oneTimeScheduleRequestList.add(oneTimeScheduleRequest);
+                ApiService.apiService.updateOneSchedule(vaccinationNotification.getId(), oneTimeScheduleRequestList).enqueue(new Callback<ListOneTimeScheduleResponse>() {
+                    @Override
+                    public void onResponse(Call<ListOneTimeScheduleResponse> call, Response<ListOneTimeScheduleResponse> response) {
+                        if(response.isSuccessful()){
+                            holder.status.setText("Đã tiêm");
+                            holder.status.setTextColor(ContextCompat.getColor(context,R.color.green));
+                            holder.statusCheckBox.setChecked(true);
+                            holder.statusCheckBox.setEnabled(false);
+                            Toast.makeText(context, "Cập nhập thành công.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ListOneTimeScheduleResponse> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
         holder.layout.setOnClickListener(v -> {
             Intent intent = new Intent(context, VaccineScheduleDetailActivity.class);
             intent.putExtra("vaccineNotification", vaccinationNotification);
