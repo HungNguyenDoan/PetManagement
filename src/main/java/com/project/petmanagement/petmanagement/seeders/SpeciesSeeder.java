@@ -14,8 +14,8 @@ public class SpeciesSeeder {
     private SpeciesRepository speciesRepository;
 
     public void seed() {
-        Species dog = Species.builder().id(1L).name("dog").build();
-        Species cat = Species.builder().id(2L).name("cat").build();
+        Species dog = Species.builder().id(1L).name("Chó").build();
+        Species cat = Species.builder().id(2L).name("Mèo").build();
 
         speciesRepository.saveAll(Arrays.asList(dog, cat));
     }

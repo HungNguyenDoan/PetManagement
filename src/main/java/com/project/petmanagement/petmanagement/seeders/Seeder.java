@@ -23,10 +23,10 @@ public class Seeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        speciesSeeder.seed();
         roleSeeder.seed();
         foodTypeSeeder.seed();
         nutritiousFoodSeeder.seed();
-        speciesSeeder.seed();
         breedSeeder.seed();
         categorySeeder.seed();
         productSeeder.seed();

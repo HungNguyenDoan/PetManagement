@@ -3,7 +3,9 @@ package com.project.petmanagement.petmanagement.seeders;
 import java.util.Arrays;
 import java.util.List;
 
+import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.models.enums.QualityEnum;
+import com.project.petmanagement.petmanagement.repositories.SpeciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +21,12 @@ public class NutritiousFoodSeeder {
 
     @Autowired
     private FoodTypeRepository foodTypeRepository;
+    @Autowired
+    private SpeciesRepository speciesRepository;
 
     public void seed() {
         List<FoodType> listFoodTypes = foodTypeRepository.findAll();
+        List<Species> speciesList = speciesRepository.findAll();
 
         NutritiousFood nutri1 = NutritiousFood.builder()
                 .id(1L)
@@ -31,6 +36,7 @@ public class NutritiousFoodSeeder {
                 .quality(QualityEnum.MEDIUM)
                 .ingredient("500gr thịt ức gà không xương,1 củ tỏi,3 cây sả,100gr lá chanh,ớt tươi,1 củ gừng")
                 .foodType(listFoodTypes.get(0))
+                .species(speciesList.get(0))
                 .description("Thức ăn khô cao cấp được bổ sung các loại vitamin và khoáng chất cho sức khỏe tổng thể.")
                 .build();
         nutri1.setFoodType(listFoodTypes.get(0));
@@ -41,6 +47,7 @@ public class NutritiousFoodSeeder {
                 .name("NutriPaws Món Gà Lựa Chọn")
                 .nutrition("Protein: 12 gram,Năng lượng : 34 calo,Chất béo: 1 gram")
                 .quality(QualityEnum.MEDIUM)
+                .foodType(listFoodTypes.get(0))
                 .ingredient("Tim Cừu, cá hồi, hạt lanh, óc xanh New Zealand, taurine, rong biển xấy...")
                 .foodType(listFoodTypes.get(2))
                 .description("Thức ăn ướt đóng hộp với các miếng gà thơm ngon trong nước sốt đậm đà.")
@@ -53,6 +60,7 @@ public class NutritiousFoodSeeder {
                 .image("https://petsvilla.co.uk/cdn/shop/products/pamico-mix-meal-freeze-dried-rabbit-liver-120g-756944.jpg?v=1701877018&width=1946")
                 .nutrition("Protein: 30 gram,Năng lượng : 20 calo,Chất béo: 0.5 gram")
                 .quality(QualityEnum.MEDIUM)
+                .foodType(listFoodTypes.get(0))
                 .ingredient("Dầu và Bột Thư Giãn (400MG), Bột Cúc La Mã (200MG), L-glutamin (100MG), Hoa Passiflora (120MG)")
                 .foodType(listFoodTypes.get(3))
                 .description("Thức ăn sống kết hợp giữa cá hồi tươi và các chất dinh dưỡng cần thiết.")
@@ -65,6 +73,7 @@ public class NutritiousFoodSeeder {
                 .image("https://m.media-amazon.com/images/I/91FRI4sCsHL._AC_UF894,1000_QL80_.jpg")
                 .nutrition("Protein: 22 gram,Năng lượng : 48 calo,Chất béo: 2 gram")
                 .quality(QualityEnum.MEDIUM)
+                .foodType(listFoodTypes.get(0))
                 .ingredient("Bột Garbanzo, Bột đậu, Hạt lanh, Dầu hạt lanh, Tinh bột sắn...")
                 .foodType(listFoodTypes.get(4))
                 .description("Sự kết hợp ngon miệng giữa thịt bò, gạo và rau cải cho một chế độ ăn cân đối.")
@@ -77,6 +86,7 @@ public class NutritiousFoodSeeder {
                 .image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_D03QKy94z5MUPcE8sZxKTS4ohbyfexdPNUrAF_8ssQ&s")
                 .nutrition("Protein: 10 gram,Năng lượng : 20 calo,Chất béo: 0.76 gram")
                 .quality(QualityEnum.MEDIUM)
+                .foodType(listFoodTypes.get(0))
                 .ingredient("Magiê Stearate, Lecithin hướng dương, Bột dừa, Dầu hương liệu...")
                 .foodType(listFoodTypes.get(4))
                 .description("Thức ăn khô không chứa ngũ cốc với hỗn hợp thịt thật và rau cải.")
@@ -89,6 +99,7 @@ public class NutritiousFoodSeeder {
                 .name("Chế Độ Ẩm Thực Được Chỉ Định Bởi Bác Sĩ Thú Y")
                 .nutrition("Protein: 15 gram,Năng lượng : 50 calo,Chất béo: 3 gram")
                 .quality(QualityEnum.HIGH)
+                .foodType(listFoodTypes.get(1))
                 .ingredient("Thịt gà, rau cải, cám gạo, dầu cá, vitamin và khoáng chất")
                 .foodType(listFoodTypes.get(4))
                 .description("Chế độ ăn được tạo ra dành riêng cho từng thú cưng dựa trên tình trạng sức khỏe của chúng.")
@@ -101,6 +112,7 @@ public class NutritiousFoodSeeder {
                 .name("Hạt Khô Hữu Cơ Chứa Gà và Quinoa Organic")
                 .nutrition("Protein: 18 gram,Năng lượng : 70 calo,Chất béo: 2.5 gram")
                 .quality(QualityEnum.HIGH)
+                .foodType(listFoodTypes.get(1))
                 .ingredient("Gà hữu cơ, hạt quinoa, hạt hướng dương, vitamin và khoáng chất tự nhiên")
                 .foodType(listFoodTypes.get(6))
                 .description("Thức ăn hữu cơ và tự nhiên, không chứa hóa chất và chất bảo quản độc hại.")
@@ -113,6 +125,7 @@ public class NutritiousFoodSeeder {
                 .name("DentalDelish Hương Bạc Hà Thơm Mát")
                 .nutrition("Protein: 8 gram,Năng lượng : 25 calo,Chất béo: 1.2 gram")
                 .quality(QualityEnum.LOW)
+                .foodType(listFoodTypes.get(1))
                 .ingredient("Bột gạo nếp, bạc hà tươi, dầu cá ngừ, dầu hạt cải, tinh chất bạc hà")
                 .foodType(listFoodTypes.get(8))
                 .description("Bánh giúp làm sạch răng và cung cấp hơi thở thơm mát cho thú cưng của bạn.")
@@ -125,6 +138,7 @@ public class NutritiousFoodSeeder {
                 .name("RAWvolution Thịt Bò Tươi Lạnh")
                 .nutrition("Protein: 20 gram,Năng lượng : 60 calo,Chất béo: 2.8 gram")
                 .quality(QualityEnum.HIGH)
+                .foodType(listFoodTypes.get(1))
                 .ingredient("Thịt bò tươi, rau cải, dầu cá hồi, tinh chất rau mùi, vitamin và khoáng chất tự nhiên")
                 .foodType(listFoodTypes.get(2))
                 .description("Thức ăn tươi lạnh giúp tăng cường hệ miễn dịch và cung cấp năng lượng dồi dào.")
@@ -137,6 +151,7 @@ public class NutritiousFoodSeeder {
                 .name("TastyTreats Món Phô Mai Thơm Ngon")
                 .nutrition("Protein: 5 gram,Năng lượng : 15 calo,Chất béo: 0.8 gram")
                 .quality(QualityEnum.LOW)
+                .foodType(listFoodTypes.get(1))
                 .ingredient("Bột gạo, phô mai cheddar, bột mỳ, dầu thực vật, hương liệu tự nhiên")
                 .foodType(listFoodTypes.get(9))
                 .description("Bánh thưởng thơm ngon giúp kích thích vị giác và tạo niềm vui cho thú cưng.")
