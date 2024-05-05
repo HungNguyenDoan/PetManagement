@@ -73,7 +73,7 @@ public interface ApiService {
 
     // Local
 //    String BASE_URL = "http://192.168.1.19:8080/";
-    String BASE_URL = "http://192.151.62.100:8080/";
+    String BASE_URL = "http://192.151.62.105:8080/";
 
     StorageService storageService = MyApplication.getStorageService();
     Gson gson = new GsonBuilder()
