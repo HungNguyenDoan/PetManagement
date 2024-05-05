@@ -51,6 +51,7 @@ public class ManagePetRecyclerViewAdapter extends RecyclerView.Adapter<ManagePet
         if (pet.getImage() != null) {
             Glide.with(context)
                     .load(pet.getImage())
+                    .error(R.drawable.no_image)
                     .into(holder.imagePet);
         } else {
             holder.imagePet.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.no_image));

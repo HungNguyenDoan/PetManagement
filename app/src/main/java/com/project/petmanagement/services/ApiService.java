@@ -15,6 +15,7 @@ import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
+import com.project.petmanagement.payloads.requests.UserRequest;
 import com.project.petmanagement.payloads.requests.VaccinationNotificationRequest;
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.CartResponse;
@@ -43,6 +44,7 @@ import com.project.petmanagement.payloads.responses.MedicalDocumentResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
 import com.project.petmanagement.payloads.responses.PetResponse;
 import com.project.petmanagement.payloads.responses.Response;
+import com.project.petmanagement.payloads.responses.UserResponse;
 import com.project.petmanagement.payloads.responses.VaccineNotificationResponse;
 
 import java.util.List;
@@ -107,6 +109,8 @@ public interface ApiService {
     @DELETE("users/delete")
     Call<Response> deleteUser();
 
+    @PUT("users/update")
+    Call<UserResponse> updateUser(@Body UserRequest userRequest);
 
     // FoodTypeController
     @GET("food_types/all")

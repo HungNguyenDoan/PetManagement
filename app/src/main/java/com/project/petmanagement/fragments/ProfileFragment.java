@@ -1,7 +1,16 @@
 package com.project.petmanagement.fragments;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +19,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.MainActivity;
@@ -27,22 +43,91 @@ import com.project.petmanagement.activity.user.ChangePassword;
 import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
 import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.payloads.requests.FCMToken;
+import com.project.petmanagement.payloads.requests.UserRequest;
 import com.project.petmanagement.payloads.responses.Response;
+import com.project.petmanagement.payloads.responses.UserResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.services.StorageService;
+import com.project.petmanagement.utils.FormatDateUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class ProfileFragment extends Fragment {
     private final StorageService storageService = MyApplication.getStorageService();
-
+    private ImageView images;
+    private String imageUrl;
+    private Bitmap imageBitmap;
+    private final static int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private final static int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 101;
+    private final static int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 102;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult o) {
+            if (o.getResultCode() == Activity.RESULT_OK) {
+                Bundle bundle = o.getData().getExtras();
+                if (bundle != null) {
+                    imageBitmap = (Bitmap) bundle.get("data");
+                    images.setImageBitmap(imageBitmap);
+                    saveImage();
+                    updateUser();
+                }
+            }
+        }
+    });
+    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult o) {
+            if (o.getResultCode() == Activity.RESULT_OK) {
+                Uri uri = null;
+                if (o.getData() != null) {
+                    uri = o.getData().getData();
+                }
+                try {
+                    imageBitmap = BitmapFactory.decodeStream(requireActivity().getContentResolver().openInputStream(uri));
+                    images.setImageBitmap(imageBitmap);
+                    saveImage();
+                    updateUser();
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    });
+    public void updateUser(){
+        User user = storageService.getUser("user");
+        UserRequest userRequest = new UserRequest();
+        userRequest.setAddress(user.getAddress());
+        userRequest.setAvatar(imageUrl);
+        userRequest.setFullName(user.getFullName());
+        userRequest.setDateOfBirth(FormatDateUtils.DateToString1(user.getDateOfBirth()));
+        userRequest.setEmail(user.getEmail());
+        ApiService.apiService.updateUser(userRequest).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(requireActivity(), "Cập nhập avatar thành công", Toast.LENGTH_SHORT).show();
+                    storageService.setUser("user", response.body().getData());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -56,12 +141,17 @@ public class ProfileFragment extends Fragment {
         Button btnLogout = view.findViewById(R.id.btn_logout);
         TextView fullName = view.findViewById(R.id.full_name);
         TextView phoneNumber = view.findViewById(R.id.phone_number);
-        ImageView avatar = view.findViewById(R.id.avatar);
+        images = view.findViewById(R.id.avatar);
+        ImageView openCamera = view.findViewById(R.id.camera);
         User user = storageService.getUser("user");
         if (user != null) {
             fullName.setText(user.getFullName());
             String phone = "+84 " + user.getPhoneNumber().substring(1, 4) + " xxx xxx";
             phoneNumber.setText(phone);
+            Glide.with(requireActivity())
+                .load(user.getAvatar())
+                .error(R.drawable.gray_pet_image)
+                .into(images);
             btnLogin.setVisibility(View.GONE);
             btnLogout.setVisibility(View.VISIBLE);
         } else {
@@ -123,6 +213,7 @@ public class ProfileFragment extends Fragment {
                         .show();
             }
         });
+        openCamera.setOnClickListener(v -> setOpenCameraDialog());
         btnLogout.setOnClickListener(v -> {
             storageService.remove("user");
             storageService.remove("token");
@@ -143,6 +234,97 @@ public class ProfileFragment extends Fragment {
             Intent intent = new Intent(requireContext(), MainActivity.class);
             startActivity(intent);
         });
+    }
+    public void setOpenCameraDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireActivity());
+        alertDialog.setTitle("Chọn")
+                .setPositiveButton("Gallery", (dialog, which) -> {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
+                        } else {
+                            startGallery();
+                        }
+                    } else {
+                        startGallery();
+                    }
+
+                })
+                .setNegativeButton("Camera", (dialog, which) -> {
+                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+                    } else {
+                        startCamera();
+                    }
+                })
+                .setNeutralButton("Huỷ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+    public void startCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraLauncher.launch(intent);
+    }
+
+    public void startGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryLauncher.launch(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startCamera();
+            } else {
+                Toast.makeText(requireActivity(), "Camera permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startGallery();
+            } else {
+                Toast.makeText(requireActivity(), "Gallery permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startGallery();
+            } else {
+                Toast.makeText(requireActivity(), "Gallery permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void saveImage() {
+        File dir = new File(requireActivity().getFilesDir(), "user_image");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        if (imageBitmap != null) {
+            File file = new File(dir, "user_" + System.currentTimeMillis() + ".jpg");
+            OutputStream outputStream;
+            try {
+                outputStream = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 20, outputStream);
+            imageUrl = file.getAbsolutePath();
+            try {
+                outputStream.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 }

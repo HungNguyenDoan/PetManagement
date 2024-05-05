@@ -36,6 +36,8 @@ public class VeterinarianDetailActivity extends AppCompatActivity {
         TextView textClinicAddress = findViewById(R.id.clinic_address);
         TextView textExperience = findViewById(R.id.experience);
         TextView textDescription = findViewById(R.id.description);
+        TextView textPhoneNumber = findViewById(R.id.phone_number);
+        TextView textEmail = findViewById(R.id.email);
         Vet vet = (Vet) getIntent().getSerializableExtra("vet");
         if (vet != null) {
             phoneNumber = vet.getPhoneNumber();
@@ -45,6 +47,8 @@ public class VeterinarianDetailActivity extends AppCompatActivity {
             textClinicAddress.setText(vet.getClinicAddress());
             textExperience.setText(String.valueOf(vet.getExperience()));
             textDescription.setText(vet.getDescription());
+            textPhoneNumber.setText(vet.getPhoneNumber());
+            textEmail.setText(vet.getEmail());
         }
         btnBack.setOnClickListener(v -> finish());
         btnCallVeterinarian.setOnClickListener(v -> {
