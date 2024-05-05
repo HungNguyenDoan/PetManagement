@@ -3,7 +3,9 @@ package com.project.petmanagement.petmanagement.seeders;
 import java.util.Arrays;
 import java.util.List;
 
+import com.project.petmanagement.petmanagement.models.entity.Species;
 import com.project.petmanagement.petmanagement.models.enums.QualityEnum;
+import com.project.petmanagement.petmanagement.repositories.SpeciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,7 @@ public class NutritiousFoodSeeder {
 
     @Autowired
     private FoodTypeRepository foodTypeRepository;
+    private SpeciesRepository speciesRepository;
 
     public void seed() {
         List<FoodType> listFoodTypes = foodTypeRepository.findAll();
