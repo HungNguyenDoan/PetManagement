@@ -1,5 +1,6 @@
 package com.project.petmanagement.activity.statichealth;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -45,6 +47,7 @@ public class UpdateStaticHealthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_static_health_detail);
         Spinner spinner = findViewById(R.id.exercise_level);
         Button btnUpdate = findViewById(R.id.btn_update);
+        Button btnDelete = findViewById(R.id.delete_btn);
         editWeight = findViewById(R.id.weight);
         checkUpdate = findViewById(R.id.check_update);
         editSymptoms = findViewById(R.id.symptoms);
@@ -72,6 +75,7 @@ public class UpdateStaticHealthActivity extends AppCompatActivity {
             editDiagnosis.setEnabled(true);
             editNote.setEnabled(true);
             btnUpdate.setVisibility(View.VISIBLE);
+            btnDelete.setVisibility(View.GONE);
         });
         btnUpdate.setOnClickListener(v -> {
             if (validate()) {
@@ -129,6 +133,34 @@ public class UpdateStaticHealthActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(UpdateStaticHealthActivity.this);
+                alertDialog.setTitle("Thông báo")
+                        .setMessage("Bạn chắc chắn muốn xóa báo cáo sức khỏe này này")
+                        .setPositiveButton("Có", (dialog, which) -> {
+                            ApiService.apiService.deleteHealthRecord(healthRecord.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @Override
+                                public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, retrofit2.Response<com.project.petmanagement.payloads.responses.Response> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(UpdateStaticHealthActivity.this, "Xóa báo cáo thành công.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<com.project.petmanagement.payloads.responses.Response> call, Throwable t) {
+                                    Toast.makeText(UpdateStaticHealthActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
+                        .show();
             }
         });
     }

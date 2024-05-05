@@ -24,7 +24,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/backgroud_login"
+                android:src="@drawable/background_login"
                 />
 
             <TextView

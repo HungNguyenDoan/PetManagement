@@ -190,6 +190,7 @@ public class AddNewPetActivity extends AppCompatActivity {
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(AddNewPetActivity.this, "Thêm thú cưng thành công", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     Toast.makeText(AddNewPetActivity.this, response.code() + " " + response.message(), Toast.LENGTH_SHORT).show();
                 }

@@ -96,14 +96,7 @@ public class AddDailyLog extends AppCompatActivity {
         returnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddDailyLog.this);
-                alertDialog.setTitle("Thông báo")
-                        .setMessage("Bạn có chắc chắn muốn quay về trang trước")
-                        .setPositiveButton("Có", (dialog, which) -> {
-                            finish();
-                        })
-                        .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
-                        .show();
+                finish();
             }
         });
         images.setOnClickListener(v -> setOpenCameraDialog());

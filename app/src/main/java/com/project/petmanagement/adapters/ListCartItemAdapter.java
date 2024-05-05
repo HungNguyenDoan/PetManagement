@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
@@ -131,36 +132,43 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                 }
             });
         });
-        holder.btnDelete.setOnClickListener(v -> ApiService.apiService.deleteCartItem(cartItem.getId()).enqueue(new Callback<CartResponse>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
-                if (response.isSuccessful()) {
-                    CartResponse cartResponse = response.body();
-                    if (cartResponse != null) {
-                        Toast.makeText(context, "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
-                        Cart cart = cartResponse.getData();
-                        cartItemList = cart.getCartItems();
-                        notifyDataSetChanged();
-                        String totalPrice1 = FormatNumberUtils.formatFloat(cartResponse.getData().getTotalPrice()) + " VNĐ";
-                        totalPrice.setText(totalPrice1);
-                        if (cart.getTotalPrice() == 0) {
-                            btnPayment.setEnabled(false);
-                            btnPayment.setAlpha(0.4f);
-                        } else {
-                            btnPayment.setEnabled(true);
-                            btnPayment.setAlpha(1f);
-                        }
-                    }
+        holder.btnDelete.setOnClickListener(v -> {
+            androidx.appcompat.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            alertDialog.setTitle("Thông báo")
+                    .setMessage("Bạn chắc chắn muốn xóa nhật kí này")
+                    .setPositiveButton("Có", (dialog, which) -> {
+                        ApiService.apiService.deleteCartItem(cartItem.getId()).enqueue(new Callback<CartResponse>() {
+                            @SuppressLint("NotifyDataSetChanged")
+                            @Override
+                            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+                                if (response.isSuccessful()) {
+                                    CartResponse cartResponse = response.body();
+                                    if (cartResponse != null) {
+                                        Cart cart = cartResponse.getData();
+                                        cartItemList = cart.getCartItems();
+                                        notifyDataSetChanged();
+                                        String totalPrice1 = FormatNumberUtils.formatFloat(cartResponse.getData().getTotalPrice()) + " VNĐ";
+                                        totalPrice.setText(totalPrice1);
+                                        if (cart.getTotalPrice() == 0) {
+                                            btnPayment.setEnabled(false);
+                                            btnPayment.setAlpha(0.4f);
+                                        } else {
+                                            btnPayment.setEnabled(true);
+                                            btnPayment.setAlpha(1f);
+                                        }
+                                    }
+                                }
+                            }
 
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CartResponse> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }));
+                            @Override
+                            public void onFailure(Call<CartResponse> call, Throwable t) {
+                                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    })
+                    .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
+                    .show();
+        });
         holder.checkBox.setOnClickListener(v -> {
             ApiService.apiService.updateCart(cartItem.getId(), Integer.parseInt(holder.quantity.getText().toString()), holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
                 @SuppressLint("NotifyDataSetChanged")

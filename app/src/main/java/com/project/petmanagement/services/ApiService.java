@@ -299,6 +299,9 @@ public interface ApiService {
     @GET("care_activity_notification/users")
     Call<ListCareActivityNotificationResponse> getAllCareActivityNotificationByUser();
 
+    @GET("care_activity_notification/date")
+    Call<ListCareActivityNotificationResponse> getCareActivityNotificationByDate(@Query("date") String date);
+
     @GET("care_activity_notification/{id}")
     Call<CareActivityNotificationResponse> getCareActivityNotificationById(@Path("id") Long id);
 

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -99,22 +100,31 @@ public class OrderDetailActivity extends AppCompatActivity {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             productRecyclerView.setLayoutManager(layoutManager);
             productRecyclerView.setAdapter(orderDetailAdapter);
-            btnCancelOrder.setOnClickListener(v -> ApiService.apiService.cancelOrder(order.getId()).enqueue(new Callback<OrderResponse>() {
-                @Override
-                public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(OrderDetailActivity.this, "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
-                        status.setText("Đã hủy");
-                        status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.red));
-                        btnCancelOrder.setVisibility(View.GONE);
-                    }
-                }
+            btnCancelOrder.setOnClickListener(v -> {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetailActivity.this);
+                alertDialog.setTitle("Hủy đơn hàng")
+                        .setMessage("Bạn có chắc chắn muốn hủy đơn hàng này")
+                        .setPositiveButton("Có", (dialog, which) -> {
+                            ApiService.apiService.cancelOrder(order.getId()).enqueue(new Callback<OrderResponse>() {
+                                @Override
+                                public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(OrderDetailActivity.this, "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
+                                        status.setText("Đã hủy");
+                                        status.setTextColor(ContextCompat.getColor(OrderDetailActivity.this, R.color.red));
+                                        btnCancelOrder.setVisibility(View.GONE);
+                                    }
+                                }
 
-                @Override
-                public void onFailure(Call<OrderResponse> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<OrderResponse> call, Throwable t) {
 
-                }
-            }));
+                                }
+                            });
+                        })
+                        .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
+                        .show();
+            });
         }
 
     }

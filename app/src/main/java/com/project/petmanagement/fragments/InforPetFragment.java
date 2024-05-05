@@ -1,40 +1,38 @@
 package com.project.petmanagement.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.medical.MedicalDocumentActivity;
+import com.project.petmanagement.activity.pet.ManagePetActivity;
 import com.project.petmanagement.activity.statichealth.StaticHealthActivity;
 import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.models.entity.Pet;
-import com.project.petmanagement.payloads.responses.ListHealthRecordResponse;
 import com.project.petmanagement.payloads.responses.PetResponse;
 import com.project.petmanagement.services.ApiService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,13 +40,12 @@ import retrofit2.Response;
 
 
 public class InforPetFragment extends Fragment {
-    private LineChart lineChart;
     private long idPet;
     private ImageView gender;
     private TextView age;
     private TextView seeMoreStatic, seeMoreMedical;
-    private List<HealthRecord> healthRecords;
-    private FloatingActionButton btnAdd;
+    private final FloatingActionButton btnAdd;
+    private Button deletePetBtn;
     private Pet pet;
 
     public InforPetFragment(long idPet, FloatingActionButton btnAdd) {
@@ -66,8 +63,6 @@ public class InforPetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findViewById(view);
-        healthRecords = new ArrayList<>();
-        getHealthRecord();
         getPet();
         seeMoreStatic.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), StaticHealthActivity.class);
@@ -78,6 +73,9 @@ public class InforPetFragment extends Fragment {
             Intent intent = new Intent(requireActivity(), MedicalDocumentActivity.class);
             intent.putExtra("petId", idPet);
             startActivity(intent);
+        });
+        deletePetBtn.setOnClickListener(v -> {
+            deletePet();
         });
     }
 
@@ -107,105 +105,38 @@ public class InforPetFragment extends Fragment {
         });
     }
 
+    private void deletePet(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
+        alertDialog.setTitle("Xóa thú cưng")
+                .setMessage("Bạn có chắc chắn muốn xóa thú cưng này?")
+                .setPositiveButton("Có", (dialog, which) -> {
+                        ApiService.apiService.deletePet(idPet).enqueue(new Callback<PetResponse>() {
+                            @Override
+                            public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
+                                if (response.isSuccessful()) {
+                                    if (response.body() != null && response.body().getData() != null) {
+                                        Toast.makeText(requireContext(), "Xóa thành công", Toast.LENGTH_SHORT).show();
+                                        ((Activity) requireContext()).finish();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<PetResponse> call, Throwable t) {
+
+                            }
+                        });
+                })
+                .setNegativeButton("Không", (dialog, which) -> dialog.cancel())
+                .show();
+    }
+
     private void findViewById(View view) {
-        lineChart = view.findViewById(R.id.line_chart);
         seeMoreStatic = view.findViewById(R.id.see_more_static);
         seeMoreMedical = view.findViewById(R.id.see_more_medical);
         gender = view.findViewById(R.id.gender);
         age = view.findViewById(R.id.age);
-    }
-
-    private void customChart() {
-        ArrayList<Entry> entries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
-        for (int i = 0; i < healthRecords.size(); i++) {
-            HealthRecord healthRecord = healthRecords.get(i);
-            float x = i;
-            float y = healthRecord.getWeight().floatValue();
-            entries.add(new Entry(x, y));
-            String date = FormatDateUtils.DateToString(healthRecord.getCheckUpDate());
-            // Add date string to labels list
-            labels.add(date);
-        }
-
-        // Tạo DataSet và cấu hình nó
-        LineDataSet dataSet = new LineDataSet(entries, "Weight");
-        dataSet.setColor(ContextCompat.getColor(requireContext(), R.color.green));
-        dataSet.setValueTextColor(ContextCompat.getColor(requireContext(), R.color.green));
-        dataSet.setLineWidth(1f);
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        // Tạo LineData và thêm DataSet vào đó
-        LineData lineData = new LineData(dataSet);
-
-        // Cấu hình trục X và trục Y
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(8f);
-        xAxis.setGranularity(1f); // Đơn vị giữa các giá trị trên trục X
-        xAxis.setValueFormatter(new CustomXAxisValueFormatter(labels)); // Định dạng giá trị trục X
-        xAxis.setDrawGridLines(false);
-        YAxis yAxis = lineChart.getAxisLeft();
-        yAxis.setGranularity(1f); // Đơn vị giữa các giá trị trên trục Y
-        YAxis yAxisRight = lineChart.getAxisRight();
-        yAxisRight.setEnabled(false);
-        yAxis.setDrawGridLines(false);
-        YAxis yAxisLeft = lineChart.getAxisLeft();
-        yAxisLeft.setEnabled(true);
-        // Đặt dữ liệu vào biểu đồ
-        lineChart.setData(lineData);
-        lineChart.setDragEnabled(true);
-        lineChart.setExtraRightOffset(20f);
-        lineChart.setPinchZoom(true);
-        // Cập nhật biểu đồ
-        lineChart.invalidate();
-    }
-
-    public static class CustomXAxisValueFormatter extends ValueFormatter {
-
-        private final List<String> labels;
-
-        public CustomXAxisValueFormatter(List<String> labels) {
-            this.labels = labels;
-        }
-
-        @Override
-        public String getAxisLabel(float value, AxisBase axis) {
-            // Ensure the value is within the index range
-            int index = (int) value;
-            if (index >= 0 && index < labels.size()) {
-                return labels.get(index);
-            } else {
-                return "";
-            }
-        }
-    }
-
-    private void getHealthRecord() {
-        ApiService.apiService.getHealthRecordByPet(idPet).enqueue(new Callback<ListHealthRecordResponse>() {
-            @Override
-            public void onResponse(Call<ListHealthRecordResponse> call, Response<ListHealthRecordResponse> response) {
-                if (response.isSuccessful()) {
-                    ListHealthRecordResponse healthRecordResponse = response.body();
-                    if (healthRecordResponse != null && healthRecordResponse.getData() != null) {
-                        List<HealthRecord> healthRecordList = healthRecordResponse.getData();
-                        if (healthRecordList.size() <= 5) {
-                            healthRecords.addAll(healthRecordList);
-                        } else {
-                            for (int i = healthRecordList.size() - 5; i < healthRecordList.size(); i++) {
-                                healthRecords.add(healthRecordList.get(i));
-                            }
-                        }
-                        customChart();
-
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ListHealthRecordResponse> call, Throwable t) {
-
-            }
-        });
+        deletePetBtn = view.findViewById(R.id.delete_pet_btn);
     }
 
     @Override

@@ -233,7 +233,7 @@
                 <Button
                     android:id="@+id/btn_update"
                     android:textColor="@color/white"
-                    android:background="@drawable/btn_login_custom"
+                    android:background="@drawable/green_background_button"
                     android:layout_marginVertical="20dp"
                     android:textAllCaps="false"
                     android:text="@string/update_pet"

@@ -6,104 +6,115 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".activity.statichealth.StaticHealthActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
+
         <ImageView
             android:id="@+id/btn_back"
-            android:layout_marginStart="20dp"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            tools:ignore="ContentDescription"
+            android:layout_marginStart="20dp"
             android:src="@drawable/baseline_arrow_back_ios_24"
-            />
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="24sp"
             android:layout_gravity="center_horizontal"
             android:text="Thống kê sức khỏe"
-            />
+            android:textColor="@color/black"
+            android:textSize="24sp" />
     </androidx.appcompat.widget.Toolbar>
+
     <View
         android:id="@+id/line"
-        android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        />
+        android:layout_below="@+id/tool_bar"
+        android:background="@android:color/darker_gray" />
+
     <LinearLayout
-        android:layout_marginVertical="15dp"
-        android:theme="@style/InPutTheme"
-        android:orientation="horizontal"
         android:id="@+id/group_input_date"
-        android:layout_below="@+id/line"
-        android:weightSum="2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <View
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
+        android:layout_marginVertical="15dp"
+        android:orientation="vertical"
+        android:theme="@style/InPutTheme">
+
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
             android:hint="Ngày bắt đầu"
-            android:layout_weight="0.7"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            tools:ignore="HardcodedText">
+
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
                 android:id="@+id/start_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:cursorVisible="false"
-                android:focusable="false"
-                android:layout_height="wrap_content"/>
+                android:focusable="false" />
         </com.google.android.material.textfield.TextInputLayout>
-        <View
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-             android:layout_width="0dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
-            android:hint="Ngày kết thúc"
-            android:layout_weight="0.7"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            android:hint="Ngày kết thúc"
+            tools:ignore="HardcodedText">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/end_date"
-                android:cursorVisible="false"
-                android:focusable="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:cursorVisible="false"
+                android:focusable="false" />
         </com.google.android.material.textfield.TextInputLayout>
-        <View
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"/>
+
+        <Button
+            android:id="@+id/btn_statics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/green_background_button"
+            android:text="Thống kê"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
-    <Button
-        android:layout_marginBottom="15dp"
-        android:id="@+id/btn_statics"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/group_input_date"
-        android:layout_width="wrap_content"
-        android:text="Thống kê"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:background="@drawable/btn_login_custom"
-        android:layout_height="wrap_content"/>
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/line_chart"
-        android:layout_below="@+id/btn_statics"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/static_recycler_view"
-        android:layout_below="@+id/line_chart"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="20dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/group_input_date">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/statistic_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line_chart" />
+        </RelativeLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add"

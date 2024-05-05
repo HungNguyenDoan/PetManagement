@@ -20,7 +20,7 @@
     <color name="background_color">#E4E4E4</color>
     <color name="light_background">#F5F4F9</color>
     <color name="input_color">#eceef6</color>
-    <color name="backgroud_community">#0C172D</color>
+    <color name="background_community">#0C172D</color>
     <color name="bg_community">#313338</color>
     <color name="text_default">#808080</color>
     <color name="yellow">#FFEB3B</color>

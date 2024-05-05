@@ -3,6 +3,7 @@ package com.project.petmanagement.activity.user;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +19,19 @@ import retrofit2.Callback;
 
 public class ChangePassword extends AppCompatActivity {
     private TextInputEditText inputOldPassword, inputNewPassword, inputRetypeNewPassword;
+    private ImageView returnArrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+        returnArrow = findViewById(R.id.return_arrow);
+        returnArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         inputOldPassword = findViewById(R.id.input_old_password);
         inputNewPassword = findViewById(R.id.input_new_password);
         inputRetypeNewPassword = findViewById(R.id.input_retype_new_password);
@@ -41,7 +50,10 @@ public class ChangePassword extends AppCompatActivity {
                     ApiService.apiService.changePassword(changePasswordRequest).enqueue(new Callback<Response>() {
                         @Override
                         public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                            Toast.makeText(ChangePassword.this, response.message(), Toast.LENGTH_SHORT).show();
+                            if(response.isSuccessful()){
+                                Toast.makeText(ChangePassword.this, "Thay đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
 
                         @Override

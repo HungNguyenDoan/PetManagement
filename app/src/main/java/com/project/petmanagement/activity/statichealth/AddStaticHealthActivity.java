@@ -160,8 +160,8 @@ public class AddStaticHealthActivity extends AppCompatActivity {
                     cal2.set(Calendar.MINUTE, 0);
                     cal2.set(Calendar.SECOND, 0);
                     cal2.set(Calendar.MILLISECOND, 0);
-                    if (cal1.compareTo(cal2) > 0) {
-                        DialogUtils.setUpDialog(AddStaticHealthActivity.this, "Ngày bạn chọn phải lớn hơn hoặc bằng ngày hiện tại");
+                    if (cal1.compareTo(cal2) < 0) {
+                        DialogUtils.setUpDialog(AddStaticHealthActivity.this, "Ngày bạn chọn phải nhỏ hơn hoặc bằng ngày hiện tại");
                     } else {
                         checkUpdate.setText(date2);
                     }

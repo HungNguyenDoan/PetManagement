@@ -54,7 +54,7 @@
             <ImageView
                 android:id="@+id/image_pet"
                 android:scaleType="fitXY"
-                android:src="@drawable/backgroud_login"
+                android:src="@drawable/background_login"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 tools:ignore="ContentDescription"

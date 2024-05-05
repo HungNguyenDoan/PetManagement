@@ -18,7 +18,7 @@
             android:id="@+id/image_pet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/backgroud_login"
+            android:src="@drawable/background_login"
             tools:ignore="ContentDescription"
             android:scaleType="fitXY"
             />

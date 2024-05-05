@@ -83,7 +83,7 @@ public class PetDetailsActivity extends AppCompatActivity {
                         namePet.setText(pet.getFullName());
                         breed.setText(pet.getBreed().getName());
                         if (pet.getImage() != null) {
-                            Glide.with(PetDetailsActivity.this).load(pet.getImage()).into(imagePet);
+                            Glide.with(PetDetailsActivity.this).load(pet.getImage()).error(R.drawable.no_image).into(imagePet);
                         } else {
                             imagePet.setImageDrawable(ContextCompat.getDrawable(PetDetailsActivity.this, R.drawable.gray_pet_image));
                         }

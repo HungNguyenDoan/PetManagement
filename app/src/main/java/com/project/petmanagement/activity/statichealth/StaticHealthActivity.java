@@ -43,7 +43,7 @@ import retrofit2.Response;
 public class StaticHealthActivity extends AppCompatActivity {
     private LineChart lineChart;
     private DatePickerDialog datePickerDialog;
-    private RecyclerView staticRecyclerView;
+    private RecyclerView statisticRecyclerView;
     private FloatingActionButton btnAdd;
     private ImageView btnBack;
     private Long petId;
@@ -58,21 +58,22 @@ public class StaticHealthActivity extends AppCompatActivity {
         findViewById();
         petId = getIntent().getLongExtra("petId", 0);
         btnBack.setOnClickListener(v -> finish());
-        staticRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        staticRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        statisticRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        statisticRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(StaticHealthActivity.this, AddStaticHealthActivity.class);
             intent.putExtra("petId", petId);
             startActivity(intent);
         });
+        getAllHealthRecords();
         customStartDate();
         customEndDate();
-        btnStatics.setOnClickListener(v -> getHealthRecordList());
+        btnStatics.setOnClickListener(v -> statisticHealthRecords());
     }
 
     private void findViewById() {
         lineChart = findViewById(R.id.line_chart);
-        staticRecyclerView = findViewById(R.id.static_recycler_view);
+        statisticRecyclerView = findViewById(R.id.statistic_recycler_view);
         btnAdd = findViewById(R.id.btn_add);
         btnBack = findViewById(R.id.btn_back);
         startDate = findViewById(R.id.start_date);
@@ -80,7 +81,7 @@ public class StaticHealthActivity extends AppCompatActivity {
         btnStatics = findViewById(R.id.btn_statics);
     }
 
-    private void getHealthRecordList() {
+    private void statisticHealthRecords() {
         if (validation()) {
             String strStartDate = startDate.getText().toString();
             String strEndDate = endDate.getText().toString();
@@ -95,7 +96,7 @@ public class StaticHealthActivity extends AppCompatActivity {
                             if (listHealthRecordResponse != null && listHealthRecordResponse.getData() != null) {
                                 healthRecords = listHealthRecordResponse.getData();
                                 StaticHealthAdapter staticHealthAdapter = new StaticHealthAdapter(StaticHealthActivity.this, healthRecords);
-                                staticRecyclerView.setAdapter(staticHealthAdapter);
+                                statisticRecyclerView.setAdapter(staticHealthAdapter);
                                 customChart();
                             }
                         }
@@ -114,6 +115,28 @@ public class StaticHealthActivity extends AppCompatActivity {
         }
     }
 
+    private void getAllHealthRecords() {
+        ApiService.apiService.getHealthRecordByPet(petId).enqueue(new Callback<ListHealthRecordResponse>() {
+            @Override
+            public void onResponse(Call<ListHealthRecordResponse> call, Response<ListHealthRecordResponse> response) {
+                if (response.isSuccessful()) {
+                    ListHealthRecordResponse healthRecordResponse = response.body();
+                    if (healthRecordResponse != null && healthRecordResponse.getData() != null) {
+                        healthRecords = healthRecordResponse.getData();
+                        StaticHealthAdapter staticHealthAdapter = new StaticHealthAdapter(StaticHealthActivity.this, healthRecords);
+                        statisticRecyclerView.setAdapter(staticHealthAdapter);
+                        customChart();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListHealthRecordResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void customChart() {
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
@@ -128,11 +151,12 @@ public class StaticHealthActivity extends AppCompatActivity {
         }
 
         // Tạo DataSet và cấu hình nó
-        LineDataSet dataSet = new LineDataSet(entries, "Weight");
+        LineDataSet dataSet = new LineDataSet(entries, "Cân nặng");
         dataSet.setColor(ContextCompat.getColor(StaticHealthActivity.this, R.color.green));
         dataSet.setValueTextColor(ContextCompat.getColor(StaticHealthActivity.this, R.color.green));
         dataSet.setLineWidth(1f);
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
         // Tạo LineData và thêm DataSet vào đó
         LineData lineData = new LineData(dataSet);
 
@@ -150,7 +174,9 @@ public class StaticHealthActivity extends AppCompatActivity {
         yAxis.setDrawGridLines(false);
         YAxis yAxisLeft = lineChart.getAxisLeft();
         yAxisLeft.setEnabled(true);
+
         // Đặt dữ liệu vào biểu đồ
+        lineChart.getDescription().setText("");
         lineChart.setData(lineData);
         lineChart.setDragEnabled(true);
         lineChart.setExtraRightOffset(20f);
@@ -260,8 +286,9 @@ public class StaticHealthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        getAllHealthRecords();
         if (startDate.length() != 0 && endDate.length() != 0) {
-            getHealthRecordList();
+            statisticHealthRecords();
         }
     }
 

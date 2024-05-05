@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.models.entity.VaccinationNotification;
+import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListVaccineNotification;
 import com.project.petmanagement.services.ApiService;
 
@@ -31,14 +33,16 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
     private final Context context;
     private final List<LocalDate> datesOfMonth;
     private int indexRow = -1;
-    private final RecyclerView vaccinationNotificationRecyclerView;
-    private final ImageView noVaccinationNotificationImage;
+    private final RecyclerView vaccinationNotificationRecyclerView, careNotificationRecyclerView;
+    private final ImageView noVaccinationNotificationImage, noCareNotificationImage;
 
-    public DatesOfMonthRecyclerAdapter(Context context, List<LocalDate> datesOfMonth, RecyclerView vaccinationNotificationRecyclerView, ImageView noVaccinationNotificationImage) {
+    public DatesOfMonthRecyclerAdapter(Context context, List<LocalDate> datesOfMonth, RecyclerView vaccinationNotificationRecyclerView, ImageView noVaccinationNotificationImage, RecyclerView careNotificationRecyclerView, ImageView noCareNotificationImage) {
         this.context = context;
         this.datesOfMonth = datesOfMonth;
         this.vaccinationNotificationRecyclerView = vaccinationNotificationRecyclerView;
         this.noVaccinationNotificationImage = noVaccinationNotificationImage;
+        this.careNotificationRecyclerView = careNotificationRecyclerView;
+        this.noCareNotificationImage = noCareNotificationImage;
     }
 
     @NonNull
@@ -91,6 +95,35 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
 
                     }
                 });
+
+                ApiService.apiService.getCareActivityNotificationByDate(localDate.toString()).enqueue(new Callback<ListCareActivityNotificationResponse>() {
+                    @Override
+                    public void onResponse(Call<ListCareActivityNotificationResponse> call, Response<ListCareActivityNotificationResponse> response) {
+                        if(response.isSuccessful()){
+                            ListCareActivityNotificationResponse listCareActivityNotificationResponse = response.body();
+                            if(listCareActivityNotificationResponse != null){
+                                List<CareActivityNotification> careActivityNotificationList = listCareActivityNotificationResponse.getData();
+                                if (!careActivityNotificationList.isEmpty()) {
+                                    CareActivityNotificationAdapter careActivityNotificationAdapter = new CareActivityNotificationAdapter(careActivityNotificationList, context);
+                                    LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+                                    careNotificationRecyclerView.setAdapter(careActivityNotificationAdapter);
+                                    careNotificationRecyclerView.setLayoutManager(layoutManager);
+                                    careNotificationRecyclerView.setVisibility(View.VISIBLE);
+                                    noCareNotificationImage.setVisibility(View.GONE);
+                                } else {
+                                    careNotificationRecyclerView.setVisibility(View.GONE);
+                                    noCareNotificationImage.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ListCareActivityNotificationResponse> call, Throwable t) {
+
+                    }
+                });
+
                 notifyDataSetChanged();
             }
         });

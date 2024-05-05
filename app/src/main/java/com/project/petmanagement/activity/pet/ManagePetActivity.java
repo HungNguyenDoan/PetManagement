@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -52,9 +53,6 @@ public class ManagePetActivity extends AppCompatActivity {
         processBtn();
         getPetList();
         search.setVisibility(View.GONE);
-        //Adapter
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(petRecyclerView);
         // Tìm pet
         search();
         petRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -68,7 +66,6 @@ public class ManagePetActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void findViewById() {
@@ -86,7 +83,7 @@ public class ManagePetActivity extends AppCompatActivity {
 
             }
 
-            // text change
+            // Text change
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -152,51 +149,6 @@ public class ManagePetActivity extends AppCompatActivity {
             }
         });
     }
-
-    // Xử lý xóa pet
-    ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @SuppressLint("NotifyDataSetChanged")
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getBindingAdapterPosition();
-            if (direction == ItemTouchHelper.LEFT) {
-                ApiService.apiService.deletePet(pets.get(position).getId()).enqueue(new Callback<PetResponse>() {
-                    @Override
-                    public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
-                        if (response.isSuccessful()) {
-                            if (response.body() != null && response.body().getData() != null) {
-                                Toast.makeText(ManagePetActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                                pets.remove(position);
-                                Objects.requireNonNull(petRecyclerView.getAdapter()).notifyDataSetChanged();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<PetResponse> call, Throwable t) {
-
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftActionIcon(R.drawable.baseline_delete_24)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(ManagePetActivity.this, R.color.red))
-                    .addSwipeLeftLabel("Delete")
-                    .setSwipeLeftLabelColor(ContextCompat.getColor(ManagePetActivity.this, R.color.white))
-                    .create()
-                    .decorate();
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        }
-    };
 
     @Override
     protected void onResume() {

@@ -41,13 +41,13 @@ import retrofit2.Response;
 
 
 public class HomeFragment extends Fragment {
-    private RecyclerView petRecyclerView, datesOfMonthRecyclerView, vaccinationNotificationRecyclerView;
+    private RecyclerView petRecyclerView, datesOfMonthRecyclerView, vaccinationNotificationRecyclerView, careNotificationRecyclerView;
     private List<Pet> petList;
     private LinearLayout existedPet;
     private Button addPetBtn;
     private RelativeLayout noPet;
     private List<Button> months;
-    private ImageView noVaccinationNotificationImage;
+    private ImageView noVaccinationNotificationImage, noCareNotificationImage;
 
     @Nullable
     @Override
@@ -69,7 +69,13 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        noPet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireActivity(), AddNewPetActivity.class);
+                startActivity(intent);
+            }
+        });
 
         LinearLayout activityRedirect = view.findViewById(R.id.activity_redirect);
         activityRedirect.setOnClickListener(v -> {
@@ -151,6 +157,8 @@ public class HomeFragment extends Fragment {
         datesOfMonthRecyclerView = view.findViewById(R.id.dates_month_recycler_view);
         vaccinationNotificationRecyclerView = view.findViewById(R.id.vaccination_notification_recycler_view);
         noVaccinationNotificationImage = view.findViewById(R.id.no_vaccination_notification_image);
+        careNotificationRecyclerView = view.findViewById(R.id.care_notification_recycler_view);
+        noCareNotificationImage = view.findViewById(R.id.no_care_notification_image);
     }
 
     private List<LocalDate> getDatesOfMonth(int year, int month) {
@@ -205,7 +213,7 @@ public class HomeFragment extends Fragment {
                     months.get(i).setTextColor(Color.parseColor("#EDA33D"));
                     months.get(i).setAlpha(1);
                     List<LocalDate> localDateList = getDatesOfMonth(year, currentMonth);
-                    DatesOfMonthRecyclerAdapter datesOfMonthRecyclerAdapter = new DatesOfMonthRecyclerAdapter(requireContext(), localDateList, vaccinationNotificationRecyclerView, noVaccinationNotificationImage);
+                    DatesOfMonthRecyclerAdapter datesOfMonthRecyclerAdapter = new DatesOfMonthRecyclerAdapter(requireContext(), localDateList, vaccinationNotificationRecyclerView, noVaccinationNotificationImage, careNotificationRecyclerView, noCareNotificationImage);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
                     datesOfMonthRecyclerView.setAdapter(datesOfMonthRecyclerAdapter);
                     datesOfMonthRecyclerView.setLayoutManager(layoutManager);
@@ -223,7 +231,7 @@ public class HomeFragment extends Fragment {
                                 months.get(j).setBackgroundColor(Color.parseColor("#FFF5EB"));
                                 months.get(j).setTextColor(Color.parseColor("#EDA33D"));
                                 months.get(j).setAlpha(1);
-                                DatesOfMonthRecyclerAdapter datesOfMonthRecyclerAdapter = new DatesOfMonthRecyclerAdapter(requireContext(), getDatesOfMonth(year, position), vaccinationNotificationRecyclerView, noVaccinationNotificationImage);
+                                DatesOfMonthRecyclerAdapter datesOfMonthRecyclerAdapter = new DatesOfMonthRecyclerAdapter(requireContext(), getDatesOfMonth(year, position), vaccinationNotificationRecyclerView, noVaccinationNotificationImage, careNotificationRecyclerView, noCareNotificationImage);
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
                                 datesOfMonthRecyclerView.setAdapter(datesOfMonthRecyclerAdapter);
                                 datesOfMonthRecyclerView.setLayoutManager(layoutManager);
