@@ -20,10 +20,10 @@ import java.util.List;
 public class CareActivityInfoController {
     private final CareActivityInfoService careActivityInfoService;
 
-    @PutMapping("/update")
-    public ResponseEntity<Object> updateCareActivityInfo(@Valid @RequestBody List<CareActivityInfoRequest> careActivityInfoRequestList) {
+    @PutMapping("/update/{care_activity_notification_id}")
+    public ResponseEntity<Object> updateCareActivityInfo(@PathVariable("care_activity_notification_id") Long careActivityNotificationId, @Valid @RequestBody List<CareActivityInfoRequest> careActivityInfoRequestList) {
         try {
-            List<CareActivityInfo> careActivityInfoList = careActivityInfoService.updateCareActivityInfoList(careActivityInfoRequestList);
+            List<CareActivityInfo> careActivityInfoList = careActivityInfoService.updateCareActivityInfoList(careActivityNotificationId, careActivityInfoRequestList);
             DataResponse dataResponse = DataResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Update care activity information successfully")
