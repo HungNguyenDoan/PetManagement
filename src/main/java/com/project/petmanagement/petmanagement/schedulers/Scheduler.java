@@ -1,8 +1,10 @@
 package com.project.petmanagement.petmanagement.schedulers;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
+import com.project.petmanagement.petmanagement.advices.DataNotFoundException;
 import com.project.petmanagement.petmanagement.models.entity.*;
 import com.project.petmanagement.petmanagement.models.enums.FrequencyEnum;
+import com.project.petmanagement.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.FCMNotification;
 import com.project.petmanagement.petmanagement.services.*;
 import lombok.RequiredArgsConstructor;
@@ -156,6 +158,17 @@ public class Scheduler {
                                 log.info(message);
                             } catch (FirebaseMessagingException e) {
                                 log.error(e.getMessage());
+                            }
+                            if (frequency.compareTo(FrequencyEnum.NO_REPEAT) == 0) {
+                                careActivityNotification.setNotificationStatus(false);
+                                CareActivityNotificationRequest careActivityNotificationRequest = new CareActivityNotificationRequest();
+                                careActivityNotificationRequest.setPetId(careActivityNotification.getPet().getId());
+                                careActivityNotificationRequest.setNotificationStatus(false);
+                                try {
+                                    careActivityNotificationService.updateCareActivityNotification(careActivityNotification.getId(), careActivityNotificationRequest);
+                                } catch (DataNotFoundException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
                         }
                     }
