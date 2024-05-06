@@ -31,17 +31,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.project.petmanagement.MyApplication;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.activity.login.LoginActivity;
-import com.project.petmanagement.activity.nutrition.NutritionActivity;
+import com.project.petmanagement.activity.nutrition.NutritiousFoodActivity;
 import com.project.petmanagement.activity.pet.ManagePetActivity;
 import com.project.petmanagement.activity.shop.ShopActivity;
-import com.project.petmanagement.activity.user.ChangeInfoActivity;
-import com.project.petmanagement.activity.user.ChangePassword;
-import com.project.petmanagement.activity.veterinarian.ListVeterinarianActivity;
+import com.project.petmanagement.activity.user.ChangeUserInfoActivity;
+import com.project.petmanagement.activity.user.ChangePasswordActivity;
+import com.project.petmanagement.activity.veterinarian.VetsActivity;
 import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.UserRequest;
@@ -173,11 +171,11 @@ public class ProfileFragment extends Fragment {
 //            startActivity(intent);
 //        });
         nutrition.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), NutritionActivity.class);
+            Intent intent = new Intent(getContext(), NutritiousFoodActivity.class);
             startActivity(intent);
         });
         vet.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ListVeterinarianActivity.class);
+            Intent intent = new Intent(getContext(), VetsActivity.class);
             startActivity(intent);
         });
         shop.setOnClickListener(v -> {
@@ -191,14 +189,14 @@ public class ProfileFragment extends Fragment {
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ChangePassword.class);
+                Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
                 startActivity(intent);
             }
         });
         updateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ChangeInfoActivity.class);
+                Intent intent = new Intent(getContext(), ChangeUserInfoActivity.class);
                 startActivity(intent);
             }
         });

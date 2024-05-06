@@ -52,7 +52,7 @@ public class DayOfWeekAdapter extends RecyclerView.Adapter<DayOfWeekAdapter.DayV
     @NonNull
     @Override
     public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DayViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_day_item, parent, false));
+        return new DayViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_day_of_week, parent, false));
     }
 
     @Override

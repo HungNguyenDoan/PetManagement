@@ -17,7 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.shop.ProductDetailActivity;
+import com.project.petmanagement.activity.shop.ProductDetailsActivity;
 import com.project.petmanagement.models.entity.Cart;
 import com.project.petmanagement.models.entity.CartItem;
 import com.project.petmanagement.payloads.responses.CartResponse;
@@ -47,7 +47,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
     @NonNull
     @Override
     public CartItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
         return new CartItemViewHolder(view);
     }
 
@@ -61,7 +61,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
         holder.price.setText(price1);
         holder.checkBox.setChecked(cartItem.getSelected());
         holder.nameProduct.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ProductDetailActivity.class);
+            Intent intent = new Intent(context, ProductDetailsActivity.class);
             intent.putExtra("product", cartItem.getProduct());
             context.startActivity(intent);
         });

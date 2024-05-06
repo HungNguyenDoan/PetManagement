@@ -41,7 +41,7 @@ public class ManagePetRecyclerViewAdapter extends RecyclerView.Adapter<ManagePet
     @NonNull
     @Override
     public PetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.manage_pet_recyclerview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_manage_pet, parent, false);
         return new PetViewHolder(view);
     }
 

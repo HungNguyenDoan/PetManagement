@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.shop.OrderDetailActivity;
+import com.project.petmanagement.activity.shop.OrderDetailsActivity;
 import com.project.petmanagement.models.entity.Order;
 import com.project.petmanagement.models.enums.OrderStatusEnum;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -34,7 +34,7 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.Orde
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new OrderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item, parent, false));
+        return new OrderViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ListOrderAdapter extends RecyclerView.Adapter<ListOrderAdapter.Orde
         holder.btnOrderDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, OrderDetailActivity.class);
+                Intent intent = new Intent(context, OrderDetailsActivity.class);
                 intent.putExtra("order", order);
                 context.startActivity(intent);
             }

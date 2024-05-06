@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_button"
     android:scrollbars="none"
-    tools:context=".activity.dailyLog.AddDailyLog">
+    tools:context=".activity.dailyLog.AddDailyLogActivity">
 
 
     <androidx.appcompat.widget.Toolbar

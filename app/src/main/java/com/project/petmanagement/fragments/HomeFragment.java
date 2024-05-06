@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
 import com.project.petmanagement.activity.notification.ScheduleActivity;
-import com.project.petmanagement.activity.notification.careActivity.ManageCareActivityScheduleInfoActivity;
-import com.project.petmanagement.activity.notification.vaccine.ManageVaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.notification.careActivity.CareActivityNotificationsActivity;
+import com.project.petmanagement.activity.notification.vaccine.VaccinationNotificationsActivity;
 import com.project.petmanagement.activity.pet.AddNewPetActivity;
 import com.project.petmanagement.adapters.DatesOfMonthRecyclerAdapter;
 import com.project.petmanagement.adapters.MonthRecyclerAdapter;
@@ -83,12 +83,12 @@ public class HomeFragment extends Fragment {
         });
         LinearLayout injectActivity = view.findViewById(R.id.inject_activity);
         injectActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ManageVaccineInjectionScheduleActivity.class);
+            Intent intent = new Intent(getContext(), VaccinationNotificationsActivity.class);
             startActivity(intent);
         });
         LinearLayout careActivity = view.findViewById(R.id.care_activity);
         careActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ManageCareActivityScheduleInfoActivity.class);
+            Intent intent = new Intent(getContext(), CareActivityNotificationsActivity.class);
             startActivity(intent);
         });
     }

@@ -135,7 +135,7 @@ public class AddNewPetActivity extends AppCompatActivity {
             for (Breed breed : speciesMap.get(speciesSelect).getBreeds()) {
                 breedsMap.put(breed.getName(), breed);
             }
-            breedAdapter = new ArrayAdapter<>(AddNewPetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(breedsMap.keySet()));
+            breedAdapter = new ArrayAdapter<>(AddNewPetActivity.this, R.layout.item_dropdown_list, new ArrayList<>(breedsMap.keySet()));
             breedView.setAdapter(breedAdapter);
         });
         dob.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +212,7 @@ public class AddNewPetActivity extends AppCompatActivity {
                     if (speciesResponse != null) {
                         for (Species species1 : speciesResponse.getData()) {
                             speciesMap.put(species1.getName(), species1);
-                            speciesAdapter = new ArrayAdapter<>(AddNewPetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(speciesMap.keySet()));
+                            speciesAdapter = new ArrayAdapter<>(AddNewPetActivity.this, R.layout.item_dropdown_list, new ArrayList<>(speciesMap.keySet()));
                             speciesView.setAdapter(speciesAdapter);
                         }
                     }

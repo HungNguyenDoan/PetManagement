@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.dailyLog.AddDailyLog;
+import com.project.petmanagement.activity.dailyLog.AddDailyLogActivity;
 import com.project.petmanagement.adapters.DailyActivityLogAdapter;
 import com.project.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.payloads.responses.ListDailyActivityLogResponse;
@@ -52,7 +52,7 @@ public class PetActivityFragment extends Fragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireActivity(), AddDailyLog.class);
+                Intent intent = new Intent(requireActivity(), AddDailyLogActivity.class);
                 intent.putExtra("petId", petId);
                 startActivity(intent);
             }

@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.healthStatistic.UpdateStaticHealthActivity;
+import com.project.petmanagement.activity.healthStatistic.UpdateHealthRecordActivity;
 import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -33,7 +33,7 @@ public class HealthStatisticAdapter extends RecyclerView.Adapter<HealthStatistic
     @NonNull
     @Override
     public StaticHealViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new StaticHealViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.static_item, parent, false));
+        return new StaticHealViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_health_record, parent, false));
     }
 
     @SuppressLint("SetTextI18n")
@@ -55,7 +55,7 @@ public class HealthStatisticAdapter extends RecyclerView.Adapter<HealthStatistic
         holder.itemStaticHealth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, UpdateStaticHealthActivity.class);
+                Intent intent = new Intent(context, UpdateHealthRecordActivity.class);
                 intent.putExtra("healthRecord", healthRecord);
                 context.startActivity(intent);
             }

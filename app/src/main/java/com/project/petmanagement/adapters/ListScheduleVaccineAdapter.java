@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.notification.vaccine.VaccineScheduleDetailActivity;
+import com.project.petmanagement.activity.notification.vaccine.VaccinationNotificationDetailsActivity;
 import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
@@ -43,7 +43,7 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
     @NonNull
     @Override
     public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_vaccine_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vaccination_notfication, parent, false);
         return new ScheduleViewHolder(view);
     }
 
@@ -111,7 +111,7 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
             }
         });
         holder.layout.setOnClickListener(v -> {
-            Intent intent = new Intent(context, VaccineScheduleDetailActivity.class);
+            Intent intent = new Intent(context, VaccinationNotificationDetailsActivity.class);
             intent.putExtra("vaccineNotification", vaccinationNotification);
             context.startActivity(intent);
         });

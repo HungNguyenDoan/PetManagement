@@ -167,7 +167,7 @@ public class LibraryFragment extends Fragment {
                             for (Species species : speciesList) {
                                 species1.add(species.getName());
                             }
-                            speciesAdapter = new ArrayAdapter<>(mActivity, R.layout.list_item_dropdown, species1);
+                            speciesAdapter = new ArrayAdapter<>(mActivity, R.layout.item_dropdown_list, species1);
                             speciesDropdown.setAdapter(speciesAdapter);
                         }
                     }

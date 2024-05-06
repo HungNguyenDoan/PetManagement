@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.medical.MedicalDocumentDetailActivity;
+import com.project.petmanagement.activity.medical.MedicalDocumentDetailsActivity;
 import com.project.petmanagement.models.entity.MedicalDocument;
 import com.project.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.services.ApiService;
@@ -45,7 +45,7 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
     @NonNull
     @Override
     public MedicalDocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.medical_document_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_medical_document, parent, false);
         return new MedicalDocumentViewHolder(view);
     }
 
@@ -56,7 +56,7 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MedicalDocumentDetailActivity.class);
+                Intent intent = new Intent(context, MedicalDocumentDetailsActivity.class);
                 intent.putExtra("medicalId", medicalDocument.getId());
                 context.startActivity(intent);
             }

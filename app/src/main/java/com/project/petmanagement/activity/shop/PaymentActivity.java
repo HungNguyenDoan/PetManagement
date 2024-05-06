@@ -119,7 +119,7 @@ public class PaymentActivity extends AppCompatActivity {
             finish();
         });
         textChangeInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentActivity.this, ChangeInfoActivity.class);
+            Intent intent = new Intent(PaymentActivity.this, ChangeOrderInfoActivity.class);
             intent.putExtra("fullName", fullName.getText().toString());
             intent.putExtra("phoneNumber", phoneNumber.getText().toString());
             intent.putExtra("address", address.getText().toString());
@@ -151,7 +151,7 @@ public class PaymentActivity extends AppCompatActivity {
                 public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(PaymentActivity.this, OrderActivity.class);
+                        Intent intent = new Intent(PaymentActivity.this, OrdersActivity.class);
                         startActivity(intent);
                         finish();
                     }

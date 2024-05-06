@@ -14,7 +14,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.notification.careActivity.CareActivityScheduleDetailActivity;
+import com.project.petmanagement.activity.notification.careActivity.CareActivityNotificationDetailsActivity;
 import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
@@ -40,7 +40,7 @@ public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareAc
     @NonNull
     @Override
     public CareActivityNotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.care_activity_notification_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_care_activity_notification, parent, false);
         return new CareActivityNotificationViewHolder(view);
     }
 
@@ -68,7 +68,7 @@ public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareAc
             holder.date.setText(date);
         }
         holder.relativeLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(context, CareActivityScheduleDetailActivity.class);
+            Intent intent = new Intent(context, CareActivityNotificationDetailsActivity.class);
             intent.putExtra("careActivityNotification", careActivityNotification);
             context.startActivity(intent);
         });

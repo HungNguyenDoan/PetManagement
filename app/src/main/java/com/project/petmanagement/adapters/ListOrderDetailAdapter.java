@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.shop.ProductDetailActivity;
+import com.project.petmanagement.activity.shop.ProductDetailsActivity;
 import com.project.petmanagement.models.entity.OrderDetail;
 import com.project.petmanagement.utils.FormatNumberUtils;
 import com.project.petmanagement.utils.ImageUtils;
@@ -47,7 +47,7 @@ public class ListOrderDetailAdapter extends RecyclerView.Adapter<ListOrderDetail
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ProductDetailActivity.class);
+                Intent intent = new Intent(context, ProductDetailsActivity.class);
                 intent.putExtra("product", orderDetail.getProduct());
                 context.startActivity(intent);
             }

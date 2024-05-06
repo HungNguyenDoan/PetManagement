@@ -62,7 +62,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
             careActivityNotificationId = getIntent().getLongExtra("careActivityNotificationId", 0);
             if (careActivityNotificationRequest.getCareActivityInfoRequestList() != null) {
                 for (CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()) {
-                    final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
+                    final View childView = getLayoutInflater().inflate(R.layout.item_add_care_activity_info, null, false);
                     TextView title = childView.findViewById(R.id.title);
                     String strTile = "Hoạt động " + stt;
                     stt += 1;
@@ -82,7 +82,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
                                         if (careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())) {
                                             activityType.setText(careActivity.getName());
                                         }
-                                        careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                                        careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.item_dropdown_list, new ArrayList<>(careActivityMap.keySet()));
                                         activityType.setAdapter(careActivityAdapter);
                                     }
                                 }
@@ -215,7 +215,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
     }
 
     private void addView() {
-        final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
+        final View childView = getLayoutInflater().inflate(R.layout.item_add_care_activity_info, null, false);
         TextView title = childView.findViewById(R.id.title);
         String strTile = "Hoạt động " + stt;
         stt += 1;
@@ -232,7 +232,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
                         for (CareActivity careActivity : response.body().getData()) {
                             careActivityMap.put(careActivity.getName(), careActivity);
                         }
-                        careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                        careActivityAdapter = new ArrayAdapter<>(UpdateCareActivityInfoActivity.this, R.layout.item_dropdown_list, new ArrayList<>(careActivityMap.keySet()));
                         activityType.setAdapter(careActivityAdapter);
                     }
                 }

@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.dailyLog.GetDailyLogDetails;
+import com.project.petmanagement.activity.dailyLog.DailyLogDetailsActivity;
 import com.project.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -43,7 +43,7 @@ public class DailyActivityLogAdapter extends RecyclerView.Adapter<DailyActivityL
         holder.dailyLogItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, GetDailyLogDetails.class);
+                Intent intent = new Intent(context, DailyLogDetailsActivity.class);
                 intent.putExtra("logId", dailyActivityLog.getId());
                 context.startActivity(intent);
             }

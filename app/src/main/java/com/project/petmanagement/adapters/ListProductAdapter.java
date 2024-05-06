@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.shop.ProductDetailActivity;
+import com.project.petmanagement.activity.shop.ProductDetailsActivity;
 import com.project.petmanagement.models.entity.Product;
 import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.services.ApiService;
@@ -59,7 +59,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
         String priceFormat = FormatNumberUtils.formatFloat(product.getPrice()) + "đ";
         holder.priceProduct.setText(priceFormat);
         holder.productItem.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ProductDetailActivity.class);
+            Intent intent = new Intent(context, ProductDetailsActivity.class);
             intent.putExtra("product", product);
             context.startActivity(intent);
         });

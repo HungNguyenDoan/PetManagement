@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.veterinarian.VeterinarianDetailActivity;
+import com.project.petmanagement.activity.veterinarian.VetDetailsActivity;
 import com.project.petmanagement.models.entity.Vet;
 import com.project.petmanagement.utils.ImageUtils;
 
@@ -38,7 +38,7 @@ public class ListVetAdapter extends RecyclerView.Adapter<ListVetAdapter.Vererina
     @NonNull
     @Override
     public VererinarianViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vetenarian, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vets, parent, false);
         return new VererinarianViewHolder(view);
     }
 
@@ -53,7 +53,7 @@ public class ListVetAdapter extends RecyclerView.Adapter<ListVetAdapter.Vererina
         holder.itemVet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, VeterinarianDetailActivity.class);
+                Intent intent = new Intent(context, VetDetailsActivity.class);
                 intent.putExtra("vet", vet);
                 context.startActivity(intent);
             }

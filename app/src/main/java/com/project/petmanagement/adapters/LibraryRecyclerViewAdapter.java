@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.diseases.DiseasesDetailActivity;
+import com.project.petmanagement.activity.diseases.DiseaseDetailsActivity;
 import com.project.petmanagement.models.entity.Disease;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class LibraryRecyclerViewAdapter extends RecyclerView.Adapter<LibraryRecy
     @NonNull
     @Override
     public LibraryViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_library_rycv, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_library, parent, false);
         return new LibraryViewholder(view);
     }
 
@@ -47,7 +47,7 @@ public class LibraryRecyclerViewAdapter extends RecyclerView.Adapter<LibraryRecy
         holder.linearItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DiseasesDetailActivity.class);
+                Intent intent = new Intent(context, DiseaseDetailsActivity.class);
                 intent.putExtra("disease", disease);
                 context.startActivity(intent);
             }

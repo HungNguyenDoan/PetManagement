@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.notification.careActivity.AddCareActivityScheduleActivity;
+import com.project.petmanagement.activity.notification.careActivity.AddCareActivityNotificationActivity;
 import com.project.petmanagement.models.entity.Pet;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class SelectPetActivityAdapter extends RecyclerView.Adapter<SelectPetActi
     @NonNull
     @Override
     public PetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_set_pet_schedule, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_pet, parent, false);
         return new PetViewHolder(view);
     }
 
@@ -49,12 +49,12 @@ public class SelectPetActivityAdapter extends RecyclerView.Adapter<SelectPetActi
         holder.namePet.setText(pet.getFullName());
         holder.cardView.setOnClickListener(v -> {
             if (action != null) {
-                Intent intent = new Intent(context, AddCareActivityScheduleActivity.class);
+                Intent intent = new Intent(context, AddCareActivityNotificationActivity.class);
                 intent.putExtra("pet", pet);
                 ((Activity) context).setResult(Activity.RESULT_OK, intent);
                 ((Activity) context).finish();
             } else {
-                Intent intent = new Intent(context, AddCareActivityScheduleActivity.class);
+                Intent intent = new Intent(context, AddCareActivityNotificationActivity.class);
                 intent.putExtra("pet", pet);
                 context.startActivity(intent);
             }

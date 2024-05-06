@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.notification.careActivity.ManageCareActivityScheduleInfoActivity;
-import com.project.petmanagement.activity.notification.vaccine.ManageVaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.notification.careActivity.CareActivityNotificationsActivity;
+import com.project.petmanagement.activity.notification.vaccine.VaccinationNotificationsActivity;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -22,12 +22,12 @@ public class ScheduleActivity extends AppCompatActivity {
         LinearLayout careActivity = findViewById(R.id.care_activity);
         LinearLayout injectActivity = findViewById(R.id.inject_activity);
         careActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ManageCareActivityScheduleInfoActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CareActivityNotificationsActivity.class);
             startActivity(intent);
             finish();
         });
         injectActivity.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ManageVaccineInjectionScheduleActivity.class);
+            Intent intent = new Intent(getApplicationContext(), VaccinationNotificationsActivity.class);
             startActivity(intent);
             finish();
         });

@@ -151,7 +151,7 @@ public class UpdatePetActivity extends AppCompatActivity {
                 for (Breed breed : speciesMap.get(speciesSelect).getBreeds()) {
                     breedsMap.put(breed.getName(), breed);
                 }
-                breedAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(breedsMap.keySet()));
+                breedAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.item_dropdown_list, new ArrayList<>(breedsMap.keySet()));
                 breedView.setAdapter(breedAdapter);
             }
         });
@@ -190,7 +190,7 @@ public class UpdatePetActivity extends AppCompatActivity {
                                 if (breed1.getName().equals(breed)) {
                                     speciesView.setText(species);
                                     strSpecies = species;
-                                    speciesAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(speciesMap.keySet()));
+                                    speciesAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.item_dropdown_list, new ArrayList<>(speciesMap.keySet()));
                                     speciesView.setAdapter(speciesAdapter);
                                     break;
                                 }
@@ -199,7 +199,7 @@ public class UpdatePetActivity extends AppCompatActivity {
                         for (Breed breed1 : speciesMap.get(strSpecies).getBreeds()) {
                             breedsMap.put(breed1.getName(), breed1);
                         }
-                        breedAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(breedsMap.keySet()));
+                        breedAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.item_dropdown_list, new ArrayList<>(breedsMap.keySet()));
                         breedView.setAdapter(breedAdapter);
                         if (pet.getGender() == 1) {
                             RadioButton male = findViewById(R.id.male);
@@ -284,7 +284,7 @@ public class UpdatePetActivity extends AppCompatActivity {
                     if (speciesResponse != null) {
                         for (Species species1 : speciesResponse.getData()) {
                             speciesMap.put(species1.getName(), species1);
-                            speciesAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.list_item_dropdown, new ArrayList<>(speciesMap.keySet()));
+                            speciesAdapter = new ArrayAdapter<>(UpdatePetActivity.this, R.layout.item_dropdown_list, new ArrayList<>(speciesMap.keySet()));
                             speciesView.setAdapter(speciesAdapter);
                         }
                         showInfoPet();

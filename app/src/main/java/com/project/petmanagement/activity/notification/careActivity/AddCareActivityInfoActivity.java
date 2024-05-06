@@ -42,7 +42,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_activity_info);
+        setContentView(R.layout.activity_add_care_activity_info);
         ImageView returnArrow = findViewById(R.id.return_arrow);
         CardView btnAddView = findViewById(R.id.add_activity_btn);
         parentLayout = findViewById(R.id.parent_layout);
@@ -56,7 +56,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
             totalNote.setText(careActivityNotificationRequest.getNote());
             if (careActivityNotificationRequest.getCareActivityInfoRequestList() != null) {
                 for (CareActivityInfoRequest careActivityInfoRequest : careActivityNotificationRequest.getCareActivityInfoRequestList()) {
-                    final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
+                    final View childView = getLayoutInflater().inflate(R.layout.item_add_care_activity_info, null, false);
                     TextView title = childView.findViewById(R.id.title);
                     String strTile = "Hoạt động " + stt;
                     stt += 1;
@@ -74,7 +74,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                                         if (careActivity.getId().equals(careActivityInfoRequest.getCareActivityId())) {
                                             activityType.setText(careActivity.getName());
                                         }
-                                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.item_dropdown_list, new ArrayList<>(careActivityMap.keySet()));
                                         activityType.setAdapter(careActivityAdapter);
                                     }
                                 }
@@ -151,7 +151,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
             careActivityNotificationRequest.setTitle(title.getText().toString());
             careActivityNotificationRequest.setNote(totalNote.getText().toString());
             careActivityNotificationRequest.setCareActivityInfoRequestList(careActivityInfoList);
-            Intent intent = new Intent(AddCareActivityInfoActivity.this, AddCareActivityScheduleActivity.class);
+            Intent intent = new Intent(AddCareActivityInfoActivity.this, AddCareActivityNotificationActivity.class);
             intent.putExtra("careActivityNotificationRequest", careActivityNotificationRequest);
             setResult(RESULT_OK, intent);
             finish();
@@ -159,7 +159,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
     }
 
     private void addView() {
-        final View childView = getLayoutInflater().inflate(R.layout.item_schedule_atv, null, false);
+        final View childView = getLayoutInflater().inflate(R.layout.item_add_care_activity_info, null, false);
         TextView title = childView.findViewById(R.id.title);
         String strTile = "Hoạt động " + stt;
         stt += 1;
@@ -176,7 +176,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                         for (CareActivity careActivity : response.body().getData()) {
                             careActivityMap.put(careActivity.getName(), careActivity);
                         }
-                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.list_item_dropdown, new ArrayList<>(careActivityMap.keySet()));
+                        careActivityAdapter = new ArrayAdapter<>(AddCareActivityInfoActivity.this, R.layout.item_dropdown_list, new ArrayList<>(careActivityMap.keySet()));
                         activityType.setAdapter(careActivityAdapter);
                     }
                 }

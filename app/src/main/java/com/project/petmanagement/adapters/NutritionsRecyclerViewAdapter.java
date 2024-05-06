@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.nutrition.NutritionDetailActivity;
+import com.project.petmanagement.activity.nutrition.NutritiousFoodDetailsActivity;
 import com.project.petmanagement.models.entity.NutritiousFood;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class NutritionsRecyclerViewAdapter extends RecyclerView.Adapter<Nutritio
     @NonNull
     @Override
     public NutritionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_nutritions, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nutritious_food, parent, false);
         return new NutritionsViewHolder(view);
     }
 
@@ -52,7 +52,7 @@ public class NutritionsRecyclerViewAdapter extends RecyclerView.Adapter<Nutritio
                 .error(R.drawable.no_image)
                 .into(holder.imageNutritious);
         holder.layout.setOnClickListener(v -> {
-            Intent intent = new Intent(context, NutritionDetailActivity.class);
+            Intent intent = new Intent(context, NutritiousFoodDetailsActivity.class);
             intent.putExtra("nutritiousFood", nutritiousFood);
             context.startActivity(intent);
         });

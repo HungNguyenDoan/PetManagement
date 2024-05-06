@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.project.petmanagement.fragments.InforPetFragment;
+import com.project.petmanagement.fragments.PetInfoFragment;
 import com.project.petmanagement.fragments.PetActivityFragment;
 
 public class PetDetailsViewPager2Adapter extends FragmentStateAdapter {
@@ -31,7 +31,7 @@ public class PetDetailsViewPager2Adapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new InforPetFragment(idPet, btnAdd);
+                return new PetInfoFragment(idPet, btnAdd);
             default:
                 return new PetActivityFragment(idPet, btnAdd);
         }

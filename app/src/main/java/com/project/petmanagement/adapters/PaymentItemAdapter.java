@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.shop.ProductDetailActivity;
+import com.project.petmanagement.activity.shop.ProductDetailsActivity;
 import com.project.petmanagement.models.entity.CartItem;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class PaymentItemAdapter extends RecyclerView.Adapter<PaymentItemAdapter.
     @NonNull
     @Override
     public PaymentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PaymentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.payment_item, parent, false));
+        return new PaymentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_payment, parent, false));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PaymentItemAdapter extends RecyclerView.Adapter<PaymentItemAdapter.
         holder.nameItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ProductDetailActivity.class);
+                Intent intent = new Intent(context, ProductDetailsActivity.class);
                 intent.putExtra("product", cartItem.getProduct());
                 context.startActivity(intent);
             }
