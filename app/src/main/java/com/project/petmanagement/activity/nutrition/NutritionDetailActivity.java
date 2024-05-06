@@ -30,9 +30,9 @@ public class NutritionDetailActivity extends AppCompatActivity {
         if (nutritiousFood != null) {
             textNameNutritiousFood.setText(nutritiousFood.getName());
             textDescription.setText(nutritiousFood.getDescription());
-            String nutrition = nutritiousFood.getNutrition().replace("~", "\n");
+            String nutrition = nutritiousFood.getNutrition().replace(",", "\n");
             textNutrition.setText(nutrition);
-            String ingredients = nutritiousFood.getIngredient().replace(", ", "\n");
+            String ingredients = nutritiousFood.getIngredient().replace(",", "\n");
             textIngredients.setText(ingredients);
             Glide.with(NutritionDetailActivity.this)
                     .load(nutritiousFood.getImage())
