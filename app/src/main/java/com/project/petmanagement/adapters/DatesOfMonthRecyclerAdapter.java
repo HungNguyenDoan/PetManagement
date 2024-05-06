@@ -59,7 +59,7 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
         LocalDate localDate = datesOfMonth.get(position);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             holder.dateOfMonth.setText(covertDayOfWeek(localDate.getDayOfWeek()) + "\n" + localDate.getDayOfMonth());
-            if (localDate.equals(LocalDate.now()) && !check) {
+            if ((localDate.equals(LocalDate.now()) || position == 0) && !check) {
                 holder.dateOfMonth.setBackgroundColor(Color.parseColor("#EFF7EA"));
                 holder.dateOfMonth.setTextColor(Color.parseColor("#FF61B93C"));
                 indexRow = position;
@@ -71,6 +71,9 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
             @Override
             public void onClick(View v) {
                 indexRow = holder.getBindingAdapterPosition();
+                if (listener != null) {
+                    listener.onItemClick(position);
+                }
                 ApiService.apiService.getVaccinationNotificationByDate(localDate.toString()).enqueue(new Callback<ListVaccineNotification>() {
                     @Override
                     public void onResponse(Call<ListVaccineNotification> call, Response<ListVaccineNotification> response) {
@@ -185,5 +188,15 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
             }
         }
         return day;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    private DatesOfMonthRecyclerAdapter.OnItemClickListener listener;
+
+    public void setOnItemClickListener(DatesOfMonthRecyclerAdapter.OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

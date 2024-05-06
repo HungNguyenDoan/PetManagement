@@ -2,7 +2,6 @@ package com.project.petmanagement.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,11 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
-import com.project.petmanagement.activity.pet.AddNewPetActivity;
 import com.project.petmanagement.activity.notification.ScheduleActivity;
 import com.project.petmanagement.activity.notification.careActivity.ManageCareActivityScheduleInfoActivity;
 import com.project.petmanagement.activity.notification.vaccine.ManageVaccineInjectionScheduleActivity;
+import com.project.petmanagement.activity.pet.AddNewPetActivity;
 import com.project.petmanagement.adapters.DatesOfMonthRecyclerAdapter;
+import com.project.petmanagement.adapters.MonthRecyclerAdapter;
 import com.project.petmanagement.adapters.PetHomeAdapter;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
@@ -41,12 +41,11 @@ import retrofit2.Response;
 
 
 public class HomeFragment extends Fragment {
-    private RecyclerView petRecyclerView, datesOfMonthRecyclerView, vaccinationNotificationRecyclerView, careNotificationRecyclerView;
+    private RecyclerView petRecyclerView, monthsRecyclerView, datesOfMonthRecyclerView, vaccinationNotificationRecyclerView, careNotificationRecyclerView;
     private List<Pet> petList;
     private LinearLayout existedPet;
     private Button addPetBtn;
     private RelativeLayout noPet;
-    private List<Button> months;
     private ImageView noVaccinationNotificationImage, noCareNotificationImage;
 
     @Nullable
@@ -99,61 +98,7 @@ public class HomeFragment extends Fragment {
         existedPet = view.findViewById(R.id.existed_pet_list);
         addPetBtn = view.findViewById(R.id.add_pet_btn);
         noPet = view.findViewById(R.id.no_pet);
-        months = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            Button month;
-            RecyclerView datesOfMonth;
-            switch (i) {
-                case 1:
-                    month = view.findViewById(R.id.month_1);
-                    months.add(month);
-                    break;
-                case 2:
-                    month = view.findViewById(R.id.month_2);
-                    months.add(month);
-                    break;
-                case 3:
-                    month = view.findViewById(R.id.month_3);
-                    months.add(month);
-                    break;
-                case 4:
-                    month = view.findViewById(R.id.month_4);
-                    months.add(month);
-                    break;
-                case 5:
-                    month = view.findViewById(R.id.month_5);
-                    months.add(month);
-                    break;
-                case 6:
-                    month = view.findViewById(R.id.month_6);
-                    months.add(month);
-                    break;
-                case 7:
-                    month = view.findViewById(R.id.month_7);
-                    months.add(month);
-                    break;
-                case 8:
-                    month = view.findViewById(R.id.month_8);
-                    months.add(month);
-                    break;
-                case 9:
-                    month = view.findViewById(R.id.month_9);
-                    months.add(month);
-                    break;
-                case 10:
-                    month = view.findViewById(R.id.month_10);
-                    months.add(month);
-                    break;
-                case 11:
-                    month = view.findViewById(R.id.month_11);
-                    months.add(month);
-                    break;
-                case 12:
-                    month = view.findViewById(R.id.month_12);
-                    months.add(month);
-                    break;
-            }
-        }
+        monthsRecyclerView = view.findViewById(R.id.months_recycler_view);
         datesOfMonthRecyclerView = view.findViewById(R.id.dates_month_recycler_view);
         vaccinationNotificationRecyclerView = view.findViewById(R.id.vaccination_notification_recycler_view);
         noVaccinationNotificationImage = view.findViewById(R.id.no_vaccination_notification_image);
@@ -207,43 +152,31 @@ public class HomeFragment extends Fragment {
             LocalDate currentDate = LocalDate.now();
             int year = currentDate.getYear();
             int currentMonth = currentDate.getMonth().getValue();
-            for (int i = 0; i < months.size(); i++) {
-                if (i + 1 == currentMonth) {
-                    months.get(i).setBackgroundColor(Color.parseColor("#FFF5EB"));
-                    months.get(i).setTextColor(Color.parseColor("#EDA33D"));
-                    months.get(i).setAlpha(1);
-                    List<LocalDate> localDateList = getDatesOfMonth(year, currentMonth);
-                    DatesOfMonthRecyclerAdapter datesOfMonthRecyclerAdapter = new DatesOfMonthRecyclerAdapter(requireContext(), localDateList, vaccinationNotificationRecyclerView, noVaccinationNotificationImage, careNotificationRecyclerView, noCareNotificationImage);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-                    datesOfMonthRecyclerView.setAdapter(datesOfMonthRecyclerAdapter);
-                    datesOfMonthRecyclerView.setLayoutManager(layoutManager);
-                } else {
-                    months.get(i).setBackgroundColor(Color.parseColor("#D8DAE7"));
-                    months.get(i).setTextColor(Color.BLACK);
-                    months.get(i).setAlpha(0.5F);
+
+            MonthRecyclerAdapter monthRecyclerAdapter = new MonthRecyclerAdapter(requireContext(), datesOfMonthRecyclerView, vaccinationNotificationRecyclerView, noVaccinationNotificationImage, careNotificationRecyclerView, noCareNotificationImage);
+            LinearLayoutManager monthsRecyclerViewLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+            monthsRecyclerView.setAdapter(monthRecyclerAdapter);
+            monthsRecyclerView.setLayoutManager(monthsRecyclerViewLayoutManager);
+            monthsRecyclerViewLayoutManager.scrollToPositionWithOffset(currentMonth - 1, 0);
+            monthRecyclerAdapter.setOnItemClickListener(new MonthRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    monthsRecyclerViewLayoutManager.scrollToPositionWithOffset(position, 0);
                 }
-                int position = i + 1;
-                months.get(i).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (int j = 0; j < months.size(); j++) {
-                            if (j + 1 == position) {
-                                months.get(j).setBackgroundColor(Color.parseColor("#FFF5EB"));
-                                months.get(j).setTextColor(Color.parseColor("#EDA33D"));
-                                months.get(j).setAlpha(1);
-                                DatesOfMonthRecyclerAdapter datesOfMonthRecyclerAdapter = new DatesOfMonthRecyclerAdapter(requireContext(), getDatesOfMonth(year, position), vaccinationNotificationRecyclerView, noVaccinationNotificationImage, careNotificationRecyclerView, noCareNotificationImage);
-                                LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-                                datesOfMonthRecyclerView.setAdapter(datesOfMonthRecyclerAdapter);
-                                datesOfMonthRecyclerView.setLayoutManager(layoutManager);
-                                continue;
-                            }
-                            months.get(j).setBackgroundColor(Color.parseColor("#D8DAE7"));
-                            months.get(j).setTextColor(Color.BLACK);
-                            months.get(j).setAlpha(0.5F);
-                        }
-                    }
-                });
-            }
+            });
+
+            List<LocalDate> localDateList = getDatesOfMonth(year, currentMonth);
+            DatesOfMonthRecyclerAdapter datesOfMonthRecyclerAdapter = new DatesOfMonthRecyclerAdapter(requireContext(), localDateList, vaccinationNotificationRecyclerView, noVaccinationNotificationImage, careNotificationRecyclerView, noCareNotificationImage);
+            LinearLayoutManager datesOfMonthRecyclerViewLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+            datesOfMonthRecyclerView.setAdapter(datesOfMonthRecyclerAdapter);
+            datesOfMonthRecyclerView.setLayoutManager(datesOfMonthRecyclerViewLayoutManager);
+            datesOfMonthRecyclerViewLayoutManager.scrollToPositionWithOffset(currentDate.getDayOfMonth() - 1, 0);
+            datesOfMonthRecyclerAdapter.setOnItemClickListener(new DatesOfMonthRecyclerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    datesOfMonthRecyclerViewLayoutManager.scrollToPositionWithOffset(position, 0);
+                }
+            });
         }
     }
 
