@@ -6,6 +6,7 @@ import com.project.petmanagement.petmanagement.models.entity.*;
 import com.project.petmanagement.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.petmanagement.payloads.requests.FCMNotification;
+import com.project.petmanagement.petmanagement.repositories.CareActivityNotificationRepository;
 import com.project.petmanagement.petmanagement.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class Scheduler {
+    private final CareActivityNotificationRepository careActivityNotificationRepository;
     private final UserService userService;
     private final PetService petService;
     private final VaccinationNotificationService vaccinationNotificationService;
@@ -161,14 +163,7 @@ public class Scheduler {
                             }
                             if (frequency.compareTo(FrequencyEnum.NO_REPEAT) == 0) {
                                 careActivityNotification.setNotificationStatus(false);
-                                CareActivityNotificationRequest careActivityNotificationRequest = new CareActivityNotificationRequest();
-                                careActivityNotificationRequest.setPetId(careActivityNotification.getPet().getId());
-                                careActivityNotificationRequest.setNotificationStatus(false);
-                                try {
-                                    careActivityNotificationService.updateCareActivityNotification(careActivityNotification.getId(), careActivityNotificationRequest);
-                                } catch (DataNotFoundException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                careActivityNotificationRepository.save(careActivityNotification);
                             }
                         }
                     }
