@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.petmanagement.R;
+import com.project.petmanagement.activity.MainActivity;
+import com.project.petmanagement.activity.notification.vaccine.ManageVaccineInjectionScheduleActivity;
 import com.project.petmanagement.adapters.CareActivityNotificationAdapter;
 import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
@@ -38,7 +40,12 @@ public class ManageCareActivityScheduleInfoActivity extends AppCompatActivity {
         });
         getCareActivityNotification();
         ImageView returnArrow = findViewById(R.id.return_arrow);
-        returnArrow.setOnClickListener(v -> finish());
+        returnArrow.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("fragmentIndex", String.valueOf(0));
+            startActivity(intent);
+            finish();
+        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
