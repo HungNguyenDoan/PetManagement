@@ -19,13 +19,12 @@ import retrofit2.Callback;
 
 public class ChangePassword extends AppCompatActivity {
     private TextInputEditText inputOldPassword, inputNewPassword, inputRetypeNewPassword;
-    private ImageView returnArrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
-        returnArrow = findViewById(R.id.return_arrow);
+        ImageView returnArrow = findViewById(R.id.return_arrow);
         returnArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
