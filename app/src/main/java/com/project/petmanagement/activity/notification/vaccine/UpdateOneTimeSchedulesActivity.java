@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.responses.ListOneTimeScheduleResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -152,7 +152,7 @@ public class UpdateOneTimeSchedulesActivity extends AppCompatActivity {
         }
         for (OneTimeScheduleRequest oneTimeScheduleRequest : finalOneTimeScheduleRequests) {
             if (!oneTimeId.contains(oneTimeScheduleRequest.getId())) {
-                ApiService.apiService.deleteOneTimeSchedule(oneTimeScheduleRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                APIService.apiService.deleteOneTimeSchedule(oneTimeScheduleRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                     @Override
                     public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
                     }
@@ -165,7 +165,7 @@ public class UpdateOneTimeSchedulesActivity extends AppCompatActivity {
             }
         }
         if (!oneTimeScheduleRequests.isEmpty() && parentLayout.getChildCount() != 0) {
-            ApiService.apiService.updateOneSchedule(vaccineNotificationId, oneTimeScheduleRequests).enqueue(new Callback<ListOneTimeScheduleResponse>() {
+            APIService.apiService.updateOneSchedule(vaccineNotificationId, oneTimeScheduleRequests).enqueue(new Callback<ListOneTimeScheduleResponse>() {
                 @Override
                 public void onResponse(Call<ListOneTimeScheduleResponse> call, Response<ListOneTimeScheduleResponse> response) {
                     if (response.isSuccessful()) {

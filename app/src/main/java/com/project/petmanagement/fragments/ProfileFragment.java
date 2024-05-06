@@ -45,7 +45,7 @@ import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.UserRequest;
 import com.project.petmanagement.payloads.responses.Response;
 import com.project.petmanagement.payloads.responses.UserResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.services.StorageService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -116,7 +116,7 @@ public class ProfileFragment extends Fragment {
         userRequest.setFullName(user.getFullName());
         userRequest.setDateOfBirth(FormatDateUtils.DateToString1(user.getDateOfBirth()));
         userRequest.setEmail(user.getEmail());
-        ApiService.apiService.updateUser(userRequest).enqueue(new Callback<UserResponse>() {
+        APIService.apiService.updateUser(userRequest).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
                 if(response.isSuccessful()){
@@ -207,7 +207,7 @@ public class ProfileFragment extends Fragment {
                 alertDialog.setTitle("Thông báo")
                         .setMessage("Bạn có chắc chắn muốn xóa tài khoản")
                         .setPositiveButton("Có", (dialog, which) -> {
-                            ApiService.apiService.deleteUser().enqueue(new Callback<Response>() {
+                            APIService.apiService.deleteUser().enqueue(new Callback<Response>() {
                                 @Override
                                 public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                                     if (response.isSuccessful()) {
@@ -233,7 +233,7 @@ public class ProfileFragment extends Fragment {
             storageService.remove("user");
             storageService.remove("token");
             FCMToken fcmToken = new FCMToken("");
-            ApiService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+            APIService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                 @Override
                 public void onResponse(retrofit2.Call<com.project.petmanagement.payloads.responses.Response> call1, retrofit2.Response<Response> response1) {
                     if (response1.isSuccessful()) {

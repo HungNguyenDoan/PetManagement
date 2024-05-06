@@ -21,7 +21,7 @@ import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.responses.ListOneTimeScheduleResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class ListScheduleVaccineAdapter extends RecyclerView.Adapter<ListSchedul
                 oneTimeScheduleRequest.setStatus(true);
                 List<OneTimeScheduleRequest> oneTimeScheduleRequestList = new ArrayList<>();
                 oneTimeScheduleRequestList.add(oneTimeScheduleRequest);
-                ApiService.apiService.updateOneSchedule(vaccinationNotification.getId(), oneTimeScheduleRequestList).enqueue(new Callback<ListOneTimeScheduleResponse>() {
+                APIService.apiService.updateOneSchedule(vaccinationNotification.getId(), oneTimeScheduleRequestList).enqueue(new Callback<ListOneTimeScheduleResponse>() {
                     @Override
                     public void onResponse(Call<ListOneTimeScheduleResponse> call, Response<ListOneTimeScheduleResponse> response) {
                         if (response.isSuccessful()) {

@@ -17,7 +17,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.payloads.requests.UserRequest;
 import com.project.petmanagement.payloads.responses.UserResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.services.StorageService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -77,7 +77,7 @@ public class ChangeUserInfoActivity extends AppCompatActivity {
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
-                    ApiService.apiService.updateUser(userRequest).enqueue(new Callback<UserResponse>() {
+                    APIService.apiService.updateUser(userRequest).enqueue(new Callback<UserResponse>() {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if(response.isSuccessful()){

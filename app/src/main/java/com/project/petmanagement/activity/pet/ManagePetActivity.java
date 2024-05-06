@@ -2,7 +2,6 @@ package com.project.petmanagement.activity.pet;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,13 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,14 +19,12 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.ManagePetRecyclerViewAdapter;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
-import com.project.petmanagement.payloads.responses.PetResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -128,7 +121,7 @@ public class ManagePetActivity extends AppCompatActivity {
     }
 
     private void getPetList() {
-        ApiService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
+        APIService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
             @Override
             public void onResponse(Call<ListPetResponse> call, Response<ListPetResponse> response) {
                 if (response.isSuccessful()) {

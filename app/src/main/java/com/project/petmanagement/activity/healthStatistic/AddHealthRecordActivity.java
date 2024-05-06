@@ -17,7 +17,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
 import com.project.petmanagement.payloads.responses.HealthRecordErrorResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -67,7 +67,7 @@ public class AddHealthRecordActivity extends AppCompatActivity {
                     checkUpdate1 = FormatDateUtils.StringToDate1(strCheckupDate);
                     strCheckupDate = FormatDateUtils.DateToString1(checkUpdate1);
                     HealRecordRequest healRecordRequest = new HealRecordRequest(strCheckupDate, Double.parseDouble(editWeight.getText().toString()), Integer.parseInt(spinner.getSelectedItem().toString()), editSymptoms.getText().toString(), editDiagnosis.getText().toString(), editNote.getText().toString(), petId);
-                    ApiService.apiService.addHealthRecord(healRecordRequest).enqueue(new Callback<HealRecordResponse>() {
+                    APIService.apiService.addHealthRecord(healRecordRequest).enqueue(new Callback<HealRecordResponse>() {
                         @Override
                         public void onResponse(Call<HealRecordResponse> call, Response<HealRecordResponse> response) {
                             if (response.isSuccessful()) {

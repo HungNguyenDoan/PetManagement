@@ -22,7 +22,7 @@ import com.project.petmanagement.models.entity.Species;
 import com.project.petmanagement.payloads.responses.ListFoodTypeResponse;
 import com.project.petmanagement.payloads.responses.ListNutritiousFoodResponse;
 import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -142,7 +142,7 @@ public class NutritiousFoodActivity extends AppCompatActivity {
     }
 
     private void search(Long speciesId, Long foodTypeId, String keyword) {
-        ApiService.apiService.searchNutritiousFood(speciesId, foodTypeId, keyword).enqueue(new Callback<ListNutritiousFoodResponse>() {
+        APIService.apiService.searchNutritiousFood(speciesId, foodTypeId, keyword).enqueue(new Callback<ListNutritiousFoodResponse>() {
             @Override
             public void onResponse(Call<ListNutritiousFoodResponse> call, Response<ListNutritiousFoodResponse> response) {
                 if (response.isSuccessful()) {
@@ -171,7 +171,7 @@ public class NutritiousFoodActivity extends AppCompatActivity {
     }
 
     private void getAllSpecies() {
-        ApiService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
+        APIService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
             @Override
             public void onResponse(Call<ListSpeciesResponse> call, Response<ListSpeciesResponse> response) {
                 if (response.isSuccessful()) {
@@ -197,7 +197,7 @@ public class NutritiousFoodActivity extends AppCompatActivity {
     }
 
     private void getALlFoodType() {
-        ApiService.apiService.getAllFoodTypes().enqueue(new Callback<ListFoodTypeResponse>() {
+        APIService.apiService.getAllFoodTypes().enqueue(new Callback<ListFoodTypeResponse>() {
             @Override
             public void onResponse(Call<ListFoodTypeResponse> call, Response<ListFoodTypeResponse> response) {
                 if (response.isSuccessful()) {
@@ -223,7 +223,7 @@ public class NutritiousFoodActivity extends AppCompatActivity {
     }
 
     private void getAllNutritiousFood() {
-        ApiService.apiService.getAllNutritious().enqueue(new Callback<ListNutritiousFoodResponse>() {
+        APIService.apiService.getAllNutritious().enqueue(new Callback<ListNutritiousFoodResponse>() {
             @Override
             public void onResponse(Call<ListNutritiousFoodResponse> call, Response<ListNutritiousFoodResponse> response) {
                 if (response.isSuccessful()) {

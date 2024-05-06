@@ -19,7 +19,7 @@ import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.util.List;
@@ -78,7 +78,7 @@ public class CareActivityNotificationAdapter extends RecyclerView.Adapter<CareAc
             careActivityNotificationRequest.setNote(careActivityNotification.getNote());
             careActivityNotificationRequest.setNotificationStatus(holder.status.isChecked());
             careActivityNotificationRequest.setPetId(careActivityNotification.getPet().getId());
-            ApiService.apiService.updateCareActivityNotification(careActivityNotification.getId(), careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
+            APIService.apiService.updateCareActivityNotification(careActivityNotification.getId(), careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
                 @Override
                 public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
                     if (response.isSuccessful()) {

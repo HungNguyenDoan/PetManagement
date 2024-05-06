@@ -24,7 +24,7 @@ import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.requests.VaccinationNotificationRequest;
 import com.project.petmanagement.payloads.responses.ListVaccineResponse;
 import com.project.petmanagement.payloads.responses.VaccineNotificationResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.io.Serializable;
@@ -107,7 +107,7 @@ public class UpdateVaccinationNotificationActivity extends AppCompatActivity {
             if (validation()) {
                 Vaccine vaccine = vaccineMap.get(vaccineView.getText().toString());
                 VaccinationNotificationRequest vaccinationNotificationRequest = new VaccinationNotificationRequest(pet.getId(), title.getText().toString(), vaccine.getId(), note.getText().toString(), oneTimeScheduleRequestList);
-                ApiService.apiService.updateVaccinationNotification(vaccinationNotification.getId(), vaccinationNotificationRequest).enqueue(new Callback<VaccineNotificationResponse>() {
+                APIService.apiService.updateVaccinationNotification(vaccinationNotification.getId(), vaccinationNotificationRequest).enqueue(new Callback<VaccineNotificationResponse>() {
                     @Override
                     public void onResponse(Call<VaccineNotificationResponse> call, Response<VaccineNotificationResponse> response) {
                         if (response.isSuccessful()) {
@@ -179,7 +179,7 @@ public class UpdateVaccinationNotificationActivity extends AppCompatActivity {
     }
 
     private void getVaccine() {
-        ApiService.apiService.getVaccineByPet(pet.getId()).enqueue(new Callback<ListVaccineResponse>() {
+        APIService.apiService.getVaccineByPet(pet.getId()).enqueue(new Callback<ListVaccineResponse>() {
             @Override
             public void onResponse(Call<ListVaccineResponse> call, Response<ListVaccineResponse> response) {
                 if (response.isSuccessful()) {
@@ -202,7 +202,7 @@ public class UpdateVaccinationNotificationActivity extends AppCompatActivity {
     }
 
     private void getVaccineNotificationById() {
-        ApiService.apiService.getVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<VaccineNotificationResponse>() {
+        APIService.apiService.getVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<VaccineNotificationResponse>() {
             @Override
             public void onResponse(Call<VaccineNotificationResponse> call, Response<VaccineNotificationResponse> response) {
                 if (response.isSuccessful()) {

@@ -30,7 +30,7 @@ import com.project.petmanagement.adapters.MedicalAdapter;
 import com.project.petmanagement.models.entity.MedicalDocument;
 import com.project.petmanagement.payloads.responses.ListMedicalResponse;
 import com.project.petmanagement.payloads.responses.MedicalDocumentResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -149,7 +149,7 @@ public class MedicalDocumentsActivity extends AppCompatActivity {
                 RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), document);
                 MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", document.getName(), requestFile);
                 if (validate()) {
-                    ApiService.apiService.addMedicalDocument(title, note, petId, filePart).enqueue(new Callback<MedicalDocumentResponse>() {
+                    APIService.apiService.addMedicalDocument(title, note, petId, filePart).enqueue(new Callback<MedicalDocumentResponse>() {
                         @Override
                         public void onResponse(Call<MedicalDocumentResponse> call, Response<MedicalDocumentResponse> response) {
                             if (response.isSuccessful()) {
@@ -172,7 +172,7 @@ public class MedicalDocumentsActivity extends AppCompatActivity {
 
     private void getListDocument() {
         if (idPet != null) {
-            ApiService.apiService.getMedicalDocumentByPet(idPet).enqueue(new Callback<ListMedicalResponse>() {
+            APIService.apiService.getMedicalDocumentByPet(idPet).enqueue(new Callback<ListMedicalResponse>() {
                 @Override
                 public void onResponse(Call<ListMedicalResponse> call, Response<ListMedicalResponse> response) {
                     if (response.isSuccessful()) {

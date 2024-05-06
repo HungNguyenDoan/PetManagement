@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.payloads.requests.ChangePasswordRequest;
 import com.project.petmanagement.payloads.responses.Response;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +46,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     changePasswordRequest.setOldPassword(oldPassword);
                     changePasswordRequest.setNewPassword(newPassword);
                     changePasswordRequest.setRetypeNewPassword(retypeNewPassword);
-                    ApiService.apiService.changePassword(changePasswordRequest).enqueue(new Callback<Response>() {
+                    APIService.apiService.changePassword(changePasswordRequest).enqueue(new Callback<Response>() {
                         @Override
                         public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                             if(response.isSuccessful()){

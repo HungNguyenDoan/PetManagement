@@ -28,7 +28,7 @@ import com.project.petmanagement.payloads.requests.CareActivityNotificationReque
 import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.text.ParseException;
@@ -147,7 +147,7 @@ public class CareActivityNotificationDetailsActivity extends AppCompatActivity {
             arlertDialog.setTitle("Thông báo")
                     .setMessage("Bạn chắc chán muốn xóa lịch này")
                     .setPositiveButton("Có", (dialog, which) -> {
-                        ApiService.apiService.deleteCareActivityNotification(careActivityNotification.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                        APIService.apiService.deleteCareActivityNotification(careActivityNotification.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                             @Override
                             public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
                                 if (response.isSuccessful()) {
@@ -182,7 +182,7 @@ public class CareActivityNotificationDetailsActivity extends AppCompatActivity {
     }
 
     private void getCareActivityNotification() {
-        ApiService.apiService.getCareActivityNotificationById(careActivityNotification.getId()).enqueue(new Callback<CareActivityNotificationResponse>() {
+        APIService.apiService.getCareActivityNotificationById(careActivityNotification.getId()).enqueue(new Callback<CareActivityNotificationResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
@@ -338,7 +338,7 @@ public class CareActivityNotificationDetailsActivity extends AppCompatActivity {
     }
 
     private void getCareActivity() {
-        ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
+        APIService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {

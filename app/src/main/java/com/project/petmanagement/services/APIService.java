@@ -67,7 +67,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface ApiService {
+public interface APIService {
     // Server
     String BASE_URL = "http://103.163.215.125/api/";
 
@@ -86,12 +86,12 @@ public interface ApiService {
         return chain.proceed(builder.build());
     };
     OkHttpClient.Builder okClient = new OkHttpClient.Builder().addInterceptor(interceptor);
-    ApiService apiService = new Retrofit.Builder()
+    APIService apiService = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okClient.build())
             .build()
-            .create(ApiService.class);
+            .create(APIService.class);
 
     // AuthController/UserController
     @POST("auth/login")

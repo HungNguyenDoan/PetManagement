@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.ListPetSelectAdapter;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +35,7 @@ public class SelectPetActivity extends AppCompatActivity {
     }
 
     private void getListPet() {
-        ApiService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
+        APIService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
             @Override
             public void onResponse(Call<ListPetResponse> call, Response<ListPetResponse> response) {
                 if (response.isSuccessful()) {

@@ -14,7 +14,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.ListOrderAdapter;
 import com.project.petmanagement.models.entity.Order;
 import com.project.petmanagement.payloads.responses.ListOrderResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     private void getList() {
-        ApiService.apiService.getOrderUser().enqueue(new Callback<ListOrderResponse>() {
+        APIService.apiService.getOrderUser().enqueue(new Callback<ListOrderResponse>() {
             @Override
             public void onResponse(Call<ListOrderResponse> call, Response<ListOrderResponse> response) {
                 if (response.isSuccessful()) {

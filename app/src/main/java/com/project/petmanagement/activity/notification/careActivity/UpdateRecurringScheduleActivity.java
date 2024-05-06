@@ -29,7 +29,7 @@ import com.project.petmanagement.adapters.DayOfWeekAdapter;
 import com.project.petmanagement.models.enums.FrequencyEnum;
 import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
 import com.project.petmanagement.payloads.responses.Response;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -176,7 +176,7 @@ public class UpdateRecurringScheduleActivity extends AppCompatActivity implement
                         recurringScheduleRequest.setValue(0);
                         recurringScheduleRequest.setName(frequency.getText().toString());
                         recurringScheduleRequest.setTime(hourNoRepeat.getText().toString());
-                        ApiService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
+                        APIService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                                 if (response.isSuccessful()) {
@@ -211,7 +211,7 @@ public class UpdateRecurringScheduleActivity extends AppCompatActivity implement
                         recurringScheduleRequest.setToDate(strEndDate);
                         recurringScheduleRequest.setValue(valueFrequency);
                         recurringScheduleRequest.setName(frequency.getText().toString());
-                        ApiService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
+                        APIService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                                 if (response.isSuccessful()) {
@@ -245,7 +245,7 @@ public class UpdateRecurringScheduleActivity extends AppCompatActivity implement
                         recurringScheduleRequest.setValue(valueFrequency);
                         recurringScheduleRequest.setDaysOfWeek(dayOfWeeks);
                         recurringScheduleRequest.setName(frequency.getText().toString());
-                        ApiService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
+                        APIService.apiService.updateRecurringSchedule(recurringScheduleRequest).enqueue(new Callback<Response>() {
                             @Override
                             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                                 if (response.isSuccessful()) {

@@ -20,7 +20,7 @@ import com.project.petmanagement.models.entity.OneTimeSchedule;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.requests.OneTimeScheduleRequest;
 import com.project.petmanagement.payloads.responses.VaccineNotificationResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.text.ParseException;
@@ -69,7 +69,7 @@ public class VaccinationNotificationDetailsActivity extends AppCompatActivity {
             arlertDialog.setTitle("Thông báo")
                     .setMessage("Bạn chắc chán muốn xóa lịch này")
                     .setPositiveButton("Có", (dialog, which) -> {
-                        ApiService.apiService.deleteVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                        APIService.apiService.deleteVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                             @Override
                             public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
                                 if (response.isSuccessful()) {
@@ -148,7 +148,7 @@ public class VaccinationNotificationDetailsActivity extends AppCompatActivity {
     }
 
     private void getVaccineNotificationById() {
-        ApiService.apiService.getVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<VaccineNotificationResponse>() {
+        APIService.apiService.getVaccineNotification(vaccinationNotification.getId()).enqueue(new Callback<VaccineNotificationResponse>() {
             @Override
             public void onResponse(Call<VaccineNotificationResponse> call, Response<VaccineNotificationResponse> response) {
                 if (response.isSuccessful()) {

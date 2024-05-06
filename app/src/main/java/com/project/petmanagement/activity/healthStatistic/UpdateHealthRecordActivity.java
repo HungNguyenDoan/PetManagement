@@ -20,7 +20,7 @@ import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.payloads.requests.HealRecordRequest;
 import com.project.petmanagement.payloads.responses.HealRecordResponse;
 import com.project.petmanagement.payloads.responses.HealthRecordErrorResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -85,7 +85,7 @@ public class UpdateHealthRecordActivity extends AppCompatActivity {
                     checkUpdate1 = FormatDateUtils.StringToDate1(strCheckupDate);
                     strCheckupDate = FormatDateUtils.DateToString1(checkUpdate1);
                     HealRecordRequest healRecordRequest = new HealRecordRequest(strCheckupDate, Double.parseDouble(editWeight.getText().toString()), Integer.parseInt(spinner.getSelectedItem().toString()), editSymptoms.getText().toString(), editDiagnosis.getText().toString(), editNote.getText().toString(), healthRecord.getPet().getId());
-                    ApiService.apiService.updateHealthRecord(healthRecord.getId(), healRecordRequest).enqueue(new Callback<HealRecordResponse>() {
+                    APIService.apiService.updateHealthRecord(healthRecord.getId(), healRecordRequest).enqueue(new Callback<HealRecordResponse>() {
                         @Override
                         public void onResponse(Call<HealRecordResponse> call, Response<HealRecordResponse> response) {
                             if (response.isSuccessful()) {
@@ -143,7 +143,7 @@ public class UpdateHealthRecordActivity extends AppCompatActivity {
                 alertDialog.setTitle("Thông báo")
                         .setMessage("Bạn chắc chắn muốn xóa báo cáo sức khỏe này này")
                         .setPositiveButton("Có", (dialog, which) -> {
-                            ApiService.apiService.deleteHealthRecord(healthRecord.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                            APIService.apiService.deleteHealthRecord(healthRecord.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                                 @SuppressLint("NotifyDataSetChanged")
                                 @Override
                                 public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, retrofit2.Response<com.project.petmanagement.payloads.responses.Response> response) {

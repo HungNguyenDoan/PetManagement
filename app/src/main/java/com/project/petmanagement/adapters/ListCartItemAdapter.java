@@ -21,7 +21,7 @@ import com.project.petmanagement.activity.shop.ProductDetailsActivity;
 import com.project.petmanagement.models.entity.Cart;
 import com.project.petmanagement.models.entity.CartItem;
 import com.project.petmanagement.payloads.responses.CartResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatNumberUtils;
 import com.project.petmanagement.utils.ImageUtils;
 
@@ -68,7 +68,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
         holder.btnSub.setOnClickListener(v -> {
             int quantity = Integer.parseInt(holder.quantity.getText().toString()) - 1;
             if (quantity > 0) {
-                ApiService.apiService.updateCart(cartItem.getId(), quantity, holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
+                APIService.apiService.updateCart(cartItem.getId(), quantity, holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
@@ -102,7 +102,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
         });
         holder.btnAdd.setOnClickListener(v -> {
             int quantity = Integer.parseInt(holder.quantity.getText().toString()) + 1;
-            ApiService.apiService.updateCart(cartItem.getId(), quantity, holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
+            APIService.apiService.updateCart(cartItem.getId(), quantity, holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
@@ -137,7 +137,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
             alertDialog.setTitle("Thông báo")
                     .setMessage("Bạn chắc chắn muốn xóa nhật kí này")
                     .setPositiveButton("Có", (dialog, which) -> {
-                        ApiService.apiService.deleteCartItem(cartItem.getId()).enqueue(new Callback<CartResponse>() {
+                        APIService.apiService.deleteCartItem(cartItem.getId()).enqueue(new Callback<CartResponse>() {
                             @SuppressLint("NotifyDataSetChanged")
                             @Override
                             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
@@ -170,7 +170,7 @@ public class ListCartItemAdapter extends RecyclerView.Adapter<ListCartItemAdapte
                     .show();
         });
         holder.checkBox.setOnClickListener(v -> {
-            ApiService.apiService.updateCart(cartItem.getId(), Integer.parseInt(holder.quantity.getText().toString()), holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
+            APIService.apiService.updateCart(cartItem.getId(), Integer.parseInt(holder.quantity.getText().toString()), holder.checkBox.isChecked()).enqueue(new Callback<CartResponse>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {

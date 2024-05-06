@@ -16,7 +16,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.ListVetAdapter;
 import com.project.petmanagement.models.entity.Vet;
 import com.project.petmanagement.payloads.responses.ListVetResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class VetsActivity extends AppCompatActivity {
                     vetAdapter.setVetList(vetList);
                     listVeterinarian.setAdapter(vetAdapter);
                 }
-                ApiService.apiService.searchVet(keyword).enqueue(new Callback<ListVetResponse>() {
+                APIService.apiService.searchVet(keyword).enqueue(new Callback<ListVetResponse>() {
                     @Override
                     public void onResponse(Call<ListVetResponse> call, Response<ListVetResponse> response) {
                         if (response.isSuccessful()) {
@@ -93,7 +93,7 @@ public class VetsActivity extends AppCompatActivity {
     }
 
     private void getAllVet() {
-        ApiService.apiService.getAllVet().enqueue(new Callback<ListVetResponse>() {
+        APIService.apiService.getAllVet().enqueue(new Callback<ListVetResponse>() {
             @Override
             public void onResponse(Call<ListVetResponse> call, Response<ListVetResponse> response) {
                 if (response.isSuccessful()) {

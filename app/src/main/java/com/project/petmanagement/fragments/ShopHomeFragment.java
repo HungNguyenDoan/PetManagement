@@ -25,7 +25,7 @@ import com.project.petmanagement.adapters.ListProductAdapter;
 import com.project.petmanagement.models.entity.Product;
 import com.project.petmanagement.payloads.responses.ListCategoryResponse;
 import com.project.petmanagement.payloads.responses.ListProductResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +113,7 @@ public class ShopHomeFragment extends Fragment {
     }
 
     private void getCategories() {
-        ApiService.apiService.getAllCategory().enqueue(new Callback<ListCategoryResponse>() {
+        APIService.apiService.getAllCategory().enqueue(new Callback<ListCategoryResponse>() {
             @Override
             public void onResponse(Call<ListCategoryResponse> call, Response<ListCategoryResponse> response) {
                 if (response.isSuccessful()) {
@@ -135,7 +135,7 @@ public class ShopHomeFragment extends Fragment {
     }
 
     private void getAllProduct() {
-        ApiService.apiService.getAllProduct().enqueue(new Callback<ListProductResponse>() {
+        APIService.apiService.getAllProduct().enqueue(new Callback<ListProductResponse>() {
             @Override
             public void onResponse(Call<ListProductResponse> call, Response<ListProductResponse> response) {
                 if (response.isSuccessful()) {

@@ -19,7 +19,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.activity.shop.ProductDetailsActivity;
 import com.project.petmanagement.models.entity.Product;
 import com.project.petmanagement.payloads.responses.CartResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatNumberUtils;
 import com.project.petmanagement.utils.ImageUtils;
 
@@ -63,7 +63,7 @@ public class ListProductAdapter extends RecyclerView.Adapter<ListProductAdapter.
             intent.putExtra("product", product);
             context.startActivity(intent);
         });
-        holder.btnAddToCart.setOnClickListener(v -> ApiService.apiService.addToCart(product.getId(), 1).enqueue(new Callback<CartResponse>() {
+        holder.btnAddToCart.setOnClickListener(v -> APIService.apiService.addToCart(product.getId(), 1).enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                 if (response.isSuccessful()) {

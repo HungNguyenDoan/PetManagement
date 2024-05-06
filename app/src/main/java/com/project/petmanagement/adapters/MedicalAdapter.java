@@ -19,7 +19,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.activity.medical.MedicalDocumentDetailsActivity;
 import com.project.petmanagement.models.entity.MedicalDocument;
 import com.project.petmanagement.payloads.responses.Response;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class MedicalAdapter extends RecyclerView.Adapter<MedicalAdapter.MedicalD
                         .setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ApiService.apiService.deleteMedicalDocument(medicalDocument.getId()).enqueue(new Callback<Response>() {
+                                APIService.apiService.deleteMedicalDocument(medicalDocument.getId()).enqueue(new Callback<Response>() {
                                     @SuppressLint("NotifyDataSetChanged")
                                     @Override
                                     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {

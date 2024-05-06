@@ -17,7 +17,7 @@ import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.adapters.ListScheduleVaccineAdapter;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.responses.ListVaccineNotification;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class VaccinationNotificationsActivity extends AppCompatActivity {
     }
 
     private void getListVaccineNotification() {
-        ApiService.apiService.getVaccineNotificationByUser().enqueue(new Callback<ListVaccineNotification>() {
+        APIService.apiService.getVaccineNotificationByUser().enqueue(new Callback<ListVaccineNotification>() {
             @Override
             public void onResponse(Call<ListVaccineNotification> call, Response<ListVaccineNotification> response) {
                 if (response.isSuccessful()) {

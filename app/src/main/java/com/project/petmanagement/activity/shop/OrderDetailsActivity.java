@@ -20,7 +20,7 @@ import com.project.petmanagement.models.entity.Order;
 import com.project.petmanagement.models.enums.OrderStatusEnum;
 import com.project.petmanagement.models.enums.PaymentMethodEnum;
 import com.project.petmanagement.payloads.responses.OrderResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 import com.project.petmanagement.utils.FormatNumberUtils;
 
@@ -105,7 +105,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 alertDialog.setTitle("Hủy đơn hàng")
                         .setMessage("Bạn có chắc chắn muốn hủy đơn hàng này")
                         .setPositiveButton("Có", (dialog, which) -> {
-                            ApiService.apiService.cancelOrder(order.getId()).enqueue(new Callback<OrderResponse>() {
+                            APIService.apiService.cancelOrder(order.getId()).enqueue(new Callback<OrderResponse>() {
                                 @Override
                                 public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                                     if (response.isSuccessful()) {

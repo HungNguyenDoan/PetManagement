@@ -16,7 +16,7 @@ import com.project.petmanagement.activity.MainActivity;
 import com.project.petmanagement.adapters.CareActivityNotificationAdapter;
 import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.List;
 
@@ -59,7 +59,7 @@ public class CareActivityNotificationsActivity extends AppCompatActivity {
     }
 
     private void getCareActivityNotification() {
-        ApiService.apiService.getAllCareActivityNotificationByUser().enqueue(new Callback<ListCareActivityNotificationResponse>() {
+        APIService.apiService.getAllCareActivityNotificationByUser().enqueue(new Callback<ListCareActivityNotificationResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityNotificationResponse> call, Response<ListCareActivityNotificationResponse> response) {
                 if (response.isSuccessful()) {

@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.payloads.responses.DailyActivityLogResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -86,7 +86,7 @@ public class DailyLogDetailsActivity extends AppCompatActivity {
     }
 
     private void getDailyLog() {
-        ApiService.apiService.getDailyLogById(logId).enqueue(new Callback<DailyActivityLogResponse>() {
+        APIService.apiService.getDailyLogById(logId).enqueue(new Callback<DailyActivityLogResponse>() {
             @Override
             public void onResponse(Call<DailyActivityLogResponse> call, Response<DailyActivityLogResponse> response) {
                 if (response.isSuccessful()) {
@@ -137,7 +137,7 @@ public class DailyLogDetailsActivity extends AppCompatActivity {
         alertDialog.setTitle("Thông báo")
                 .setMessage("Bạn chắc chắn muốn xóa nhật kí này")
                 .setPositiveButton("Có", (dialog, which) -> {
-                    ApiService.apiService.deleteDailyLog(logId).enqueue(new Callback<DailyActivityLogResponse>() {
+                    APIService.apiService.deleteDailyLog(logId).enqueue(new Callback<DailyActivityLogResponse>() {
                         @Override
                         public void onResponse(Call<DailyActivityLogResponse> call, Response<DailyActivityLogResponse> response) {
                             if (response.isSuccessful()) {

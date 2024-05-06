@@ -20,7 +20,7 @@ import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -72,7 +72,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
                     TextView activityInfoId = childView.findViewById(R.id.activity_info_id);
                     noteEdit.setText(careActivityInfoRequest.getNote());
                     activityInfoId.setText(String.valueOf(careActivityInfoRequest.getId()));
-                    ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
+                    APIService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
                         @Override
                         public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                             if (response.isSuccessful()) {
@@ -170,7 +170,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
             careActivityNotificationRequest.setNote(totalNote.getText().toString());
             if (!deleteCareActivityInfoRequests.isEmpty()) {
                 for (CareActivityInfoRequest careActivityInfoRequest : deleteCareActivityInfoRequests) {
-                    ApiService.apiService.deleteCareActivityInfo(careActivityInfoRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                    APIService.apiService.deleteCareActivityInfo(careActivityInfoRequest.getId()).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                         @Override
                         public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
 
@@ -184,12 +184,12 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
                 }
             }
 
-            ApiService.apiService.updateCareActivityNotification(careActivityNotificationId, careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
+            APIService.apiService.updateCareActivityNotification(careActivityNotificationId, careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
                 @Override
                 public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
                     if (response.isSuccessful()) {
 
-                        ApiService.apiService.updateCareActivityInfo(careActivityNotificationId, careActivityInfoList).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                        APIService.apiService.updateCareActivityInfo(careActivityNotificationId, careActivityInfoList).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                             @Override
                             public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call, Response<com.project.petmanagement.payloads.responses.Response> response) {
                                 if (response.isSuccessful()) {
@@ -224,7 +224,7 @@ public class UpdateCareActivityInfoActivity extends AppCompatActivity {
         activityType.setOnItemClickListener((parent, view, position, id) -> {
             activityType.setError(null);
         });
-        ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
+        APIService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                 if (response.isSuccessful()) {

@@ -18,7 +18,7 @@ import com.project.petmanagement.models.entity.User;
 import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.LoginRequest;
 import com.project.petmanagement.payloads.responses.LoginResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.services.StorageService;
 import com.project.petmanagement.utils.DialogUtils;
 
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         if (validation()) {
             String phoneNumber = inputPhoneNumber.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
-            ApiService.apiService.login(new LoginRequest(phoneNumber, password)).enqueue(new Callback<LoginResponse>() {
+            APIService.apiService.login(new LoginRequest(phoneNumber, password)).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                                 .addOnCompleteListener(task -> {
                                     String token = task.getResult();
                                     FCMToken fcmToken = new FCMToken(token);
-                                    ApiService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                                    APIService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                                         @Override
                                         public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call1, Response<com.project.petmanagement.payloads.responses.Response> response1) {
                                             if (response1.isSuccessful()) {

@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.project.petmanagement.R;
 import com.project.petmanagement.models.entity.Product;
 import com.project.petmanagement.payloads.responses.CartResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatNumberUtils;
 import com.project.petmanagement.utils.ImageUtils;
 
@@ -83,7 +83,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int quantity1 = Integer.parseInt(quantity.getText().toString());
-                ApiService.apiService.addToCart(product.getId(), quantity1).enqueue(new Callback<CartResponse>() {
+                APIService.apiService.addToCart(product.getId(), quantity1).enqueue(new Callback<CartResponse>() {
                     @Override
                     public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                         if (response.isSuccessful()) {

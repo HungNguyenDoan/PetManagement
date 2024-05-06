@@ -28,7 +28,7 @@ import com.project.petmanagement.adapters.MonthRecyclerAdapter;
 import com.project.petmanagement.adapters.PetHomeAdapter;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.ListPetResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getAllPetsByUser() {
-        ApiService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
+        APIService.apiService.getAllPetUser().enqueue(new Callback<ListPetResponse>() {
             @Override
             public void onResponse(Call<ListPetResponse> call, Response<ListPetResponse> response) {
                 if (response.isSuccessful()) {

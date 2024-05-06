@@ -28,7 +28,7 @@ import com.project.petmanagement.payloads.requests.CareActivityNotificationReque
 import com.project.petmanagement.payloads.requests.RecurringScheduleRequest;
 import com.project.petmanagement.payloads.responses.CareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.text.ParseException;
@@ -148,7 +148,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity {
         saveActivityScheduleBtn.setOnClickListener(v -> {
             careActivityNotificationRequest.setRecurringScheduleRequest(recurringScheduleRequest);
             careActivityNotificationRequest.setPetId(pet.getId());
-            ApiService.apiService.addCareActivityNotification(careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
+            APIService.apiService.addCareActivityNotification(careActivityNotificationRequest).enqueue(new Callback<CareActivityNotificationResponse>() {
                 @Override
                 public void onResponse(Call<CareActivityNotificationResponse> call, Response<CareActivityNotificationResponse> response) {
                     if (response.isSuccessful()) {
@@ -286,7 +286,7 @@ public class AddCareActivityNotificationActivity extends AppCompatActivity {
     }
 
     private void getCareActivity() {
-        ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
+        APIService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                 if (response.isSuccessful()) {

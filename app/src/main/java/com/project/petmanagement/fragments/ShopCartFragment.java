@@ -21,7 +21,7 @@ import com.project.petmanagement.adapters.ListCartItemAdapter;
 import com.project.petmanagement.models.entity.Cart;
 import com.project.petmanagement.models.entity.CartItem;
 import com.project.petmanagement.payloads.responses.CartResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatNumberUtils;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public class ShopCartFragment extends Fragment {
     }
 
     private void getCart() {
-        ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
+        APIService.apiService.getCart().enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                 if (response.isSuccessful()) {

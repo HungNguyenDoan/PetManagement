@@ -41,7 +41,7 @@ import com.project.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.payloads.requests.DailyActivityLogRequest;
 import com.project.petmanagement.payloads.responses.DailyActivityLogResponse;
 import com.project.petmanagement.payloads.responses.ListDaiLyActivityResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import java.io.File;
@@ -102,7 +102,7 @@ public class UpdateDailyLogActivity extends AppCompatActivity {
         });
         images.setOnClickListener(v -> setOpenCameraDialog());
         logId = getIntent().getLongExtra("logId", 0);
-        ApiService.apiService.getDailyLogById(logId).enqueue(new Callback<DailyActivityLogResponse>() {
+        APIService.apiService.getDailyLogById(logId).enqueue(new Callback<DailyActivityLogResponse>() {
             @Override
             public void onResponse(Call<DailyActivityLogResponse> call, Response<DailyActivityLogResponse> response) {
                 if (response.isSuccessful()) {
@@ -158,7 +158,7 @@ public class UpdateDailyLogActivity extends AppCompatActivity {
     }
 
     private void setDailyActivityList() {
-        ApiService.apiService.getAllDaiLyActivities().enqueue(new Callback<ListDaiLyActivityResponse>() {
+        APIService.apiService.getAllDaiLyActivities().enqueue(new Callback<ListDaiLyActivityResponse>() {
             @Override
             public void onResponse(Call<ListDaiLyActivityResponse> call, Response<ListDaiLyActivityResponse> response) {
                 if (response.isSuccessful()) {
@@ -234,7 +234,7 @@ public class UpdateDailyLogActivity extends AppCompatActivity {
             dailyActivityLogRequest.setDailyActivityId(dailyActivityId);
             dailyActivityLogRequest.setImage(imageUrl);
             dailyActivityLogRequest.setNote(note);
-            ApiService.apiService.updateDailyLog(dailyActivityLogRequest).enqueue(new Callback<DailyActivityLogResponse>() {
+            APIService.apiService.updateDailyLog(dailyActivityLogRequest).enqueue(new Callback<DailyActivityLogResponse>() {
                 @Override
                 public void onResponse(Call<DailyActivityLogResponse> call, Response<DailyActivityLogResponse> response) {
                     if (response.isSuccessful()) {

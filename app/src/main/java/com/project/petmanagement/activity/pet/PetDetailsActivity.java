@@ -18,7 +18,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.PetDetailsViewPager2Adapter;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.PetResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,7 +73,7 @@ public class PetDetailsActivity extends AppCompatActivity {
     }
 
     private void getPet() {
-        ApiService.apiService.getPetDetail(idPet).enqueue(new Callback<PetResponse>() {
+        APIService.apiService.getPetDetail(idPet).enqueue(new Callback<PetResponse>() {
             @Override
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
                 if (response.isSuccessful()) {

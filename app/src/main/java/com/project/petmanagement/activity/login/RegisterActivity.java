@@ -23,7 +23,7 @@ import com.project.petmanagement.payloads.requests.FCMToken;
 import com.project.petmanagement.payloads.requests.RegisterRequest;
 import com.project.petmanagement.payloads.responses.LoginResponse;
 import com.project.petmanagement.payloads.responses.RegisterErrorResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.services.StorageService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Date dob2 = sdf1.parse(dob.getText().toString());
                     String dob3 = sdf.format(dob2);
                     RegisterRequest registerRequest = new RegisterRequest(fullName.getText().toString().trim(), dob3, phoneNumber.getText().toString().trim(), email.getText().toString().trim(), address.getText().toString(), password.getText().toString());
-                    ApiService.apiService.signup(registerRequest).enqueue(new Callback<LoginResponse>() {
+                    APIService.apiService.signup(registerRequest).enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.code() == 200) {
@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         .addOnCompleteListener(task -> {
                                             String token = task.getResult();
                                             FCMToken fcmToken = new FCMToken(token);
-                                            ApiService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
+                                            APIService.apiService.setFcmToken(fcmToken).enqueue(new Callback<com.project.petmanagement.payloads.responses.Response>() {
                                                 @Override
                                                 public void onResponse(Call<com.project.petmanagement.payloads.responses.Response> call1, Response<com.project.petmanagement.payloads.responses.Response> response1) {
                                                     if (response1.isSuccessful()) {

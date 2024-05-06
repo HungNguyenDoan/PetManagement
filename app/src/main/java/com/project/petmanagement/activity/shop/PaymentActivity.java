@@ -27,7 +27,7 @@ import com.project.petmanagement.models.enums.PaymentMethodEnum;
 import com.project.petmanagement.payloads.requests.OrderRequest;
 import com.project.petmanagement.payloads.responses.CartResponse;
 import com.project.petmanagement.payloads.responses.OrderResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.services.StorageService;
 import com.project.petmanagement.utils.FormatNumberUtils;
 
@@ -60,7 +60,7 @@ public class PaymentActivity extends AppCompatActivity {
     });
 
     private void getCardByUser() {
-        ApiService.apiService.getCart().enqueue(new Callback<CartResponse>() {
+        APIService.apiService.getCart().enqueue(new Callback<CartResponse>() {
             @Override
             public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                 if (response.isSuccessful()) {
@@ -146,7 +146,7 @@ public class PaymentActivity extends AppCompatActivity {
 
             }
             OrderRequest orderRequest = new OrderRequest(address.getText().toString(), phoneNumber.getText().toString(), paymentMethodEnum);
-            ApiService.apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
+            APIService.apiService.createOrder(orderRequest).enqueue(new Callback<OrderResponse>() {
                 @Override
                 public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                     if (response.isSuccessful()) {

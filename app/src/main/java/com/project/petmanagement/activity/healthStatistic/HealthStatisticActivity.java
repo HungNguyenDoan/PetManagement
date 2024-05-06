@@ -27,7 +27,7 @@ import com.project.petmanagement.R;
 import com.project.petmanagement.adapters.HealthStatisticAdapter;
 import com.project.petmanagement.models.entity.HealthRecord;
 import com.project.petmanagement.payloads.responses.ListHealthRecordResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -89,7 +89,7 @@ public class HealthStatisticActivity extends AppCompatActivity {
             try {
                 Date dateStartDate = FormatDateUtils.StringToDate1(strStartDate);
                 Date dateEndDate = FormatDateUtils.StringToDate1(strEndDate);
-                ApiService.apiService.staticsHealthRecord(petId, FormatDateUtils.DateToString1(dateStartDate), FormatDateUtils.DateToString1(dateEndDate)).enqueue(new Callback<ListHealthRecordResponse>() {
+                APIService.apiService.staticsHealthRecord(petId, FormatDateUtils.DateToString1(dateStartDate), FormatDateUtils.DateToString1(dateEndDate)).enqueue(new Callback<ListHealthRecordResponse>() {
                     @Override
                     public void onResponse(Call<ListHealthRecordResponse> call, Response<ListHealthRecordResponse> response) {
                         if (response.isSuccessful()) {
@@ -122,7 +122,7 @@ public class HealthStatisticActivity extends AppCompatActivity {
     }
 
     private void getAllHealthRecords() {
-        ApiService.apiService.getHealthRecordByPet(petId).enqueue(new Callback<ListHealthRecordResponse>() {
+        APIService.apiService.getHealthRecordByPet(petId).enqueue(new Callback<ListHealthRecordResponse>() {
             @Override
             public void onResponse(Call<ListHealthRecordResponse> call, Response<ListHealthRecordResponse> response) {
                 if (response.isSuccessful()) {

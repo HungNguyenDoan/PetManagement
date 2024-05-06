@@ -24,7 +24,7 @@ import com.project.petmanagement.activity.medical.MedicalDocumentsActivity;
 import com.project.petmanagement.activity.healthStatistic.HealthStatisticActivity;
 import com.project.petmanagement.models.entity.Pet;
 import com.project.petmanagement.payloads.responses.PetResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.FormatDateUtils;
 
 import retrofit2.Call;
@@ -73,7 +73,7 @@ public class PetInfoFragment extends Fragment {
     }
 
     private void getPet() {
-        ApiService.apiService.getPetDetail(idPet).enqueue(new Callback<PetResponse>() {
+        APIService.apiService.getPetDetail(idPet).enqueue(new Callback<PetResponse>() {
             @Override
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
                 if (response.isSuccessful()) {
@@ -103,7 +103,7 @@ public class PetInfoFragment extends Fragment {
         alertDialog.setTitle("Xóa thú cưng")
                 .setMessage("Bạn có chắc chắn muốn xóa thú cưng này?")
                 .setPositiveButton("Có", (dialog, which) -> {
-                        ApiService.apiService.deletePet(idPet).enqueue(new Callback<PetResponse>() {
+                        APIService.apiService.deletePet(idPet).enqueue(new Callback<PetResponse>() {
                             @Override
                             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
                                 if (response.isSuccessful()) {

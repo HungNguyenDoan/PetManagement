@@ -19,7 +19,7 @@ import com.project.petmanagement.models.entity.CareActivity;
 import com.project.petmanagement.payloads.requests.CareActivityInfoRequest;
 import com.project.petmanagement.payloads.requests.CareActivityNotificationRequest;
 import com.project.petmanagement.payloads.responses.ListCareActivityResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -64,7 +64,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
                     AutoCompleteTextView activityType = childView.findViewById(R.id.activity_type);
                     TextInputEditText noteEdit = childView.findViewById(R.id.note);
                     noteEdit.setText(careActivityInfoRequest.getNote());
-                    ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
+                    APIService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
                         @Override
                         public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                             if (response.isSuccessful()) {
@@ -168,7 +168,7 @@ public class AddCareActivityInfoActivity extends AppCompatActivity {
         activityType.setOnItemClickListener((parent, view, position, id) -> {
             activityType.setError(null);
         });
-        ApiService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
+        APIService.apiService.getAllCareActivities().enqueue(new Callback<ListCareActivityResponse>() {
             @Override
             public void onResponse(Call<ListCareActivityResponse> call, Response<ListCareActivityResponse> response) {
                 if (response.isSuccessful()) {

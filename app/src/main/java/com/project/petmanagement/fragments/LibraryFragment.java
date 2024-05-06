@@ -26,7 +26,7 @@ import com.project.petmanagement.models.entity.Disease;
 import com.project.petmanagement.models.entity.Species;
 import com.project.petmanagement.payloads.responses.ListDiseaseResponse;
 import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +155,7 @@ public class LibraryFragment extends Fragment {
     }
 
     private void getSpecies() {
-        ApiService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
+        APIService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
             @Override
             public void onResponse(Call<ListSpeciesResponse> call, Response<ListSpeciesResponse> response) {
                 if (mActivity != null) {
@@ -183,7 +183,7 @@ public class LibraryFragment extends Fragment {
     }
 
     private void getDiseases() {
-        ApiService.apiService.getDiseases().enqueue(new Callback<ListDiseaseResponse>() {
+        APIService.apiService.getDiseases().enqueue(new Callback<ListDiseaseResponse>() {
             @Override
             public void onResponse(Call<ListDiseaseResponse> call, Response<ListDiseaseResponse> response) {
                 if (mActivity != null) {

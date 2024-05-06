@@ -38,7 +38,7 @@ import com.project.petmanagement.models.entity.Species;
 import com.project.petmanagement.payloads.requests.PetRequest;
 import com.project.petmanagement.payloads.responses.ListSpeciesResponse;
 import com.project.petmanagement.payloads.responses.PetResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 import com.project.petmanagement.utils.DialogUtils;
 import com.project.petmanagement.utils.FormatDateUtils;
 
@@ -185,7 +185,7 @@ public class AddNewPetActivity extends AppCompatActivity {
             neuteredId = true;
         }
         PetRequest petRequest = new PetRequest(namePetString, breedId, genderInt, dateOfBirth1, urlImage, neuteredId);
-        ApiService.apiService.addPet(petRequest).enqueue(new Callback<PetResponse>() {
+        APIService.apiService.addPet(petRequest).enqueue(new Callback<PetResponse>() {
             @Override
             public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
                 if (response.isSuccessful()) {
@@ -204,7 +204,7 @@ public class AddNewPetActivity extends AppCompatActivity {
     }
 
     private void getSpecies() {
-        ApiService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
+        APIService.apiService.getSpecies().enqueue(new Callback<ListSpeciesResponse>() {
             @Override
             public void onResponse(Call<ListSpeciesResponse> call, Response<ListSpeciesResponse> response) {
                 if (response.isSuccessful()) {

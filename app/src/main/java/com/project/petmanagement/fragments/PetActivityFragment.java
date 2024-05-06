@@ -19,7 +19,7 @@ import com.project.petmanagement.activity.dailyLog.AddDailyLogActivity;
 import com.project.petmanagement.adapters.DailyActivityLogAdapter;
 import com.project.petmanagement.models.entity.DailyActivityLog;
 import com.project.petmanagement.payloads.responses.ListDailyActivityLogResponse;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class PetActivityFragment extends Fragment {
     }
 
     public void getDailyActivityLogByPet() {
-        ApiService.apiService.getDailyLogsByPet(petId).enqueue(new Callback<ListDailyActivityLogResponse>() {
+        APIService.apiService.getDailyLogsByPet(petId).enqueue(new Callback<ListDailyActivityLogResponse>() {
             @Override
             public void onResponse(Call<ListDailyActivityLogResponse> call, Response<ListDailyActivityLogResponse> response) {
                 if (response.isSuccessful()) {

@@ -19,7 +19,7 @@ import com.project.petmanagement.models.entity.CareActivityNotification;
 import com.project.petmanagement.models.entity.VaccinationNotification;
 import com.project.petmanagement.payloads.responses.ListCareActivityNotificationResponse;
 import com.project.petmanagement.payloads.responses.ListVaccineNotification;
-import com.project.petmanagement.services.ApiService;
+import com.project.petmanagement.services.APIService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -74,7 +74,7 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
                 if (listener != null) {
                     listener.onItemClick(position);
                 }
-                ApiService.apiService.getVaccinationNotificationByDate(localDate.toString()).enqueue(new Callback<ListVaccineNotification>() {
+                APIService.apiService.getVaccinationNotificationByDate(localDate.toString()).enqueue(new Callback<ListVaccineNotification>() {
                     @Override
                     public void onResponse(Call<ListVaccineNotification> call, Response<ListVaccineNotification> response) {
                         if (response.isSuccessful()) {
@@ -102,7 +102,7 @@ public class DatesOfMonthRecyclerAdapter extends RecyclerView.Adapter<DatesOfMon
                     }
                 });
 
-                ApiService.apiService.getCareActivityNotificationByDate(localDate.toString()).enqueue(new Callback<ListCareActivityNotificationResponse>() {
+                APIService.apiService.getCareActivityNotificationByDate(localDate.toString()).enqueue(new Callback<ListCareActivityNotificationResponse>() {
                     @Override
                     public void onResponse(Call<ListCareActivityNotificationResponse> call, Response<ListCareActivityNotificationResponse> response) {
                         if (response.isSuccessful()) {
